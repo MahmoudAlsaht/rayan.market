@@ -13,10 +13,6 @@ function Signup() {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
-		console.log(emailRef.current?.value);
-		console.log(passwordRef.current?.value);
-		console.log(displayNameRef.current?.value);
-
 		try {
 			await signUp(
 				emailRef.current?.value,

@@ -10,12 +10,12 @@ function Home() {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<>
 			<h1 className='text-danger'>
-				{user !== null ? user.displayName : ''}
+				{user !== null ? user.username : ''}
 			</h1>
 		</>
 	);

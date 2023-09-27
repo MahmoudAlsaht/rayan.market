@@ -8,8 +8,11 @@ import {
 	updateProfile,
 } from 'firebase/auth';
 import { getCookies, removeCookies, setCookies } from '../utils';
+import addData from '../firebase/firestore/addData';
+import getData from '../firebase/firestore/getData';
 
 export type IUser = Partial<User> & {
+	username: string | null;
 	isAdmin: boolean;
 };
 
@@ -34,14 +37,17 @@ export const signUp = async (
 			password,
 		);
 		await updateProfile(res.user, { displayName });
-		const user: IUser = {
-			displayName: res.user.displayName,
-			email: res.user.email,
+
+		await addData('users', {
 			uid: res.user.uid,
+			userId: res.user.uid,
+			username: res.user.displayName,
+			email: res.user.email,
 			photoURL: res.user.photoURL,
-			isAdmin: res.user.isAnonymous,
-		};
-		setCookies('user', user);
+			isAdmin: false,
+		});
+
+		await signIn(email, password);
 	} catch (e: any) {
 		console.log(e.message);
 	}
@@ -57,14 +63,12 @@ export const signIn = async (
 			email,
 			password,
 		);
-		const user: IUser = {
-			displayName: res.user.displayName,
-			email: res.user.email,
-			uid: res.user.uid,
-			photoURL: res.user.photoURL,
-			isAdmin: res.user.isAnonymous,
-		};
-		setCookies('user', user);
+		const docSnap = await getData('users');
+
+		docSnap?.docs.map((doc: any) => {
+			if (doc.data().userId === res.user.uid)
+				setCookies('user', doc.data());
+		});
 	} catch (e: any) {
 		console.log(e.message);
 	}

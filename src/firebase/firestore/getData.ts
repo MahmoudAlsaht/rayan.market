@@ -1,19 +1,13 @@
 import db from '../config';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 
-export default async function getData(
-	collection: string,
-	id: string,
-) {
-	const docRef = doc(db, collection, id);
-	let result = null;
-	let error = null;
-
+export default async function getData(collectionName: string) {
 	try {
-		result = await getDoc(docRef);
-	} catch (e: any) {
-		error = e;
-	}
+		const docRef = await collection(db, collectionName);
+		const docSnap = await getDocs(docRef);
 
-	return { result, error };
+		return docSnap;
+	} catch (e: any) {
+		console.log(e);
+	}
 }
