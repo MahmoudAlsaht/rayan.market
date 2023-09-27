@@ -5,8 +5,13 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	User,
+	updateProfile,
 } from 'firebase/auth';
 import { getCookies, removeCookies, setCookies } from '../utils';
+
+export type IUser = Partial<User> & {
+	isAdmin: boolean;
+};
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
@@ -17,18 +22,24 @@ export const fetchUser = createAsyncThunk(
 	},
 );
 
-export const signUp = async (email: any, password: any) => {
+export const signUp = async (
+	email: any,
+	password: any,
+	displayName: string,
+) => {
 	try {
 		const res = await createUserWithEmailAndPassword(
 			auth,
 			email,
 			password,
 		);
-		const user: Partial<User> = {
+		await updateProfile(res.user, { displayName });
+		const user: IUser = {
 			displayName: res.user.displayName,
 			email: res.user.email,
 			uid: res.user.uid,
 			photoURL: res.user.photoURL,
+			isAdmin: res.user.isAnonymous,
 		};
 		setCookies('user', user);
 	} catch (e: any) {
@@ -46,11 +57,12 @@ export const signIn = async (
 			email,
 			password,
 		);
-		const user: Partial<User> = {
+		const user: IUser = {
 			displayName: res.user.displayName,
 			email: res.user.email,
 			uid: res.user.uid,
 			photoURL: res.user.photoURL,
+			isAdmin: res.user.isAnonymous,
 		};
 		setCookies('user', user);
 	} catch (e: any) {

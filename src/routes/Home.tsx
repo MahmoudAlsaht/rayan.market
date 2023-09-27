@@ -1,11 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser, logOut } from '../controllers/user';
+import { IUser, fetchUser, logOut } from '../controllers/user';
 import { useNavigate } from 'react-router-dom';
-import { User } from 'firebase/auth';
 
 function Home() {
 	const dispatch = useAppDispatch();
-	const user: Partial<User> | any = useAppSelector(
+	const user: IUser | any = useAppSelector(
 		(state) => state.user,
 	);
 	const navigate = useNavigate();
@@ -19,7 +18,7 @@ function Home() {
 	return (
 		<>
 			<h1 className='text-danger'>
-				{user !== null ? user.email : ''}
+				{user !== null ? user.displayName : ''}
 			</h1>
 			<button onClick={() => dispatch(fetchUser())}>
 				Get User

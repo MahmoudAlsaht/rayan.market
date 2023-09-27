@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Signup() {
 	const emailRef = useRef<any>(null);
+	const displayNameRef = useRef<any>(null);
 	const passwordRef = useRef<any>(null);
 	const navigate = useNavigate();
 
@@ -14,6 +15,7 @@ function Signup() {
 			await signUp(
 				emailRef.current.value,
 				passwordRef.current.value,
+				displayNameRef.current.value,
 			);
 			navigate('/');
 		} catch (e: any) {
@@ -29,6 +31,9 @@ function Signup() {
 			>
 				<div>
 					<input type='email' ref={emailRef} />
+				</div>
+				<div>
+					<input type='text' ref={displayNameRef} />
 				</div>
 				<div>
 					<input type='password' ref={passwordRef} />
