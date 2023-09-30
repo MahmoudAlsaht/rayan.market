@@ -1,25 +1,92 @@
-import { useRef, FormEvent } from 'react';
+import {
+	useRef,
+	FormEvent,
+	useEffect,
+	useState,
+	ChangeEvent,
+} from 'react';
 import { signIn } from '../controllers/user';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Row, Col } from 'react-bootstrap';
+import {
+	Container,
+	Form,
+	Row,
+	Col,
+	Alert,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { IUser, fetchUser } from '../controllers/user';
 
 function SignIn() {
-	const emailRef = useRef<any>(null);
-	const passwordRef = useRef<any>(null);
+	const [validated, setValidated] = useState(false);
+	const [error, setError] = useState({
+		status: false,
+		message: 'please provide all the fields below',
+	});
+
+	const emailRef = useRef<HTMLInputElement>(null);
+	const passwordRef = useRef<HTMLInputElement>(null);
+
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const user: IUser | any = useAppSelector(
+		(state) => state.user,
+	);
+
+	useEffect(() => {
+		dispatch(fetchUser());
+	}, [dispatch]);
+
+	if (user != null) navigate(-1);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
 		try {
-			await signIn(
-				emailRef.current.value,
-				passwordRef.current.value,
-			);
-			navigate('/');
+			const form = e.currentTarget as HTMLFormElement;
+			if (form.checkValidity() === false) {
+				setError({
+					status: true,
+					message: 'invalid fields',
+				});
+			} else {
+				await signIn(
+					emailRef.current!.value,
+					passwordRef.current!.value,
+				);
+				navigate('/');
+			}
 		} catch (e: any) {
 			console.log(e.message);
+		}
+	};
+
+	const handleChange = (e: ChangeEvent) => {
+		const form = e.currentTarget as HTMLFormElement;
+		if (
+			emailRef.current?.value === '' ||
+			passwordRef.current?.value === '' ||
+			form.checkValidity() === false
+		) {
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'please provide all the missing fields',
+			});
+		} else if (passwordRef.current!.value.length < 6) {
+			setValidated(false);
+			setError({
+				status: false,
+				message:
+					'password must be at least 6 characters',
+			});
+		} else {
+			setValidated(true);
+			setError({
+				status: true,
+				message: 'looks good!',
+			});
 		}
 	};
 
@@ -29,9 +96,26 @@ function SignIn() {
 				<Col xs={10} sm={8} md={6} lg={5} xl={4}>
 					<Container className='bg-white mt-5 p-5 border rounded shadow'>
 						<Form
+							noValidate
+							validated={!validated}
 							onSubmit={handleSubmit}
 							style={{ width: '100%' }}
 						>
+							{error.status === false ? (
+								<Alert
+									key='danger'
+									variant='danger'
+								>
+									{error.message}
+								</Alert>
+							) : (
+								<Alert
+									key='success'
+									variant='success'
+								>
+									{error.message}
+								</Alert>
+							)}
 							<Form.Group
 								className='mb-3'
 								controlId='emailInput'
@@ -40,6 +124,8 @@ function SignIn() {
 									Email address
 								</Form.Label>
 								<Form.Control
+									onChange={handleChange}
+									required
 									type='email'
 									placeholder='name@example.com'
 									ref={emailRef}
@@ -52,6 +138,8 @@ function SignIn() {
 							>
 								<Form.Label>Password</Form.Label>
 								<Form.Control
+									onChange={handleChange}
+									required
 									type='password'
 									placeholder='at least 6 char'
 									ref={passwordRef}
@@ -72,9 +160,14 @@ function SignIn() {
 									</Link>
 								</small>
 								<Form.Control
+									disabled={!validated}
 									type='submit'
 									value='Signin'
-									className='btn btn-outline-primary'
+									className={`btn ${
+										!validated
+											? 'btn-secondary'
+											: 'btn-outline-primary'
+									}`}
 								/>
 							</Form.Group>
 						</Form>

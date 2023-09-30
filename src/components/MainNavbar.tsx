@@ -7,12 +7,14 @@ import {
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
-import { useAppDispatch } from '../app/hooks';
-
-import { fetchUser, logOut } from '../controllers/user';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { IUser, fetchUser, logOut } from '../controllers/user';
 
 function MainNavbar() {
 	const dispatch = useAppDispatch();
+	const user: IUser | any = useAppSelector(
+		(state) => state.user,
+	);
 
 	const navigate = useNavigate();
 
@@ -39,26 +41,35 @@ function MainNavbar() {
 						<Nav.Link href='/about'>About</Nav.Link>
 					</Nav>
 					<Nav className='ms-auto'>
-						<NavDropdown
-							title={<BsFillPersonFill />}
-							id='collapsible-nav-dropdown'
-						>
-							<NavDropdown.Item href='/auth/signup'>
-								Signup
-							</NavDropdown.Item>
-							<NavDropdown.Item href='/auth/signin'>
-								Signin
-							</NavDropdown.Item>
-							<NavDropdown.Item
-								onClick={handleLogout}
+						{user != null ? (
+							<NavDropdown
+								title={<BsFillPersonFill />}
+								id='collapsible-nav-dropdown'
 							>
-								Logout
-							</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item href='/profile'>
-								Profile
-							</NavDropdown.Item>
-						</NavDropdown>
+								<NavDropdown.Item href='/profile'>
+									Profile
+								</NavDropdown.Item>
+								<NavDropdown.Divider />
+								<NavDropdown.Item
+									onClick={handleLogout}
+								>
+									Logout
+								</NavDropdown.Item>
+							</NavDropdown>
+						) : (
+							<NavDropdown
+								title={<BsFillPersonFill />}
+								id='collapsible-nav-dropdown'
+							>
+								<NavDropdown.Item href='/auth/signin'>
+									Signin
+								</NavDropdown.Item>
+								<NavDropdown.Divider />
+								<NavDropdown.Item href='/auth/signup'>
+									Signup
+								</NavDropdown.Item>
+							</NavDropdown>
+						)}
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
