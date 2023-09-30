@@ -5,9 +5,8 @@ import {
 	NavDropdown,
 	Image,
 } from 'react-bootstrap';
-// import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import defaultAvatar from '../../public/default_avatar.png';
+import defaultAvatar from '../default_avatar.png';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { IUser, fetchUser, logOut } from '../controllers/user';
@@ -50,15 +49,18 @@ function MainNavbar() {
 										className='rounded-circle'
 										width={30}
 										src={
-											user.photoURL == null
+											user?.photoURL ==
+											null
 												? defaultAvatar
-												: user.photoURL
+												: user?.photoURL
 										}
 									/>
 								}
 								id='collapsible-nav-dropdown'
 							>
-								<NavDropdown.Item href='/profile'>
+								<NavDropdown.Item
+									href={`/account/profile/${user.profile}`}
+								>
 									Profile
 								</NavDropdown.Item>
 								<NavDropdown.Divider />

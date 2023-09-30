@@ -10,11 +10,13 @@ import {
 import { getCookies, removeCookies, setCookies } from '../utils';
 import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
+import { v4 as uuidv4 } from 'uuid';
 
 export type IUser = Partial<User> & {
 	username: string | null;
 	isAdmin: boolean;
 	photoURL: string;
+	profile: string;
 };
 
 export const fetchUser = createAsyncThunk(
@@ -39,13 +41,25 @@ export const signUp = async (
 		);
 		await updateProfile(res.user, { displayName });
 
+		const profileId = `${res.user.uid}-user-${
+			res.user.displayName
+		}${uuidv4()}-profile`;
+
+		await addData('profiles', {
+			uid: profileId,
+			user: res.user.uid,
+		});
+
 		await addData('users', {
-			uid: res.user.uid,
+			uid: `${res.user.uid}-user-${
+				res.user.displayName
+			}${uuidv4()}-account`,
 			userId: res.user.uid,
 			username: res.user.displayName,
 			email: res.user.email,
 			photoURL: res.user.photoURL,
 			isAdmin: false,
+			profile: profileId,
 		});
 
 		await signIn(email, password);
