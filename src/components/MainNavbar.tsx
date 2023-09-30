@@ -3,9 +3,11 @@ import {
 	Nav,
 	Navbar,
 	NavDropdown,
+	Image,
 } from 'react-bootstrap';
-import { BsFillPersonFill } from 'react-icons/bs';
+// import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import defaultAvatar from '../../public/default_avatar.png';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { IUser, fetchUser, logOut } from '../controllers/user';
@@ -43,7 +45,17 @@ function MainNavbar() {
 					<Nav className='ms-auto'>
 						{user != null ? (
 							<NavDropdown
-								title={<BsFillPersonFill />}
+								title={
+									<Image
+										className='rounded-circle'
+										width={30}
+										src={
+											user.photoURL == null
+												? defaultAvatar
+												: user.photoURL
+										}
+									/>
+								}
 								id='collapsible-nav-dropdown'
 							>
 								<NavDropdown.Item href='/profile'>
@@ -58,7 +70,13 @@ function MainNavbar() {
 							</NavDropdown>
 						) : (
 							<NavDropdown
-								title={<BsFillPersonFill />}
+								title={
+									<Image
+										className='rounded-circle'
+										width={30}
+										src={defaultAvatar}
+									/>
+								}
 								id='collapsible-nav-dropdown'
 							>
 								<NavDropdown.Item href='/auth/signin'>

@@ -14,6 +14,7 @@ import getData from '../firebase/firestore/getData';
 export type IUser = Partial<User> & {
 	username: string | null;
 	isAdmin: boolean;
+	photoURL: string;
 };
 
 export const fetchUser = createAsyncThunk(
