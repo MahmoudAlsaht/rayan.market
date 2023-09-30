@@ -11,3 +11,7 @@ a {
 body {
     background-color: #F8F9FA;
 }
+
+.dropdown>a::after {
+    color: #fff;
+}

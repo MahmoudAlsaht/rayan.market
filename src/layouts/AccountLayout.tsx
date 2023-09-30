@@ -1,9 +1,10 @@
 import { Outlet } from 'react-router-dom';
+import AccountNavbar from '../components/AccountNavbar';
 
 function AccountLayout() {
 	return (
 		<>
-			<h1>AccountLayout</h1>
+			<AccountNavbar />
 			<Outlet />
 		</>
 	);
