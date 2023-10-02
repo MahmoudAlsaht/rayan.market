@@ -11,6 +11,7 @@ import { getCookies, removeCookies, setCookies } from '../utils';
 import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import { v4 as uuidv4 } from 'uuid';
+import updateDocs from '../firebase/firestore/updateDoc';
 
 export type IUser = Partial<User> & {
 	username: string | null;
@@ -46,15 +47,12 @@ export const signUp = async (
 		}${uuidv4()}-profile`;
 
 		await addData('profiles', {
-			uid: profileId,
+			id: profileId,
 			user: res.user.uid,
 		});
 
 		await addData('users', {
-			uid: `${res.user.uid}-user-${
-				res.user.displayName
-			}${uuidv4()}-account`,
-			userId: res.user.uid,
+			uid: res.user.uid,
 			username: res.user.displayName,
 			email: res.user.email,
 			photoURL: res.user.photoURL,
@@ -78,11 +76,17 @@ export const signIn = async (
 			email,
 			password,
 		);
-		const docSnap = await getData('users');
+		const { data, docId } =
+			(await getData('users', 'uid', res?.user?.uid)) ??
+			{};
 
-		docSnap?.docs.map((doc: any) => {
-			if (doc.data().userId === res.user.uid)
-				setCookies('user', doc.data());
+		await updateDocs('users', docId as string, {
+			email: res?.user?.email,
+		});
+		setCookies('user', {
+			...data,
+			email: res?.user?.email,
+			docId,
 		});
 	} catch (e: any) {
 		console.log(e.message);

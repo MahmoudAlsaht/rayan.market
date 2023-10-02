@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
 	Container,
 	Nav,
@@ -16,8 +17,13 @@ function AccountNavbar() {
 	const user: IUser | any = useAppSelector(
 		(state) => state.user,
 	);
+	console.log(user);
 
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		dispatch(fetchUser());
+	}, [dispatch]);
 
 	const handleLogout = async () => {
 		await logOut();
@@ -61,8 +67,10 @@ function AccountNavbar() {
 							}
 							id='collapsible-nav-dropdown'
 						>
-							<NavDropdown.Item href='/'>
-								Store
+							<NavDropdown.Item
+								href={`/account/profile/${user?.profile}/account-setting`}
+							>
+								Account Settings
 							</NavDropdown.Item>
 							<NavDropdown.Divider />
 							<NavDropdown.Item

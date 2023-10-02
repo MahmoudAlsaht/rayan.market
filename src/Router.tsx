@@ -8,6 +8,7 @@ import Signup from './routes/Signup';
 import SignIn from './routes/Signin';
 import AccountLayout from './layouts/AccountLayout';
 import Profile from './routes/account/Profile';
+import EditUser from './routes/account/EditUser';
 
 export const Router = createBrowserRouter([
 	{
@@ -35,6 +36,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'profile/:profileId',
 						element: <Profile />,
+					},
+					{
+						path: 'profile/:profileId/account-setting',
+						element: <EditUser />,
 					},
 				],
 			},
