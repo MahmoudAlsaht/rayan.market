@@ -83,6 +83,7 @@ export const signIn = async (
 		await updateDocs('users', docId as string, {
 			email: res?.user?.email,
 		});
+
 		setCookies('user', {
 			...data,
 			email: res?.user?.email,

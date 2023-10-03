@@ -17,7 +17,6 @@ function AccountNavbar() {
 	const user: IUser | any = useAppSelector(
 		(state) => state.user,
 	);
-	console.log(user);
 
 	const navigate = useNavigate();
 
