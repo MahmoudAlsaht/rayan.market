@@ -22,7 +22,6 @@ export const fetchProfile = createAsyncThunk(
 			)) ?? {};
 
 		if (data) {
-			console.log(data[0]);
 			return data[0];
 		} else {
 			return;
