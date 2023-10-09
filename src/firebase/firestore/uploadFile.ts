@@ -7,13 +7,13 @@ import {
 
 export const uploadImage = async (
 	imageFile: File | null,
-	username: string,
+	uid: string,
 ) => {
 	try {
 		const storage = getStorage();
 		const imageRef = ref(
 			storage,
-			`profileImages/${username}'sProfileImage`,
+			`profileImages/${uid}'sProfileImage`,
 		);
 		const snapShot = await uploadBytes(imageRef, imageFile!);
 

@@ -69,7 +69,6 @@ function UploadImageForm({
 			} else {
 				await updateProfileImage(
 					selectedImage,
-					profileOwner?.username as string,
 					passwordRef.current?.value as string,
 					profileOwner?.uid as string,
 				);

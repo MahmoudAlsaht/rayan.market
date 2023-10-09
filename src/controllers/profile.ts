@@ -73,7 +73,6 @@ export const updateUserPassword = async (data: any) => {
 
 export const updateProfileImage = async (
 	imageFile: File | null,
-	username: string,
 	password: string,
 	uid: string,
 ) => {
@@ -83,7 +82,7 @@ export const updateProfileImage = async (
 		const { data, docId } =
 			(await getData('users', 'uid', uid)) ?? {};
 
-		const imageURL = await uploadImage(imageFile, username);
+		const imageURL = await uploadImage(imageFile, uid);
 
 		await updateDocs('users', docId!, {
 			photoURL: imageURL,
