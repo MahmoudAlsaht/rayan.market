@@ -5,7 +5,7 @@ const cookies = new Cookies();
 export const setCookies = (name: string, data: any) => {
 	cookies.set(name, data, {
 		path: '/',
-		maxAge: 1000 * 60 * 24,
+		maxAge: 1000 * 60 * 24 * 7,
 	});
 };
 

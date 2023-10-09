@@ -39,7 +39,7 @@ function AccountNavbar() {
 		>
 			<Container>
 				<Navbar.Brand href='/' className='text-white'>
-					React-Bootstrap
+					mStore
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls='responsive-navbar-nav' />
 				<Navbar.Collapse id='responsive-navbar-nav'>
@@ -57,6 +57,7 @@ function AccountNavbar() {
 								<Image
 									className='rounded-circle'
 									width={30}
+									height={30}
 									src={
 										user?.photoURL == null
 											? defaultAvatar

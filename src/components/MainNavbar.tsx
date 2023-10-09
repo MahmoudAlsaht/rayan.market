@@ -32,9 +32,7 @@ function MainNavbar() {
 			className='bg-white shadow mb-3'
 		>
 			<Container>
-				<Navbar.Brand href='/'>
-					React-Bootstrap
-				</Navbar.Brand>
+				<Navbar.Brand href='/'>mStore</Navbar.Brand>
 				<Navbar.Toggle aria-controls='responsive-navbar-nav' />
 				<Navbar.Collapse id='responsive-navbar-nav'>
 					<Nav className='me-auto'>
@@ -48,6 +46,7 @@ function MainNavbar() {
 									<Image
 										className='rounded-circle'
 										width={30}
+										height={30}
 										src={
 											user?.photoURL ==
 											null

@@ -13,7 +13,7 @@ function AuthNavbar() {
 		>
 			<Container>
 				<Navbar.Brand>
-					<Link to='/'>React-Bootstrap</Link>
+					<Link to='/'>mStore</Link>
 				</Navbar.Brand>
 				<Nav className='ms-auto'>
 					<Link to='#' onClick={() => navigate(-1)}>
