@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { IUser } from '../controllers/user';
-import { editProfile } from '../controllers/profile';
+import { updateUserInfo } from '../controllers/profile';
 import ErrorComponent, { IError } from './Error';
 
 function UpdateUserInfoForm({
@@ -33,8 +33,10 @@ function UpdateUserInfoForm({
 			} else {
 				const data = {
 					currentPassword: passwordRef.current?.value,
+					email: emailRef.current?.value,
+					username: usernameRef.current?.value,
 				};
-				await editProfile(data, profileOwner?.docId);
+				await updateUserInfo(data, profileOwner?.docId);
 			}
 		} catch (e: any) {
 			console.log(e.message);

@@ -4,14 +4,10 @@ import {
 	ref,
 	uploadBytes,
 } from 'firebase/storage';
-import updateDocs from './updateDoc';
-import getData from './getData';
-import { setCookies } from '../../utils';
 
 export const uploadImage = async (
 	imageFile: File | null,
 	username: string,
-	uid: string,
 ) => {
 	try {
 		const storage = getStorage();
@@ -23,21 +19,7 @@ export const uploadImage = async (
 
 		const imageURL = await getDownloadURL(snapShot.ref);
 
-		const { data, docId } =
-			(await getData('users', 'uid', uid)) ?? {};
-
-		await updateDocs('users', docId!, {
-			photoURL: imageURL,
-		});
-
-		setCookies('user', {
-			email: data?.email,
-			username: data?.username,
-			photoURL: imageURL,
-			isAdmin: false,
-			profile: data?.profile,
-			docId,
-		});
+		return imageURL;
 	} catch (e: any) {
 		console.log(e.message);
 	}

@@ -1,14 +1,9 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { editProfile } from '../controllers/profile';
-import { IUser } from '../controllers/user';
+import { updateUserPassword } from '../controllers/profile';
 import ErrorComponent, { IError } from './Error';
 
-function UpdatePasswordForm({
-	profileOwner,
-}: {
-	profileOwner: IUser;
-}) {
+function UpdatePasswordForm() {
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -35,7 +30,7 @@ function UpdatePasswordForm({
 					currentPassword: passwordRef.current?.value,
 					newPassword: newPasswordRef.current?.value,
 				};
-				await editProfile(data, profileOwner?.docId);
+				updateUserPassword(data);
 			}
 		} catch (e: any) {
 			console.log(e.message);
@@ -148,7 +143,7 @@ function UpdatePasswordForm({
 					className={`btn ${
 						!validated
 							? 'btn-secondary'
-							: 'btn-outline-warning'
+							: 'btn-outline-primary'
 					}`}
 				/>
 			</Form.Group>

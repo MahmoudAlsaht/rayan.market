@@ -1,9 +1,9 @@
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import defaultAvatar from '../default_avatar.png';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { uploadImage } from '../firebase/firestore/uploadFile';
 import { IUser } from '../controllers/user';
 import ErrorComponent, { IError } from './Error';
+import { updateProfileImage } from '../controllers/profile';
 
 function UploadImageForm({
 	profileOwner,
@@ -67,9 +67,10 @@ function UploadImageForm({
 					message: 'invalid fields',
 				});
 			} else {
-				await uploadImage(
+				await updateProfileImage(
 					selectedImage,
 					profileOwner?.username as string,
+					passwordRef.current?.value as string,
 					profileOwner?.uid as string,
 				);
 			}
