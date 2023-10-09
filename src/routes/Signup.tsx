@@ -7,21 +7,16 @@ import {
 } from 'react';
 import { signUp } from '../controllers/user';
 import { useNavigate } from 'react-router-dom';
-import {
-	Container,
-	Form,
-	Row,
-	Col,
-	Alert,
-} from 'react-bootstrap';
+import { Container, Form, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { IUser, fetchUser } from '../controllers/user';
+import ErrorComponent, { IError } from '../components/Error';
 
 function Signup() {
 	const [validated, setValidated] = useState(false);
-	const [error, setError] = useState({
-		status: false,
+	const [error, setError] = useState<IError>({
+		status: null,
 		message: 'please provide all the fields below',
 	});
 
@@ -60,6 +55,7 @@ function Signup() {
 					emailRef.current?.value,
 					passwordRef.current?.value,
 					usernameRef.current!.value,
+					setError,
 				);
 				navigate('/');
 			}
@@ -117,18 +113,8 @@ function Signup() {
 						onSubmit={handleSubmit}
 						style={{ width: '100%' }}
 					>
-						{error.status === false ? (
-							<Alert key='danger' variant='danger'>
-								{error.message}
-							</Alert>
-						) : (
-							<Alert
-								key='success'
-								variant='success'
-							>
-								{error.message}
-							</Alert>
-						)}
+						<ErrorComponent error={error} />
+
 						<Form.Group
 							className='mb-3'
 							controlId='emailInput'
