@@ -27,7 +27,7 @@ function EditUser() {
 
 			<UpdateUserInfoForm profileOwner={profileOwner} />
 
-			<UpdatePasswordForm profileOwner={profileOwner} />
+			<UpdatePasswordForm />
 		</Container>
 	);
 }

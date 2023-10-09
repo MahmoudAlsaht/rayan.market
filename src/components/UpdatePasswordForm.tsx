@@ -30,7 +30,7 @@ function UpdatePasswordForm() {
 					currentPassword: passwordRef.current?.value,
 					newPassword: newPasswordRef.current?.value,
 				};
-				updateUserPassword(data);
+				updateUserPassword(data, setError);
 			}
 		} catch (e: any) {
 			console.log(e.message);

@@ -13,6 +13,7 @@ import {
 import updateDocs from '../firebase/firestore/updateDoc';
 import { setCookies } from '../utils';
 import { uploadImage } from '../firebase/firestore/uploadFile';
+import { IError } from '../components/Error';
 
 export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
@@ -35,6 +36,7 @@ export const fetchProfile = createAsyncThunk(
 export const updateUserInfo = async (
 	data: any,
 	docId: string,
+	handleErr: (error: IError) => void,
 ) => {
 	try {
 		const { email, username, currentPassword } = data;
@@ -54,11 +56,18 @@ export const updateUserInfo = async (
 			username: user?.displayName,
 		});
 	} catch (e: any) {
-		console.log(e.message);
+		handleErr({
+			status: false,
+			message:
+				'Something went wrong, Please check your credential and try again later.',
+		});
 	}
 };
 
-export const updateUserPassword = async (data: any) => {
+export const updateUserPassword = async (
+	data: any,
+	handleErr: (error: IError) => void,
+) => {
 	try {
 		const user: User | null = auth.currentUser;
 		const { newPassword, currentPassword } = data;
@@ -67,7 +76,11 @@ export const updateUserPassword = async (data: any) => {
 		if (newPassword)
 			await updatePassword(user!, newPassword);
 	} catch (e: any) {
-		console.log(e.message);
+		handleErr({
+			status: false,
+			message:
+				'Something went wrong, Please check your credential and try again later.',
+		});
 	}
 };
 
@@ -75,6 +88,7 @@ export const updateProfileImage = async (
 	imageFile: File | null,
 	password: string,
 	uid: string,
+	handleErr: (error: IError) => void,
 ) => {
 	try {
 		await checkAuth(password);
@@ -97,7 +111,11 @@ export const updateProfileImage = async (
 			docId,
 		});
 	} catch (e: any) {
-		console.log(e.message);
+		handleErr({
+			status: false,
+			message:
+				'Something went wrong, Please check your credential and try again later.',
+		});
 	}
 };
 
@@ -111,6 +129,6 @@ const checkAuth = async (currentPassword: string) => {
 			);
 		await reauthenticateWithCredential(user!, credential);
 	} catch (e: any) {
-		console.log(e.message);
+		throw new Error(e.message);
 	}
 };

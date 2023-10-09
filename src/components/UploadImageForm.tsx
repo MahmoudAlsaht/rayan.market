@@ -71,6 +71,7 @@ function UploadImageForm({
 					selectedImage,
 					passwordRef.current?.value as string,
 					profileOwner?.uid as string,
+					setError,
 				);
 			}
 		} catch (e: any) {

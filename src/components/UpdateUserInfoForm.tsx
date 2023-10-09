@@ -36,7 +36,11 @@ function UpdateUserInfoForm({
 					email: emailRef.current?.value,
 					username: usernameRef.current?.value,
 				};
-				await updateUserInfo(data, profileOwner?.docId);
+				await updateUserInfo(
+					data,
+					profileOwner?.docId,
+					setError,
+				);
 			}
 		} catch (e: any) {
 			console.log(e.message);
