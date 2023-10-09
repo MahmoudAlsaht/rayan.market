@@ -1,8 +1,9 @@
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import defaultAvatar from '../default_avatar.png';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { uploadImage } from '../firebase/firestore/uploadFile';
 import { IUser } from '../controllers/user';
+import ErrorComponent, { IError } from './Error';
 
 function UploadImageForm({
 	profileOwner,
@@ -15,29 +16,81 @@ function UploadImageForm({
 	const [selectedImage, setSelectedImage] =
 		useState<File | null>(null);
 
-	const handleFileChange = (
-		e: ChangeEvent<HTMLInputElement>,
-	) => {
+	const [validated, setValidated] = useState(false);
+	const [error, setError] = useState<IError>({
+		status: null,
+		message: 'please provide all the fields below',
+	});
+
+	const passwordRef = useRef<HTMLInputElement>(null);
+
+	const updateImage = (e: ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
 		const files: FileList | null = e.target.files;
 		setSelectedImage(files[0]);
 		setReviewImage(URL.createObjectURL(files[0]));
 	};
 
+	const handleFileChange = (e: ChangeEvent) => {
+		const form = e.currentTarget as HTMLInputElement;
+
+		updateImage(e as ChangeEvent<HTMLInputElement>);
+
+		if (
+			passwordRef.current?.value === '' ||
+			selectedImage == null ||
+			selectedImage.name === '' ||
+			form.checkValidity() === false
+		) {
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'please provide all the missing fields',
+			});
+		} else {
+			setValidated(true);
+			setError({
+				status: true,
+				message: 'looks good!',
+			});
+		}
+	};
+
 	const handleFileSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		await uploadImage(
-			selectedImage,
-			profileOwner?.username as string,
-			profileOwner?.uid as string,
-		);
+		try {
+			const form = e.currentTarget as HTMLFormElement;
+
+			if (form.checkValidity() === false) {
+				setError({
+					status: true,
+					message: 'invalid fields',
+				});
+			} else {
+				await uploadImage(
+					selectedImage,
+					profileOwner?.username as string,
+					profileOwner?.uid as string,
+				);
+			}
+		} catch (e: any) {
+			console.log(e.message);
+		}
 	};
 
 	return (
-		<Form onSubmit={handleFileSubmit} className='mb-5'>
+		<Form
+			onSubmit={handleFileSubmit}
+			className='mb-5'
+			noValidate
+			validated={!validated}
+		>
 			<h3 className='text-muted mb-3'>Profile Image</h3>
+
+			<ErrorComponent error={error} />
+
 			<Row>
-				<Col md={2}>
+				<Col md={3} lg={2}>
 					<Image
 						className='rounded-circle'
 						src={
@@ -58,13 +111,34 @@ function UploadImageForm({
 						<Form.Control
 							type='file'
 							onChange={handleFileChange}
+							required
 						/>
 					</Form.Group>
+
+					<Form.Group
+						className='mb-3'
+						controlId='passwordInput'
+					>
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							required
+							onChange={handleFileChange}
+							type='password'
+							placeholder='at least 6 char'
+							ref={passwordRef}
+						/>
+					</Form.Group>
+
 					<Form.Group className='mb-3'>
 						<Form.Control
+							disabled={!validated}
 							type='submit'
-							value='Update'
-							className='btn btn-outline-primary'
+							value='Save'
+							className={`btn ${
+								!validated
+									? 'btn-secondary'
+									: 'btn-outline-primary'
+							}`}
 						/>
 					</Form.Group>
 				</Col>
