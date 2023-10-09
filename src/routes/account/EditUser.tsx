@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchProfile } from '../../controllers/profile';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { IUser, fetchUser } from '../../controllers/user';
@@ -15,10 +15,6 @@ function EditUser() {
 
 	const { profileId } = useParams();
 	const dispatch = useAppDispatch();
-
-	const navigate = useNavigate();
-
-	if (profileOwner == null) navigate('/');
 
 	useEffect(() => {
 		dispatch(fetchProfile(profileId as string));

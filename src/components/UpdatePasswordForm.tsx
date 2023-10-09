@@ -17,9 +17,7 @@ function UpdatePasswordForm({
 
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const newPasswordRef = useRef<HTMLInputElement>(null);
-	const confirmPasswordRef = useRef<HTMLInputElement | null>(
-		null,
-	);
+	const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -38,10 +36,14 @@ function UpdatePasswordForm({
 					newPassword: newPasswordRef.current?.value,
 				};
 				await editProfile(data, profileOwner?.docId);
-				// navigate('/');
 			}
 		} catch (e: any) {
 			console.log(e.message);
+			setError({
+				status: true,
+				message:
+					'Something went wrong, please try again',
+			});
 		}
 	};
 

@@ -35,10 +35,14 @@ function UpdateUserInfoForm({
 					currentPassword: passwordRef.current?.value,
 				};
 				await editProfile(data, profileOwner?.docId);
-				// navigate('/');
 			}
 		} catch (e: any) {
 			console.log(e.message);
+			setError({
+				status: true,
+				message:
+					'Something went wrong, please try again',
+			});
 		}
 	};
 
@@ -102,7 +106,7 @@ function UpdateUserInfoForm({
 			</Form.Group>
 			<Form.Group
 				className='mb-3'
-				controlId='passwordInput'
+				controlId='passwordUserInfoFormInput'
 			>
 				<Form.Label>Password</Form.Label>
 				<Form.Control

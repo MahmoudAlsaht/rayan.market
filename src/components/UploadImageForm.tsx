@@ -75,6 +75,11 @@ function UploadImageForm({
 			}
 		} catch (e: any) {
 			console.log(e.message);
+			setError({
+				status: true,
+				message:
+					'Something went wrong, please try again',
+			});
 		}
 	};
 
@@ -117,7 +122,7 @@ function UploadImageForm({
 
 					<Form.Group
 						className='mb-3'
-						controlId='passwordInput'
+						controlId='passwordUploadImageFormInput'
 					>
 						<Form.Label>Password</Form.Label>
 						<Form.Control
