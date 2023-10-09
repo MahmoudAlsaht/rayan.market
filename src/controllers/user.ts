@@ -18,6 +18,7 @@ export type IUser = Partial<User> & {
 	isAdmin: boolean;
 	photoURL: string;
 	profile: string;
+	docId: string;
 };
 
 export const fetchUser = createAsyncThunk(
