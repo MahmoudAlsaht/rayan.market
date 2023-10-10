@@ -17,7 +17,7 @@ function Signup() {
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
-		message: 'please provide all the fields below',
+		message: '',
 	});
 
 	const emailRef = useRef<HTMLInputElement>(null);

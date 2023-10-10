@@ -7,7 +7,7 @@ function UpdatePasswordForm() {
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
-		message: 'please provide all the fields below',
+		message: '',
 	});
 
 	const passwordRef = useRef<HTMLInputElement>(null);

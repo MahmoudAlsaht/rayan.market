@@ -1,10 +1,16 @@
 import db from '../config';
 import {
+	DocumentData,
 	collection,
 	getDocs,
 	query,
 	where,
 } from 'firebase/firestore';
+
+export type DocType = {
+	data: DocumentData | undefined;
+	docId: string | undefined;
+};
 
 export default async function getData(
 	collectionName: string,
@@ -26,7 +32,7 @@ export default async function getData(
 		return {
 			data: querySnapshot?.docs[0]?.data(),
 			docId: querySnapshot?.docs[0]?.id,
-		};
+		} as DocType;
 	} catch (e: any) {
 		console.log(e);
 	}
