@@ -30,10 +30,7 @@ function EditUser() {
 
 			<UpdatePasswordForm />
 
-			<DeleteUser
-				user={profileOwner}
-				profileId={profileId as string}
-			/>
+			<DeleteUser profileId={profileId as string} />
 		</Container>
 	);
 }

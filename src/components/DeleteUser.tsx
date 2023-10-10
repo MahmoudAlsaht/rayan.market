@@ -1,17 +1,10 @@
 import { useState, useRef, FormEvent, ChangeEvent } from 'react';
-import { IUser } from '../controllers/user';
 import ErrorComponent, { IError } from './Error';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { destroyUser } from '../controllers/profile';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function DeleteUser({
-	user,
-	profileId,
-}: {
-	user: IUser;
-	profileId: string;
-}) {
+function DeleteUser({ profileId }: { profileId: string }) {
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -19,7 +12,7 @@ function DeleteUser({
 	});
 	const passwordRef = useRef<HTMLInputElement>(null);
 
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const [show, setShow] = useState(false);
 
@@ -42,7 +35,7 @@ function DeleteUser({
 					profileId,
 				);
 				handleClose();
-				// navigate('/');
+				navigate('/');
 			}
 		} catch (e: any) {
 			console.log(e.message);
