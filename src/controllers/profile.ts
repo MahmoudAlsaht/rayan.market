@@ -1,19 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import getData from '../firebase/firestore/getData';
+import getData, { DocType } from '../firebase/firestore/getData';
 import { auth } from '../firebase/config';
 import {
 	AuthCredential,
 	EmailAuthProvider,
 	User,
+	deleteUser,
 	reauthenticateWithCredential,
+	updateEmail,
 	updatePassword,
 	updateProfile,
 	verifyBeforeUpdateEmail,
 } from 'firebase/auth';
 import updateDocs from '../firebase/firestore/updateDoc';
-import { setCookies } from '../utils';
+import { removeCookies, setCookies } from '../utils';
 import { uploadImage } from '../firebase/firestore/uploadFile';
 import { IError } from '../components/Error';
+import { deleteImage } from '../firebase/firestore/deleteFile';
+import destroyDoc from '../firebase/firestore/deleteDoc';
 
 export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
@@ -40,11 +44,11 @@ export const updateUserInfo = async (
 ) => {
 	try {
 		const { email, username, currentPassword } = data;
-		const user: User | null = auth.currentUser;
+		const user = await checkAuth(currentPassword);
 
-		await checkAuth(currentPassword);
-
-		if (email) await verifyBeforeUpdateEmail(user!, email);
+		!user?.emailVerified
+			? await verifyBeforeUpdateEmail(user!, email)
+			: await updateEmail(user!, email);
 
 		if (username)
 			await updateProfile(user!, {
@@ -69,9 +73,8 @@ export const updateUserPassword = async (
 	handleErr: (error: IError) => void,
 ) => {
 	try {
-		const user: User | null = auth.currentUser;
 		const { newPassword, currentPassword } = data;
-		await checkAuth(currentPassword);
+		const user = await checkAuth(currentPassword);
 
 		if (newPassword)
 			await updatePassword(user!, newPassword);
@@ -96,7 +99,11 @@ export const updateProfileImage = async (
 		const { data, docId } =
 			(await getData('users', 'uid', uid)) ?? {};
 
-		const imageURL = await uploadImage(imageFile, uid);
+		const imageURL = await uploadImage(
+			imageFile,
+			uid,
+			'profilesImages',
+		);
 
 		await updateDocs('users', docId!, {
 			photoURL: imageURL,
@@ -119,6 +126,41 @@ export const updateProfileImage = async (
 	}
 };
 
+export const destroyUser = async (
+	handleErr: (error: IError) => void,
+	password: string,
+	profileId: string,
+) => {
+	try {
+		const user = await checkAuth(password);
+
+		const userDoc: DocType | undefined = await getData(
+			'users',
+			'uid',
+			user?.uid as string,
+		);
+
+		const profileDoc: DocType | undefined = await getData(
+			'profiles',
+			'id',
+			profileId,
+		);
+
+		await deleteImage(user?.uid as string, 'profilesImages');
+		await destroyDoc('users', userDoc!.docId!);
+		await destroyDoc('profiles', profileDoc!.docId!);
+		await deleteUser(user!);
+		removeCookies('user');
+	} catch (e: any) {
+		console.log(e);
+		handleErr({
+			status: false,
+			message:
+				'Something went wrong, Please try again later.',
+		});
+	}
+};
+
 const checkAuth = async (currentPassword: string) => {
 	try {
 		const user: User | null = auth.currentUser;
@@ -128,6 +170,8 @@ const checkAuth = async (currentPassword: string) => {
 				currentPassword,
 			);
 		await reauthenticateWithCredential(user!, credential);
+
+		return user;
 	} catch (e: any) {
 		throw new Error(e.message);
 	}

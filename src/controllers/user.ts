@@ -6,6 +6,7 @@ import {
 	signOut,
 	User,
 	updateProfile,
+	sendEmailVerification,
 } from 'firebase/auth';
 import { getCookies, removeCookies, setCookies } from '../utils';
 import addData from '../firebase/firestore/addData';
@@ -63,6 +64,7 @@ export const signUp = async (
 			profile: profileId,
 		});
 
+		await sendEmailVerification(res.user);
 		await signIn(email, password, handleErr);
 	} catch (e: any) {
 		handleErr({

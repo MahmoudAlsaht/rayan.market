@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import UploadImageForm from '../../components/UploadImageForm';
 import UpdatePasswordForm from '../../components/UpdatePasswordForm';
 import UpdateUserInfoForm from '../../components/UpdateUserInfoForm';
+import DeleteUser from '../../components/DeleteUser';
 
 function EditUser() {
 	const profileOwner: IUser | any = useAppSelector(
@@ -28,6 +29,11 @@ function EditUser() {
 			<UpdateUserInfoForm profileOwner={profileOwner} />
 
 			<UpdatePasswordForm />
+
+			<DeleteUser
+				user={profileOwner}
+				profileId={profileId as string}
+			/>
 		</Container>
 	);
 }
