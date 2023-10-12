@@ -1,15 +1,10 @@
 name: Deploy
-on:
-    push:
-        branches: main
-    pull_request:
-        branches: main
+on: [push]
 
 jobs:
     deploy:
         name: Deploy
         runs-on: ubuntu-latest
-
         permissions:
             id-token: write # Needed for auth with Deno Deploy
             contents: read # Needed to clone the repository
@@ -20,20 +15,13 @@ jobs:
 
             - name: Install Deno
               uses: denoland/setup-deno@v1
-              with:
-                  deno-version: v1.x
 
-            - name: Install Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: lts/*
+            - name: Build
+              run: deno task build
 
-            - name: Build step
-              run: 'npm install && npm run build' # 📝 Update the build command(s) if necessary
-
-            - name: Upload to Deno Deploy
+            - name: Deploy to Deno Deploy
               uses: denoland/deployctl@v1
               with:
                   project: 'mstore'
-                  entrypoint: 'https://deno.land/std@0.188.0/http/file_server.ts' # 📝 Update the entrypoint if necessary
-                  root: 'dist' # 📝 Update the root if necessary
+                  entrypoint: https://deno.land/std@0.202.0/http/file_server.ts
+                  root: dist
