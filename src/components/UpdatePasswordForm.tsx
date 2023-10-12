@@ -30,14 +30,12 @@ function UpdatePasswordForm() {
 					currentPassword: passwordRef.current?.value,
 					newPassword: newPasswordRef.current?.value,
 				};
-				updateUserPassword(data, setError);
+				updateUserPassword(data);
 			}
 		} catch (e: any) {
-			console.log(e.message);
 			setError({
 				status: true,
-				message:
-					'Something went wrong, please try again',
+				message: e.message,
 			});
 		}
 	};

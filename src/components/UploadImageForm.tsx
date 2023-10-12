@@ -71,15 +71,12 @@ function UploadImageForm({
 					selectedImage,
 					passwordRef.current?.value as string,
 					profileOwner?.uid as string,
-					setError,
 				);
 			}
 		} catch (e: any) {
-			console.log(e.message);
 			setError({
 				status: true,
-				message:
-					'Something went wrong, please try again',
+				message: e.message,
 			});
 		}
 	};

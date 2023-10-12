@@ -30,7 +30,6 @@ function DeleteUser({ profileId }: { profileId: string }) {
 				});
 			} else {
 				await destroyUser(
-					setError,
 					passwordRef.current?.value as string,
 					profileId,
 				);
@@ -38,11 +37,9 @@ function DeleteUser({ profileId }: { profileId: string }) {
 				navigate('/');
 			}
 		} catch (e: any) {
-			console.log(e.message);
 			setError({
 				status: true,
-				message:
-					'Something went wrong, please try again',
+				message: e.message,
 			});
 		}
 	};

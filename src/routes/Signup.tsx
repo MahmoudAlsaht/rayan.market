@@ -55,12 +55,14 @@ function Signup() {
 					emailRef.current?.value,
 					passwordRef.current?.value,
 					usernameRef.current!.value,
-					setError,
 				);
 				navigate('/');
 			}
 		} catch (e: any) {
-			console.log(e.message);
+			setError({
+				status: false,
+				message: e.message,
+			});
 		}
 	};
 

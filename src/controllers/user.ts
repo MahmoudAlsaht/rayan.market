@@ -13,7 +13,6 @@ import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import { v4 as uuidv4 } from 'uuid';
 import updateDocs from '../firebase/firestore/updateDoc';
-import { IError } from '../components/Error';
 
 export type IUser = Partial<User> & {
 	username: string | null;
@@ -36,7 +35,6 @@ export const signUp = async (
 	email: any,
 	password: any,
 	displayName: string,
-	handleErr: (error: IError) => void,
 ) => {
 	try {
 		const res = await createUserWithEmailAndPassword(
@@ -65,20 +63,17 @@ export const signUp = async (
 		});
 
 		await sendEmailVerification(res.user);
-		await signIn(email, password, handleErr);
+		await signIn(email, password);
 	} catch (e: any) {
-		handleErr({
-			status: false,
-			message:
-				'Something went wrong, Please check your credential and try again later.',
-		});
+		throw new Error(
+			'Something went wrong, Please check your credential and try again later.',
+		);
 	}
 };
 
 export const signIn = async (
 	email: string,
 	password: string,
-	handleErr: (error: IError) => void,
 ) => {
 	try {
 		const res = await signInWithEmailAndPassword(
@@ -100,11 +95,9 @@ export const signIn = async (
 			docId,
 		});
 	} catch (e: any) {
-		handleErr({
-			status: false,
-			message:
-				'Something went wrong, Please check your credential and try again later.',
-		});
+		throw new Error(
+			'Something went wrong, Please check your credential and try again later.',
+		);
 	}
 };
 
@@ -113,6 +106,8 @@ export const logOut = async () => {
 		await signOut(auth);
 		removeCookies('user');
 	} catch (e: any) {
-		console.log(e.message);
+		throw new Error(
+			'Something went wrong, Please try again later',
+		);
 	}
 };

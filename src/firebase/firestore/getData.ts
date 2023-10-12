@@ -24,16 +24,13 @@ export default async function getData(
 		);
 		const querySnapshot = await getDocs(q);
 
-		// const docSnap = querySnapshot.forEach((doc) => {
-		// 	// doc.data() is never undefined for query doc snapshots
-		// 	console.log(doc.id, " => ", doc.data());
-		// });
-
 		return {
 			data: querySnapshot?.docs[0]?.data(),
 			docId: querySnapshot?.docs[0]?.id,
 		} as DocType;
 	} catch (e: any) {
-		console.log(e);
+		throw new Error(
+			'Something went wrong, please try again later',
+		);
 	}
 }

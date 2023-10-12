@@ -8,6 +8,8 @@ export default async function addData(
 	try {
 		await addDoc(collection(db, collectionName), data);
 	} catch (e: any) {
-		console.log(e);
+		throw new Error(
+			'Something went wrong, please try again later',
+		);
 	}
 }

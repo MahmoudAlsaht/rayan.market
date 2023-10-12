@@ -49,12 +49,14 @@ function SignIn() {
 				await signIn(
 					emailRef.current!.value,
 					passwordRef.current!.value,
-					setError,
 				);
 				navigate('/');
 			}
 		} catch (e: any) {
-			console.log(e.message);
+			setError({
+				status: false,
+				message: e.message,
+			});
 		}
 	};
 

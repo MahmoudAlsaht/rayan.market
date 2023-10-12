@@ -22,6 +22,8 @@ export const uploadImage = async (
 
 		return imageURL;
 	} catch (e: any) {
-		console.log(e.message);
+		throw new Error(
+			'Something went wrong, please try again later',
+		);
 	}
 };

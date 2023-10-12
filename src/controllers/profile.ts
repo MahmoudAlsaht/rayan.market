@@ -15,7 +15,6 @@ import {
 import updateDocs from '../firebase/firestore/updateDoc';
 import { removeCookies, setCookies } from '../utils';
 import { uploadImage } from '../firebase/firestore/uploadFile';
-import { IError } from '../components/Error';
 import { deleteImage } from '../firebase/firestore/deleteFile';
 import destroyDoc from '../firebase/firestore/deleteDoc';
 
@@ -40,7 +39,6 @@ export const fetchProfile = createAsyncThunk(
 export const updateUserInfo = async (
 	data: any,
 	docId: string,
-	handleErr: (error: IError) => void,
 ) => {
 	try {
 		const { email, username, currentPassword } = data;
@@ -60,18 +58,13 @@ export const updateUserInfo = async (
 			username: user?.displayName,
 		});
 	} catch (e: any) {
-		handleErr({
-			status: false,
-			message:
-				'Something went wrong, Please check your credential and try again later.',
-		});
+		throw new Error(
+			'Something went wrong, Please check your credential and try again later.',
+		);
 	}
 };
 
-export const updateUserPassword = async (
-	data: any,
-	handleErr: (error: IError) => void,
-) => {
+export const updateUserPassword = async (data: any) => {
 	try {
 		const { newPassword, currentPassword } = data;
 		const user = await checkAuth(currentPassword);
@@ -79,11 +72,9 @@ export const updateUserPassword = async (
 		if (newPassword)
 			await updatePassword(user!, newPassword);
 	} catch (e: any) {
-		handleErr({
-			status: false,
-			message:
-				'Something went wrong, Please check your credential and try again later.',
-		});
+		throw new Error(
+			'Something went wrong, Please check your credential and try again later.',
+		);
 	}
 };
 
@@ -91,7 +82,6 @@ export const updateProfileImage = async (
 	imageFile: File | null,
 	password: string,
 	uid: string,
-	handleErr: (error: IError) => void,
 ) => {
 	try {
 		await checkAuth(password);
@@ -118,16 +108,13 @@ export const updateProfileImage = async (
 			docId,
 		});
 	} catch (e: any) {
-		handleErr({
-			status: false,
-			message:
-				'Something went wrong, Please check your credential and try again later.',
-		});
+		throw new Error(
+			'Something went wrong, Please check your credential and try again later.',
+		);
 	}
 };
 
 export const destroyUser = async (
-	handleErr: (error: IError) => void,
 	password: string,
 	profileId: string,
 ) => {
@@ -152,12 +139,9 @@ export const destroyUser = async (
 		await deleteUser(user!);
 		removeCookies('user');
 	} catch (e: any) {
-		console.log(e);
-		handleErr({
-			status: false,
-			message:
-				'Something went wrong, Please try again later.',
-		});
+		throw new Error(
+			'Something went wrong, Please try again later.',
+		);
 	}
 };
 

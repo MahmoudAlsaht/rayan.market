@@ -16,6 +16,8 @@ export const deleteImage = async (
 		// Delete the file
 		await deleteObject(desertRef);
 	} catch (e: any) {
-		console.log(e.message);
+		throw new Error(
+			'Something went wrong, please try again later',
+		);
 	}
 };

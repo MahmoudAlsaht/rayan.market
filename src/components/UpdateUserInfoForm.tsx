@@ -36,18 +36,12 @@ function UpdateUserInfoForm({
 					email: emailRef.current?.value,
 					username: usernameRef.current?.value,
 				};
-				await updateUserInfo(
-					data,
-					profileOwner?.docId,
-					setError,
-				);
+				await updateUserInfo(data, profileOwner?.docId);
 			}
 		} catch (e: any) {
-			console.log(e.message);
 			setError({
 				status: true,
-				message:
-					'Something went wrong, please try again',
+				message: e.message,
 			});
 		}
 	};
