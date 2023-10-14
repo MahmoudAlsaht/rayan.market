@@ -7,6 +7,7 @@ import {
 	User,
 	updateProfile,
 	sendEmailVerification,
+	sendPasswordResetEmail,
 } from 'firebase/auth';
 import { getCookies, removeCookies, setCookies } from '../utils';
 import addData from '../firebase/firestore/addData';
@@ -105,6 +106,16 @@ export const logOut = async () => {
 	try {
 		await signOut(auth);
 		removeCookies('user');
+	} catch (e: any) {
+		throw new Error(
+			'Something went wrong, Please try again later',
+		);
+	}
+};
+
+export const resetPassword = async (email: string) => {
+	try {
+		await sendPasswordResetEmail(auth, email);
 	} catch (e: any) {
 		throw new Error(
 			'Something went wrong, Please try again later',

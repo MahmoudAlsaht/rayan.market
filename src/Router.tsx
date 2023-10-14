@@ -9,6 +9,7 @@ import SignIn from './routes/Signin';
 import AccountLayout from './layouts/AccountLayout';
 import Profile from './routes/account/Profile';
 import EditUser from './routes/account/EditUser';
+import ResetPassword from './routes/ResetPassword';
 
 export const Router = createBrowserRouter([
 	{
@@ -27,6 +28,10 @@ export const Router = createBrowserRouter([
 				children: [
 					{ path: 'signup', element: <Signup /> },
 					{ path: 'signin', element: <SignIn /> },
+					{
+						path: 'reset-password',
+						element: <ResetPassword />,
+					},
 				],
 			},
 			{

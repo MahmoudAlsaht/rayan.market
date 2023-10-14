@@ -1,19 +1,10 @@
-import {
-	useRef,
-	FormEvent,
-	useEffect,
-	useState,
-	ChangeEvent,
-} from 'react';
-import { signIn } from '../controllers/user';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { IUser, fetchUser } from '../controllers/user';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../components/Error';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { resetPassword } from '../controllers/user';
 
-function SignIn() {
+function ResetPassword() {
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -21,19 +12,8 @@ function SignIn() {
 	});
 
 	const emailRef = useRef<HTMLInputElement>(null);
-	const passwordRef = useRef<HTMLInputElement>(null);
 
 	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
-	const user: IUser | any = useAppSelector(
-		(state) => state.user,
-	);
-
-	useEffect(() => {
-		dispatch(fetchUser());
-	}, [dispatch]);
-
-	if (user != null) navigate(-1);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -46,10 +26,7 @@ function SignIn() {
 					message: 'invalid fields',
 				});
 			} else {
-				await signIn(
-					emailRef.current!.value,
-					passwordRef.current!.value,
-				);
+				resetPassword(emailRef.current?.value as string);
 				navigate('/');
 			}
 		} catch (e: any) {
@@ -64,20 +41,12 @@ function SignIn() {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
 			emailRef.current?.value === '' ||
-			passwordRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
-			});
-		} else if (passwordRef.current!.value.length < 6) {
-			setValidated(false);
-			setError({
-				status: false,
-				message:
-					'password must be at least 6 characters',
+				message: 'please provide your email address',
 			});
 		} else {
 			setValidated(true);
@@ -117,56 +86,17 @@ function SignIn() {
 								/>
 							</Form.Group>
 
-							<Form.Group
-								className='mb-3'
-								controlId='passwordInput'
-							>
-								<Form.Label>Password</Form.Label>
-								<Form.Control
-									onChange={handleChange}
-									required
-									type='password'
-									placeholder='at least 6 char'
-									ref={passwordRef}
-								/>
-							</Form.Group>
 							<Form.Group className='mb-3'>
-								<small className='text-info m-2'>
-									Don't have an account?{' '}
-									<Link
-										to='/auth/signup'
-										className='text-primary'
-										style={{
-											textDecoration:
-												'underline',
-										}}
-									>
-										SIGNUP
-									</Link>
-								</small>
 								<Form.Control
 									disabled={!validated}
 									type='submit'
-									value='Signin'
+									value='Reset Password'
 									className={`btn ${
 										!validated
 											? 'btn-secondary'
 											: 'btn-outline-primary'
 									}`}
 								/>
-								<small className='text-info m-2'>
-									Forgot password?{' '}
-									<Link
-										to='/auth/reset-password'
-										className='text-primary'
-										style={{
-											textDecoration:
-												'underline',
-										}}
-									>
-										RESET PASSWORD
-									</Link>
-								</small>
 							</Form.Group>
 						</Form>
 					</Container>
@@ -176,4 +106,4 @@ function SignIn() {
 	);
 }
 
-export default SignIn;
+export default ResetPassword;
