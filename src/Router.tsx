@@ -10,6 +10,7 @@ import AccountLayout from './layouts/AccountLayout';
 import Profile from './routes/account/Profile';
 import EditUser from './routes/account/EditUser';
 import ResetPassword from './routes/ResetPassword';
+import NotFound404 from './routes/NotFound404';
 
 export const Router = createBrowserRouter([
 	{
@@ -47,6 +48,10 @@ export const Router = createBrowserRouter([
 						element: <EditUser />,
 					},
 				],
+			},
+			{
+				path: '*',
+				element: <NotFound404 />,
 			},
 		],
 	},
