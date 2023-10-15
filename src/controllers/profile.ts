@@ -57,6 +57,19 @@ export const updateUserInfo = async (
 			email: user?.email,
 			username: user?.displayName,
 		});
+
+		const userData =
+			(await getData(
+				'users',
+				'uid',
+				user?.uid as string,
+			)) ?? {};
+		setCookies('user', {
+			...userData.data,
+			email: data?.email,
+			username: data?.username,
+			docId,
+		});
 	} catch (e: any) {
 		throw new Error(
 			'Something went wrong, Please check your credential and try again later.',
