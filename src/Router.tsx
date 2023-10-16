@@ -11,6 +11,7 @@ import Profile from './routes/account/Profile';
 import EditUser from './routes/account/EditUser';
 import ResetPassword from './routes/ResetPassword';
 import NotFound404 from './routes/NotFound404';
+import { motion } from 'framer-motion';
 
 export const Router = createBrowserRouter([
 	{
@@ -60,7 +61,13 @@ export const Router = createBrowserRouter([
 function Wrapper() {
 	return (
 		<Provider store={store}>
-			<Outlet />
+			<motion.div
+				initial={{ x: -2000, opacity: 0 }}
+				animate={{ x: 0, opacity: 1 }}
+				exit={{ x: 2000, opacity: 0 }}
+			>
+				<Outlet />
+			</motion.div>
 		</Provider>
 	);
 }

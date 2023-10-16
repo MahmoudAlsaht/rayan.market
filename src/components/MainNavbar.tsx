@@ -10,6 +10,7 @@ import defaultAvatar from '../default_avatar.png';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { IUser, fetchUser, logOut } from '../controllers/user';
+import { useEffect } from 'react';
 
 function MainNavbar() {
 	const dispatch = useAppDispatch();
@@ -24,6 +25,10 @@ function MainNavbar() {
 		dispatch(fetchUser());
 		navigate('/');
 	};
+
+	useEffect(() => {
+		dispatch(fetchUser());
+	}, [dispatch]);
 
 	return (
 		<Navbar
