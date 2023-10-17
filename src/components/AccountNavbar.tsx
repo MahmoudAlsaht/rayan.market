@@ -130,9 +130,10 @@ function AccountNavbar() {
 				onHide={handleClose}
 				placement='end'
 				className='d-md-none'
+				style={{ backgroundColor: '#334455' }}
 			>
 				<Offcanvas.Header closeButton>
-					<Offcanvas.Title>
+					<Offcanvas.Title className='text-white'>
 						<Navbar.Brand href='/'>
 							mStore
 						</Navbar.Brand>
@@ -140,17 +141,26 @@ function AccountNavbar() {
 				</Offcanvas.Header>
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
-						<Nav.Link href='/'>Store</Nav.Link>
+						<Nav.Link
+							className='text-white'
+							href='/'
+						>
+							Store
+						</Nav.Link>
 						<hr />
 
 						<div>
 							<Nav.Link
 								href={`/account/profile/${user?.profile}/account-setting`}
 								onClick={handleClick}
+								className='text-white'
 							>
 								Account Settings
 							</Nav.Link>
-							<Nav.Link onClick={handleLogout}>
+							<Nav.Link
+								onClick={handleLogout}
+								className='text-white'
+							>
 								Logout
 							</Nav.Link>
 						</div>
