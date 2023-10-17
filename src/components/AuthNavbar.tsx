@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { BsArrowRight } from 'react-icons/bs';
+import { BsArrowLeft } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
 function AuthNavbar() {
@@ -12,14 +12,11 @@ function AuthNavbar() {
 			className='bg-white shadow mb-3'
 		>
 			<Container>
-				<Navbar.Brand>
-					<Link to='/'>mStore</Link>
-				</Navbar.Brand>
-				<Nav className='ms-auto'>
+				<Nav className='me-auto'>
 					<Link to='#' onClick={() => navigate(-1)}>
 						<Button variant='outline-secondary'>
+							<BsArrowLeft className='me-2' />
 							Go Back
-							<BsArrowRight className='ms-2' />
 						</Button>
 					</Link>
 				</Nav>
