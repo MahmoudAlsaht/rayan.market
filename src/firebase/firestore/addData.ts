@@ -6,7 +6,12 @@ export default async function addData(
 	data: any,
 ) {
 	try {
-		await addDoc(collection(db, collectionName), data);
+		const newCollection = await addDoc(
+			collection(db, collectionName),
+			data,
+		);
+		console.log(newCollection);
+		return newCollection;
 	} catch (e: any) {
 		throw new Error(
 			'Something went wrong, please try again later',
