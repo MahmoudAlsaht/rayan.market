@@ -55,6 +55,12 @@ function MainNavbar() {
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='me-auto'>
 							<Nav.Link href='/'>Store</Nav.Link>
+							<Nav.Link href='/store/categories'>
+								Categories
+							</Nav.Link>
+							<Nav.Link href='/store/products'>
+								Products
+							</Nav.Link>
 							<Nav.Link href='/about'>
 								About
 							</Nav.Link>
@@ -152,6 +158,12 @@ function MainNavbar() {
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
 						<Nav.Link href='/'>Store</Nav.Link>
+						<Nav.Link href='/categories'>
+							Categories
+						</Nav.Link>
+						<Nav.Link href='/products'>
+							Products
+						</Nav.Link>
 						<Nav.Link href='/about'>About</Nav.Link>
 						<hr />
 
