@@ -1,5 +1,4 @@
-import Ticker from 'framer-motion-ticker';
-import { Link } from 'react-router-dom';
+import CarouselTicker from '../components/CarouselTicker';
 
 function Home() {
 	const colors = [
@@ -12,51 +11,7 @@ function Home() {
 
 	return (
 		<>
-			<h2 className='text-danger text-center'>Ticker 1</h2>
-			<Ticker duration={20}>
-				{colors.map((item, index) => (
-					<Link
-						to='#'
-						key={index}
-						style={{
-							backgroundColor: item,
-							margin: '5px',
-							height: '250px',
-							width: '200px',
-						}}
-					></Link>
-				))}
-			</Ticker>
-			<h2 className='text-danger text-center'>Ticker 2</h2>
-			<Ticker duration={20}>
-				{colors.map((item, index) => (
-					<Link
-						to='#'
-						key={index}
-						style={{
-							backgroundColor: item,
-							margin: '5px',
-							height: '250px',
-							width: '200px',
-						}}
-					></Link>
-				))}
-			</Ticker>
-			<h2 className='text-danger text-center'>Ticker 3</h2>
-			<Ticker duration={20}>
-				{colors.map((item, index) => (
-					<Link
-						to='#'
-						key={index}
-						style={{
-							backgroundColor: item,
-							margin: '5px',
-							height: '250px',
-							width: '200px',
-						}}
-					></Link>
-				))}
-			</Ticker>
+			<CarouselTicker colors={colors} name='Ticker' />
 		</>
 	);
 }
