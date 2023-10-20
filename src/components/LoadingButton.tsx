@@ -7,6 +7,7 @@ type ButtonProps = {
 	type: string;
 	className?: string;
 	isLoading?: boolean;
+	disabled?: boolean;
 };
 
 function LoadingButton({
@@ -15,6 +16,7 @@ function LoadingButton({
 	type,
 	className,
 	isLoading = false,
+	disabled = false,
 }: ButtonProps) {
 	return (
 		<>
@@ -22,6 +24,7 @@ function LoadingButton({
 				<LoadingSpinner />
 			) : (
 				<Form.Control
+					disabled={disabled}
 					className={`${className} btn btn-outline-${variant}`}
 					value={body}
 					type={type}
