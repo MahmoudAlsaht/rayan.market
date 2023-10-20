@@ -1,0 +1,20 @@
+.floatingButton{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#0Cb;
+	color:#FFF;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.floatingButton:hover {
+    background-color:#55ccbb;
+}
+
+.floatingButtonIcon{
+	margin: 0 auto;
+    font-size: xx-large;
+}
