@@ -10,7 +10,6 @@ export default async function addData(
 			collection(db, collectionName),
 			data,
 		);
-		console.log(newCollection);
 		return newCollection;
 	} catch (e: any) {
 		throw new Error(
