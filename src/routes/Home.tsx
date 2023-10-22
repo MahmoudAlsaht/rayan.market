@@ -1,17 +1,28 @@
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { ICategory } from '../app/store/category';
 import CarouselTicker from '../components/CarouselTicker';
+import { fetchLatestCategories } from '../controllers/category';
 
 function Home() {
-	const colors = [
-		'#632bf3',
-		'#f122c8',
-		'#f16022',
-		'#9ef344',
-		'#44d3f3',
-	];
+	const dispatch = useAppDispatch();
+	const categories: ICategory[] | null = useAppSelector(
+		(state) => state.categories,
+	);
+
+	useEffect(() => {
+		dispatch(fetchLatestCategories());
+	}, [dispatch]);
 
 	return (
 		<>
-			<CarouselTicker colors={colors} name='Ticker' />
+			{categories != null &&
+				categories.map((category) => (
+					<CarouselTicker
+						key={category?.id}
+						category={category}
+					/>
+				))}
 		</>
 	);
 }
