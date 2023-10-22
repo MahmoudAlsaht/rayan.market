@@ -1,22 +1,33 @@
 import Ticker from 'framer-motion-ticker';
 import { Link } from 'react-router-dom';
+import { ICategory } from '../app/store/category';
 
 type CarouselTickerProps = {
-	colors: string[];
+	category: ICategory;
 	name?: string;
 };
 
-function CarouselTicker({ name, colors }: CarouselTickerProps) {
+function CarouselTicker({ category }: CarouselTickerProps) {
+	const colors = [
+		'#632bf3',
+		'#f122c8',
+		'#f16022',
+		'#9ef344',
+		'#44d3f3',
+	];
+
 	return (
-		<div>
-			<h2 className='text-danger text-center'>{name}</h2>
+		<>
+			<h2 className='text-danger text-center'>
+				{category?.name}
+			</h2>
 			<Ticker duration={20}>
-				{colors.map((item, index) => (
+				{colors.map((color, index) => (
 					<Link
 						to='#'
 						key={index}
 						style={{
-							backgroundColor: item,
+							backgroundColor: color,
 							margin: '5px',
 							height: '250px',
 							width: '200px',
@@ -24,7 +35,7 @@ function CarouselTicker({ name, colors }: CarouselTickerProps) {
 					></Link>
 				))}
 			</Ticker>
-		</div>
+		</>
 	);
 }
 

@@ -2,9 +2,7 @@ import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Button, Form, Modal, Image } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
-import addData from '../../firebase/firestore/addData';
-import { uploadImage } from '../../firebase/firestore/uploadFile';
-import updateDocs from '../../firebase/firestore/updateDoc';
+import { createCategory } from '../../controllers/category';
 
 type AddCategoryFormProps = {
 	show: boolean;
@@ -34,6 +32,7 @@ function AddCategoryForm({
 		setSelectedImage(files[0]);
 		setReviewImage(URL.createObjectURL(files[0]));
 	};
+
 	const handleFileChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLInputElement;
 
@@ -57,6 +56,7 @@ function AddCategoryForm({
 			});
 		}
 	};
+
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
@@ -90,18 +90,12 @@ function AddCategoryForm({
 					message: 'invalid fields',
 				});
 			} else {
-				const category = await addData('categories', {
-					name: categoryNameRef.current?.value,
-				});
-				const imageURL = await uploadImage(
+				await createCategory(
+					categoryNameRef.current?.value as string,
 					selectedImage,
-					category.id,
-					'categories',
 				);
-				await updateDocs('categories', category.id, {
-					imageURL,
-				});
 				setIsLoading(false);
+				setSelectedImage(null);
 				handleClose();
 			}
 		} catch (e: any) {
