@@ -12,7 +12,7 @@ import EditUser from './routes/account/EditUser';
 import ResetPassword from './routes/ResetPassword';
 import NotFound404 from './routes/NotFound404';
 import { motion } from 'framer-motion';
-import Categories from './routes/store/categories';
+import Categories from './routes/store/Categories';
 import Products from './routes/store/Products';
 
 export const Router = createBrowserRouter([
