@@ -10,7 +10,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import defaultAvatar from '../default_avatar.png';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { IUser, fetchUser, logOut } from '../controllers/user';
+import { fetchUser, logOut } from '../controllers/user';
+import { IUser } from '../app/auth/auth';
 import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 
@@ -80,11 +81,18 @@ function MainNavbar() {
 									}
 									id='collapsible-nav-dropdown'
 								>
-									<NavDropdown.Item
-										href={`/account/profile/${user.profile}`}
-									>
-										Profile
-									</NavDropdown.Item>
+									{user.isAdmin ? (
+										<NavDropdown.Item href='/dashboard'>
+											Dashboard
+										</NavDropdown.Item>
+									) : (
+										<NavDropdown.Item
+											href={`/account/profile/${user.profile}`}
+										>
+											Profile
+										</NavDropdown.Item>
+									)}
+
 									<NavDropdown.Divider />
 									<NavDropdown.Item
 										onClick={handleLogout}

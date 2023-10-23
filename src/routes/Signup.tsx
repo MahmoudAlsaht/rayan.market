@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Form, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { IUser, fetchUser } from '../controllers/user';
+import { fetchUser } from '../controllers/user';
+import { IUser } from '../app/auth/auth';
 import ErrorComponent, { IError } from '../components/Error';
 
 function Signup() {

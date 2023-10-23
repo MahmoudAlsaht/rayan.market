@@ -40,13 +40,17 @@ function RootLayout() {
 				}
 				className='floatingDropDown rounded-circle'
 			>
-				<Dropdown.Item eventKey='1'>
+				<Dropdown.Item
+					eventKey='1'
+					onClick={handleClickAddCat}
+				>
 					Add Category
 				</Dropdown.Item>
 				<Dropdown.Item eventKey='2'>
 					Add Product
 				</Dropdown.Item>
 			</DropdownButton>
+
 			<AddCategoryForm
 				show={showAddCategoryForm}
 				handleClose={handleClickAddCat}

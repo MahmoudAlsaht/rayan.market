@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { IUser } from '../../controllers/user';
+import { IUser } from '../../app/auth/auth';
 import { updateUserInfo } from '../../controllers/profile';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';

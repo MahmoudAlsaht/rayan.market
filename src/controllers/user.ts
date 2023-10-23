@@ -4,7 +4,6 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-	User,
 	updateProfile,
 	sendEmailVerification,
 	sendPasswordResetEmail,
@@ -14,14 +13,6 @@ import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import { v4 as uuidv4 } from 'uuid';
 import updateDocs from '../firebase/firestore/updateDoc';
-
-export type IUser = Partial<User> & {
-	username: string | null;
-	isAdmin: boolean;
-	photoURL: string;
-	profile: string;
-	docId: string;
-};
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',

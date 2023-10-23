@@ -1,7 +1,7 @@
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import defaultAvatar from '../../default_avatar.png';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { IUser } from '../../controllers/user';
+import { IUser } from '../../app/auth/auth';
 import ErrorComponent, { IError } from '../Error';
 import { updateProfileImage } from '../../controllers/profile';
 import LoadingButton from '../LoadingButton';

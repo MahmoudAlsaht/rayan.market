@@ -14,6 +14,8 @@ import NotFound404 from './routes/NotFound404';
 import { motion } from 'framer-motion';
 import Products from './routes/store/Products';
 import Category from './routes/store/Category';
+import DashboardLayout from './layouts/DashboardLayout';
+import Dashboard from './routes/dashboard/Dashboard';
 
 export const Router = createBrowserRouter([
 	{
@@ -64,6 +66,13 @@ export const Router = createBrowserRouter([
 						path: 'profile/:profileId/account-setting',
 						element: <EditUser />,
 					},
+				],
+			},
+			{
+				element: <DashboardLayout />,
+				path: 'dashboard',
+				children: [
+					{ index: true, element: <Dashboard /> },
 				],
 			},
 			{

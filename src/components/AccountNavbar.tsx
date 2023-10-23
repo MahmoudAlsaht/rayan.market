@@ -12,7 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import defaultAvatar from '../default_avatar.png';
 import { BsJustify } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { IUser, fetchUser, logOut } from '../controllers/user';
+import { fetchUser, logOut } from '../controllers/user';
+import { IUser } from '../app/auth/auth';
 
 function AccountNavbar() {
 	const [show, setShow] = useState(false);
