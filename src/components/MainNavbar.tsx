@@ -158,10 +158,10 @@ function MainNavbar() {
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
 						<Nav.Link href='/'>Store</Nav.Link>
-						<Nav.Link href='/categories'>
+						<Nav.Link href='/store/categories'>
 							Categories
 						</Nav.Link>
-						<Nav.Link href='/products'>
+						<Nav.Link href='/store/products'>
 							Products
 						</Nav.Link>
 						<Nav.Link href='/about'>About</Nav.Link>
