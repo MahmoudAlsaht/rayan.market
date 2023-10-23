@@ -12,8 +12,8 @@ import EditUser from './routes/account/EditUser';
 import ResetPassword from './routes/ResetPassword';
 import NotFound404 from './routes/NotFound404';
 import { motion } from 'framer-motion';
-import Categories from './routes/store/Categories';
 import Products from './routes/store/Products';
+import Category from './routes/store/Category';
 
 export const Router = createBrowserRouter([
 	{
@@ -31,10 +31,13 @@ export const Router = createBrowserRouter([
 				path: 'store',
 				children: [
 					{
-						path: 'categories',
-						element: <Categories />,
+						path: 'categories/:categoryId/products',
+						element: <Category />,
 					},
-					{ path: 'products', element: <Products /> },
+					{
+						path: 'products',
+						element: <Products />,
+					},
 				],
 			},
 			{

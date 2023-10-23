@@ -19,12 +19,16 @@ function CarouselTicker({ category }: CarouselTickerProps) {
 	return (
 		<>
 			<h2 className='text-danger text-center'>
-				{category?.name}
+				<Link
+					to={`/store/categories/${category.id}/products`}
+				>
+					{category?.name}
+				</Link>
 			</h2>
 			<Ticker duration={20}>
 				{colors.map((color, index) => (
 					<Link
-						to='#'
+						to={`/store/categories/${category.id}/products`}
 						key={index}
 						style={{
 							backgroundColor: color,

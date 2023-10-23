@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { ICategory } from '../app/store/category';
 import CarouselTicker from '../components/CarouselTicker';
-import { fetchLatestCategories } from '../controllers/category';
+import { fetchCategories } from '../controllers/category';
 
 function Home() {
 	const dispatch = useAppDispatch();
@@ -11,13 +11,13 @@ function Home() {
 	);
 
 	useEffect(() => {
-		dispatch(fetchLatestCategories());
+		dispatch(fetchCategories());
 	}, [dispatch]);
 
 	return (
 		<>
 			{categories != null &&
-				categories.map((category) => (
+				categories!.map((category) => (
 					<CarouselTicker
 						key={category?.id}
 						category={category}
