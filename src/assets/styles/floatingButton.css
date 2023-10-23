@@ -2,12 +2,19 @@
 	position:fixed;
 	width:60px;
 	height:60px;
+	bottom:110px;
+	right:40px;
+	background-color:#0Cb;
+	text-align:center;
+}
+.floatingDropDown {
+	position:fixed;
+	width:60px;
+	height:60px;
 	bottom:40px;
 	right:40px;
 	background-color:#0Cb;
-	color:#FFF;
 	text-align:center;
-	box-shadow: 2px 2px 3px #999;
 }
 
 .floatingButton:hover {
@@ -17,4 +24,8 @@
 .floatingButtonIcon{
 	margin: 0 auto;
     font-size: xx-large;
+}
+
+.dropdown-toggle::after {
+	display: none;
 }
