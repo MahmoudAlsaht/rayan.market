@@ -171,12 +171,22 @@ function MainNavbar() {
 
 						{user != null ? (
 							<div>
-								<Nav.Link
-									href={`/account/profile/${user.profile}`}
-									onClick={handleClick}
-								>
-									Profile
-								</Nav.Link>
+								{user.isAdmin ? (
+									<Nav.Link
+										href='/dashboard'
+										onClick={handleClick}
+									>
+										Dashboard
+									</Nav.Link>
+								) : (
+									<Nav.Link
+										href={`/account/profile/${user.profile}`}
+										onClick={handleClick}
+									>
+										Profile
+									</Nav.Link>
+								)}
+
 								<Nav.Link
 									href='#'
 									onClick={handleLogout}
