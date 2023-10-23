@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Button, Form, Modal, Image } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { createCategory } from '../../controllers/category';
@@ -15,54 +15,16 @@ function AddCategoryForm({
 }: AddCategoryFormProps) {
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [reviewImage, setReviewImage] = useState<
-		string | null
-	>(null);
-	const [selectedImage, setSelectedImage] =
-		useState<File | null>(null);
 	const [error, setError] = useState<IError>({
 		status: null,
 		message: '',
 	});
 	const categoryNameRef = useRef<HTMLInputElement>(null);
 
-	const updateImage = (e: ChangeEvent<HTMLInputElement>) => {
-		if (!e.target.files) return;
-		const files: FileList | null = e.target.files;
-		setSelectedImage(files[0]);
-		setReviewImage(URL.createObjectURL(files[0]));
-	};
-
-	const handleFileChange = (e: ChangeEvent) => {
-		const form = e.currentTarget as HTMLInputElement;
-
-		updateImage(e as ChangeEvent<HTMLInputElement>);
-
-		if (
-			selectedImage == null ||
-			selectedImage.name === '' ||
-			form.checkValidity() === false
-		) {
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'please provide all the missing fields',
-			});
-		} else {
-			setValidated(true);
-			setError({
-				status: true,
-				message: 'looks good!',
-			});
-		}
-	};
-
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
 			categoryNameRef.current?.value === '' ||
-			selectedImage == null ||
-			selectedImage.name === '' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -92,10 +54,8 @@ function AddCategoryForm({
 			} else {
 				await createCategory(
 					categoryNameRef.current?.value as string,
-					selectedImage,
 				);
 				setIsLoading(false);
-				setSelectedImage(null);
 				handleClose();
 			}
 		} catch (e: any) {
@@ -123,27 +83,6 @@ function AddCategoryForm({
 				>
 					<Modal.Body className='text-muted'>
 						<ErrorComponent error={error} />
-
-						{reviewImage && (
-							<Image
-								className='rounded'
-								src={reviewImage}
-								width={130}
-								height={130}
-								alt='profileImage'
-							/>
-						)}
-						<Form.Group
-							controlId='categoryImage'
-							className='mt-2 mb-3'
-						>
-							<Form.Control
-								type='file'
-								onChange={handleFileChange}
-								required
-							/>
-						</Form.Group>
-						<hr />
 
 						<Form.Group
 							className='mt-3 mb-3'

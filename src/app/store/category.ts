@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import {
-	fetchCategories,
-	fetchLatestCategories,
-} from '../../controllers/category';
+import { fetchCategories } from '../../controllers/category';
 import { DocumentData } from 'firebase/firestore';
 
 export type ICategory = Partial<DocumentData> & {
@@ -11,7 +8,6 @@ export type ICategory = Partial<DocumentData> & {
 	name: string;
 	products: string[];
 	createdAt: Date;
-	latest: boolean;
 };
 
 const initialState: ICategory[] | any = null;
@@ -23,13 +19,6 @@ export const CategoriesSlice = createSlice({
 	extraReducers(builder) {
 		builder.addCase(
 			fetchCategories.fulfilled,
-			(state, action) => {
-				state = action.payload;
-				return state;
-			},
-		);
-		builder.addCase(
-			fetchLatestCategories.fulfilled,
 			(state, action) => {
 				state = action.payload;
 				return state;
