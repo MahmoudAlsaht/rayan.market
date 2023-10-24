@@ -72,17 +72,17 @@ function MainNavbar() {
 											width={30}
 											height={30}
 											src={
-												user?.photoURL ==
-												null
-													? defaultAvatar
-													: user?.photoURL
+												user?.photoURL ||
+												defaultAvatar
 											}
 										/>
 									}
 									id='collapsible-nav-dropdown'
 								>
-									{user.isAdmin ? (
-										<NavDropdown.Item href='/dashboard'>
+									{user?.isAdmin ? (
+										<NavDropdown.Item
+											href={`/dashboard/admin/${user?.profile}`}
+										>
 											Dashboard
 										</NavDropdown.Item>
 									) : (

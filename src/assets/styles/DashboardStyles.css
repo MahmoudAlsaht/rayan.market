@@ -1,0 +1,47 @@
+.offcanvas {
+    background-color: #314146;
+    color: #f7f7f7;
+    transition: all 0.5s;
+}
+
+.logo {
+    transition: all 0.5s;
+}
+
+.offcanvas.title {
+    transition: all 0.5s;
+}
+
+.resizeOffcanvas{
+    width:10% !important;
+    transition: all 0.5s;
+}
+
+.arrowIcon {
+    cursor: pointer;
+}
+
+.offcanvas-backdrop.show {
+    opacity: .0;
+}
+
+.nav-item {
+    transition: all 0.5s;
+}
+
+.nav-link {
+    color: #f7f7f7;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #f7f7f7;
+    text-decoration: none;
+}
+.nav-item:hover {
+    background-color: #cacbcc60;
+}
+
+.offcanvas.body {
+    transition: all 0.5s;
+}

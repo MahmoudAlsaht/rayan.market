@@ -1,5 +1,8 @@
+import { useParams } from 'react-router-dom';
+
 function Dashboard() {
-	return <div>Dashboard</div>;
+	const { adminId } = useParams();
+	return <div>{adminId}</div>;
 }
 
 export default Dashboard;
