@@ -6,6 +6,7 @@
 
 .logo {
     transition: all 0.5s;
+    cursor: pointer;
 }
 
 .offcanvas.title {
@@ -19,6 +20,7 @@
 
 .arrowIcon {
     cursor: pointer;
+    font-size: 25px;
 }
 
 .offcanvas-backdrop.show {

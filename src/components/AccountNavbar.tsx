@@ -26,6 +26,9 @@ function AccountNavbar() {
 		(state) => state.user,
 	);
 
+	const isAccountSettingPage =
+		window.location.pathname.includes('account-setting');
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -86,11 +89,25 @@ function AccountNavbar() {
 								}
 								id='collapsible-nav-dropdown'
 							>
-								<NavDropdown.Item
-									href={`/account/profile/${user?.profile}/account-setting`}
-								>
-									Account Settings
-								</NavDropdown.Item>
+								{!isAccountSettingPage ? (
+									<NavDropdown.Item
+										href={`/account/profile/${user?.profile}/account-setting`}
+									>
+										Account Settings
+									</NavDropdown.Item>
+								) : user?.isAdmin ? (
+									<NavDropdown.Item
+										href={`/dashboard/admin/${user?.profile}`}
+									>
+										Dashboard
+									</NavDropdown.Item>
+								) : (
+									<NavDropdown.Item
+										href={`/account/profile/${user?.profile}`}
+									>
+										Profile
+									</NavDropdown.Item>
+								)}
 								<NavDropdown.Divider />
 								<NavDropdown.Item
 									onClick={handleLogout}

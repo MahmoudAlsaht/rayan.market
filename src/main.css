@@ -5,12 +5,13 @@
     width: 100%;
 }
 
+body {
+    background-color: #F8F9FA;
+}
+
 a {
     text-decoration: none;
     color: #5d5d57;
-}
-body {
-    background-color: #F8F9FA;
 }
 
 .dropdown>a::after {
