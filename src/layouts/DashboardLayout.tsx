@@ -7,7 +7,7 @@ import {
 	BsArrowRightCircle,
 } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser } from '../controllers/user';
+import { fetchUser, logOut } from '../controllers/user';
 import { IUser } from '../app/auth/auth';
 
 export default function AuthLayout() {
@@ -24,6 +24,11 @@ export default function AuthLayout() {
 	}, [dispatch]);
 
 	const handleResize = () => setShow(!show);
+	const handleLogout = async () => {
+		await logOut();
+		dispatch(fetchUser());
+		navigate('/');
+	};
 
 	return (
 		<>
@@ -66,17 +71,41 @@ export default function AuthLayout() {
 				<Offcanvas.Body>
 					<Nav className='flex-column arb-text'>
 						<Nav.Item>
+							<Nav.Link href='/'>
+								Back To Store
+							</Nav.Link>
+						</Nav.Item>
+						<hr />
+						<h5 className='text-center mb-3'>
+							Settings
+						</h5>
+						<Nav.Item>
 							<Nav.Link
 								href={`/account/profile/${user?.profile}/account-setting`}
 							>
-								Settings
+								Admin Settings
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link>Option 2</Nav.Link>
+							<Nav.Link href='/users-settings'>
+								Users Settings
+							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link>Disabled</Nav.Link>
+							<Nav.Link href='/categories-settings'>
+								Categories Settings
+							</Nav.Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link href='/products-settings'>
+								Products Settings
+							</Nav.Link>
+						</Nav.Item>
+						<hr />
+						<Nav.Item>
+							<Nav.Link onClick={handleLogout}>
+								logout
+							</Nav.Link>
 						</Nav.Item>
 					</Nav>
 				</Offcanvas.Body>

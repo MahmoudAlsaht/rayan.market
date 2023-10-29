@@ -32,7 +32,7 @@
 }
 
 .nav-link {
-    color: #f7f7f7;
+    color: #67bbeb;
     text-decoration: none;
 }
 
@@ -46,4 +46,29 @@
 
 .offcanvas.body {
     transition: all 0.5s;
+}
+
+
+@media (max-width:600px) {
+    .resizeOffcanvas{
+        width:30% !important;
+    }
+}
+
+@media (max-width:400px) {
+    .resizeOffcanvas{
+        width:35% !important;
+    }
+}
+
+@media (max-width:330px) {
+    .resizeOffcanvas{
+        width:40% !important;
+    }
+}
+
+@media (max-width:290px) {
+    .resizeOffcanvas{
+        width:45% !important;
+    }
 }
