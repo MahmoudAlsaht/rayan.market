@@ -19,6 +19,9 @@ export default function AuthLayout() {
 		(state) => state.user,
 	);
 
+	const isDashboardHomePage =
+		window.location.pathname.includes('settings');
+
 	useEffect(() => {
 		dispatch(fetchUser());
 	}, [dispatch]);
@@ -79,6 +82,15 @@ export default function AuthLayout() {
 						<h5 className='text-center mb-3'>
 							Settings
 						</h5>
+						{isDashboardHomePage && (
+							<Nav.Item>
+								<Nav.Link
+									href={`/dashboard/admin/${user?.profile}`}
+								>
+									Dashboard
+								</Nav.Link>
+							</Nav.Item>
+						)}
 						<Nav.Item>
 							<Nav.Link
 								href={`/account/profile/${user?.profile}/account-setting`}
