@@ -46,12 +46,12 @@ function Widget({ widgetTitle }: widgetProps) {
 						text below as a natural lead-in to
 						additional content. This content is a
 						little bit longer.
-						<p
-							className='card-link'
+						<legend
+							className='card-link lead'
 							style={{ color: '#0055aa' }}
 						>
 							see more <BsArrowRight />
-						</p>
+						</legend>
 					</Card.Text>
 				</Card.Body>
 			</Card>
