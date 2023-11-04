@@ -99,17 +99,17 @@ export default function AuthLayout() {
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/users-settings'>
+							<Nav.Link href='/settings/users'>
 								Users Settings
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/categories-settings'>
+							<Nav.Link href='/settings/categories'>
 								Categories Settings
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/products-settings'>
+							<Nav.Link href='/settings/products'>
 								Products Settings
 							</Nav.Link>
 						</Nav.Item>
