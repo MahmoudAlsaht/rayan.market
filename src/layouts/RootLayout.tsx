@@ -3,7 +3,6 @@ import MainNavbar from '../components/MainNavbar';
 import FloatingButton from '../components/FloatingButton';
 import { BsPlusLg, BsCart } from 'react-icons/bs';
 import { useState } from 'react';
-import AddCategoryForm from '../components/forms/AddCategoryForm';
 import {
 	Dropdown,
 	DropdownButton,
@@ -50,11 +49,6 @@ function RootLayout() {
 					Add Product
 				</Dropdown.Item>
 			</DropdownButton>
-
-			<AddCategoryForm
-				show={showAddCategoryForm}
-				handleClose={handleClickAddCat}
-			/>
 		</>
 	);
 }

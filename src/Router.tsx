@@ -16,6 +16,7 @@ import Products from './routes/store/Products';
 import Category from './routes/store/Category';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './routes/dashboard/Dashboard';
+import CategoriesSettings from './routes/dashboard/CategoriesSettings';
 
 export const Router = createBrowserRouter([
 	{
@@ -75,6 +76,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'admin/:adminId',
 						element: <Dashboard />,
+					},
+					{
+						path: 'settings/categories',
+						element: <CategoriesSettings />,
 					},
 				],
 			},

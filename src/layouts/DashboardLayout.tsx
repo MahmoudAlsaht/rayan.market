@@ -52,7 +52,7 @@ export default function AuthLayout() {
 					<Offcanvas.Title>
 						{show ? (
 							<h4
-								className='logo'
+								className='logo ml-2'
 								onClick={() => navigate('/')}
 							>
 								mStore

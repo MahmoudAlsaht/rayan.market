@@ -113,11 +113,8 @@ export const updateProfileImage = async (
 		});
 
 		setCookies('user', {
-			email: data?.email,
-			username: data?.username,
+			...data,
 			photoURL: imageURL,
-			isAdmin: false,
-			profile: data?.profile,
 			docId,
 		});
 	} catch (e: any) {

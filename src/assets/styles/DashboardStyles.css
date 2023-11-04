@@ -14,7 +14,7 @@
 }
 
 .resizeOffcanvas{
-    width:10% !important;
+    width: 12% !important;
     transition: all 0.5s;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .offcanvas-backdrop.show {
-    opacity: .0;
+    display: none;
 }
 
 .nav-item {
@@ -49,26 +49,44 @@
 }
 
 
-@media (max-width:600px) {
+@media (max-width:860px) {
+    .resizeOffcanvas{
+        width: 20% !important;
+    }
+}
+
+@media (max-width:650px) {
+    .resizeOffcanvas{
+        width:25% !important;
+    }
+}
+
+@media (max-width:530px) {
     .resizeOffcanvas{
         width:30% !important;
     }
 }
 
-@media (max-width:400px) {
+@media (max-width:410px) {
     .resizeOffcanvas{
         width:35% !important;
     }
 }
 
-@media (max-width:330px) {
+@media (max-width:350px) {
     .resizeOffcanvas{
         width:40% !important;
     }
 }
 
-@media (max-width:290px) {
+@media (max-width:300px) {
     .resizeOffcanvas{
         width:45% !important;
+    }
+}
+
+@media (max-width:260px) {
+    .resizeOffcanvas{
+        width:50% !important;
     }
 }
