@@ -37,6 +37,8 @@ export default function AuthLayout() {
 		<>
 			<Offcanvas
 				show={true}
+				scroll={true}
+				backdrop={false}
 				placement='end'
 				className={!show && 'resizeOffcanvas'}
 			>
