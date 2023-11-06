@@ -4,6 +4,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { destroyUser } from '../../controllers/profile';
 import { useNavigate } from 'react-router-dom';
 import LoadingButton from '../LoadingButton';
+import { useAppDispatch } from '../../app/hooks';
 
 function DeleteUser({
 	profileId,
@@ -14,6 +15,8 @@ function DeleteUser({
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
+	const dispatch = useAppDispatch();
+
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -39,9 +42,12 @@ function DeleteUser({
 					message: 'invalid fields',
 				});
 			} else {
-				await destroyUser(
-					passwordRef.current?.value as string,
-					profileId,
+				await dispatch(
+					destroyUser({
+						password: passwordRef.current
+							?.value as string,
+						profileId: profileId,
+					}),
 				);
 				handleClose();
 				setIsLoading(false);

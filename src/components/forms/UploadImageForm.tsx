@@ -5,6 +5,7 @@ import { IUser } from '../../app/auth/auth';
 import ErrorComponent, { IError } from '../Error';
 import { updateProfileImage } from '../../controllers/profile';
 import LoadingButton from '../LoadingButton';
+import { useAppDispatch } from '../../app/hooks';
 
 function UploadImageForm({
 	profileOwner,
@@ -15,6 +16,8 @@ function UploadImageForm({
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
+	const dispatch = useAppDispatch();
+
 	const [reviewImage, setReviewImage] = useState(
 		profileOwner?.photoURL,
 	);
@@ -73,10 +76,13 @@ function UploadImageForm({
 					message: 'invalid fields',
 				});
 			} else {
-				await updateProfileImage(
-					selectedImage,
-					passwordRef.current?.value as string,
-					profileOwner?.uid as string,
+				await dispatch(
+					updateProfileImage({
+						imageFile: selectedImage,
+						password: passwordRef.current
+							?.value as string,
+						uid: profileOwner?.uid as string,
+					}),
 				);
 				setIsLoading(false);
 				setSelectedImage(null);

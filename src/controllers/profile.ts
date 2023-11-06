@@ -36,124 +36,158 @@ export const fetchProfile = createAsyncThunk(
 	},
 );
 
-export const updateUserInfo = async (
-	data: any,
-	docId: string,
-) => {
-	try {
-		const { email, username, currentPassword } = data;
-		const user = await checkAuth(currentPassword);
+export const updateUserEmailAndUsername = createAsyncThunk(
+	'profile/updateUserEmailAndUsername',
+	async (options: { data: any; docId: string }) => {
+		const { data, docId } = options;
 
-		!user?.emailVerified
-			? await verifyBeforeUpdateEmail(user!, email)
-			: await updateEmail(user!, email);
+		try {
+			const { email, username, currentPassword } = data;
+			const user = await checkAuth(currentPassword);
 
-		if (username)
-			await updateProfile(user!, {
-				displayName: username,
+			!user?.emailVerified
+				? await verifyBeforeUpdateEmail(user!, email)
+				: await updateEmail(user!, email);
+
+			if (username)
+				await updateProfile(user!, {
+					displayName: username,
+				});
+
+			await updateDocs('users', docId, {
+				email: user?.email,
+				username: user?.displayName,
 			});
 
-		await updateDocs('users', docId, {
-			email: user?.email,
-			username: user?.displayName,
-		});
+			const userData =
+				(await getData(
+					'users',
+					'uid',
+					user?.uid as string,
+				)) ?? {};
+			setCookies('user', {
+				...userData.data,
+				email: data?.email,
+				username: data?.username,
+				docId,
+			});
 
-		const userData =
-			(await getData(
+			return { user: userData.data, docId };
+		} catch (e: any) {
+			throw new Error(
+				'Something went wrong, Please check your credential and try again later.',
+			);
+		}
+	},
+);
+
+export const updateUserPassword = createAsyncThunk(
+	'profile/updateUserPassword',
+	async (data: any) => {
+		try {
+			const { newPassword, currentPassword } = data;
+			const user = await checkAuth(currentPassword);
+
+			if (newPassword)
+				await updatePassword(user!, newPassword);
+
+			const userData =
+				(await getData(
+					'users',
+					'uid',
+					user?.uid as string,
+				)) ?? {};
+
+			return {
+				user: userData?.data,
+				docId: userData?.docId,
+			};
+		} catch (e: any) {
+			throw new Error(
+				'Something went wrong, Please check your credential and try again later.',
+			);
+		}
+	},
+);
+
+export const updateProfileImage = createAsyncThunk(
+	'profile/updateProfileImage',
+	async (options: {
+		imageFile: File | null;
+		password: string;
+		uid: string;
+	}) => {
+		const { imageFile, password, uid } = options;
+		try {
+			await checkAuth(password);
+
+			const { data, docId } =
+				(await getData('users', 'uid', uid)) ?? {};
+
+			const imageURL = await uploadImage(
+				imageFile,
+				uid,
+				'profilesImages',
+			);
+
+			await updateDocs('users', docId!, {
+				photoURL: imageURL,
+			});
+
+			setCookies('user', {
+				...data,
+				photoURL: imageURL,
+				docId,
+			});
+
+			const userData =
+				(await getData('users', 'uid', uid as string)) ??
+				{};
+
+			return {
+				user: userData?.data,
+				docId: userData?.docId,
+			};
+		} catch (e: any) {
+			throw new Error(
+				'Something went wrong, Please check your credential and try again later.',
+			);
+		}
+	},
+);
+
+export const destroyUser = createAsyncThunk(
+	'profile/destroyUser',
+	async (options: { password: string; profileId: string }) => {
+		const { password, profileId } = options;
+		try {
+			const user = await checkAuth(password);
+
+			const userDoc: DocType | undefined = await getData(
 				'users',
 				'uid',
 				user?.uid as string,
-			)) ?? {};
-		setCookies('user', {
-			...userData.data,
-			email: data?.email,
-			username: data?.username,
-			docId,
-		});
-	} catch (e: any) {
-		throw new Error(
-			'Something went wrong, Please check your credential and try again later.',
-		);
-	}
-};
+			);
 
-export const updateUserPassword = async (data: any) => {
-	try {
-		const { newPassword, currentPassword } = data;
-		const user = await checkAuth(currentPassword);
+			const profileDoc: DocType | undefined =
+				await getData('profiles', 'id', profileId);
 
-		if (newPassword)
-			await updatePassword(user!, newPassword);
-	} catch (e: any) {
-		throw new Error(
-			'Something went wrong, Please check your credential and try again later.',
-		);
-	}
-};
-
-export const updateProfileImage = async (
-	imageFile: File | null,
-	password: string,
-	uid: string,
-) => {
-	try {
-		await checkAuth(password);
-
-		const { data, docId } =
-			(await getData('users', 'uid', uid)) ?? {};
-
-		const imageURL = await uploadImage(
-			imageFile,
-			uid,
-			'profilesImages',
-		);
-
-		await updateDocs('users', docId!, {
-			photoURL: imageURL,
-		});
-
-		setCookies('user', {
-			...data,
-			photoURL: imageURL,
-			docId,
-		});
-	} catch (e: any) {
-		throw new Error(
-			'Something went wrong, Please check your credential and try again later.',
-		);
-	}
-};
-
-export const destroyUser = async (
-	password: string,
-	profileId: string,
-) => {
-	try {
-		const user = await checkAuth(password);
-
-		const userDoc: DocType | undefined = await getData(
-			'users',
-			'uid',
-			user?.uid as string,
-		);
-
-		const profileDoc: DocType | undefined = await getData(
-			'profiles',
-			'id',
-			profileId,
-		);
-
-		await deleteImage(user?.uid as string, 'profilesImages');
-		await destroyDoc('users', userDoc!.docId!);
-		await destroyDoc('profiles', profileDoc!.docId!);
-		await deleteUser(user!);
-		removeCookies('user');
-	} catch (e: any) {
-		throw new Error(
-			'Something went wrong, Please try again later.',
-		);
-	}
-};
+			await deleteImage(
+				user?.uid as string,
+				'profilesImages',
+			);
+			await destroyDoc('users', userDoc!.docId!);
+			await destroyDoc('profiles', profileDoc!.docId!);
+			await deleteUser(user!);
+			removeCookies('user');
+			return null;
+		} catch (e: any) {
+			throw new Error(
+				'Something went wrong, Please try again later.',
+			);
+		}
+	},
+);
 
 const checkAuth = async (currentPassword: string) => {
 	try {

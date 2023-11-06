@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { updateUserPassword } from '../../controllers/profile';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
+import { useAppDispatch } from '../../app/hooks';
 
 function UpdatePasswordForm({
 	isLoading,
@@ -11,6 +12,8 @@ function UpdatePasswordForm({
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
+	const dispatch = useAppDispatch();
+
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -38,7 +41,7 @@ function UpdatePasswordForm({
 					currentPassword: passwordRef.current?.value,
 					newPassword: newPasswordRef.current?.value,
 				};
-				updateUserPassword(data);
+				await dispatch(updateUserPassword(data));
 				setIsLoading(false);
 				passwordRef.current!.value = '';
 				newPasswordRef.current!.value = '';

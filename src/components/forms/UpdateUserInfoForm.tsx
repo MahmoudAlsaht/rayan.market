@@ -1,7 +1,8 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { IUser } from '../../app/auth/auth';
-import { updateUserInfo } from '../../controllers/profile';
+import { updateUserEmailAndUsername } from '../../controllers/profile';
+import { useAppDispatch } from '../../app/hooks';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 
@@ -14,6 +15,7 @@ function UpdateUserInfoForm({
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
+	const dispatch = useAppDispatch();
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -42,7 +44,12 @@ function UpdateUserInfoForm({
 					email: emailRef.current?.value,
 					username: usernameRef.current?.value,
 				};
-				await updateUserInfo(data, profileOwner?.docId);
+				await dispatch(
+					updateUserEmailAndUsername({
+						data,
+						docId: profileOwner?.docId,
+					}),
+				);
 				setIsLoading(false);
 				emailRef.current!.value = '';
 				usernameRef.current!.value = '';

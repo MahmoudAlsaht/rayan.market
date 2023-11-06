@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import { fetchProfile } from '../../controllers/profile';
+import {
+	fetchProfile,
+	updateUserEmailAndUsername,
+	updateUserPassword,
+	updateProfileImage,
+	destroyUser,
+} from '../../controllers/profile';
 
 export type IProfile = {
 	uid: string;
@@ -16,6 +22,34 @@ export const ProfileSlice = createSlice({
 	extraReducers(builder) {
 		builder.addCase(
 			fetchProfile.fulfilled,
+			(state, action) => {
+				state = action.payload;
+				return state;
+			},
+		);
+		builder.addCase(
+			updateUserEmailAndUsername.fulfilled,
+			(state, action) => {
+				state = action.payload;
+				return state;
+			},
+		);
+		builder.addCase(
+			updateUserPassword.fulfilled,
+			(state, action) => {
+				state = action.payload;
+				return state;
+			},
+		);
+		builder.addCase(
+			updateProfileImage.fulfilled,
+			(state, action) => {
+				state = action.payload;
+				return state;
+			},
+		);
+		builder.addCase(
+			destroyUser.fulfilled,
 			(state, action) => {
 				state = action.payload;
 				return state;
