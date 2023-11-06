@@ -5,6 +5,7 @@ import { fetchCategories } from '../../controllers/category';
 import { BsPlusLg } from 'react-icons/bs';
 import AddCategoryForm from '../../components/forms/AddCategoryForm';
 import { Table, Button, Container } from 'react-bootstrap';
+import CategorySettings from '../../components/dashboardComponents/CategorySettings';
 
 function CategoriesSettings() {
 	const [showAddCategoryForm, setShowAddCategoryForm] =
@@ -44,16 +45,12 @@ function CategoriesSettings() {
 					</thead>
 					<tbody>
 						{categories?.map((category, index) => (
-							<tr key={category?.id}>
-								<td>{index + 1}</td>
-								<td>{category?.name}</td>
-								<td>{category?.id}</td>
-								<td>
-									<Button variant='outline-warning'>
-										Edit
-									</Button>
-								</td>
-							</tr>
+							<CategorySettings
+								key={category?.id}
+								categoryId={category?.id}
+								index={index}
+								categoryName={category?.name}
+							/>
 						))}
 					</tbody>
 				</Table>

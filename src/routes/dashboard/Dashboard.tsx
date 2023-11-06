@@ -1,6 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import '../../assets/styles/Dashboard.css';
-import Widget from '../../components/Widget';
+import Widget from '../../components/dashboardComponents/Widget';
 
 function Dashboard() {
 	const adminWidgets = [

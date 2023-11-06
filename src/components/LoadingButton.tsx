@@ -8,6 +8,7 @@ type ButtonProps = {
 	className?: string;
 	isLoading?: boolean;
 	disabled?: boolean;
+	handleClick?: () => void;
 };
 
 function LoadingButton({
@@ -15,6 +16,7 @@ function LoadingButton({
 	variant,
 	type,
 	className,
+	handleClick,
 	isLoading = false,
 	disabled = false,
 }: ButtonProps) {
@@ -28,6 +30,7 @@ function LoadingButton({
 					className={`${className} btn btn-outline-${variant}`}
 					value={body}
 					type={type}
+					onClick={handleClick}
 				/>
 			)}
 		</>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { fetchUser } from '../controllers/user';
-import { IUser } from '../app/auth/auth';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { fetchUser } from '../../controllers/user';
+import { IUser } from '../../app/auth/auth';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { BsArrowRight } from 'react-icons/bs';

@@ -3,6 +3,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { createCategory } from '../../controllers/category';
+import { useAppDispatch } from '../../app/hooks';
 
 type AddCategoryFormProps = {
 	show: boolean;
@@ -13,6 +14,8 @@ function AddCategoryForm({
 	show,
 	handleClose,
 }: AddCategoryFormProps) {
+	const dispatch = useAppDispatch();
+
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<IError>({
@@ -52,8 +55,10 @@ function AddCategoryForm({
 					message: 'invalid fields',
 				});
 			} else {
-				await createCategory(
-					categoryNameRef.current?.value as string,
+				await dispatch(
+					createCategory(
+						categoryNameRef.current?.value as string,
+					),
 				);
 				setIsLoading(false);
 				handleClose();
