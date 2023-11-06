@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import { fetchCategories } from '../../controllers/category';
+import {
+	fetchCategories,
+	createCategory,
+} from '../../controllers/category';
 import { DocumentData } from 'firebase/firestore';
 
 export type ICategory = Partial<DocumentData> & {
@@ -21,6 +24,13 @@ export const CategoriesSlice = createSlice({
 			fetchCategories.fulfilled,
 			(state, action) => {
 				state = action.payload;
+				return state;
+			},
+		);
+		builder.addCase(
+			createCategory.fulfilled,
+			(state, action) => {
+				state = [...state, action.payload];
 				return state;
 			},
 		);
