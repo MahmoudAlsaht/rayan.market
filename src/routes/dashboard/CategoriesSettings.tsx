@@ -32,7 +32,6 @@ function CategoriesSettings() {
 						<tr>
 							<th>#</th>
 							<th>Name</th>
-							<th>Id</th>
 							<th>
 								<Button
 									onClick={handleClickAddCat}

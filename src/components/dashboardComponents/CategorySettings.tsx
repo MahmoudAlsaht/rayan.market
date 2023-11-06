@@ -61,7 +61,6 @@ function CategorySettings({
 						/>
 					</td>
 				)}
-				<td>{categoryId}</td>
 				<td>
 					{!isEditing ? (
 						<legend>
