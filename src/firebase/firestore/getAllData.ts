@@ -10,7 +10,7 @@ export const getAllData = async (collectionName: string) => {
 	try {
 		const data = await query(
 			collection(db, collectionName),
-			orderBy('createdAt', 'desc'),
+			orderBy('createdAt'),
 		);
 		const dataSnapshot = await getDocs(data);
 		const dataList = dataSnapshot.docs.map((doc) =>
