@@ -43,3 +43,27 @@ export const createCategory = createAsyncThunk(
 		}
 	},
 );
+
+export const updateCategory = createAsyncThunk(
+	'categories/putCategory',
+	async (options: {
+		collectionName: string;
+		docId: string;
+		data: any;
+	}) => {
+		try {
+			const { collectionName, docId, data } = options;
+			await updateDocs(collectionName, docId, data);
+
+			const category: DocumentData = await getData(
+				'categories',
+				'id',
+				docId,
+			);
+
+			return category.data;
+		} catch (e) {
+			throw new Error('Sorry, Something went wrong!!!');
+		}
+	},
+);

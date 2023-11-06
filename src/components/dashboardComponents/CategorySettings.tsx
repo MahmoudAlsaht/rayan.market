@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import LoadingButton from '../LoadingButton';
+import { useAppDispatch } from '../../app/hooks';
+import { updateCategory } from '../../controllers/category';
 
 type CategorySettingsProps = {
 	categoryId: string;
@@ -13,13 +15,25 @@ function CategorySettings({
 	categoryName,
 	index,
 }: CategorySettingsProps) {
+	const dispatch = useAppDispatch();
 	const [isEditing, setIsEditing] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+
+	const nameRef = useRef<HTMLInputElement>(null);
 
 	const handleIsEditing = () => setIsEditing(!isEditing);
 
 	const handleCategoryUpdate = async () => {
 		try {
+			await dispatch(
+				updateCategory({
+					collectionName: 'categories',
+					docId: categoryId,
+					data: {
+						name: nameRef.current?.value,
+					},
+				}),
+			);
 			setIsLoading(true);
 			handleIsEditing();
 			setIsLoading(false);
@@ -40,6 +54,7 @@ function CategorySettings({
 						<input
 							type='text'
 							defaultValue={categoryName}
+							ref={nameRef}
 						/>
 					</td>
 				)}
