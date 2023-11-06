@@ -4,6 +4,7 @@ import { DocumentData } from 'firebase/firestore';
 import addData from '../firebase/firestore/addData';
 import updateDocs from '../firebase/firestore/updateDoc';
 import getData from '../firebase/firestore/getData';
+import destroyDoc from '../firebase/firestore/deleteDoc';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
@@ -46,14 +47,10 @@ export const createCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
 	'categories/putCategory',
-	async (options: {
-		collectionName: string;
-		docId: string;
-		data: any;
-	}) => {
+	async (options: { docId: string; data: any }) => {
 		try {
-			const { collectionName, docId, data } = options;
-			await updateDocs(collectionName, docId, data);
+			const { docId, data } = options;
+			await updateDocs('categories', docId, data);
 
 			const category: DocumentData = await getData(
 				'categories',
@@ -62,6 +59,19 @@ export const updateCategory = createAsyncThunk(
 			);
 
 			return category.data;
+		} catch (e) {
+			throw new Error('Sorry, Something went wrong!!!');
+		}
+	},
+);
+
+export const destroyCategory = createAsyncThunk(
+	'categories/destroyCategory',
+	async (docId: string) => {
+		try {
+			await destroyDoc('categories', docId);
+
+			return docId;
 		} catch (e) {
 			throw new Error('Sorry, Something went wrong!!!');
 		}

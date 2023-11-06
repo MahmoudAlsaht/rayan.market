@@ -4,6 +4,7 @@ import {
 	fetchCategories,
 	createCategory,
 	updateCategory,
+	destroyCategory,
 } from '../../controllers/category';
 import { DocumentData } from 'firebase/firestore';
 
@@ -39,9 +40,21 @@ export const CategoriesSlice = createSlice({
 			updateCategory.fulfilled,
 			(state, action) => {
 				state = state.map((category: ICategory) => {
-					if (category.id === action.payload.id)
-						return action.payload;
-					return category;
+					return category.id === action.payload.id
+						? action.payload
+						: category;
+				});
+				return state;
+			},
+		);
+		builder.addCase(
+			destroyCategory.fulfilled,
+			(state, action) => {
+				state = state.filter((category: ICategory) => {
+					return (
+						category.id !== action.payload &&
+						category
+					);
 				});
 				return state;
 			},

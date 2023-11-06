@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import LoadingButton from '../LoadingButton';
 import { useAppDispatch } from '../../app/hooks';
 import { updateCategory } from '../../controllers/category';
+import DeleteCategoryForm from '../forms/DeleteCategoryForm';
 
 type CategorySettingsProps = {
 	categoryId: string;
@@ -18,6 +19,7 @@ function CategorySettings({
 	const dispatch = useAppDispatch();
 	const [isEditing, setIsEditing] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [show, setShow] = useState(false);
 
 	const nameRef = useRef<HTMLInputElement>(null);
 
@@ -27,7 +29,6 @@ function CategorySettings({
 		try {
 			await dispatch(
 				updateCategory({
-					collectionName: 'categories',
 					docId: categoryId,
 					data: {
 						name: nameRef.current?.value,
@@ -42,6 +43,8 @@ function CategorySettings({
 			setIsLoading(false);
 		}
 	};
+
+	const handleCategoryDeletion = async () => setShow(!show);
 
 	return (
 		<>
@@ -61,12 +64,33 @@ function CategorySettings({
 				<td>{categoryId}</td>
 				<td>
 					{!isEditing ? (
-						<Button
-							variant='outline-warning'
-							onClick={handleIsEditing}
-						>
-							Edit
-						</Button>
+						<legend>
+							<Button
+								variant='outline-warning'
+								onClick={handleIsEditing}
+							>
+								Edit
+							</Button>
+
+							<LoadingButton
+								className='w-25 ms-1'
+								variant='danger'
+								body='Delete'
+								handleClick={
+									handleCategoryDeletion
+								}
+								type='button'
+								isLoading={isLoading}
+							/>
+							<DeleteCategoryForm
+								categoryId={categoryId}
+								show={show}
+								handleClose={
+									handleCategoryDeletion
+								}
+								categoryName={categoryName}
+							/>
+						</legend>
 					) : (
 						<legend>
 							<Button
