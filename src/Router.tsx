@@ -17,6 +17,7 @@ import Category from './routes/store/Category';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './routes/dashboard/Dashboard';
 import CategoriesSettings from './routes/dashboard/CategoriesSettings';
+import ProductsSettings from './routes/dashboard/ProductsSettings';
 
 export const Router = createBrowserRouter([
 	{
@@ -80,6 +81,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/categories',
 						element: <CategoriesSettings />,
+					},
+					{
+						path: 'settings/products',
+						element: <ProductsSettings />,
 					},
 				],
 			},

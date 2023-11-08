@@ -1,9 +1,9 @@
 import Ticker from 'framer-motion-ticker';
 import { Link } from 'react-router-dom';
-import { ICategory } from '../app/store/category';
+import { Category } from '../app/store/category';
 
 type CarouselTickerProps = {
-	category: ICategory;
+	category: Category;
 	name?: string;
 };
 

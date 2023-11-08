@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { ICategory } from '../app/store/category';
+import { Category } from '../app/store/category';
 import CarouselTicker from '../components/CarouselTicker';
 import { fetchCategories } from '../controllers/category';
 
 function Home() {
 	const dispatch = useAppDispatch();
-	const categories: ICategory[] | null = useAppSelector(
+	const categories: Category[] | null = useAppSelector(
 		(state) => state.categories,
 	);
 

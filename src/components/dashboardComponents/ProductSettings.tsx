@@ -2,20 +2,20 @@ import { useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import LoadingButton from '../LoadingButton';
 import { useAppDispatch } from '../../app/hooks';
-import { updateCategory } from '../../controllers/category';
-import DeleteCategoryForm from '../forms/DeleteCategoryForm';
+import { updateProduct } from '../../controllers/product';
+import DeleteProductForm from '../forms/DeleteProductForm';
 
-type CategorySettingsProps = {
-	categoryId: string;
+type ProductSettingsProps = {
+	productId: string;
 	index: number;
-	categoryName: string;
+	productName: string;
 };
 
-function CategorySettings({
-	categoryId,
-	categoryName,
+function ProductSettings({
+	productId,
+	productName,
 	index,
-}: CategorySettingsProps) {
+}: ProductSettingsProps) {
 	const dispatch = useAppDispatch();
 	const [isEditing, setIsEditing] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -25,11 +25,11 @@ function CategorySettings({
 
 	const handleIsEditing = () => setIsEditing(!isEditing);
 
-	const handleCategoryUpdate = async () => {
+	const handleProductUpdate = async () => {
 		try {
 			await dispatch(
-				updateCategory({
-					docId: categoryId,
+				updateProduct({
+					docId: productId,
 					data: {
 						name: nameRef.current?.value,
 					},
@@ -39,23 +39,24 @@ function CategorySettings({
 			handleIsEditing();
 			setIsLoading(false);
 		} catch (e: any) {
+			console.log(e);
 			setIsLoading(false);
 		}
 	};
 
-	const handleCategoryDeletion = async () => setShow(!show);
+	const handleProductDeletion = async () => setShow(!show);
 
 	return (
 		<>
 			<tr>
 				<td>{index + 1}</td>
 				{!isEditing ? (
-					<td>{categoryName}</td>
+					<td>{productName}</td>
 				) : (
 					<td>
 						<input
 							type='text'
-							defaultValue={categoryName}
+							defaultValue={productName}
 							ref={nameRef}
 						/>
 					</td>
@@ -75,18 +76,18 @@ function CategorySettings({
 								variant='danger'
 								body='Delete'
 								handleClick={
-									handleCategoryDeletion
+									handleProductDeletion
 								}
 								type='button'
 								isLoading={isLoading}
 							/>
-							<DeleteCategoryForm
-								categoryId={categoryId}
+							<DeleteProductForm
+								productId={productId}
 								show={show}
 								handleClose={
-									handleCategoryDeletion
+									handleProductDeletion
 								}
-								categoryName={categoryName}
+								productName={productName}
 							/>
 						</legend>
 					) : (
@@ -102,9 +103,7 @@ function CategorySettings({
 								className='w-25 ms-1'
 								variant='primary'
 								body='Save'
-								handleClick={
-									handleCategoryUpdate
-								}
+								handleClick={handleProductUpdate}
 								type='button'
 								isLoading={isLoading}
 							/>
@@ -116,4 +115,4 @@ function CategorySettings({
 	);
 }
 
-export default CategorySettings;
+export default ProductSettings;

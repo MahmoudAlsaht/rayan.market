@@ -1,60 +1,58 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import {
-	fetchCategories,
-	createCategory,
-	updateCategory,
-	destroyCategory,
-} from '../../controllers/category';
+	fetchProducts,
+	createProduct,
+	updateProduct,
+	destroyProduct,
+} from '../../controllers/product';
 import { DocumentData } from 'firebase/firestore';
-import { Product } from './product';
 
-export type Category = Partial<DocumentData> & {
+export type Product = Partial<DocumentData> & {
 	id: string;
 	name: string;
-	products: Product[];
+	images: string[];
 	createdAt: Date;
 };
 
-const initialState: Category[] | any = null;
+const initialState: Product[] | any = null;
 
-export const CategoriesSlice = createSlice({
-	name: 'categories',
+export const ProductsSlice = createSlice({
+	name: 'products',
 	initialState,
 	reducers: {},
 	extraReducers(builder) {
 		builder.addCase(
-			fetchCategories.fulfilled,
+			fetchProducts.fulfilled,
 			(state, action) => {
 				state = action.payload;
 				return state;
 			},
 		);
 		builder.addCase(
-			createCategory.fulfilled,
+			createProduct.fulfilled,
 			(state, action) => {
 				state = [...state, action.payload];
 				return state;
 			},
 		);
 		builder.addCase(
-			updateCategory.fulfilled,
+			updateProduct.fulfilled,
 			(state, action) => {
-				state = state.map((category: Category) => {
-					return category.id === action.payload.id
+				state = state.map((product: Product) => {
+					return product.id === action.payload.id
 						? action.payload
-						: category;
+						: product;
 				});
 				return state;
 			},
 		);
 		builder.addCase(
-			destroyCategory.fulfilled,
+			destroyProduct.fulfilled,
 			(state, action) => {
-				state = state.filter((category: Category) => {
+				state = state.filter((product: Product) => {
 					return (
-						category.id !== action.payload &&
-						category
+						product.id !== action.payload && product
 					);
 				});
 				return state;
@@ -65,4 +63,4 @@ export const CategoriesSlice = createSlice({
 
 export const selectProfile = (state: RootState) => state;
 
-export default CategoriesSlice.reducer;
+export default ProductsSlice.reducer;

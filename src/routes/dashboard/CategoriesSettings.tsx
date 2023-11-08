@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { ICategory } from '../../app/store/category';
+import { Category } from '../../app/store/category';
 import { fetchCategories } from '../../controllers/category';
 import { BsPlusLg } from 'react-icons/bs';
 import AddCategoryForm from '../../components/forms/AddCategoryForm';
@@ -12,7 +12,7 @@ function CategoriesSettings() {
 		useState(false);
 
 	const dispatch = useAppDispatch();
-	const categories: ICategory[] | null = useAppSelector(
+	const categories: Category[] | null = useAppSelector(
 		(state) => state.categories,
 	);
 
@@ -30,9 +30,9 @@ function CategoriesSettings() {
 				<Table>
 					<thead>
 						<tr>
-							<th>#</th>
-							<th>Name</th>
-							<th>
+							<th scope='col'>#</th>
+							<th scope='col'>Name</th>
+							<th scope='col'>
 								<Button
 									onClick={handleClickAddCat}
 									variant='outline-primary'
