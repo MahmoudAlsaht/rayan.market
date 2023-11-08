@@ -27,6 +27,7 @@ function CategoriesSettings() {
 	return (
 		<>
 			<Container>
+				<h1 className='ms-5 mt-3'>Categories</h1>
 				<Table>
 					<thead>
 						<tr>

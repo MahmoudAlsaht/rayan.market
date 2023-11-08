@@ -27,6 +27,7 @@ function ProductsSettings() {
 	return (
 		<>
 			<Container>
+				<h1 className='ms-5 mt-3'>Products</h1>
 				<Table>
 					<thead>
 						<tr>

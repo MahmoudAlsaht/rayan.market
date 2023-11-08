@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { DocumentData } from 'firebase/firestore';
+import { DocumentData, arrayUnion } from 'firebase/firestore';
 import { getAllData } from '../firebase/firestore/getAllData';
 import addData from '../firebase/firestore/addData';
 import updateDocs from '../firebase/firestore/updateDoc';
@@ -22,14 +22,22 @@ export const fetchProducts = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
 	'products/postProduct',
-	async (name: string) => {
+	async (option: { name: string; categoryId: string }) => {
+		const { name, categoryId } = option;
+
 		try {
 			const product = await addData('products', {
-				name: name,
+				name,
+				categoryId,
 				createdAt: Date.now(),
 			});
+
 			await updateDocs('products', product.id, {
 				id: product.id,
+			});
+
+			await updateDocs('categories', categoryId, {
+				products: arrayUnion(product?.id),
 			});
 
 			const newProduct: DocumentData = await getData(

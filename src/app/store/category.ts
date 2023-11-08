@@ -7,14 +7,15 @@ import {
 	destroyCategory,
 } from '../../controllers/category';
 import { DocumentData } from 'firebase/firestore';
-import { Product } from './product';
+import { DocType } from '../../firebase/firestore/getData';
 
-export type Category = Partial<DocumentData> & {
-	id: string;
-	name: string;
-	products: Product[];
-	createdAt: Date;
-};
+export type Category = Partial<DocumentData> &
+	Partial<DocType> & {
+		id: string;
+		name: string;
+		products: string[];
+		createdAt: Date;
+	};
 
 const initialState: Category[] | any = null;
 

@@ -1,9 +1,17 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import {
+	ChangeEvent,
+	FormEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { createProduct } from '../../controllers/product';
-import { useAppDispatch } from '../../app/hooks';
+import { fetchCategories } from '../../controllers/category';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Category } from '../../app/store/category';
 
 type AddProductFormProps = {
 	show: boolean;
@@ -16,6 +24,14 @@ function AddProductForm({
 }: AddProductFormProps) {
 	const dispatch = useAppDispatch();
 
+	const categories: Category[] | null = useAppSelector(
+		(state) => state.categories,
+	);
+
+	useEffect(() => {
+		dispatch(fetchCategories());
+	}, [dispatch]);
+
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<IError>({
@@ -23,11 +39,13 @@ function AddProductForm({
 		message: '',
 	});
 	const productNameRef = useRef<HTMLInputElement>(null);
+	const categoryRef = useRef<HTMLSelectElement>(null);
 
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
 			productNameRef.current?.value === '' ||
+			categoryRef.current?.value === 'defaultOption' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -56,9 +74,12 @@ function AddProductForm({
 				});
 			} else {
 				await dispatch(
-					createProduct(
-						productNameRef.current?.value as string,
-					),
+					createProduct({
+						name: productNameRef.current
+							?.value as string,
+						categoryId: categoryRef.current
+							?.value as string,
+					}),
 				);
 				setIsLoading(false);
 				handleClose();
@@ -100,6 +121,28 @@ function AddProductForm({
 								placeholder='Product Name'
 								ref={productNameRef}
 							/>
+						</Form.Group>
+
+						<Form.Group
+							className='mt-3 mb-3'
+							controlId='selectCategory'
+						>
+							<Form.Select
+								ref={categoryRef}
+								onChange={handleChange}
+							>
+								<option value='defaultOption'>
+									Select Category
+								</option>
+								{categories?.map((category) => (
+									<option
+										value={category?.id}
+										key={category?.id}
+									>
+										{category?.name}
+									</option>
+								))}
+							</Form.Select>
 						</Form.Group>
 					</Modal.Body>
 					<Modal.Footer>
