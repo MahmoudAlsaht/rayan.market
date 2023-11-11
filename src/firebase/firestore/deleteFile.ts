@@ -1,7 +1,7 @@
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 
 export const deleteImage = async (
-	uid: string,
+	name: string,
 	folderName: string,
 ) => {
 	try {
@@ -10,7 +10,7 @@ export const deleteImage = async (
 		// Create a reference to the file to delete
 		const desertRef = ref(
 			storage,
-			`${folderName}/${uid}'sProfileImage`,
+			`${folderName}/${name}'s-Image`,
 		);
 
 		// Delete the file

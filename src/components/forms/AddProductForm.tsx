@@ -5,7 +5,7 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, Image } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { createProduct } from '../../controllers/product';
@@ -23,6 +23,11 @@ function AddProductForm({
 	handleClose,
 }: AddProductFormProps) {
 	const dispatch = useAppDispatch();
+	const [previewImages, setPreviewImages] = useState<
+		string[] | null
+	>(null);
+	const [selectedImages, setSelectedImages] =
+		useState<FileList | null>(null);
 
 	const categories: Category[] | null = useAppSelector(
 		(state) => state.categories,
@@ -39,6 +44,8 @@ function AddProductForm({
 		message: '',
 	});
 	const productNameRef = useRef<HTMLInputElement>(null);
+	const productPriceRef = useRef<HTMLInputElement>(null);
+	const productQuantityRef = useRef<HTMLInputElement>(null);
 	const categoryRef = useRef<HTMLSelectElement>(null);
 
 	const handleChange = (e: ChangeEvent) => {
@@ -46,6 +53,9 @@ function AddProductForm({
 		if (
 			productNameRef.current?.value === '' ||
 			categoryRef.current?.value === 'defaultOption' ||
+			productPriceRef.current?.value === '' ||
+			productQuantityRef.current?.value === '' ||
+			selectedImages == null ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -73,16 +83,28 @@ function AddProductForm({
 					message: 'invalid fields',
 				});
 			} else {
+				console.log(selectedImages);
 				await dispatch(
 					createProduct({
 						name: productNameRef.current
 							?.value as string,
 						categoryId: categoryRef.current
 							?.value as string,
+						quantity: productQuantityRef.current
+							?.value as string,
+						price: productPriceRef.current
+							?.value as string,
+						images: selectedImages,
 					}),
 				);
 				setIsLoading(false);
 				handleClose();
+				productNameRef.current!.value = '';
+				categoryRef.current!.value = 'defaultOption';
+				productPriceRef.current!.value = '';
+				productQuantityRef.current!.value = '';
+				setSelectedImages(null);
+				setPreviewImages(null);
 			}
 		} catch (e: any) {
 			setError({
@@ -90,6 +112,32 @@ function AddProductForm({
 				message: e.message,
 			});
 			setIsLoading(false);
+		}
+	};
+
+	const handleFileChange = (
+		e: ChangeEvent<HTMLInputElement>,
+	) => {
+		if (!e.target.files) {
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'please provide all the missing fields',
+			});
+		} else {
+			const files: FileList | null = e.target.files;
+
+			setSelectedImages(files);
+			const images: string[] = [];
+			for (const file of files) {
+				images.push(URL.createObjectURL(file));
+			}
+			setPreviewImages(images);
+			setValidated(true);
+			setError({
+				status: true,
+				message: 'looks good!',
+			});
 		}
 	};
 
@@ -112,19 +160,6 @@ function AddProductForm({
 
 						<Form.Group
 							className='mt-3 mb-3'
-							controlId='productNameFormInput'
-						>
-							<Form.Control
-								required
-								onChange={handleChange}
-								type='text'
-								placeholder='Product Name'
-								ref={productNameRef}
-							/>
-						</Form.Group>
-
-						<Form.Group
-							className='mt-3 mb-3'
 							controlId='selectCategory'
 						>
 							<Form.Select
@@ -144,6 +179,70 @@ function AddProductForm({
 								))}
 							</Form.Select>
 						</Form.Group>
+
+						<Form.Group
+							className='mt-3 mb-3'
+							controlId='productNameFormInput'
+						>
+							<Form.Control
+								required
+								onChange={handleChange}
+								type='text'
+								placeholder='Product Name'
+								ref={productNameRef}
+							/>
+						</Form.Group>
+
+						<Form.Group
+							className='mt-3 mb-3'
+							controlId='productPriceFormInput'
+						>
+							<Form.Control
+								required
+								onChange={handleChange}
+								type='number'
+								placeholder='Product Price'
+								ref={productPriceRef}
+							/>
+						</Form.Group>
+
+						<Form.Group
+							className='mt-3 mb-3'
+							controlId='productQuantityFormInput'
+						>
+							<Form.Control
+								required
+								onChange={handleChange}
+								type='number'
+								placeholder='Product Quantity'
+								ref={productQuantityRef}
+							/>
+						</Form.Group>
+
+						<Form.Group
+							controlId='profileImage'
+							className='mt-2 mb-3'
+						>
+							<Form.Control
+								type='file'
+								multiple
+								onChange={handleFileChange}
+								required
+							/>
+						</Form.Group>
+						{previewImages &&
+							previewImages?.map(
+								(image, index) => (
+									<Image
+										key={index}
+										src={image}
+										alt={`product-image${index}`}
+										width={100}
+										height={100}
+										className='m-2'
+									/>
+								),
+							)}
 					</Modal.Body>
 					<Modal.Footer>
 						<Button
