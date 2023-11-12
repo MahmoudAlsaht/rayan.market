@@ -8,15 +8,13 @@ import {
 import { Button, Form, Modal, Image } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
-import {
-	createProduct,
-	fetchProductsImages,
-} from '../../controllers/product';
+import { createProduct } from '../../controllers/product';
+import { fetchProductsImages } from '../../controllers/productImages';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Category } from '../../app/store/category';
 import { Product } from '../../app/store/product';
-import { DocumentData } from 'firebase/firestore';
+import { TImage } from '../../app/store/image';
 
 type EditProductFormProps = {
 	show: boolean;
@@ -36,9 +34,9 @@ function EditProductForm({
 	const [selectedImages, setSelectedImages] =
 		useState<FileList | null>(null);
 
-	const [productImages, setProductImages] = useState<
-		(DocumentData | undefined)[] | null | undefined
-	>(null);
+	const productImages: TImage[] | null = useAppSelector(
+		(state) => state.images,
+	);
 
 	const categories: Category[] | null = useAppSelector(
 		(state) => state.categories,
@@ -46,19 +44,7 @@ function EditProductForm({
 
 	useEffect(() => {
 		dispatch(fetchCategories());
-
-		const updateImages = async () => {
-			try {
-				const images = await fetchProductsImages(
-					product?.images,
-				);
-				setProductImages(images);
-			} catch (e: any) {
-				console.log(e.message);
-			}
-		};
-
-		updateImages();
+		dispatch(fetchProductsImages(product?.images));
 	}, [dispatch, product?.images]);
 
 	const [validated, setValidated] = useState(false);

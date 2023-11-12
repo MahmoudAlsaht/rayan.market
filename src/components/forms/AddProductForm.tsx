@@ -131,12 +131,28 @@ function AddProductForm({
 			for (const file of files) {
 				images.push(URL.createObjectURL(file));
 			}
-			setPreviewImages(images);
-			setValidated(true);
-			setError({
-				status: true,
-				message: 'looks good!',
-			});
+			if (images.length > 4) {
+				setValidated(false);
+				setError({
+					status: false,
+					message:
+						'You can only upload 4 images for each product',
+				});
+			} else if (images.length < 1) {
+				setValidated(false);
+				setError({
+					status: false,
+					message:
+						'You must upload at least one image for each product',
+				});
+			} else {
+				setPreviewImages(images);
+				setValidated(true);
+				setError({
+					status: true,
+					message: 'looks good!',
+				});
+			}
 		}
 	};
 
