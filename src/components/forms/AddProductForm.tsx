@@ -83,7 +83,6 @@ function AddProductForm({
 					message: 'invalid fields',
 				});
 			} else {
-				console.log(selectedImages);
 				await dispatch(
 					createProduct({
 						name: productNameRef.current

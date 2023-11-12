@@ -49,6 +49,7 @@ const createImagesDocument = async (
 		productId,
 	);
 
+	const imagesIds = [];
 	for (const imageUrl of imagesUrls) {
 		const { url, filename } = imageUrl;
 		const data = {
@@ -60,7 +61,9 @@ const createImagesDocument = async (
 		await updateDocs('productImages', image.id, {
 			id: image.id,
 		});
+		imagesIds.push(image.id);
 	}
+	return imagesIds;
 };
 
 export const createProduct = createAsyncThunk(
@@ -84,22 +87,14 @@ export const createProduct = createAsyncThunk(
 				createdAt: Date.now(),
 			});
 
-			await createImagesDocument(images, product?.id);
-
-			const allImages: DocumentData[] | undefined =
-				await getAllData('productImages');
-
-			const productsImages = allImages?.map((image) => {
-				if (image.product === product?.id) return image;
-			});
-
-			console.log(allImages);
+			const imagesIds = await createImagesDocument(
+				images,
+				product?.id,
+			);
 
 			await updateDocs('products', product.id, {
 				id: product.id,
-				images: productsImages?.map(
-					(image) => image?.id,
-				),
+				images: imagesIds,
 			});
 
 			await updateDocs('categories', categoryId, {
