@@ -8,7 +8,7 @@ import {
 } from '../../controllers/product';
 import { DocumentData } from 'firebase/firestore';
 
-export type ProductImage = Partial<DocumentData> & {
+export type ProductImage = DocumentData & {
 	filename: string;
 	path: string;
 	id: string;
@@ -18,8 +18,10 @@ export type ProductImage = Partial<DocumentData> & {
 export type Product = Partial<DocumentData> & {
 	id: string;
 	name: string;
-	images: ProductImage[];
+	images: string[] | null;
 	createdAt: Date;
+	price: string;
+	quantity: string;
 };
 
 const initialState: Product[] | any = null;

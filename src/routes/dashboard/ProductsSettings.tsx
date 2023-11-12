@@ -49,9 +49,8 @@ function ProductsSettings() {
 						{products?.map((product, index) => (
 							<ProductSettings
 								key={product?.id}
-								productId={product?.id}
+								product={product}
 								index={index}
-								productName={product?.name}
 							/>
 						))}
 					</tbody>

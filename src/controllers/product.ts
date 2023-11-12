@@ -21,6 +21,27 @@ export const fetchProducts = createAsyncThunk(
 	},
 );
 
+export const fetchProductsImages = async (
+	imagesIds: string[] | null,
+) => {
+	try {
+		const images = [];
+		if (imagesIds && imagesIds.length)
+			for (const id of imagesIds) {
+				const image = await getData(
+					'productImages',
+					'id',
+					id,
+				);
+				images.push(image.data);
+			}
+
+		return images ? images : null;
+	} catch (e: any) {
+		console.log(e);
+	}
+};
+
 export const uploadProductImages = async (
 	images: FileList | null,
 	productId: string,
