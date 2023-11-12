@@ -5,7 +5,7 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Form, Modal, Image } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { createProduct } from '../../controllers/product';
@@ -14,7 +14,8 @@ import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Category } from '../../app/store/category';
 import { Product } from '../../app/store/product';
-import { TImage } from '../../app/store/image';
+import PreviewImage from '../dashboardComponents/PreviewImage';
+import { DocumentData } from 'firebase/firestore';
 
 type EditProductFormProps = {
 	show: boolean;
@@ -34,9 +35,9 @@ function EditProductForm({
 	const [selectedImages, setSelectedImages] =
 		useState<FileList | null>(null);
 
-	const productImages: TImage[] | null = useAppSelector(
-		(state) => state.images,
-	);
+	const [productImages, setProductImages] = useState<
+		(DocumentData | undefined)[] | null | undefined
+	>(null);
 
 	const categories: Category[] | null = useAppSelector(
 		(state) => state.categories,
@@ -44,7 +45,17 @@ function EditProductForm({
 
 	useEffect(() => {
 		dispatch(fetchCategories());
-		dispatch(fetchProductsImages(product?.images));
+		const updateImages = async () => {
+			try {
+				const images = await fetchProductsImages(
+					product?.images,
+				);
+				setProductImages(images);
+			} catch (e: any) {
+				console.log(e);
+			}
+		};
+		updateImages();
 	}, [dispatch, product?.images]);
 
 	const [validated, setValidated] = useState(false);
@@ -245,12 +256,11 @@ function EditProductForm({
 						{previewImages &&
 							previewImages?.map(
 								(image, index) => (
-									<Image
+									<PreviewImage
 										key={index}
-										src={image}
-										alt={`product-image${index}`}
-										width={100}
-										height={100}
+										path={image}
+										filename={index}
+										imageId={index}
 										className='m-2'
 									/>
 								),
@@ -258,12 +268,11 @@ function EditProductForm({
 
 						{productImages &&
 							productImages?.map((image) => (
-								<Image
+								<PreviewImage
 									key={image?.id}
-									src={image?.path}
-									alt={`product-image${image?.id}`}
-									width={100}
-									height={100}
+									imageId={image?.id}
+									path={image?.path}
+									filename={image?.filename}
 									className='m-2'
 								/>
 							))}

@@ -5,7 +5,7 @@ import addData from '../firebase/firestore/addData';
 import updateDocs from '../firebase/firestore/updateDoc';
 import getData from '../firebase/firestore/getData';
 import destroyDoc from '../firebase/firestore/deleteDoc';
-import { uploadImage } from '../firebase/firestore/uploadFile';
+import { createImagesDocument } from './productImages';
 
 export const fetchProducts = createAsyncThunk(
 	'products/fetchProducts',
@@ -20,51 +20,6 @@ export const fetchProducts = createAsyncThunk(
 		}
 	},
 );
-
-export const uploadProductImages = async (
-	images: FileList | null,
-	productId: string,
-) => {
-	const urls = [];
-	for (const file of images!) {
-		urls.push({
-			url: await uploadImage(
-				file,
-				`${file.name}`,
-				`products/${productId}`,
-			),
-			filename: `products/${productId}/${file.name}`,
-		});
-	}
-
-	return urls;
-};
-
-const createImagesDocument = async (
-	images: FileList | null,
-	productId: string,
-) => {
-	const imagesUrls = await uploadProductImages(
-		images,
-		productId,
-	);
-
-	const imagesIds = [];
-	for (const imageUrl of imagesUrls) {
-		const { url, filename } = imageUrl;
-		const data = {
-			filename: filename,
-			path: url,
-			product: productId,
-		};
-		const image = await addData('productImages', data);
-		await updateDocs('productImages', image.id, {
-			id: image.id,
-		});
-		imagesIds.push(image.id);
-	}
-	return imagesIds;
-};
 
 export const createProduct = createAsyncThunk(
 	'products/postProduct',
