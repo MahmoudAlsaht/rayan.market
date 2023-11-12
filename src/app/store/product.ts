@@ -15,6 +15,7 @@ export type Product = Partial<DocumentData> & {
 	createdAt: Date;
 	price: string;
 	quantity: string;
+	categoryId: string;
 };
 
 const initialState: Product[] | any = null;

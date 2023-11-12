@@ -24,3 +24,21 @@ body {
 .card-link:hover {
     font-size: 17.5px;
 }
+
+.productEditForm {
+    height: 110%;
+}
+
+.overlay {
+    position: relative;
+}
+.delete-button {
+    position:absolute;
+    margin-top: 8px;
+    margin-left: -33px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+

@@ -163,7 +163,12 @@ function EditProductForm({
 
 	return (
 		<>
-			<Modal show={show} onHide={handleClose} fullscreen>
+			<Modal
+				show={show}
+				onHide={handleClose}
+				fullscreen
+				className='productEditForm'
+			>
 				<Modal.Header closeButton>
 					<Modal.Title className='text-muted'>
 						Edit{' '}
@@ -189,17 +194,33 @@ function EditProductForm({
 								ref={categoryRef}
 								onChange={handleChange}
 							>
-								<option value='defaultOption'>
-									Select Category
+								<option
+									value={product?.categoryId}
+								>
+									{categories?.map(
+										(category) =>
+											category?.id ===
+												product?.categoryId &&
+											category?.name,
+									)}
 								</option>
-								{categories?.map((category) => (
-									<option
-										value={category?.id}
-										key={category?.id}
-									>
-										{category?.name}
-									</option>
-								))}
+								{categories?.map((category) => {
+									return (
+										category?.id !==
+											product?.categoryId && (
+											<option
+												value={
+													category?.id
+												}
+												key={
+													category?.id
+												}
+											>
+												{category?.name}
+											</option>
+										)
+									);
+								})}
 							</Form.Select>
 						</Form.Group>
 
@@ -213,6 +234,7 @@ function EditProductForm({
 								type='text'
 								placeholder='Product Name'
 								ref={productNameRef}
+								defaultValue={product?.name}
 							/>
 						</Form.Group>
 
@@ -226,6 +248,7 @@ function EditProductForm({
 								type='number'
 								placeholder='Product Price'
 								ref={productPriceRef}
+								defaultValue={product?.price}
 							/>
 						</Form.Group>
 
@@ -239,11 +262,12 @@ function EditProductForm({
 								type='number'
 								placeholder='Product Quantity'
 								ref={productQuantityRef}
+								defaultValue={product?.quantity}
 							/>
 						</Form.Group>
 
 						<Form.Group
-							controlId='profileImage'
+							controlId='productImagesFormInput'
 							className='mt-2 mb-3'
 						>
 							<Form.Control
@@ -257,23 +281,23 @@ function EditProductForm({
 							previewImages?.map(
 								(image, index) => (
 									<PreviewImage
+										type='Preview Images Before Upload'
 										key={index}
 										path={image}
 										filename={index}
 										imageId={index}
-										className='m-2'
 									/>
 								),
 							)}
-
+						<br />
 						{productImages &&
 							productImages?.map((image) => (
 								<PreviewImage
+									type='Product Images'
 									key={image?.id}
 									imageId={image?.id}
 									path={image?.path}
 									filename={image?.filename}
-									className='m-2'
 								/>
 							))}
 					</Modal.Body>

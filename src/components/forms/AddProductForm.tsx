@@ -235,7 +235,7 @@ function AddProductForm({
 						</Form.Group>
 
 						<Form.Group
-							controlId='profileImage'
+							controlId='productImagesFormInput'
 							className='mt-2 mb-3'
 						>
 							<Form.Control
