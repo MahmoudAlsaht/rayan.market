@@ -12,6 +12,8 @@ import { createProduct } from '../../controllers/product';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Category } from '../../app/store/category';
+import { TPreviewImage } from './EditProductForm';
+import PreviewImage from '../dashboardComponents/PreviewImage';
 
 type AddProductFormProps = {
 	show: boolean;
@@ -24,7 +26,7 @@ function AddProductForm({
 }: AddProductFormProps) {
 	const dispatch = useAppDispatch();
 	const [previewImages, setPreviewImages] = useState<
-		string[] | null
+		TPreviewImage[] | null
 	>(null);
 	const [selectedImages, setSelectedImages] =
 		useState<FileList | null>(null);
@@ -47,6 +49,23 @@ function AddProductForm({
 	const productPriceRef = useRef<HTMLInputElement>(null);
 	const productQuantityRef = useRef<HTMLInputElement>(null);
 	const categoryRef = useRef<HTMLSelectElement>(null);
+
+	const handleRemovePreviewImages = async (
+		imageId: string,
+	) => {
+		setPreviewImages((prevPreviewImages) => {
+			return prevPreviewImages!.filter((image) => {
+				return image.name !== imageId && image;
+			});
+		});
+
+		const dataTransfer = new DataTransfer();
+		for (const file of selectedImages!) {
+			imageId !== file.name &&
+				dataTransfer.items.add(file);
+		}
+		setSelectedImages(dataTransfer.files);
+	};
 
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
@@ -127,10 +146,15 @@ function AddProductForm({
 			const files: FileList | null = e.target.files;
 
 			setSelectedImages(files);
-			const images: string[] = [];
+			const images: TPreviewImage[] = [];
+
 			for (const file of files) {
-				images.push(URL.createObjectURL(file));
+				images.push({
+					url: URL.createObjectURL(file),
+					name: file?.name,
+				});
 			}
+
 			if (images.length > 4) {
 				setValidated(false);
 				setError({
@@ -246,18 +270,17 @@ function AddProductForm({
 							/>
 						</Form.Group>
 						{previewImages &&
-							previewImages?.map(
-								(image, index) => (
-									<Image
-										key={index}
-										src={image}
-										alt={`product-image${index}`}
-										width={100}
-										height={100}
-										className='m-2'
-									/>
-								),
-							)}
+							previewImages?.map((image) => (
+								<PreviewImage
+									key={image.name}
+									path={image.url}
+									imageId={image.name}
+									handleRemove={
+										handleRemovePreviewImages
+									}
+									className='m-2'
+								/>
+							))}
 					</Modal.Body>
 					<Modal.Footer>
 						<Button

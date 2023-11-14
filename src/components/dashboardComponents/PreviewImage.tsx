@@ -4,17 +4,19 @@ import { BsTrashFill } from 'react-icons/bs';
 type PreviewImageProps = {
 	path: string;
 	filename?: string | number;
-	imageId?: string | number;
+	imageId?: string;
 	className?: string;
 	type?: string;
+	handleRemove?: (id: string) => void;
 };
 
 function PreviewImage({
-	imageId,
+	imageId = '',
 	className,
 	path,
-}: // type,
-PreviewImageProps) {
+	handleRemove = (imageId: string) =>
+		alert(`remove ${imageId}`),
+}: PreviewImageProps) {
 	return (
 		<>
 			<Image
@@ -30,6 +32,7 @@ PreviewImageProps) {
 						fontSize: '23px',
 					}}
 					className='trash-icon text-danger'
+					onClick={() => handleRemove(imageId)}
 				/>
 			</span>
 		</>

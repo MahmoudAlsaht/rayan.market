@@ -23,6 +23,8 @@ type EditProductFormProps = {
 	product: Product;
 };
 
+export type TPreviewImage = { url: string; name: string };
+
 function EditProductForm({
 	show,
 	handleClose,
@@ -30,7 +32,7 @@ function EditProductForm({
 }: EditProductFormProps) {
 	const dispatch = useAppDispatch();
 	const [previewImages, setPreviewImages] = useState<
-		string[] | null
+		TPreviewImage[] | null
 	>(null);
 	const [selectedImages, setSelectedImages] =
 		useState<FileList | null>(null);
@@ -57,6 +59,23 @@ function EditProductForm({
 		};
 		updateImages();
 	}, [dispatch, product?.images]);
+
+	const handleRemovePreviewImages = async (
+		imageId: string,
+	) => {
+		setPreviewImages((prevPreviewImages) => {
+			return prevPreviewImages!.filter((image) => {
+				return image.name !== imageId && image;
+			});
+		});
+
+		const dataTransfer = new DataTransfer();
+		for (const file of selectedImages!) {
+			imageId !== file.name &&
+				dataTransfer.items.add(file);
+		}
+		setSelectedImages(dataTransfer.files);
+	};
 
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -148,9 +167,12 @@ function EditProductForm({
 			const files: FileList | null = e.target.files;
 
 			setSelectedImages(files);
-			const images: string[] = [];
+			const images: TPreviewImage[] = [];
 			for (const file of files) {
-				images.push(URL.createObjectURL(file));
+				images.push({
+					url: URL.createObjectURL(file),
+					name: file.name,
+				});
 			}
 			setPreviewImages(images);
 			setValidated(true);
@@ -159,6 +181,8 @@ function EditProductForm({
 				message: 'looks good!',
 			});
 		}
+		console.log(previewImages);
+		console.log(selectedImages);
 	};
 
 	return (
@@ -282,10 +306,13 @@ function EditProductForm({
 								(image, index) => (
 									<PreviewImage
 										type='Preview Images Before Upload'
-										key={index}
-										path={image}
+										key={image?.name}
+										path={image?.url}
 										filename={index}
-										imageId={index}
+										imageId={image?.name}
+										handleRemove={
+											handleRemovePreviewImages
+										}
 									/>
 								),
 							)}
