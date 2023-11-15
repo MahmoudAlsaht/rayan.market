@@ -60,7 +60,7 @@ function EditProductForm({
 		updateImages();
 	}, [dispatch, product?.images]);
 
-	const handleRemovePreviewImages = async (id: string) => {
+	const handleRemovePreviewImages = (id: string) => {
 		setPreviewImages((prevPreviewImages) => {
 			return prevPreviewImages!.filter((image) => {
 				return image.name !== id && image;
@@ -72,6 +72,14 @@ function EditProductForm({
 			id !== file.name && dataTransfer.items.add(file);
 		}
 		setSelectedImages(dataTransfer.files);
+	};
+
+	const handleRemoveProductImages = (id: string) => {
+		setProductImages((prevProductImages) => {
+			return prevProductImages!.filter((image) => {
+				return image?.id !== id && image;
+			});
+		});
 	};
 
 	const [validated, setValidated] = useState(false);
@@ -313,6 +321,9 @@ function EditProductForm({
 									path={image?.path}
 									filename={image?.filename}
 									product={product}
+									handleRemove={
+										handleRemoveProductImages
+									}
 								/>
 							))}
 					</Modal.Body>

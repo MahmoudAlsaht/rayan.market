@@ -9,7 +9,7 @@ type PreviewImageProps = {
 	className?: string;
 	type?: string;
 	product?: any;
-	handleRemove?: (id: string) => void;
+	handleRemove: (id: string) => void;
 };
 
 function PreviewImage({
@@ -19,7 +19,7 @@ function PreviewImage({
 	path,
 	product,
 	type = '',
-	handleRemove = () => {},
+	handleRemove,
 }: PreviewImageProps) {
 	const handleDelete = async () => {
 		if (type !== '') {
@@ -30,6 +30,7 @@ function PreviewImage({
 				filename,
 				imageId,
 			);
+			handleRemove(imageId);
 		}
 	};
 
