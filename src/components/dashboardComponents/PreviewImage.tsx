@@ -1,22 +1,38 @@
 import { Image } from 'react-bootstrap';
 import { BsTrashFill } from 'react-icons/bs';
+import { deleteProductImages } from '../../controllers/productImages';
 
 type PreviewImageProps = {
 	path: string;
-	filename?: string | number;
+	filename?: string;
 	imageId?: string;
 	className?: string;
 	type?: string;
+	product?: any;
 	handleRemove?: (id: string) => void;
 };
 
 function PreviewImage({
 	imageId = '',
+	filename = '',
 	className,
 	path,
-	handleRemove = (imageId: string) =>
-		alert(`remove ${imageId}`),
+	product,
+	type = '',
+	handleRemove = () => {},
 }: PreviewImageProps) {
+	const handleDelete = async () => {
+		if (type !== '') {
+			handleRemove(imageId);
+		} else {
+			await deleteProductImages(
+				product,
+				filename,
+				imageId,
+			);
+		}
+	};
+
 	return (
 		<>
 			<Image
@@ -32,7 +48,7 @@ function PreviewImage({
 						fontSize: '23px',
 					}}
 					className='trash-icon text-danger'
-					onClick={() => handleRemove(imageId)}
+					onClick={handleDelete}
 				/>
 			</span>
 		</>

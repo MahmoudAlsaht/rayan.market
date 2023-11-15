@@ -5,7 +5,7 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Form, Modal, Image } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { createProduct } from '../../controllers/product';
@@ -74,7 +74,6 @@ function AddProductForm({
 			categoryRef.current?.value === 'defaultOption' ||
 			productPriceRef.current?.value === '' ||
 			productQuantityRef.current?.value === '' ||
-			selectedImages == null ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -91,6 +90,30 @@ function AddProductForm({
 		}
 	};
 
+	const handleFileChange = async (
+		e: ChangeEvent<HTMLInputElement>,
+	) => {
+		if (e.target.files && e.target.files.length > 4) {
+			setPreviewImages(null);
+			setSelectedImages(null);
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'You can upload Up To 4 images',
+			});
+		} else {
+			await setSelectedImages(e.target.files);
+			const images: TPreviewImage[] = [];
+			for (const file of e.target.files!) {
+				images.push({
+					url: URL.createObjectURL(file),
+					name: file?.name,
+				});
+			}
+			await setPreviewImages(images);
+		}
+	};
+
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
@@ -98,7 +121,7 @@ function AddProductForm({
 			const form = e.currentTarget as HTMLFormElement;
 			if (form.checkValidity() === false) {
 				setError({
-					status: true,
+					status: false,
 					message: 'invalid fields',
 				});
 			} else {
@@ -130,53 +153,6 @@ function AddProductForm({
 				message: e.message,
 			});
 			setIsLoading(false);
-		}
-	};
-
-	const handleFileChange = (
-		e: ChangeEvent<HTMLInputElement>,
-	) => {
-		if (!e.target.files) {
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'please provide all the missing fields',
-			});
-		} else {
-			const files: FileList | null = e.target.files;
-
-			setSelectedImages(files);
-			const images: TPreviewImage[] = [];
-
-			for (const file of files) {
-				images.push({
-					url: URL.createObjectURL(file),
-					name: file?.name,
-				});
-			}
-
-			if (images.length > 4) {
-				setValidated(false);
-				setError({
-					status: false,
-					message:
-						'You can only upload 4 images for each product',
-				});
-			} else if (images.length < 1) {
-				setValidated(false);
-				setError({
-					status: false,
-					message:
-						'You must upload at least one image for each product',
-				});
-			} else {
-				setPreviewImages(images);
-				setValidated(true);
-				setError({
-					status: true,
-					message: 'looks good!',
-				});
-			}
 		}
 	};
 
@@ -266,12 +242,12 @@ function AddProductForm({
 								type='file'
 								multiple
 								onChange={handleFileChange}
-								required
 							/>
 						</Form.Group>
 						{previewImages &&
 							previewImages?.map((image) => (
 								<PreviewImage
+									type='previewImage'
 									key={image.name}
 									path={image.url}
 									imageId={image.name}

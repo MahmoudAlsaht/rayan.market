@@ -8,7 +8,7 @@ import {
 } from '../../controllers/product';
 import { DocumentData } from 'firebase/firestore';
 
-export type Product = Partial<DocumentData> & {
+export type TProduct = Partial<DocumentData> & {
 	id: string;
 	name: string;
 	images: string[] | null;
@@ -18,7 +18,7 @@ export type Product = Partial<DocumentData> & {
 	categoryId: string;
 };
 
-const initialState: Product[] | any = null;
+const initialState: TProduct[] | any = null;
 
 export const ProductsSlice = createSlice({
 	name: 'products',
@@ -42,7 +42,7 @@ export const ProductsSlice = createSlice({
 		builder.addCase(
 			updateProduct.fulfilled,
 			(state, action) => {
-				state = state.map((product: Product) => {
+				state = state.map((product: TProduct) => {
 					return product.id === action.payload.id
 						? action.payload
 						: product;
@@ -53,7 +53,7 @@ export const ProductsSlice = createSlice({
 		builder.addCase(
 			destroyProduct.fulfilled,
 			(state, action) => {
-				state = state.filter((product: Product) => {
+				state = state.filter((product: TProduct) => {
 					return (
 						product.id !== action.payload && product
 					);

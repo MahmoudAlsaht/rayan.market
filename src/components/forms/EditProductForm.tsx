@@ -13,14 +13,14 @@ import { fetchProductsImages } from '../../controllers/productImages';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Category } from '../../app/store/category';
-import { Product } from '../../app/store/product';
+import { TProduct } from '../../app/store/product';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import { DocumentData } from 'firebase/firestore';
 
 type EditProductFormProps = {
 	show: boolean;
 	handleClose: () => void;
-	product: Product;
+	product: TProduct;
 };
 
 export type TPreviewImage = { url: string; name: string };
@@ -60,19 +60,16 @@ function EditProductForm({
 		updateImages();
 	}, [dispatch, product?.images]);
 
-	const handleRemovePreviewImages = async (
-		imageId: string,
-	) => {
+	const handleRemovePreviewImages = async (id: string) => {
 		setPreviewImages((prevPreviewImages) => {
 			return prevPreviewImages!.filter((image) => {
-				return image.name !== imageId && image;
+				return image.name !== id && image;
 			});
 		});
 
 		const dataTransfer = new DataTransfer();
 		for (const file of selectedImages!) {
-			imageId !== file.name &&
-				dataTransfer.items.add(file);
+			id !== file.name && dataTransfer.items.add(file);
 		}
 		setSelectedImages(dataTransfer.files);
 	};
@@ -95,7 +92,6 @@ function EditProductForm({
 			categoryRef.current?.value === 'defaultOption' ||
 			productPriceRef.current?.value === '' ||
 			productQuantityRef.current?.value === '' ||
-			selectedImages == null ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -119,7 +115,7 @@ function EditProductForm({
 			const form = e.currentTarget as HTMLFormElement;
 			if (form.checkValidity() === false) {
 				setError({
-					status: true,
+					status: false,
 					message: 'invalid fields',
 				});
 			} else {
@@ -157,15 +153,20 @@ function EditProductForm({
 	const handleFileChange = (
 		e: ChangeEvent<HTMLInputElement>,
 	) => {
-		if (!e.target.files) {
+		if (
+			e.target.files &&
+			productImages &&
+			e.target.files!.length + productImages!.length > 4
+		) {
+			setPreviewImages(null);
+			setSelectedImages(null);
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'Yoy Can Only Upload Up to 4 Images',
 			});
 		} else {
-			const files: FileList | null = e.target.files;
-
+			const files: FileList | null = e.target.files!;
 			setSelectedImages(files);
 			const images: TPreviewImage[] = [];
 			for (const file of files) {
@@ -181,8 +182,6 @@ function EditProductForm({
 				message: 'looks good!',
 			});
 		}
-		console.log(previewImages);
-		console.log(selectedImages);
 	};
 
 	return (
@@ -193,14 +192,6 @@ function EditProductForm({
 				fullscreen
 				className='productEditForm'
 			>
-				<Modal.Header closeButton>
-					<Modal.Title className='text-muted'>
-						Edit{' '}
-						<span className='text-warning'>
-							{product?.name}
-						</span>
-					</Modal.Title>
-				</Modal.Header>
 				<Form
 					noValidate
 					validated={!validated}
@@ -302,29 +293,26 @@ function EditProductForm({
 							/>
 						</Form.Group>
 						{previewImages &&
-							previewImages?.map(
-								(image, index) => (
-									<PreviewImage
-										type='Preview Images Before Upload'
-										key={image?.name}
-										path={image?.url}
-										filename={index}
-										imageId={image?.name}
-										handleRemove={
-											handleRemovePreviewImages
-										}
-									/>
-								),
-							)}
+							previewImages?.map((image) => (
+								<PreviewImage
+									type='PreviewImage'
+									key={image?.name}
+									path={image?.url}
+									imageId={image?.name}
+									handleRemove={
+										handleRemovePreviewImages
+									}
+								/>
+							))}
 						<br />
 						{productImages &&
 							productImages?.map((image) => (
 								<PreviewImage
-									type='Product Images'
 									key={image?.id}
 									imageId={image?.id}
 									path={image?.path}
 									filename={image?.filename}
+									product={product}
 								/>
 							))}
 					</Modal.Body>

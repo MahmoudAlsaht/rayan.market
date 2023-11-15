@@ -5,10 +5,10 @@ import LoadingButton from '../LoadingButton';
 // import { updateProduct } from '../../controllers/product';
 import DeleteProductForm from '../forms/DeleteProductForm';
 import EditProductForm from '../forms/EditProductForm';
-import { Product } from '../../app/store/product';
+import { TProduct } from '../../app/store/product';
 
 type ProductSettingsProps = {
-	product: Product;
+	product: TProduct;
 	index: number;
 };
 

@@ -5,14 +5,14 @@ import { BsPlusLg } from 'react-icons/bs';
 import AddProductForm from '../../components/forms/AddProductForm';
 import { Table, Button, Container } from 'react-bootstrap';
 import ProductSettings from '../../components/dashboardComponents/ProductSettings';
-import { Product } from '../../app/store/product';
+import { TProduct } from '../../app/store/product';
 
 function ProductsSettings() {
 	const [showAddProductForm, setShowAddProductForm] =
 		useState(false);
 
 	const dispatch = useAppDispatch();
-	const products: Product[] | null = useAppSelector(
+	const products: TProduct[] | null = useAppSelector(
 		(state) => state.products,
 	);
 
