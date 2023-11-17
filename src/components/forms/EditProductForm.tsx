@@ -42,7 +42,7 @@ function EditProductForm({
 	>(null);
 
 	const categories: Category[] | null = useAppSelector(
-		(state) => state.categories,
+		(state) => state.categories
 	);
 
 	useEffect(() => {
@@ -50,7 +50,7 @@ function EditProductForm({
 		const updateImages = async () => {
 			try {
 				const images = await fetchProductsImages(
-					product?.images,
+					product?.images
 				);
 				setProductImages(images);
 			} catch (e: any) {
@@ -138,7 +138,7 @@ function EditProductForm({
 						price: productPriceRef.current
 							?.value as string,
 						images: selectedImages,
-					}),
+					})
 				);
 				setIsLoading(false);
 				handleClose();
@@ -159,7 +159,7 @@ function EditProductForm({
 	};
 
 	const handleFileChange = (
-		e: ChangeEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement>
 	) => {
 		if (
 			e.target.files &&
@@ -197,7 +197,6 @@ function EditProductForm({
 			<Modal
 				show={show}
 				onHide={handleClose}
-				fullscreen
 				className='productEditForm'
 			>
 				<Form
@@ -224,7 +223,7 @@ function EditProductForm({
 										(category) =>
 											category?.id ===
 												product?.categoryId &&
-											category?.name,
+											category?.name
 									)}
 								</option>
 								{categories?.map((category) => {
