@@ -69,12 +69,73 @@ export const createProduct = createAsyncThunk(
 	},
 );
 
+const updateCategoryProducts = async (productId: string) => {
+	const product: DocumentData | undefined = (
+		await getData('products', 'id', productId)
+	).data;
+	// find current category to update it
+	const category: DocumentData | undefined = (
+		await getData('categories', 'id', product?.categoryId)
+	).data;
+	const categoryProducts = category?.products;
+	const filteredCategoryProducts = categoryProducts?.filter(
+		(product: string) => {
+			return product !== productId && product;
+		},
+	);
+	// update current category
+	await updateDocs('categories', category?.id, {
+		products: filteredCategoryProducts,
+	});
+};
+
 export const updateProduct = createAsyncThunk(
 	'products/putProduct',
 	async (options: { docId: string; data: any }) => {
 		try {
-			const { docId, data } = options;
-			await updateDocs('products', docId, data);
+			const { docId } = options;
+			const {
+				productName,
+				productPrice,
+				productQuantity,
+				category,
+				images,
+			} = options.data;
+
+			if (productName)
+				await updateDocs('products', docId, {
+					name: productName,
+				});
+			if (productPrice)
+				await updateDocs('products', docId, {
+					price: productPrice,
+				});
+			if (productQuantity)
+				await updateDocs('products', docId, {
+					quantity: productQuantity,
+				});
+			if (category) {
+				await updateCategoryProducts(docId);
+				await updateDocs('categories', category, {
+					products: arrayUnion(docId),
+				});
+				await updateDocs('products', docId, {
+					categoryId: category,
+				});
+			}
+
+			if (images) {
+				const imagesIds = await createImagesDocument(
+					images,
+					docId,
+				);
+				// update product's images with the new images
+				for (const id of imagesIds) {
+					await updateDocs('products', docId, {
+						images: arrayUnion(id),
+					});
+				}
+			}
 
 			const product: DocumentData = await getData(
 				'products',

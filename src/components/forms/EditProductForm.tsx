@@ -8,7 +8,7 @@ import {
 import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
-import { createProduct } from '../../controllers/product';
+import { updateProduct } from '../../controllers/product';
 import { fetchProductsImages } from '../../controllers/productImages';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -42,7 +42,7 @@ function EditProductForm({
 	>(null);
 
 	const categories: Category[] | null = useAppSelector(
-		(state) => state.categories
+		(state) => state.categories,
 	);
 
 	useEffect(() => {
@@ -50,7 +50,7 @@ function EditProductForm({
 		const updateImages = async () => {
 			try {
 				const images = await fetchProductsImages(
-					product?.images
+					product?.images,
 				);
 				setProductImages(images);
 			} catch (e: any) {
@@ -127,18 +127,24 @@ function EditProductForm({
 					message: 'invalid fields',
 				});
 			} else {
+				const productName =
+					productNameRef.current?.value;
+				const productPrice =
+					productPriceRef.current?.value;
+				const productQuantity =
+					productQuantityRef.current?.value;
+				const category = categoryRef.current?.value;
 				await dispatch(
-					createProduct({
-						name: productNameRef.current
-							?.value as string,
-						categoryId: categoryRef.current
-							?.value as string,
-						quantity: productQuantityRef.current
-							?.value as string,
-						price: productPriceRef.current
-							?.value as string,
-						images: selectedImages,
-					})
+					updateProduct({
+						docId: product?.id,
+						data: {
+							productName,
+							productPrice,
+							productQuantity,
+							category,
+							images: selectedImages,
+						},
+					}),
 				);
 				setIsLoading(false);
 				handleClose();
@@ -159,7 +165,7 @@ function EditProductForm({
 	};
 
 	const handleFileChange = (
-		e: ChangeEvent<HTMLInputElement>
+		e: ChangeEvent<HTMLInputElement>,
 	) => {
 		if (
 			e.target.files &&
@@ -206,6 +212,14 @@ function EditProductForm({
 					style={{ width: '100%' }}
 				>
 					<Modal.Body className='text-muted'>
+						<Modal.Header closeButton>
+							<Modal.Title>
+								Edit{' '}
+								<span className='text-warning'>
+									{product?.name}
+								</span>
+							</Modal.Title>
+						</Modal.Header>
 						<ErrorComponent error={error} />
 
 						<Form.Group
@@ -223,7 +237,7 @@ function EditProductForm({
 										(category) =>
 											category?.id ===
 												product?.categoryId &&
-											category?.name
+											category?.name,
 									)}
 								</option>
 								{categories?.map((category) => {
@@ -251,7 +265,6 @@ function EditProductForm({
 							controlId='productNameFormInput'
 						>
 							<Form.Control
-								required
 								onChange={handleChange}
 								type='text'
 								placeholder='Product Name'
@@ -265,7 +278,6 @@ function EditProductForm({
 							controlId='productPriceFormInput'
 						>
 							<Form.Control
-								required
 								onChange={handleChange}
 								type='number'
 								placeholder='Product Price'
@@ -279,7 +291,6 @@ function EditProductForm({
 							controlId='productQuantityFormInput'
 						>
 							<Form.Control
-								required
 								onChange={handleChange}
 								type='number'
 								placeholder='Product Quantity'
@@ -296,7 +307,6 @@ function EditProductForm({
 								type='file'
 								multiple
 								onChange={handleFileChange}
-								required
 							/>
 						</Form.Group>
 						{previewImages &&
@@ -335,7 +345,7 @@ function EditProductForm({
 						</Button>
 						<LoadingButton
 							type='submit'
-							body='Add'
+							body='Update'
 							variant={
 								!validated
 									? 'secondary'
