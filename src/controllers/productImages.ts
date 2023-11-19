@@ -79,7 +79,7 @@ export const createImagesDocument = async (
 	}
 };
 
-export const deleteProductImages = async (
+export const destroyProductImage = async (
 	product: TProduct,
 	filename: string,
 	imageId: string,

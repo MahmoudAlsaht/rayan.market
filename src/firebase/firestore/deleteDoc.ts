@@ -9,6 +9,7 @@ export default async function destroyDoc(
 		const docRef = await doc(db, collectionName, docId);
 		await deleteDoc(docRef);
 	} catch (e: any) {
+		console.log(e.message);
 		throw new Error(
 			'Something went wrong, please try again later',
 		);

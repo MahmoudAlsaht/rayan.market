@@ -1,6 +1,6 @@
 import { Image } from 'react-bootstrap';
 import { BsTrashFill } from 'react-icons/bs';
-import { deleteProductImages } from '../../controllers/productImages';
+import { destroyProductImage } from '../../controllers/productImages';
 
 type PreviewImageProps = {
 	path: string;
@@ -25,7 +25,7 @@ function PreviewImage({
 		if (type !== '') {
 			handleRemove(imageId);
 		} else {
-			await deleteProductImages(
+			await destroyProductImage(
 				product,
 				filename,
 				imageId,

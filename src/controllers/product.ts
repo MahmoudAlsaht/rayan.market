@@ -5,7 +5,11 @@ import addData from '../firebase/firestore/addData';
 import updateDocs from '../firebase/firestore/updateDoc';
 import getData from '../firebase/firestore/getData';
 import destroyDoc from '../firebase/firestore/deleteDoc';
-import { createImagesDocument } from './productImages';
+import {
+	createImagesDocument,
+	destroyProductImage,
+} from './productImages';
+import { TProduct } from '../app/store/product';
 
 export const fetchProducts = createAsyncThunk(
 	'products/fetchProducts',
@@ -70,23 +74,30 @@ export const createProduct = createAsyncThunk(
 );
 
 const updateCategoryProducts = async (productId: string) => {
-	const product: DocumentData | undefined = (
-		await getData('products', 'id', productId)
-	).data;
-	// find current category to update it
-	const category: DocumentData | undefined = (
-		await getData('categories', 'id', product?.categoryId)
-	).data;
-	const categoryProducts = category?.products;
-	const filteredCategoryProducts = categoryProducts?.filter(
-		(product: string) => {
-			return product !== productId && product;
-		},
-	);
-	// update current category
-	await updateDocs('categories', category?.id, {
-		products: filteredCategoryProducts,
-	});
+	try {
+		const product: DocumentData | undefined = (
+			await getData('products', 'id', productId)
+		).data;
+		// find current category to update it
+		const category: DocumentData | undefined = (
+			await getData(
+				'categories',
+				'id',
+				product?.categoryId,
+			)
+		).data;
+		const categoryProducts = category?.products;
+		const filteredCategoryProducts =
+			categoryProducts?.filter((product: string) => {
+				return product !== productId && product;
+			});
+		// update current category
+		await updateDocs('categories', category?.id, {
+			products: filteredCategoryProducts,
+		});
+	} catch (e: any) {
+		console.log(e.message);
+	}
 };
 
 export const updateProduct = createAsyncThunk(
@@ -150,14 +161,45 @@ export const updateProduct = createAsyncThunk(
 	},
 );
 
+export const deleteProductImageList = async (
+	images: string[],
+	product: TProduct,
+) => {
+	for (const image of images) {
+		// find product's images
+		const productImage: DocumentData | undefined = (
+			await getData('productImages', 'id', image)
+		).data;
+		// delete product's images
+		await destroyProductImage(
+			product,
+			productImage?.filename,
+			productImage?.id,
+		);
+	}
+};
+
 export const destroyProduct = createAsyncThunk(
 	'products/destroyProduct',
 	async (docId: string) => {
 		try {
+			// delete product from category's products list
+			await updateCategoryProducts(docId);
+			const product: DocumentData | undefined = (
+				await getData('products', 'id', docId)
+			).data;
+
+			if (product?.images)
+				deleteProductImageList(
+					product.images,
+					product as TProduct,
+				);
+
 			await destroyDoc('products', docId);
 
 			return docId;
-		} catch (e) {
+		} catch (e: any) {
+			console.log(e.message);
 			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},

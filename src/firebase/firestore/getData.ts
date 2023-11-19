@@ -29,6 +29,7 @@ export default async function getData(
 			docId: querySnapshot?.docs[0]?.id,
 		} as DocType;
 	} catch (e: any) {
+		console.log(e.message);
 		throw new Error(
 			'Something went wrong, please try again later',
 		);
