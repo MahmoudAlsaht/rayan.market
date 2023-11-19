@@ -180,6 +180,11 @@ function EditProductForm({
 				message: 'Yoy Can Only Upload Up to 4 Images',
 			});
 		} else {
+			setValidated(true);
+			setError({
+				status: true,
+				message: 'looks good!',
+			});
 			const files: FileList | null = e.target.files!;
 			setSelectedImages(files);
 			const images: TPreviewImage[] = [];

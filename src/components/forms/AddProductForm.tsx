@@ -102,6 +102,11 @@ function AddProductForm({
 				message: 'You can upload Up To 4 images',
 			});
 		} else {
+			setValidated(true);
+			setError({
+				status: true,
+				message: 'looks good!',
+			});
 			await setSelectedImages(e.target.files);
 			const images: TPreviewImage[] = [];
 			for (const file of e.target.files!) {
