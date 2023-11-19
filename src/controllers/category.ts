@@ -5,6 +5,8 @@ import addData from '../firebase/firestore/addData';
 import updateDocs from '../firebase/firestore/updateDoc';
 import getData from '../firebase/firestore/getData';
 import destroyDoc from '../firebase/firestore/deleteDoc';
+import { deleteProductImageList } from './product';
+import { TProduct } from '../app/store/product';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
@@ -65,10 +67,36 @@ export const updateCategory = createAsyncThunk(
 	},
 );
 
+const destroyCategoryProductList = async (
+	products: string[],
+) => {
+	for (const product of products) {
+		const categoryProduct: DocumentData | undefined = (
+			await getData('products', 'id', product)
+		).data;
+
+		if (categoryProduct?.images)
+			await deleteProductImageList(
+				categoryProduct.images,
+				categoryProduct as TProduct,
+			);
+
+		await destroyDoc('products', product);
+	}
+};
+
 export const destroyCategory = createAsyncThunk(
 	'categories/destroyCategory',
 	async (docId: string) => {
 		try {
+			const category: DocumentData | undefined = (
+				await getData('categories', 'id', docId)
+			).data;
+			if (category?.products)
+				await destroyCategoryProductList(
+					category?.products,
+				);
+
 			await destroyDoc('categories', docId);
 
 			return docId;
