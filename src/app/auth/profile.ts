@@ -3,7 +3,6 @@ import type { RootState } from '../store';
 import {
 	fetchProfile,
 	updateUserEmailAndUsername,
-	updateUserPassword,
 	updateProfileImage,
 	destroyUser,
 } from '../../controllers/profile';
@@ -34,13 +33,7 @@ export const ProfileSlice = createSlice({
 				return state;
 			},
 		);
-		builder.addCase(
-			updateUserPassword.fulfilled,
-			(state, action) => {
-				state = action.payload;
-				return state;
-			},
-		);
+
 		builder.addCase(
 			updateProfileImage.fulfilled,
 			(state, action) => {

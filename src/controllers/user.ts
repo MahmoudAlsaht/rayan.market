@@ -40,11 +40,13 @@ export const signUp = async (
 			res.user.displayName
 		}${uuidv4()}-profile`;
 
+		// create a new profile and connect to the new user
 		await addData('profiles', {
 			id: profileId,
 			user: res.user.uid,
 		});
 
+		// create a new document for each user to reference user's data
 		await addData('users', {
 			uid: res.user.uid,
 			username: res.user.displayName,

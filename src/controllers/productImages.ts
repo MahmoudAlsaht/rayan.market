@@ -68,9 +68,13 @@ export const createImagesDocument = async (
 				product: productId,
 			};
 			const image = await addData('productImages', data);
+
+			// create an (id) field to store the images (docId) inside
 			await updateDocs('productImages', image.id, {
 				id: image.id,
 			});
+
+			// save the images ids in array to pass to the product document
 			imagesIds.push(image.id);
 		}
 		return imagesIds;
@@ -96,7 +100,6 @@ export const destroyProductImage = async (
 
 		await deleteImage(filename, `products/${product?.id}`);
 	} catch (e: any) {
-		console.log(e.message);
 		throw new Error('Something went wrong');
 	}
 };

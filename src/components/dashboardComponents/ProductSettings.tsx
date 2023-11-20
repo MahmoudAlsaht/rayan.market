@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import LoadingButton from '../LoadingButton';
-// import { useAppDispatch } from '../../app/hooks';
-// import { updateProduct } from '../../controllers/product';
 import DeleteProductForm from '../forms/DeleteProductForm';
 import EditProductForm from '../forms/EditProductForm';
 import { TProduct } from '../../app/store/product';
+import { BsPen } from 'react-icons/bs';
+import { BsTrash } from 'react-icons/bs';
 
 type ProductSettingsProps = {
 	product: TProduct;
@@ -16,9 +15,6 @@ function ProductSettings({
 	product,
 	index,
 }: ProductSettingsProps) {
-	// const dispatch = useAppDispatch();
-	// const [isLoading, setIsLoading] = useState(false);
-
 	const [show, setShow] = useState(false);
 	const [showEditProductForm, setShowEditProductForm] =
 		useState(false);
@@ -45,16 +41,16 @@ function ProductSettings({
 						variant='outline-warning'
 						onClick={handleClickEditProduct}
 					>
-						Edit
+						<BsPen />
+					</Button>
+					<Button
+						variant='outline-danger'
+						onClick={handleProductDeletion}
+						className='ms-1'
+					>
+						<BsTrash />
 					</Button>
 
-					<LoadingButton
-						className='w-25 ms-1'
-						variant='danger'
-						body='Delete'
-						handleClick={handleProductDeletion}
-						type='button'
-					/>
 					<DeleteProductForm
 						productId={product?.id}
 						show={show}

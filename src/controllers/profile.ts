@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import getData, { DocType } from '../firebase/firestore/getData';
+import getData from '../firebase/firestore/getData';
 import { auth } from '../firebase/config';
 import {
 	AuthCredential,
@@ -90,18 +90,6 @@ export const updateUserPassword = createAsyncThunk(
 
 			if (newPassword)
 				await updatePassword(user!, newPassword);
-
-			const userData =
-				(await getData(
-					'users',
-					'uid',
-					user?.uid as string,
-				)) ?? {};
-
-			return {
-				user: userData?.data,
-				docId: userData?.docId,
-			};
 		} catch (e: any) {
 			throw new Error(
 				'Something went wrong, Please check your credential and try again later.',
@@ -163,21 +151,12 @@ export const destroyUser = createAsyncThunk(
 		try {
 			const user = await checkAuth(password);
 
-			const userDoc: DocType | undefined = await getData(
-				'users',
-				'uid',
-				user?.uid as string,
-			);
-
-			const profileDoc: DocType | undefined =
-				await getData('profiles', 'id', profileId);
-
 			await deleteImage(
 				user?.uid as string,
 				'profilesImages',
 			);
-			await destroyDoc('users', userDoc!.docId!);
-			await destroyDoc('profiles', profileDoc!.docId!);
+			await destroyDoc('users', user?.uid as string);
+			await destroyDoc('profiles', profileId);
 			await deleteUser(user!);
 			removeCookies('user');
 			return null;

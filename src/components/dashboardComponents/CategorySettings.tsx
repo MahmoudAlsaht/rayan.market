@@ -4,6 +4,8 @@ import LoadingButton from '../LoadingButton';
 import { useAppDispatch } from '../../app/hooks';
 import { updateCategory } from '../../controllers/category';
 import DeleteCategoryForm from '../forms/DeleteCategoryForm';
+import { BsPen } from 'react-icons/bs';
+import { BsTrash } from 'react-icons/bs';
 
 type CategorySettingsProps = {
 	categoryId: string;
@@ -67,19 +69,16 @@ function CategorySettings({
 								variant='outline-warning'
 								onClick={handleIsEditing}
 							>
-								Edit
+								<BsPen />
 							</Button>
 
-							<LoadingButton
-								className='w-25 ms-1'
-								variant='danger'
-								body='Delete'
-								handleClick={
-									handleCategoryDeletion
-								}
-								type='button'
-								isLoading={isLoading}
-							/>
+							<Button
+								onClick={handleCategoryDeletion}
+								variant='outline-danger'
+								className='ms-1'
+							>
+								<BsTrash />
+							</Button>
 							<DeleteCategoryForm
 								categoryId={categoryId}
 								show={show}

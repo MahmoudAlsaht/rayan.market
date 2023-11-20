@@ -17,7 +17,7 @@ export const fetchCategories = createAsyncThunk(
 
 			return categories ? categories : null;
 		} catch (e: any) {
-			console.log(e);
+			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},
 );
@@ -30,10 +30,13 @@ export const createCategory = createAsyncThunk(
 				name: name,
 				createdAt: Date.now(),
 			});
+
+			// add docId to created category as a field
 			await updateDocs('categories', category.id, {
 				id: category.id,
 			});
 
+			// get category's data after adding doc id
 			const newCategory: DocumentData = await getData(
 				'categories',
 				'id',
@@ -70,18 +73,24 @@ export const updateCategory = createAsyncThunk(
 const destroyCategoryProductList = async (
 	products: string[],
 ) => {
-	for (const product of products) {
-		const categoryProduct: DocumentData | undefined = (
-			await getData('products', 'id', product)
-		).data;
+	try {
+		// loop through category's products
+		for (const product of products) {
+			const categoryProduct: DocumentData | undefined = (
+				await getData('products', 'id', product)
+			).data;
 
-		if (categoryProduct?.images)
-			await deleteProductImageList(
-				categoryProduct.images,
-				categoryProduct as TProduct,
-			);
+			// delete every image in current product
+			if (categoryProduct?.images)
+				await deleteProductImageList(
+					categoryProduct.images,
+					categoryProduct as TProduct,
+				);
 
-		await destroyDoc('products', product);
+			await destroyDoc('products', product);
+		}
+	} catch (e: any) {
+		throw new Error('Sorry, Something went wrong!!!');
 	}
 };
 

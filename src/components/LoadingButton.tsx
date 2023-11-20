@@ -2,7 +2,7 @@ import { Form } from 'react-bootstrap';
 import LoadingSpinner from './LoadingSpinner';
 
 type ButtonProps = {
-	body: string;
+	body: any;
 	variant: string;
 	type: string;
 	className?: string;

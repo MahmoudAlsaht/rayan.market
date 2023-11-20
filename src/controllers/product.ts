@@ -46,16 +46,22 @@ export const createProduct = createAsyncThunk(
 				createdAt: Date.now(),
 			});
 
-			const imagesIds = await createImagesDocument(
-				images,
-				product?.id,
-			);
+			if (images) {
+				const imagesIds = await createImagesDocument(
+					images,
+					product?.id,
+				);
+				await updateDocs('products', product.id, {
+					images: imagesIds,
+				});
+			}
 
+			// create an (id) field to store the product (docId) inside
 			await updateDocs('products', product.id, {
 				id: product.id,
-				images: imagesIds,
 			});
 
+			// add the product to the targeted category
 			await updateDocs('categories', categoryId, {
 				products: arrayUnion(product?.id),
 			});
@@ -86,6 +92,7 @@ const updateCategoryProducts = async (productId: string) => {
 				product?.categoryId,
 			)
 		).data;
+		// get the product list from category
 		const categoryProducts = category?.products;
 		const filteredCategoryProducts =
 			categoryProducts?.filter((product: string) => {
@@ -96,7 +103,7 @@ const updateCategoryProducts = async (productId: string) => {
 			products: filteredCategoryProducts,
 		});
 	} catch (e: any) {
-		console.log(e.message);
+		throw new Error('Sorry, Something went wrong!!!');
 	}
 };
 
