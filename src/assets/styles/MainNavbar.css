@@ -1,0 +1,11 @@
+.dropdown>a::after {
+    color: #fff;
+}
+
+.navLink {
+    color: #5ab6e1;
+}
+
+.navLink:hover {
+    color: #000;
+}
