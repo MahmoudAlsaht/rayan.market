@@ -14,6 +14,7 @@ import { fetchUser, logOut } from '../controllers/user';
 import { IUser } from '../app/auth/auth';
 import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
+import '../assets/styles/MainNavbar.css';
 
 function MainNavbar() {
 	const [show, setShow] = useState(false);
@@ -48,18 +49,29 @@ function MainNavbar() {
 			<Navbar
 				collapseOnSelect
 				expand='md'
-				className='bg-white shadow mb-3 d-none d-md-block'
+				className='bg-white d-none d-md-block'
 				sticky='top'
 			>
 				<Container>
 					<Navbar.Brand href='/'>mStore</Navbar.Brand>
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='me-auto'>
-							<Nav.Link href='/'>Store</Nav.Link>
-							<Nav.Link href='/store/products'>
+							<Nav.Link
+								href='/'
+								className='navLink'
+							>
+								Store
+							</Nav.Link>
+							<Nav.Link
+								href='/store/products'
+								className='navLink'
+							>
 								Products
 							</Nav.Link>
-							<Nav.Link href='/about'>
+							<Nav.Link
+								href='/about'
+								className='navLink'
+							>
 								About
 							</Nav.Link>
 						</Nav>
