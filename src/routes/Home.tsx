@@ -1,28 +1,22 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { Category } from '../app/store/category';
-import CarouselTicker from '../components/CarouselTicker';
-import { fetchCategories } from '../controllers/category';
+// import { useEffect } from 'react';
+// import { useAppDispatch, useAppSelector } from '../app/hooks';
+// import { TCategory } from '../app/store/category';
+// import CarouselTicker from '../components/CarouselTicker';
+// import { fetchCategories } from '../controllers/category';
 
 function Home() {
-	const dispatch = useAppDispatch();
-	const categories: Category[] | null = useAppSelector(
-		(state) => state.categories,
-	);
+	// const dispatch = useAppDispatch();
+	// const categories: TCategory[] | null = useAppSelector(
+	// 	(state) => state.categories,
+	// );
 
-	useEffect(() => {
-		dispatch(fetchCategories());
-	}, [dispatch]);
+	// useEffect(() => {
+	// 	dispatch(fetchCategories());
+	// }, [dispatch]);
 
 	return (
 		<>
-			{categories != null &&
-				categories!.map((category) => (
-					<CarouselTicker
-						key={category?.id}
-						category={category}
-					/>
-				))}
+			{/* here goes the latest products have been added */}
 		</>
 	);
 }
