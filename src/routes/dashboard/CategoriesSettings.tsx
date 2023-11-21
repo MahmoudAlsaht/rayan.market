@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Category } from '../../app/store/category';
+import { TCategory } from '../../app/store/category';
 import { fetchCategories } from '../../controllers/category';
 import { BsPlusLg } from 'react-icons/bs';
 import AddCategoryForm from '../../components/forms/AddCategoryForm';
@@ -12,7 +12,7 @@ function CategoriesSettings() {
 		useState(false);
 
 	const dispatch = useAppDispatch();
-	const categories: Category[] | null = useAppSelector(
+	const categories: TCategory[] | null = useAppSelector(
 		(state) => state.categories,
 	);
 

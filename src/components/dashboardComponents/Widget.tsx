@@ -1,44 +1,17 @@
-import { useEffect } from 'react';
-import { fetchUser } from '../../controllers/user';
-import { IUser } from '../../app/auth/auth';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { BsArrowRight } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 type widgetProps = {
 	widgetTitle: string;
+	className?: string;
+	href: string;
 };
 
-function Widget({ widgetTitle }: widgetProps) {
-	const dispatch = useAppDispatch();
-
-	const user: IUser | any = useAppSelector(
-		(state) => state.user,
-	);
-
-	useEffect(() => {
-		dispatch(fetchUser());
-	}, [dispatch]);
-
-	const navigate = useNavigate();
-
-	const handleWidgetsClick = (title: string) => {
-		if (title === 'settings') {
-			navigate(
-				`/account/profile/${user?.profile}/account-setting`,
-			);
-		} else {
-			navigate(`/dashboard/settings/${title}`);
-		}
-	};
-
+function Widget({ widgetTitle, className, href }: widgetProps) {
 	return (
 		<>
-			<Card
-				className='widget'
-				onClick={() => handleWidgetsClick(widgetTitle)}
-			>
+			<Card className={`widget ${className}`}>
 				<Card.Body>
 					<Card.Title>{widgetTitle}</Card.Title>
 					<Card.Text>
@@ -46,12 +19,14 @@ function Widget({ widgetTitle }: widgetProps) {
 						text below as a natural lead-in to
 						additional content. This content is a
 						little bit longer.
-						<legend
-							className='card-link lead'
-							style={{ color: '#0055aa' }}
-						>
-							see more <BsArrowRight />
-						</legend>
+						<Link to={href}>
+							<legend
+								className='card-link lead'
+								style={{ color: '#0055aa' }}
+							>
+								see more <BsArrowRight />
+							</legend>
+						</Link>
 					</Card.Text>
 				</Card.Body>
 			</Card>
