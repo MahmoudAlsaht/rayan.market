@@ -7,9 +7,7 @@ a {
     color: #5d5d57;
 }
 
-.dropdown>a::after {
-    color: #fff;
-}
+
 
 .arb-text {
     direction: rtl;

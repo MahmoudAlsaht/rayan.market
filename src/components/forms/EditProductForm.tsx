@@ -12,7 +12,7 @@ import { updateProduct } from '../../controllers/product';
 import { fetchProductsImages } from '../../controllers/productImages';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Category } from '../../app/store/category';
+import { TCategory } from '../../app/store/category';
 import { TProduct } from '../../app/store/product';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import { DocumentData } from 'firebase/firestore';
@@ -41,7 +41,7 @@ function EditProductForm({
 		(DocumentData | undefined)[] | null | undefined
 	>(null);
 
-	const categories: Category[] | null = useAppSelector(
+	const categories: TCategory[] | null = useAppSelector(
 		(state) => state.categories,
 	);
 

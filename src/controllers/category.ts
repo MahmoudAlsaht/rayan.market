@@ -22,6 +22,21 @@ export const fetchCategories = createAsyncThunk(
 	},
 );
 
+export const fetchCategory = async (categoryId: string) => {
+	try {
+		const category = await getData(
+			'categories',
+			'id',
+			categoryId,
+		);
+
+		return category.data;
+	} catch (e: any) {
+		console.log(e.message);
+		throw new Error('Something went wrong!');
+	}
+};
+
 export const createCategory = createAsyncThunk(
 	'categories/postCategory',
 	async (name: string) => {

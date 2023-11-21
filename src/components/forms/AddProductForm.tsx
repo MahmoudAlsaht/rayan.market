@@ -11,7 +11,7 @@ import LoadingButton from '../LoadingButton';
 import { createProduct } from '../../controllers/product';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Category } from '../../app/store/category';
+import { TCategory } from '../../app/store/category';
 import { TPreviewImage } from './EditProductForm';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 
@@ -31,7 +31,7 @@ function AddProductForm({
 	const [selectedImages, setSelectedImages] =
 		useState<FileList | null>(null);
 
-	const categories: Category[] | null = useAppSelector(
+	const categories: TCategory[] | null = useAppSelector(
 		(state) => state.categories,
 	);
 
