@@ -9,7 +9,7 @@ import {
 import { DocumentData } from 'firebase/firestore';
 import { DocType } from '../../firebase/firestore/getData';
 
-export type Category = Partial<DocumentData> &
+export type TCategory = Partial<DocumentData> &
 	Partial<DocType> & {
 		id: string;
 		name: string;
@@ -17,7 +17,7 @@ export type Category = Partial<DocumentData> &
 		createdAt: Date;
 	};
 
-const initialState: Category[] | any = null;
+const initialState: TCategory[] | any = null;
 
 export const CategoriesSlice = createSlice({
 	name: 'categories',
@@ -41,7 +41,7 @@ export const CategoriesSlice = createSlice({
 		builder.addCase(
 			updateCategory.fulfilled,
 			(state, action) => {
-				state = state.map((category: Category) => {
+				state = state.map((category: TCategory) => {
 					return category.id === action.payload.id
 						? action.payload
 						: category;
@@ -52,7 +52,7 @@ export const CategoriesSlice = createSlice({
 		builder.addCase(
 			destroyCategory.fulfilled,
 			(state, action) => {
-				state = state.filter((category: Category) => {
+				state = state.filter((category: TCategory) => {
 					return (
 						category.id !== action.payload &&
 						category
