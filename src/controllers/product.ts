@@ -10,6 +10,7 @@ import {
 	destroyProductImage,
 } from './productImages';
 import { TProduct } from '../app/store/product';
+import { fetchCategory } from './category';
 
 export const fetchProducts = createAsyncThunk(
 	'products/fetchProducts',
@@ -24,6 +25,22 @@ export const fetchProducts = createAsyncThunk(
 		}
 	},
 );
+
+export const fetchCategoryProducts = async (
+	categoryId: string,
+) => {
+	const category = await fetchCategory(categoryId);
+
+	const products = [];
+	for (const productId of category!.products) {
+		const product = (
+			await getData('products', 'id', productId)
+		).data;
+		products.push(product);
+	}
+
+	return products;
+};
 
 export const createProduct = createAsyncThunk(
 	'products/postProduct',

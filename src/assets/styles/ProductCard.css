@@ -1,0 +1,18 @@
+.productCard {
+    border: none;
+    border-radius: 7%;
+    cursor: pointer;
+    background-color: inherit;
+}
+
+.productCard img {
+    height: 400px;
+    border-radius: 7%;
+    transition: all 150ms ease-in-out;
+}
+
+.productCard img:hover {
+    height: 403px;
+    width: 101%;
+    margin-top: -5px;
+}
