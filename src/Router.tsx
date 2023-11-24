@@ -18,6 +18,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './routes/dashboard/Dashboard';
 import CategoriesSettings from './routes/dashboard/CategoriesSettings';
 import ProductsSettings from './routes/dashboard/ProductsSettings';
+import ShowProduct from './routes/store/ShowProduct';
 
 export const Router = createBrowserRouter([
 	{
@@ -41,6 +42,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'products',
 						element: <Products />,
+					},
+					{
+						path: 'products/:productId',
+						element: <ShowProduct />,
 					},
 				],
 			},

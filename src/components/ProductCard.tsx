@@ -27,22 +27,24 @@ function ProductCard({ product }: ProductCardProps) {
 
 	return (
 		<Container fluid>
-			<Card className='productCard mb-5'>
-				<Card.Img
-					variant='top'
-					src={
-						(productImages &&
-							productImages[0]?.path) ||
-						defaultProductImage
-					}
-				/>
-				<Card.Title className='ms-3'>
-					<Link to={'#'}>{product?.name}</Link>
-				</Card.Title>
-				<Card.Subtitle className='text-muted ms-3'>
-					{product?.price} JOD
-				</Card.Subtitle>
-			</Card>
+			<Link to={`/store/products/${product?.id}`}>
+				<Card className='productCard mb-5'>
+					<Card.Img
+						variant='top'
+						src={
+							(productImages &&
+								productImages[0]?.path) ||
+							defaultProductImage
+						}
+					/>
+					<Card.Title className='ms-3'>
+						{product?.name}
+					</Card.Title>
+					<Card.Subtitle className='text-muted ms-3'>
+						{product?.price} JOD
+					</Card.Subtitle>
+				</Card>
+			</Link>
 		</Container>
 	);
 }

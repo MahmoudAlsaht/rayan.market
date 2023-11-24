@@ -32,12 +32,13 @@ export const fetchCategoryProducts = async (
 	const category = await fetchCategory(categoryId);
 
 	const products = [];
-	for (const productId of category!.products) {
-		const product = (
-			await getData('products', 'id', productId)
-		).data;
-		products.push(product);
-	}
+	if (category?.products)
+		for (const productId of category.products) {
+			const product = (
+				await getData('products', 'id', productId)
+			).data;
+			products.push(product);
+		}
 
 	return products;
 };
