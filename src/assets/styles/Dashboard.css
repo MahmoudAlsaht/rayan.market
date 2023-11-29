@@ -41,4 +41,7 @@ body {
     cursor: pointer;
 }
 
-
+.searchInput {
+    border-radius: .3rem;
+    outline: none;
+}

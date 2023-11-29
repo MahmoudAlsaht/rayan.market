@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
 import { BsPlusLg } from 'react-icons/bs';
@@ -10,6 +10,7 @@ import { TProduct } from '../../app/store/product';
 function ProductsSettings() {
 	const [showAddProductForm, setShowAddProductForm] =
 		useState(false);
+	const [queryInput, setQueryInput] = useState('');
 
 	const dispatch = useAppDispatch();
 	const products: TProduct[] | null = useAppSelector(
@@ -19,6 +20,28 @@ function ProductsSettings() {
 	const handleClickAddProduct = () => {
 		setShowAddProductForm(!showAddProductForm);
 	};
+
+	const handleQueryChange = (
+		e: FormEvent<HTMLInputElement>,
+	) => {
+		setQueryInput(e.currentTarget.value);
+	};
+
+	function escapeRegExp(str: string) {
+		return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
+	}
+
+	const filteredProducts = useMemo(() => {
+		return products?.filter((product) => {
+			return product?.name
+				.toLowerCase()
+				.includes(
+					escapeRegExp(
+						queryInput?.toLocaleLowerCase(),
+					),
+				);
+		});
+	}, [products, queryInput]);
 
 	useEffect(() => {
 		dispatch(fetchProducts());
@@ -46,13 +69,28 @@ function ProductsSettings() {
 						</tr>
 					</thead>
 					<tbody>
-						{products?.map((product, index) => (
-							<ProductSettings
-								key={product?.id}
-								product={product}
-								index={index}
-							/>
-						))}
+						<tr>
+							<td></td>
+							<td>
+								<input
+									className='searchInput'
+									type='search'
+									placeholder='search products'
+									value={queryInput}
+									onChange={handleQueryChange}
+								/>
+							</td>
+							<td></td>
+						</tr>
+						{filteredProducts?.map(
+							(product, index) => (
+								<ProductSettings
+									key={product?.id}
+									product={product}
+									index={index}
+								/>
+							),
+						)}
 					</tbody>
 				</Table>
 				<Button

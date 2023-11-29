@@ -7,11 +7,30 @@ a {
     color: #5d5d57;
 }
 
-
-
 .arb-text {
     direction: rtl;
     float: right;
     margin-right: '25px';
     width: 100%;
+}
+
+.productContainer {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.productContainer input {
+    align-self: center;
+    width: 35%;
+    height: 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: .5rem;
+    border-color: gray;
+}
+
+.productContainer input:focus {
+    outline-color: #008042;
+    border: none;
+    padding: .3rem;
 }
