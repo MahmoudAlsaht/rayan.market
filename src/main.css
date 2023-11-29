@@ -17,12 +17,11 @@ a {
 .productContainer {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
 }
 
 .productContainer input {
     align-self: center;
-    width: 35%;
+    width: 50%;
     height: 2.5rem;
     margin-bottom: 2rem;
     border-radius: .5rem;
