@@ -11,6 +11,8 @@ export const store = configureStore({
 		categories: CategoriesReducer,
 		products: ProductsReducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({ serializableCheck: false }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
