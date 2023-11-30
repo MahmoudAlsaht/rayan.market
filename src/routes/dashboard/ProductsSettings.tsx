@@ -6,6 +6,8 @@ import AddProductForm from '../../components/forms/AddProductForm';
 import { Table, Button, Container } from 'react-bootstrap';
 import ProductSettings from '../../components/dashboardComponents/ProductSettings';
 import { TProduct } from '../../app/store/product';
+import { filteredData } from '../../utils';
+import { DocumentData } from 'firebase/firestore';
 
 function ProductsSettings() {
 	const [showAddProductForm, setShowAddProductForm] =
@@ -27,20 +29,11 @@ function ProductsSettings() {
 		setQueryInput(e.currentTarget.value);
 	};
 
-	function escapeRegExp(str: string) {
-		return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
-	}
-
 	const filteredProducts = useMemo(() => {
-		return products?.filter((product) => {
-			return product?.name
-				.toLowerCase()
-				.includes(
-					escapeRegExp(
-						queryInput?.toLocaleLowerCase(),
-					),
-				);
-		});
+		return filteredData(
+			products as DocumentData[],
+			queryInput,
+		);
 	}, [products, queryInput]);
 
 	useEffect(() => {
@@ -86,7 +79,7 @@ function ProductsSettings() {
 							(product, index) => (
 								<ProductSettings
 									key={product?.id}
-									product={product}
+									product={product as TProduct}
 									index={index}
 								/>
 							),

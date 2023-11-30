@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { fetchProducts } from '../../controllers/product';
 import ProductCard from '../../components/ProductCard';
 import { Col, Row } from 'react-bootstrap';
+import { filteredData } from '../../utils';
 
 function Products() {
 	const dispatch = useAppDispatch();
@@ -18,20 +19,11 @@ function Products() {
 		setQueryInput(e.currentTarget.value);
 	};
 
-	function escapeRegExp(str: string) {
-		return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
-	}
-
 	const filteredProducts = useMemo(() => {
-		return products?.filter((product) => {
-			return product?.name
-				.toLowerCase()
-				.includes(
-					escapeRegExp(
-						queryInput?.toLocaleLowerCase(),
-					),
-				);
-		});
+		return filteredData(
+			products as DocumentData[],
+			queryInput,
+		);
 	}, [products, queryInput]);
 
 	useEffect(() => {

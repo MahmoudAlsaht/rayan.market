@@ -1,3 +1,4 @@
+import { DocumentData } from 'firebase/firestore';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -23,4 +24,19 @@ export const checkIfDocIsNew = (createdAt: number) => {
 	const diff = todyDate - createdAt;
 	const days = diff / (1000 * 60 * 60 * 24);
 	return days < 7;
+};
+
+function escapeRegExp(str: string) {
+	return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
+}
+
+export const filteredData = (
+	data: DocumentData[],
+	query: string,
+) => {
+	return data?.filter((category) => {
+		return category.name
+			.toLowerCase()
+			.includes(escapeRegExp(query?.toLocaleLowerCase()));
+	});
 };

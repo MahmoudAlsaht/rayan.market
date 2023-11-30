@@ -31,5 +31,5 @@ a {
 .productContainer input:focus {
     outline-color: #008042;
     border: none;
-    padding: .3rem;
+    padding: .5rem;
 }

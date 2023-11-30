@@ -6,6 +6,8 @@ import { BsPlusLg } from 'react-icons/bs';
 import AddCategoryForm from '../../components/forms/AddCategoryForm';
 import { Table, Button, Container } from 'react-bootstrap';
 import CategorySettings from '../../components/dashboardComponents/CategorySettings';
+import { filteredData } from '../../utils';
+import { DocumentData } from 'firebase/firestore';
 
 function CategoriesSettings() {
 	const [showAddCategoryForm, setShowAddCategoryForm] =
@@ -28,20 +30,11 @@ function CategoriesSettings() {
 		setQueryInput(e.currentTarget.value);
 	};
 
-	function escapeRegExp(str: string) {
-		return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
-	}
-
 	const filteredCategories = useMemo(() => {
-		return categories?.filter((category) => {
-			return category.name
-				.toLowerCase()
-				.includes(
-					escapeRegExp(
-						queryInput?.toLocaleLowerCase(),
-					),
-				);
-		});
+		return filteredData(
+			categories as DocumentData[],
+			queryInput,
+		);
 	}, [categories, queryInput]);
 
 	useEffect(() => {
