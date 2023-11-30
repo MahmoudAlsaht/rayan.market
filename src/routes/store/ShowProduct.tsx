@@ -6,12 +6,14 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { DocumentData } from 'firebase/firestore';
 import { fetchProducts } from '../../controllers/product';
 import '../../assets/styles/ShowProduct.css';
-
 import { BsCart } from 'react-icons/bs';
 import ProductImageCarousel from '../../components/ProductImageCarousel';
+import { addToCart } from '../../app/store/cart';
 
 function ShowProduct() {
 	const { productId } = useParams();
+	const [previewImageUrl, setPreviewImageUrl] = useState('');
+
 	const [product, setProduct] = useState<
 		TProduct | undefined
 	>();
@@ -20,6 +22,21 @@ function ShowProduct() {
 	const products: (DocumentData | null)[] = useAppSelector(
 		(state) => state.products,
 	);
+
+	const handleAddToCart = () => {
+		if (product) {
+			dispatch(
+				addToCart({
+					name: product.name,
+					price: product.price,
+					imageUrl: previewImageUrl,
+				}),
+			);
+		}
+	};
+	const handlePreviewImageUrl = (url: any) => {
+		setPreviewImageUrl(url);
+	};
 
 	useEffect(() => {
 		dispatch(fetchProducts());
@@ -37,6 +54,7 @@ function ShowProduct() {
 				<Col xs={12} md={6}>
 					<ProductImageCarousel
 						product={product as TProduct}
+						setImageUrl={handlePreviewImageUrl}
 					/>
 				</Col>
 				<Col xs={12} md={6} className='mt-5 mt-md-0'>
@@ -51,6 +69,7 @@ function ShowProduct() {
 						size='lg'
 						variant='outline-primary'
 						className='w-100'
+						onClick={handleAddToCart}
 					>
 						Add To Cart
 						<BsCart className='ms-2' />

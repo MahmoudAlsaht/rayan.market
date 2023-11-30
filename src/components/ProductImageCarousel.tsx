@@ -14,9 +14,13 @@ export type TProductImage = {
 
 type ProductImagesProps = {
 	product: TProduct;
+	setImageUrl: (url: string) => void;
 };
 
-function ProductImageCarousel({ product }: ProductImagesProps) {
+function ProductImageCarousel({
+	product,
+	setImageUrl,
+}: ProductImagesProps) {
 	const [productImages, setProductImages] = useState<
 		(DocumentData | undefined)[] | null
 	>(null);
@@ -26,9 +30,12 @@ function ProductImageCarousel({ product }: ProductImagesProps) {
 			const fetchedImages = await fetchProductsImages(
 				product?.images as string[],
 			);
-			setProductImages(fetchedImages);
+			await setProductImages(fetchedImages);
+			setImageUrl(productImages![0]?.path);
 		};
 		getImages();
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [product?.images]);
 
 	return (

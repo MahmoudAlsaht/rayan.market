@@ -7,16 +7,18 @@ import {
 	destroyProduct,
 } from '../../controllers/product';
 import { DocumentData } from 'firebase/firestore';
+import { DocType } from '../../firebase/firestore/getData';
 
-export type TProduct = Partial<DocumentData> & {
-	id: string;
-	name: string;
-	images: string[] | null;
-	createdAt: Date;
-	price: string;
-	quantity: string;
-	categoryId: string;
-};
+export type TProduct = Partial<DocumentData> &
+	Partial<DocType> & {
+		id: string;
+		name: string;
+		images: string[] | null;
+		createdAt: Date;
+		price: string;
+		quantity: string;
+		categoryId: string;
+	};
 
 const initialState: TProduct[] | any = null;
 
