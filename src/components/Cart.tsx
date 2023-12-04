@@ -3,9 +3,15 @@ import {
 	Modal,
 	ModalBody,
 	Image,
+	Pagination,
 } from 'react-bootstrap';
-import { useAppSelector } from '../app/hooks';
-import { TCart } from '../app/store/cart';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import {
+	removeFromCounter,
+	TCart,
+	addToCounter,
+	removeProduct,
+} from '../app/store/cart';
 
 type CartProps = {
 	show: boolean;
@@ -14,9 +20,10 @@ type CartProps = {
 
 function Cart({ show, handleClose }: CartProps) {
 	const cart: TCart = useAppSelector((state) => state.cart);
+	const dispatch = useAppDispatch();
 
 	return (
-		<Modal show={show} fullscreen>
+		<Modal show={show}>
 			<Modal.Header>
 				<Modal.Title>Cart</Modal.Title>
 			</Modal.Header>
@@ -24,7 +31,49 @@ function Cart({ show, handleClose }: CartProps) {
 				{cart?.products?.map((product) => (
 					<div key={product?.id}>
 						<h6>{product?.name}</h6>
-						<h6>{product?.counter}</h6>
+						<Pagination>
+							<Pagination.Item
+								onClick={() =>
+									dispatch(
+										removeFromCounter(
+											product?.id as string,
+										),
+									)
+								}
+							>
+								-
+							</Pagination.Item>
+							<Pagination.Item>
+								{product?.counter}
+							</Pagination.Item>
+							<Pagination.Item
+								onClick={() =>
+									dispatch(
+										addToCounter({
+											id: product?.id as string,
+											maxNum: parseInt(
+												product?.price as string,
+											),
+										}),
+									)
+								}
+							>
+								+
+							</Pagination.Item>
+							<span
+								className='border p-1'
+								onClick={() =>
+									dispatch(
+										removeProduct(
+											product?.id as string,
+										),
+									)
+								}
+							>
+								remove
+							</span>
+						</Pagination>
+
 						<Image
 							src={product?.imageUrl}
 							width={100}

@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { PayloadAction } from '@reduxjs/toolkit';
 import { setCookies } from '../utils';
 import { TCart, TCartProduct } from '../app/store/cart';
@@ -20,10 +21,51 @@ const cartReducers = {
 		state!.products?.push(action.payload);
 		setCookies('cart', state);
 	},
-	addToCounter: (state: TCart) => {
-		state.products = state!.products!.map((product) => {
-			return { ...product, counter: product.counter + 1 };
+	addToCounter: (
+		state: TCart,
+		action: PayloadAction<{ id: string; maxNum: number }>,
+	) => {
+		const products = state!.products!.map((product) => {
+			if (product.id === action.payload.id) {
+				return product?.counter < action.payload.maxNum
+					? {
+							...product,
+							counter: product.counter + 1,
+					  }
+					: product;
+			}
+			return product;
 		});
+
+		state.products = products;
+		setCookies('cart', state);
+	},
+	removeFromCounter: (
+		state: TCart,
+		action: PayloadAction<string>,
+	) => {
+		state.products = state!.products!.map((product) => {
+			if (product.id === action.payload) {
+				return product.counter > 0
+					? {
+							...product,
+							counter: product.counter - 1,
+					  }
+					: product;
+			}
+			return product;
+		});
+		setCookies('cart', state);
+	},
+
+	removeProduct: (
+		state: TCart,
+		action: PayloadAction<string>,
+	) => {
+		state.products = state.products?.filter(
+			(product) =>
+				product.id !== action.payload && product,
+		);
 		setCookies('cart', state);
 	},
 };

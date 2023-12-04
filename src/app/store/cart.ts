@@ -10,7 +10,7 @@ export type TCartProduct = {
 } & Partial<TProduct>;
 
 export type TCart = {
-	products: TCartProduct[] | null;
+	products: TCartProduct[] | undefined;
 };
 
 const initialState: TCart = getCookies('cart') || {
@@ -23,7 +23,12 @@ export const CartSlice = createSlice({
 	reducers: cartReducers,
 });
 
-export const { addToCart, addToCounter } = CartSlice.actions;
+export const {
+	addToCart,
+	addToCounter,
+	removeFromCounter,
+	removeProduct,
+} = CartSlice.actions;
 
 export const selectProfile = (state: RootState) => state;
 

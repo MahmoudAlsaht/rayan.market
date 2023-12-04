@@ -43,7 +43,14 @@ function ShowProduct() {
 							counter: 1,
 						}),
 				  )
-				: dispatch(addToCounter());
+				: dispatch(
+						addToCounter({
+							id: product?.id as string,
+							maxNum: parseInt(
+								product?.price as string,
+							),
+						}),
+				  );
 		}
 	};
 	const handlePreviewImageUrl = (url: any) => {
