@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useParams } from 'react-router-dom';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
@@ -8,11 +9,18 @@ import { fetchProducts } from '../../controllers/product';
 import '../../assets/styles/ShowProduct.css';
 import { BsCart } from 'react-icons/bs';
 import ProductImageCarousel from '../../components/ProductImageCarousel';
-import { addToCart } from '../../app/store/cart';
+import {
+	TCart,
+	addToCart,
+	addToCounter,
+} from '../../app/store/cart';
+import { checkIfProductInCart } from '../../controllers/cart';
 
 function ShowProduct() {
 	const { productId } = useParams();
 	const [previewImageUrl, setPreviewImageUrl] = useState('');
+	const [productInCart, setProductInCart] = useState(false);
+	const cart: TCart = useAppSelector((state) => state.cart);
 
 	const [product, setProduct] = useState<
 		TProduct | undefined
@@ -25,13 +33,17 @@ function ShowProduct() {
 
 	const handleAddToCart = () => {
 		if (product) {
-			dispatch(
-				addToCart({
-					name: product.name,
-					price: product.price,
-					imageUrl: previewImageUrl,
-				}),
-			);
+			!productInCart
+				? dispatch(
+						addToCart({
+							id: product?.id,
+							name: product?.name,
+							price: product?.price,
+							imageUrl: previewImageUrl,
+							counter: 1,
+						}),
+				  )
+				: dispatch(addToCounter());
 		}
 	};
 	const handlePreviewImageUrl = (url: any) => {
@@ -46,7 +58,12 @@ function ShowProduct() {
 					productId === product?.id && product,
 			)[0] as TProduct;
 		});
-	}, [dispatch, productId, products]);
+		const gotProduct = checkIfProductInCart(
+			cart,
+			productId as string,
+		) as boolean;
+		setProductInCart(gotProduct);
+	}, [cart, dispatch, productId, products]);
 
 	return (
 		<Container fluid>

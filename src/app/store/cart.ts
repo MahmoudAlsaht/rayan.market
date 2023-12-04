@@ -1,33 +1,29 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import { TProduct } from './product';
-import { getCookies, setCookies } from '../../utils';
+import { getCookies } from '../../utils';
+import cartReducers from '../../controllers/cart';
 
-type TCartProduct = {
+export type TCartProduct = {
 	imageUrl: string;
+	counter: number;
 } & Partial<TProduct>;
 
 export type TCart = {
 	products: TCartProduct[] | null;
 };
 
-const initialState: TCart = getCookies('cart');
+const initialState: TCart = getCookies('cart') || {
+	products: [],
+};
 
 export const CartSlice = createSlice({
 	name: 'cart',
 	initialState,
-	reducers: {
-		addToCart: (
-			state,
-			action: PayloadAction<TCartProduct>,
-		) => {
-			state!.products?.push(action.payload);
-			setCookies('cart', state);
-		},
-	},
+	reducers: cartReducers,
 });
 
-export const { addToCart } = CartSlice.actions;
+export const { addToCart, addToCounter } = CartSlice.actions;
 
 export const selectProfile = (state: RootState) => state;
 

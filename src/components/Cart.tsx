@@ -22,8 +22,9 @@ function Cart({ show, handleClose }: CartProps) {
 			</Modal.Header>
 			<ModalBody>
 				{cart?.products?.map((product) => (
-					<div>
+					<div key={product?.id}>
 						<h6>{product?.name}</h6>
+						<h6>{product?.counter}</h6>
 						<Image
 							src={product?.imageUrl}
 							width={100}
