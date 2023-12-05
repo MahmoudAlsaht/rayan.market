@@ -11,7 +11,13 @@ import {
 	TCart,
 	addToCounter,
 	removeProduct,
+	TCartProduct,
 } from '../app/store/cart';
+import { BsTrash } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import '../assets/styles/CartStyle.css';
+import { useState, useEffect } from 'react';
+import { sumTotalPrice } from '../utils';
 
 type CartProps = {
 	show: boolean;
@@ -20,7 +26,14 @@ type CartProps = {
 
 function Cart({ show, handleClose }: CartProps) {
 	const cart: TCart = useAppSelector((state) => state.cart);
+	const [totalCartPrice, setTotalCartPrice] = useState(0);
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		setTotalCartPrice(
+			sumTotalPrice(cart?.products as TCartProduct[]),
+		);
+	}, [cart?.products]);
 
 	return (
 		<Modal show={show}>
@@ -29,57 +42,73 @@ function Cart({ show, handleClose }: CartProps) {
 			</Modal.Header>
 			<ModalBody>
 				{cart?.products?.map((product) => (
-					<div key={product?.id}>
-						<h6>{product?.name}</h6>
-						<Pagination>
-							<Pagination.Item
-								onClick={() =>
-									dispatch(
-										removeFromCounter(
-											product?.id as string,
-										),
-									)
-								}
-							>
-								-
-							</Pagination.Item>
-							<Pagination.Item>
-								{product?.counter}
-							</Pagination.Item>
-							<Pagination.Item
-								onClick={() =>
-									dispatch(
-										addToCounter({
-											id: product?.id as string,
-											maxNum: parseInt(
-												product?.price as string,
-											),
-										}),
-									)
-								}
-							>
-								+
-							</Pagination.Item>
-							<span
-								className='border p-1'
-								onClick={() =>
-									dispatch(
-										removeProduct(
-											product?.id as string,
-										),
-									)
-								}
-							>
-								remove
-							</span>
-						</Pagination>
-
+					<div
+						key={product?.id}
+						className='cartContainer'
+					>
 						<Image
 							src={product?.imageUrl}
-							width={100}
+							className='imageProduct'
 						/>
+
+						<div className='productInfo'>
+							<h6>{product?.name}</h6>
+							<h6>{product?.price}</h6>
+							<h6>
+								{product?.quantity}{' '}
+								<span className='text-muted'>
+									In stock
+								</span>
+							</h6>
+							<Pagination>
+								<Pagination.Item
+									onClick={() =>
+										dispatch(
+											removeFromCounter(
+												product?.id as string,
+											),
+										)
+									}
+								>
+									-
+								</Pagination.Item>
+								<Pagination.Item>
+									{product?.counter}
+								</Pagination.Item>
+								<Pagination.Item
+									onClick={() =>
+										dispatch(
+											addToCounter({
+												id: product?.id as string,
+												maxNum: parseInt(
+													product?.price as string,
+												),
+											}),
+										)
+									}
+								>
+									+
+								</Pagination.Item>
+								<Link
+									to='#'
+									className='border p-1'
+									onClick={() =>
+										dispatch(
+											removeProduct(
+												product?.id as string,
+											),
+										)
+									}
+								>
+									<BsTrash className='text-danger' />
+								</Link>
+							</Pagination>
+						</div>
 					</div>
 				))}
+				<div className='totalPrice text-muted'>
+					Total Price: {totalCartPrice}
+				</div>
 			</ModalBody>
 			<Modal.Footer>
 				<Button

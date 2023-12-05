@@ -5,6 +5,7 @@ import { fetchProductsImages } from '../controllers/productImages';
 import defaultProductImage from '../defaultProductImage.jpg';
 import '../assets/styles/ProductCard.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type ProductCardProps = {
 	product: DocumentData | undefined;
@@ -14,6 +15,8 @@ function ProductCard({ product }: ProductCardProps) {
 	const [productImages, setProductImages] = useState<
 		(DocumentData | undefined)[] | null
 	>(null);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const getImages = async () => {
@@ -27,7 +30,12 @@ function ProductCard({ product }: ProductCardProps) {
 
 	return (
 		<Container fluid>
-			<Link to={`/store/products/${product?.id}`}>
+			<Link
+				to='#'
+				onClick={() =>
+					navigate(`/store/products/${product?.id}`)
+				}
+			>
 				<Card className='productCard mb-5'>
 					<Card.Img
 						variant='top'

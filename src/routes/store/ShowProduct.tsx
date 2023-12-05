@@ -40,6 +40,7 @@ function ShowProduct() {
 							name: product?.name,
 							price: product?.price,
 							imageUrl: previewImageUrl,
+							quantity: product?.quantity,
 							counter: 1,
 						}),
 				  )

@@ -1,0 +1,17 @@
+.cartContainer {
+    display: flex;
+}
+
+.productInfo {
+    margin-left: 1rem;
+}
+
+.imageProduct {
+    width: 100px;
+    border-radius: 10px;
+}
+
+.totalPrice {
+    margin-top: 3rem;
+    font-weight: bolder;
+}

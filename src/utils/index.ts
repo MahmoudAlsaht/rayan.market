@@ -1,5 +1,6 @@
 import { DocumentData } from 'firebase/firestore';
 import Cookies from 'universal-cookie';
+import { TCartProduct } from '../app/store/cart';
 
 const cookies = new Cookies();
 
@@ -38,4 +39,18 @@ export const filteredData = (
 			.toLowerCase()
 			.includes(escapeRegExp(query?.toLocaleLowerCase()));
 	});
+};
+
+export const sumTotalPrice = (products: TCartProduct[]) => {
+	let totalPrice = 0;
+	for (const product of products) {
+		if (product.counter > 1) {
+			totalPrice +=
+				product?.counter *
+				parseInt(product?.price as string);
+		} else if (product.counter === 1) {
+			totalPrice += parseInt(product?.price as string);
+		}
+	}
+	return totalPrice;
 };

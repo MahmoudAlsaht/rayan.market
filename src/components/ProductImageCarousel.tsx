@@ -31,12 +31,11 @@ function ProductImageCarousel({
 				product?.images as string[],
 			);
 			await setProductImages(fetchedImages);
-			setImageUrl(productImages![0]?.path);
+			if (productImages)
+				setImageUrl(productImages[0]?.path);
 		};
 		getImages();
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [product?.images]);
+	}, [product?.images, productImages, setImageUrl]);
 
 	return (
 		<Carousel className='productImageCarousel'>
