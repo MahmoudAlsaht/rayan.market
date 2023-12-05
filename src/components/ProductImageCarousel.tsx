@@ -14,13 +14,9 @@ export type TProductImage = {
 
 type ProductImagesProps = {
 	product: TProduct;
-	setImageUrl: (url: string) => void;
 };
 
-function ProductImageCarousel({
-	product,
-	setImageUrl,
-}: ProductImagesProps) {
+function ProductImageCarousel({ product }: ProductImagesProps) {
 	const [productImages, setProductImages] = useState<
 		(DocumentData | undefined)[] | null
 	>(null);
@@ -31,11 +27,9 @@ function ProductImageCarousel({
 				product?.images as string[],
 			);
 			await setProductImages(fetchedImages);
-			if (productImages)
-				setImageUrl(productImages[0]?.path);
 		};
 		getImages();
-	}, [product?.images, productImages, setImageUrl]);
+	}, [product?.images]);
 
 	return (
 		<Carousel className='productImageCarousel'>

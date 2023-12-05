@@ -15,6 +15,7 @@ import {
 	addToCounter,
 } from '../../app/store/cart';
 import { checkIfProductInCart } from '../../controllers/cart';
+import { fetchProductsImages } from '../../controllers/productImages';
 
 function ShowProduct() {
 	const { productId } = useParams();
@@ -54,12 +55,16 @@ function ShowProduct() {
 				  );
 		}
 	};
-	const handlePreviewImageUrl = (url: any) => {
-		setPreviewImageUrl(url);
-	};
 
 	useEffect(() => {
 		dispatch(fetchProducts());
+		const handlePreviewImageUrl = async () => {
+			const url = await fetchProductsImages(
+				product?.images as string[],
+			);
+			if (url) setPreviewImageUrl(url[0]?.path as string);
+		};
+		handlePreviewImageUrl();
 		setProduct(() => {
 			return products?.filter(
 				(product) =>
@@ -71,7 +76,7 @@ function ShowProduct() {
 			productId as string,
 		) as boolean;
 		setProductInCart(gotProduct);
-	}, [cart, dispatch, productId, products]);
+	}, [cart, dispatch, product?.images, productId, products]);
 
 	return (
 		<Container fluid>
@@ -79,7 +84,6 @@ function ShowProduct() {
 				<Col xs={12} md={6}>
 					<ProductImageCarousel
 						product={product as TProduct}
-						setImageUrl={handlePreviewImageUrl}
 					/>
 				</Col>
 				<Col xs={12} md={6} className='mt-5 mt-md-0'>
