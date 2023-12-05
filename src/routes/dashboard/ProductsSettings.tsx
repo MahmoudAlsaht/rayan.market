@@ -49,6 +49,7 @@ function ProductsSettings() {
 						<tr>
 							<th scope='col'>#</th>
 							<th scope='col'>Name</th>
+							<th scope='col'></th>
 							<th scope='col'>
 								<Button
 									onClick={
@@ -73,6 +74,7 @@ function ProductsSettings() {
 									onChange={handleQueryChange}
 								/>
 							</td>
+							<td></td>
 							<td></td>
 						</tr>
 						{filteredProducts?.map(

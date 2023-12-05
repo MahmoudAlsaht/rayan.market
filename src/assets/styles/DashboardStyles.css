@@ -14,13 +14,13 @@
 }
 
 .resizeOffcanvas{
-    width: 12% !important;
+    width: 7% !important;
     transition: all 0.5s;
 }
 
 .arrowIcon {
     cursor: pointer;
-    font-size: 25px;
+    font-size: 30px !important;
 }
 
 .nav-item {

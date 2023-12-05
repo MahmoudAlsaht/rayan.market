@@ -43,32 +43,17 @@ export default function AuthLayout() {
 				className={!show && 'resizeOffcanvas'}
 			>
 				<Offcanvas.Header>
-					{show ? (
-						<BsArrowRightCircle
-							className='arrowIcon'
-							onClick={handleResize}
-						/>
-					) : (
-						<BsArrowLeftCircle
-							className='arrowIcon'
-							onClick={handleResize}
-						/>
-					)}
 					<Offcanvas.Title>
 						{show ? (
-							<h4
-								className='logo ml-2'
-								onClick={() => navigate('/')}
-							>
-								mStore
-							</h4>
+							<BsArrowRightCircle
+								className='arrowIcon d-inline'
+								onClick={handleResize}
+							/>
 						) : (
-							<h5
-								className='logo'
-								onClick={() => navigate('/')}
-							>
-								mStore
-							</h5>
+							<BsArrowLeftCircle
+								className='arrowIcon d-inline'
+								onClick={handleResize}
+							/>
 						)}
 					</Offcanvas.Title>
 				</Offcanvas.Header>

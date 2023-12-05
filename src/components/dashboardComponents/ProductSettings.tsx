@@ -43,6 +43,8 @@ function ProductSettings({
 					>
 						<BsPen />
 					</Button>
+				</td>
+				<td>
 					<Button
 						variant='outline-danger'
 						onClick={handleProductDeletion}
