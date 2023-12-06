@@ -22,14 +22,14 @@ export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
 	async (profileId: string) => {
 		const { data } =
-			(await getData(
-				'profiles',
-				'profileId',
-				profileId,
-			)) ?? {};
+			(await getData('profiles', 'id', profileId)) ?? {};
 
 		if (data) {
-			return data[0];
+			return {
+				id: data?.id,
+				user: data?.user,
+				contact: data?.contact,
+			};
 		} else {
 			return;
 		}
@@ -65,6 +65,14 @@ export const updateUserEmailAndUsername = createAsyncThunk(
 					'uid',
 					user?.uid as string,
 				)) ?? {};
+
+			const profileData =
+				(await getData(
+					'profiles',
+					'user',
+					user?.uid as string,
+				)) ?? {};
+
 			setCookies('user', {
 				...userData.data,
 				email: data?.email,
@@ -72,7 +80,11 @@ export const updateUserEmailAndUsername = createAsyncThunk(
 				docId,
 			});
 
-			return { user: userData.data, docId };
+			return {
+				user: userData.data?.uid,
+				docId: profileData?.docId,
+				contact: profileData.data?.contact,
+			};
 		} catch (e: any) {
 			throw new Error(
 				'Something went wrong, Please check your credential and try again later.',
@@ -132,9 +144,17 @@ export const updateProfileImage = createAsyncThunk(
 				(await getData('users', 'uid', uid as string)) ??
 				{};
 
+			const profileData =
+				(await getData(
+					'profiles',
+					'user',
+					uid as string,
+				)) ?? {};
+
 			return {
-				user: userData?.data,
+				user: userData?.data?.uid,
 				docId: userData?.docId,
+				contact: profileData?.data?.contact,
 			};
 		} catch (e: any) {
 			throw new Error(
@@ -168,7 +188,7 @@ export const destroyUser = createAsyncThunk(
 	},
 );
 
-const checkAuth = async (currentPassword: string) => {
+export const checkAuth = async (currentPassword: string) => {
 	try {
 		const user: User | null = auth.currentUser;
 		const credential: AuthCredential =
@@ -183,3 +203,54 @@ const checkAuth = async (currentPassword: string) => {
 		throw new Error(e.message);
 	}
 };
+
+export const updateUserContactInfo = createAsyncThunk(
+	'profile/updateUserEmailAndUsername',
+	async (options: { data: any; profileId: string }) => {
+		const { data, profileId } = options;
+
+		try {
+			const {
+				city,
+				street,
+				phoneNumber,
+				currentPassword,
+			} = data;
+
+			await checkAuth(currentPassword);
+
+			const profile = await getData(
+				'profiles',
+				'id',
+				profileId as string,
+			);
+			await updateDocs(
+				'profiles',
+				profile?.docId as string,
+				{
+					contact: {
+						address: {
+							city,
+							street,
+						},
+						phoneNumber,
+					},
+				},
+			);
+
+			const profileData =
+				(await getData('profiles', 'id', profileId)) ??
+				{};
+
+			return {
+				user: profileData.data?.user,
+				docId: profileData?.docId,
+				contact: profileData?.data?.contact,
+			};
+		} catch (e: any) {
+			throw new Error(
+				'Something went wrong, Please check your credential and try again later.',
+			);
+		}
+	},
+);

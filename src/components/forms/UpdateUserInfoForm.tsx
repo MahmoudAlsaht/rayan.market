@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { IUser } from '../../app/auth/auth';
+import { TUser } from '../../app/auth/auth';
 import { updateUserEmailAndUsername } from '../../controllers/profile';
 import { useAppDispatch } from '../../app/hooks';
 import ErrorComponent, { IError } from '../Error';
@@ -11,7 +11,7 @@ function UpdateUserInfoForm({
 	isLoading,
 	setIsLoading,
 }: {
-	profileOwner: IUser;
+	profileOwner: TUser;
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
@@ -141,6 +141,7 @@ function UpdateUserInfoForm({
 					body='Update'
 					variant='primary'
 					isLoading={isLoading}
+					disabled={!validated}
 				/>
 			</Form.Group>
 		</Form>

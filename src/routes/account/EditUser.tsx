@@ -3,16 +3,22 @@ import { useParams } from 'react-router-dom';
 import { fetchProfile } from '../../controllers/profile';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchUser } from '../../controllers/user';
-import { IUser } from '../../app/auth/auth';
+import { TUser } from '../../app/auth/auth';
 import { Container } from 'react-bootstrap';
 import UploadImageForm from '../../components/forms/UploadImageForm';
 import UpdatePasswordForm from '../../components/forms/UpdatePasswordForm';
 import UpdateUserInfoForm from '../../components/forms/UpdateUserInfoForm';
 import DeleteUser from '../../components/forms/DeleteUser';
+import AddContactInfoForm from '../../components/forms/AddContactInfoForm';
+import { TProfile } from '../../app/auth/profile';
 
 function EditUser() {
-	const profileOwner: IUser | any = useAppSelector(
+	const profileOwner: TUser | any = useAppSelector(
 		(state) => state.user,
+	);
+
+	const profile: TProfile | any = useAppSelector(
+		(state) => state.profile,
 	);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +46,12 @@ function EditUser() {
 			/>
 
 			<UpdatePasswordForm
+				isLoading={isLoading}
+				setIsLoading={setIsLoading}
+			/>
+
+			<AddContactInfoForm
+				profile={profile}
 				isLoading={isLoading}
 				setIsLoading={setIsLoading}
 			/>

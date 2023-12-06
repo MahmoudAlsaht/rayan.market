@@ -13,7 +13,7 @@ import defaultAvatar from '../default_avatar.png';
 import { BsJustify } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logOut } from '../controllers/user';
-import { IUser } from '../app/auth/auth';
+import { TUser } from '../app/auth/auth';
 
 function AccountNavbar() {
 	const [show, setShow] = useState(false);
@@ -22,7 +22,7 @@ function AccountNavbar() {
 	const handleShow = () => setShow(true);
 
 	const dispatch = useAppDispatch();
-	const user: IUser | any = useAppSelector(
+	const user: TUser | any = useAppSelector(
 		(state) => state.user,
 	);
 

@@ -8,14 +8,14 @@ import {
 } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logOut } from '../controllers/user';
-import { IUser } from '../app/auth/auth';
+import { TUser } from '../app/auth/auth';
 
 export default function AuthLayout() {
 	const [show, setShow] = useState(false);
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
-	const user: IUser | any = useAppSelector(
+	const user: TUser | any = useAppSelector(
 		(state) => state.user,
 	);
 
@@ -82,22 +82,22 @@ export default function AuthLayout() {
 							<Nav.Link
 								href={`/account/profile/${user?.profile}/account-setting`}
 							>
-								Admin Settings
+								Settings
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link href='/dashboard/settings/users'>
-								Users Settings
+								Orders
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link href='/dashboard/settings/categories'>
-								Categories Settings
+								Categories
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link href='/dashboard/settings/products'>
-								Products Settings
+								Products
 							</Nav.Link>
 						</Nav.Item>
 						<hr />

@@ -27,7 +27,11 @@ function LoadingButton({
 			) : (
 				<Form.Control
 					disabled={disabled}
-					className={`${className} btn btn-outline-${variant}`}
+					className={`${className} btn ${
+						!disabled
+							? `btn-outline-${variant}`
+							: 'btn-outline-secondary'
+					}`}
 					value={body}
 					type={type}
 					onClick={handleClick}

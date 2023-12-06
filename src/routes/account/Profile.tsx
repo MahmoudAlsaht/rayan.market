@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProfile } from '../../controllers/profile';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { IProfile } from '../../app/auth/profile';
+import { TProfile } from '../../app/auth/profile';
 
 function Profile() {
 	const dispatch = useAppDispatch();
-	const profile: IProfile | any = useAppSelector(
+	const profile: TProfile | any = useAppSelector(
 		(state) => state.profile,
 	);
 	const { profileId } = useParams();

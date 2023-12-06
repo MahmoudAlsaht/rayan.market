@@ -12,13 +12,13 @@ import EditUser from './routes/account/EditUser';
 import ResetPassword from './routes/ResetPassword';
 import NotFound404 from './routes/NotFound404';
 import { motion } from 'framer-motion';
-import Products from './routes/store/Products';
 import Category from './routes/store/Category';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './routes/dashboard/Dashboard';
 import CategoriesSettings from './routes/dashboard/CategoriesSettings';
 import ProductsSettings from './routes/dashboard/ProductsSettings';
 import ShowProduct from './routes/store/ShowProduct';
+import OrderSettings from './routes/dashboard/OrderSettings';
 
 export const Router = createBrowserRouter([
 	{
@@ -38,10 +38,6 @@ export const Router = createBrowserRouter([
 					{
 						path: 'categories/:categoryId/products',
 						element: <Category />,
-					},
-					{
-						path: 'products',
-						element: <Products />,
 					},
 					{
 						path: 'products/:productId',
@@ -90,6 +86,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/products',
 						element: <ProductsSettings />,
+					},
+					{
+						path: 'settings/orders',
+						element: <OrderSettings />,
 					},
 				],
 			},

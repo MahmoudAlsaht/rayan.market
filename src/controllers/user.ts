@@ -13,6 +13,7 @@ import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import { v4 as uuidv4 } from 'uuid';
 import updateDocs from '../firebase/firestore/updateDoc';
+import { ContactInfo } from '../app/auth/profile';
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
@@ -34,6 +35,14 @@ export const signUp = async (
 			email,
 			password,
 		);
+		const contact: ContactInfo = {
+			address: {
+				city: '',
+				street: '',
+			},
+			phoneNumber: '',
+		};
+
 		await updateProfile(res.user, { displayName });
 
 		const profileId = `${res.user.uid}-user-${
@@ -44,6 +53,7 @@ export const signUp = async (
 		await addData('profiles', {
 			id: profileId,
 			user: res.user.uid,
+			contact,
 		});
 
 		// create a new document for each user to reference user's data

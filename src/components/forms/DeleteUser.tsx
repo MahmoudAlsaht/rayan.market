@@ -86,8 +86,6 @@ function DeleteUser({
 		<>
 			<h3 className='text-muted mb-3'>Account Deletion</h3>
 
-			<ErrorComponent error={error} />
-
 			<Button
 				variant={
 					!isLoading ? 'outline-danger' : 'secondary'
@@ -104,14 +102,15 @@ function DeleteUser({
 						Delete Account?
 					</Modal.Title>
 				</Modal.Header>
+
 				<Form
 					noValidate
 					validated={!validated}
 					onSubmit={handleRemoveUser}
 					style={{ width: '100%' }}
 				>
-					<Modal.Body className='text-danger'>
-						Type Your Password To Confirm Deletion
+					<Modal.Body>
+						<ErrorComponent error={error} />
 						<Form.Group
 							className='mt-3 mb-3'
 							controlId='passwordUserInfoFormInput'
@@ -138,6 +137,7 @@ function DeleteUser({
 							variant='danger'
 							className={'w-50'}
 							isLoading={isLoading}
+							disabled={!validated}
 						/>
 					</Modal.Footer>
 				</Form>

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import defaultAvatar from '../default_avatar.png';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logOut } from '../controllers/user';
-import { IUser } from '../app/auth/auth';
+import { TUser } from '../app/auth/auth';
 import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import '../assets/styles/MainNavbar.css';
@@ -23,7 +23,7 @@ function MainNavbar() {
 	const handleShow = () => setShow(true);
 
 	const dispatch = useAppDispatch();
-	const user: IUser | any = useAppSelector(
+	const user: TUser | any = useAppSelector(
 		(state) => state.user,
 	);
 
@@ -61,12 +61,6 @@ function MainNavbar() {
 								className='navLink'
 							>
 								Store
-							</Nav.Link>
-							<Nav.Link
-								href='/store/products'
-								className='navLink'
-							>
-								Products
 							</Nav.Link>
 							<Nav.Link
 								href='/about'
@@ -175,9 +169,6 @@ function MainNavbar() {
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
 						<Nav.Link href='/'>Store</Nav.Link>
-						<Nav.Link href='/store/products'>
-							Products
-						</Nav.Link>
 						<Nav.Link href='/about'>About</Nav.Link>
 						<hr />
 

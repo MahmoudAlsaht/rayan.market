@@ -7,12 +7,23 @@ import {
 	destroyUser,
 } from '../../controllers/profile';
 
-export type IProfile = {
-	uid: string;
-	user: string;
+export type Address = {
+	city: string;
+	street: string;
 };
 
-const initialState: IProfile | any = null;
+export type ContactInfo = {
+	address: Address;
+	phoneNumber: string;
+};
+
+export type TProfile = {
+	id: string;
+	user: string;
+	contact: ContactInfo;
+};
+
+const initialState: TProfile | any = null;
 
 export const ProfileSlice = createSlice({
 	name: 'profile',

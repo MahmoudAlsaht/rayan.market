@@ -1,7 +1,7 @@
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import defaultAvatar from '../../default_avatar.png';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { IUser } from '../../app/auth/auth';
+import { TUser } from '../../app/auth/auth';
 import ErrorComponent, { IError } from '../Error';
 import { updateProfileImage } from '../../controllers/profile';
 import LoadingButton from '../LoadingButton';
@@ -12,7 +12,7 @@ function UploadImageForm({
 	isLoading,
 	setIsLoading,
 }: {
-	profileOwner: IUser;
+	profileOwner: TUser;
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {

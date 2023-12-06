@@ -11,7 +11,7 @@ import { Container, Form, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser } from '../controllers/user';
-import { IUser } from '../app/auth/auth';
+import { TUser } from '../app/auth/auth';
 import ErrorComponent, { IError } from '../components/Error';
 
 function SignIn() {
@@ -26,7 +26,7 @@ function SignIn() {
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const user: IUser | any = useAppSelector(
+	const user: TUser | any = useAppSelector(
 		(state) => state.user,
 	);
 

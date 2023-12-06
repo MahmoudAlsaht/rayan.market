@@ -1,25 +1,31 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { updateUserPassword } from '../../controllers/profile';
+import { updateUserContactInfo } from '../../controllers/profile';
+import { useAppDispatch } from '../../app/hooks';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
+import { TProfile } from '../../app/auth/profile';
 
-function UpdatePasswordForm({
+function AddContactInfoForm({
+	profile,
 	isLoading,
 	setIsLoading,
 }: {
+	profile: TProfile;
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
+	const dispatch = useAppDispatch();
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
 		message: '',
 	});
 
+	const cityRef = useRef<HTMLInputElement>(null);
+	const streetRef = useRef<HTMLInputElement>(null);
+	const phoneNumberRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
-	const newPasswordRef = useRef<HTMLInputElement>(null);
-	const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -36,13 +42,21 @@ function UpdatePasswordForm({
 			} else {
 				const data = {
 					currentPassword: passwordRef.current?.value,
-					newPassword: newPasswordRef.current?.value,
+					city: cityRef.current?.value,
+					street: streetRef.current?.value,
+					phoneNumber: phoneNumberRef.current?.value,
 				};
-				await updateUserPassword(data);
+				await dispatch(
+					updateUserContactInfo({
+						data,
+						profileId: profile?.id,
+					}),
+				);
 				setIsLoading(false);
+				cityRef.current!.value = '';
+				streetRef.current!.value = '';
+				phoneNumberRef.current!.value = '';
 				passwordRef.current!.value = '';
-				newPasswordRef.current!.value = '';
-				confirmPasswordRef.current!.value = '';
 			}
 		} catch (e: any) {
 			setError({
@@ -57,34 +71,15 @@ function UpdatePasswordForm({
 		const form = e.currentTarget as HTMLFormElement;
 		if (
 			passwordRef.current?.value === '' ||
-			newPasswordRef.current?.value === '' ||
-			confirmPasswordRef.current?.value === '' ||
+			cityRef.current?.value === '' ||
+			streetRef.current?.value === '' ||
+			phoneNumberRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
 			setError({
 				status: false,
 				message: 'please provide all the missing fields',
-			});
-		} else if (
-			newPasswordRef.current!.value.length > 0 &&
-			newPasswordRef.current?.value !==
-				confirmPasswordRef.current?.value
-		) {
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'passwords do not match',
-			});
-		} else if (
-			newPasswordRef.current!.value.length > 0 &&
-			newPasswordRef.current!.value.length < 6
-		) {
-			setValidated(false);
-			setError({
-				status: false,
-				message:
-					'password must be at least 6 characters',
 			});
 		} else {
 			setValidated(true);
@@ -101,55 +96,72 @@ function UpdatePasswordForm({
 			validated={!validated}
 			onSubmit={handleSubmit}
 			style={{ width: '100%' }}
-			className='mt-5'
 		>
-			<h3 className='text-muted mb-3'>Update Password</h3>
+			<h3 className='text-muted mb-3'>Contact Info</h3>
 
 			<ErrorComponent error={error} />
 
-			<Form.Group
-				className='mb-3'
-				controlId='CurrentPasswordInput'
-			>
-				<Form.Label>Current Password</Form.Label>
+			<Form.Group className='mb-3' controlId='cityInput'>
+				<Form.Label>City</Form.Label>
 				<Form.Control
 					onChange={handleChange}
+					type='text'
 					required
+					placeholder='Enter City'
+					defaultValue={
+						profile?.contact.address.city as string
+					}
+					ref={cityRef}
+				/>
+			</Form.Group>
+
+			<Form.Group className='mb-3' controlId='streetInput'>
+				<Form.Label>Street</Form.Label>
+				<Form.Control
+					required
+					onChange={handleChange}
+					type='text'
+					placeholder='Enter Street'
+					defaultValue={
+						profile?.contact.address.street as string
+					}
+					ref={streetRef}
+				/>
+			</Form.Group>
+
+			<Form.Group
+				className='mb-3'
+				controlId='phoneNumberInput'
+			>
+				<Form.Label>Phone Number</Form.Label>
+				<Form.Control
+					required
+					onChange={handleChange}
+					type='text'
+					placeholder='Enter Your phone Number'
+					defaultValue={
+						profile?.contact.phoneNumber as string
+					}
+					ref={phoneNumberRef}
+				/>
+			</Form.Group>
+			<Form.Group
+				className='mb-3'
+				controlId='passwordContactFormInput'
+			>
+				<Form.Label>Password</Form.Label>
+				<Form.Control
+					required
+					onChange={handleChange}
 					type='password'
 					placeholder='at least 6 char'
 					ref={passwordRef}
 				/>
 			</Form.Group>
-			<Form.Group
-				className='mb-3'
-				controlId='NewPasswordInput'
-			>
-				<Form.Label>New Password</Form.Label>
-				<Form.Control
-					required
-					onChange={handleChange}
-					type='password'
-					placeholder='at least 6 char'
-					ref={newPasswordRef}
-				/>
-			</Form.Group>
-			<Form.Group
-				className='mb-3'
-				controlId='passwordConfirmationInput'
-			>
-				<Form.Label>Confirm Password</Form.Label>
-				<Form.Control
-					required
-					onChange={handleChange}
-					type='password'
-					placeholder='at least 6 char'
-					ref={confirmPasswordRef}
-				/>
-			</Form.Group>
 			<Form.Group className='mb-3'>
 				<LoadingButton
 					type='submit'
-					body='Save'
+					body='Update'
 					variant='primary'
 					isLoading={isLoading}
 					disabled={!validated}
@@ -159,4 +171,4 @@ function UpdatePasswordForm({
 	);
 }
 
-export default UpdatePasswordForm;
+export default AddContactInfoForm;
