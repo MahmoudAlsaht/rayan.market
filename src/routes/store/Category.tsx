@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TCategory } from '../../app/store/category';
 import { fetchCategory } from '../../controllers/category';
@@ -6,6 +6,7 @@ import { fetchCategoryProducts } from '../../controllers/product';
 import { DocumentData } from 'firebase/firestore';
 import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
+import { filteredData } from '../../utils';
 
 function Category() {
 	const { categoryId } = useParams();
@@ -14,6 +15,20 @@ function Category() {
 	);
 	const [products, setProducts] =
 		useState<(DocumentData | undefined)[]>();
+	const [queryInput, setQueryInput] = useState('');
+
+	const handleQueryChange = (
+		e: FormEvent<HTMLInputElement>,
+	) => {
+		setQueryInput(e.currentTarget.value);
+	};
+
+	const filteredProducts = useMemo(() => {
+		return filteredData(
+			products as DocumentData[],
+			queryInput,
+		);
+	}, [products, queryInput]);
 
 	useEffect(() => {
 		const getCategory = async () => {
@@ -36,10 +51,18 @@ function Category() {
 	}, [categoryId]);
 
 	return (
-		<div className='mt-5'>
-			<h1 className='text-center'>{category?.name}</h1>
+		<div className='productContainer mt-5'>
+			<h1 className='text-center mb-3'>
+				{category?.name}
+			</h1>
+			<input
+				type='search'
+				placeholder='search products'
+				value={queryInput}
+				onChange={handleQueryChange}
+			/>
 			<Row>
-				{products?.map((product) => (
+				{filteredProducts?.map((product) => (
 					<Col key={product?.id} xs={12} sm={6} lg={4}>
 						<ProductCard product={product} />
 					</Col>
