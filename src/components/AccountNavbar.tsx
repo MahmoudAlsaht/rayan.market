@@ -93,7 +93,7 @@ function AccountNavbar() {
 									<NavDropdown.Item
 										href={`/account/profile/${user?.profile}/account-setting`}
 									>
-										Account Settings
+										Settings
 									</NavDropdown.Item>
 								) : user?.isAdmin ? (
 									<NavDropdown.Item
@@ -106,6 +106,13 @@ function AccountNavbar() {
 										href={`/account/profile/${user?.profile}`}
 									>
 										Profile
+									</NavDropdown.Item>
+								)}
+								{!user?.isAdmin && (
+									<NavDropdown.Item
+										href={`/account/profile/${user?.profile}/contact-info`}
+									>
+										Contact Info
 									</NavDropdown.Item>
 								)}
 								<NavDropdown.Divider />
@@ -168,13 +175,41 @@ function AccountNavbar() {
 						<hr />
 
 						<div>
-							<Nav.Link
-								href={`/account/profile/${user?.profile}/account-setting`}
-								onClick={handleClick}
-								className='text-white'
-							>
-								Account Settings
-							</Nav.Link>
+							{!isAccountSettingPage ? (
+								<Nav.Link
+									href={`/account/profile/${user?.profile}/account-setting`}
+									onClick={handleClick}
+									className='text-white'
+								>
+									Settings
+								</Nav.Link>
+							) : user?.isAdmin ? (
+								<Nav.Link
+									href={`/dashboard/admin/${user?.profile}`}
+									onClick={handleClick}
+									className='text-white'
+								>
+									Dashboard
+								</Nav.Link>
+							) : (
+								<Nav.Link
+									href={`/account/profile/${user?.profile}`}
+									onClick={handleClick}
+									className='text-white'
+								>
+									Profile
+								</Nav.Link>
+							)}
+
+							{!user?.isAdmin && (
+								<Nav.Link
+									href={`/account/profile/${user?.profile}/contact-info`}
+									onClick={handleClick}
+									className='text-white'
+								>
+									Contact Info
+								</Nav.Link>
+							)}
 							<Nav.Link
 								onClick={handleLogout}
 								className='text-white'

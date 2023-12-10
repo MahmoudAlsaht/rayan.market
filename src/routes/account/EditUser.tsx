@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchProfile } from '../../controllers/profile';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchUser } from '../../controllers/user';
 import { TUser } from '../../app/auth/auth';
@@ -9,16 +8,10 @@ import UploadImageForm from '../../components/forms/UploadImageForm';
 import UpdatePasswordForm from '../../components/forms/UpdatePasswordForm';
 import UpdateUserInfoForm from '../../components/forms/UpdateUserInfoForm';
 import DeleteUser from '../../components/forms/DeleteUser';
-import AddContactInfoForm from '../../components/forms/AddContactInfoForm';
-import { TProfile } from '../../app/auth/profile';
 
 function EditUser() {
 	const profileOwner: TUser | any = useAppSelector(
 		(state) => state.user,
-	);
-
-	const profile: TProfile | any = useAppSelector(
-		(state) => state.profile,
 	);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +20,6 @@ function EditUser() {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchProfile(profileId as string));
 		dispatch(fetchUser());
 	}, [dispatch, profileId]);
 
@@ -46,12 +38,6 @@ function EditUser() {
 			/>
 
 			<UpdatePasswordForm
-				isLoading={isLoading}
-				setIsLoading={setIsLoading}
-			/>
-
-			<AddContactInfoForm
-				profile={profile}
 				isLoading={isLoading}
 				setIsLoading={setIsLoading}
 			/>

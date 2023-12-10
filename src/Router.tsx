@@ -19,6 +19,8 @@ import CategoriesSettings from './routes/dashboard/CategoriesSettings';
 import ProductsSettings from './routes/dashboard/ProductsSettings';
 import ShowProduct from './routes/store/ShowProduct';
 import OrderSettings from './routes/dashboard/OrderSettings';
+import ContactInfo from './routes/account/ContactInfo';
+import ShowContactInfo from './routes/account/ShowContactInfo';
 
 export const Router = createBrowserRouter([
 	{
@@ -68,6 +70,14 @@ export const Router = createBrowserRouter([
 					{
 						path: 'profile/:profileId/account-setting',
 						element: <EditUser />,
+					},
+					{
+						path: 'profile/:profileId/contact-info',
+						element: <ContactInfo />,
+					},
+					{
+						path: 'profile/:profileId/contact-info/:contactId',
+						element: <ShowContactInfo />,
 					},
 				],
 			},

@@ -13,7 +13,8 @@ import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import { v4 as uuidv4 } from 'uuid';
 import updateDocs from '../firebase/firestore/updateDoc';
-import { ContactInfo } from '../app/auth/profile';
+import { arrayUnion } from 'firebase/firestore';
+import { createNewContactInfo } from './contact';
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
@@ -35,13 +36,6 @@ export const signUp = async (
 			email,
 			password,
 		);
-		const contact: ContactInfo = {
-			address: {
-				city: '',
-				street: '',
-			},
-			phoneNumber: '',
-		};
 
 		await updateProfile(res.user, { displayName });
 
@@ -49,11 +43,14 @@ export const signUp = async (
 			res.user.displayName
 		}${uuidv4()}-profile`;
 
+		// create an empty contact info for each profile
+		const contact = await createNewContactInfo(profileId);
+
 		// create a new profile and connect to the new user
 		await addData('profiles', {
 			id: profileId,
 			user: res.user.uid,
-			contact,
+			contacts: arrayUnion(contact?.id),
 		});
 
 		// create a new document for each user to reference user's data

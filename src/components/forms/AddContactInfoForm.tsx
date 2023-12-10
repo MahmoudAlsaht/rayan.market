@@ -1,21 +1,19 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { updateUserContactInfo } from '../../controllers/profile';
-import { useAppDispatch } from '../../app/hooks';
+import { updateUserContactInfo } from '../../controllers/contact';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
-import { TProfile } from '../../app/auth/profile';
+import { DocumentData } from 'firebase/firestore';
 
 function AddContactInfoForm({
-	profile,
 	isLoading,
 	setIsLoading,
+	contact,
 }: {
-	profile: TProfile;
+	contact: DocumentData | undefined;
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
-	const dispatch = useAppDispatch();
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -25,7 +23,6 @@ function AddContactInfoForm({
 	const cityRef = useRef<HTMLInputElement>(null);
 	const streetRef = useRef<HTMLInputElement>(null);
 	const phoneNumberRef = useRef<HTMLInputElement>(null);
-	const passwordRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -41,22 +38,19 @@ function AddContactInfoForm({
 				});
 			} else {
 				const data = {
-					currentPassword: passwordRef.current?.value,
-					city: cityRef.current?.value,
-					street: streetRef.current?.value,
-					phoneNumber: phoneNumberRef.current?.value,
+					city: cityRef.current?.value as string,
+					street: streetRef.current?.value as string,
+					phoneNumber: phoneNumberRef.current
+						?.value as string,
 				};
-				await dispatch(
-					updateUserContactInfo({
-						data,
-						profileId: profile?.id,
-					}),
-				);
+				updateUserContactInfo({
+					data,
+					contactId: contact?.id,
+				});
 				setIsLoading(false);
 				cityRef.current!.value = '';
 				streetRef.current!.value = '';
 				phoneNumberRef.current!.value = '';
-				passwordRef.current!.value = '';
 			}
 		} catch (e: any) {
 			setError({
@@ -70,7 +64,6 @@ function AddContactInfoForm({
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
-			passwordRef.current?.value === '' ||
 			cityRef.current?.value === '' ||
 			streetRef.current?.value === '' ||
 			phoneNumberRef.current?.value === '' ||
@@ -109,7 +102,7 @@ function AddContactInfoForm({
 					required
 					placeholder='Enter City'
 					defaultValue={
-						profile?.contact.address.city as string
+						contact?.address.city as string
 					}
 					ref={cityRef}
 				/>
@@ -123,7 +116,7 @@ function AddContactInfoForm({
 					type='text'
 					placeholder='Enter Street'
 					defaultValue={
-						profile?.contact.address.street as string
+						contact?.address.street as string
 					}
 					ref={streetRef}
 				/>
@@ -139,25 +132,11 @@ function AddContactInfoForm({
 					onChange={handleChange}
 					type='text'
 					placeholder='Enter Your phone Number'
-					defaultValue={
-						profile?.contact.phoneNumber as string
-					}
+					defaultValue={contact?.phoneNumber as string}
 					ref={phoneNumberRef}
 				/>
 			</Form.Group>
-			<Form.Group
-				className='mb-3'
-				controlId='passwordContactFormInput'
-			>
-				<Form.Label>Password</Form.Label>
-				<Form.Control
-					required
-					onChange={handleChange}
-					type='password'
-					placeholder='at least 6 char'
-					ref={passwordRef}
-				/>
-			</Form.Group>
+
 			<Form.Group className='mb-3'>
 				<LoadingButton
 					type='submit'
