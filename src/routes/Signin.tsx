@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 import ErrorComponent, { IError } from '../components/Error';
+import LoadingButton from '../components/LoadingButton';
 
 function SignIn() {
 	const [validated, setValidated] = useState(false);
@@ -20,6 +21,7 @@ function SignIn() {
 		status: null,
 		message: '',
 	});
+	const [isLoading, setIsLoading] = useState(false);
 
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
@@ -47,10 +49,12 @@ function SignIn() {
 					message: 'invalid fields',
 				});
 			} else {
+				setIsLoading(true);
 				await signIn(
 					emailRef.current!.value,
 					passwordRef.current!.value,
 				);
+				setIsLoading(false);
 				navigate('/');
 			}
 		} catch (e: any) {
@@ -58,6 +62,7 @@ function SignIn() {
 				status: false,
 				message: e.message,
 			});
+			setIsLoading(false);
 		}
 	};
 
@@ -145,16 +150,14 @@ function SignIn() {
 										SIGNUP
 									</Link>
 								</small>
-								<Form.Control
-									disabled={!validated}
+								<LoadingButton
 									type='submit'
-									value='Signin'
-									className={`btn ${
-										!validated
-											? 'btn-secondary'
-											: 'btn-outline-primary'
-									}`}
+									body='Login'
+									variant='primary'
+									disabled={!validated}
+									isLoading={isLoading}
 								/>
+
 								<small className='text-info m-2'>
 									Forgot password?{' '}
 									<Link

@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 import ErrorComponent, { IError } from '../components/Error';
+import LoadingButton from '../components/LoadingButton';
 
 function Signup() {
 	const [validated, setValidated] = useState(false);
@@ -20,6 +21,7 @@ function Signup() {
 		status: null,
 		message: '',
 	});
+	const [isLoading, setIsLoading] = useState(false);
 
 	const emailRef = useRef<HTMLInputElement>(null);
 	const usernameRef = useRef<HTMLInputElement>(null);
@@ -42,7 +44,6 @@ function Signup() {
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-
 		try {
 			const form = e.currentTarget as HTMLFormElement;
 
@@ -52,18 +53,21 @@ function Signup() {
 					message: 'invalid fields',
 				});
 			} else {
+				setIsLoading(true);
 				await signUp(
 					emailRef.current?.value,
 					passwordRef.current?.value,
 					usernameRef.current!.value,
 				);
 				navigate('/');
+				setIsLoading(false);
 			}
 		} catch (e: any) {
 			setError({
 				status: false,
 				message: e.message,
 			});
+			setIsLoading(false);
 		}
 	};
 
@@ -189,15 +193,12 @@ function Signup() {
 									SIGNIN
 								</Link>
 							</small>
-							<Form.Control
-								disabled={!validated}
+							<LoadingButton
 								type='submit'
-								value='Signup'
-								className={`btn ${
-									!validated
-										? 'btn-secondary'
-										: 'btn-outline-primary'
-								}`}
+								body='Register'
+								variant='primary'
+								disabled={!validated}
+								isLoading={isLoading}
 							/>
 						</Form.Group>
 					</Form>
