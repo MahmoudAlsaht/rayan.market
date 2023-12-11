@@ -5,8 +5,9 @@ import { getContactsData } from '../../controllers/contact';
 import { useEffect, useState } from 'react';
 import { fetchProfile } from '../../controllers/profile';
 import Widget from '../../components/dashboardComponents/Widget';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { DocumentData } from 'firebase/firestore';
+import { BsPlus } from 'react-icons/bs';
 
 function ContactInfo() {
 	const { profileId } = useParams();
@@ -29,16 +30,32 @@ function ContactInfo() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Row>
-			{contactInfo?.map((contact, index) => (
-				<Col xs={12} md={6} lg={4} key={index}>
+		<Container>
+			<Row>
+				{contactInfo?.map((contact, index) => (
+					<Col
+						xs={12}
+						sm={6}
+						lg={4}
+						xl={3}
+						key={index}
+					>
+						<Widget
+							widgetTitle={`Address - ${
+								index + 1
+							}`}
+							href={`/account/profile/${profile?.id}/contact-info/${contact?.id}`}
+						/>
+					</Col>
+				))}
+				<Col xs={12} sm={6} lg={3} xl={2}>
 					<Widget
-						widgetTitle={`Address-${index + 1}`}
-						href={`/account/profile/${profile?.id}/contact-info/${contact?.id}`}
+						widgetTitle={<BsPlus />}
+						href={`/account/profile/${profile?.id}/contact-info/new-contact`}
 					/>
 				</Col>
-			))}
-		</Row>
+			</Row>
+		</Container>
 	);
 }
 

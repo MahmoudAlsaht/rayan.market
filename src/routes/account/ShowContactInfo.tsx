@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import AddContactInfoForm from '../../components/forms/AddContactInfoForm';
+import ContactInfoForm from '../../components/forms/ContactInfoForm';
 import { useEffect, useState } from 'react';
 import { getContactData } from '../../controllers/contact';
 import { DocumentData } from 'firebase/firestore';
@@ -23,7 +23,7 @@ function ShowContactInfo() {
 
 	return (
 		<div>
-			<AddContactInfoForm
+			<ContactInfoForm
 				isLoading={isLoading}
 				setIsLoading={setIsLoading}
 				contact={contact}
