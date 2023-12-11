@@ -1,3 +1,4 @@
+import { arrayUnion } from 'firebase/firestore';
 import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import updateDocs from '../firebase/firestore/updateDoc';
@@ -19,10 +20,15 @@ export const getContactsData = async (profileId: string) => {
 	const contactsIds = profile?.data?.contacts;
 	const contacts = [];
 
-	for (const id of contactsIds) {
-		const contactInfo = await getData('contacts', 'id', id);
-		contacts.push(contactInfo?.data);
-	}
+	if (profile?.data?.contacts)
+		for (const id of contactsIds) {
+			const contactInfo = await getData(
+				'contacts',
+				'id',
+				id,
+			);
+			contacts.push(contactInfo?.data);
+		}
 
 	return contacts;
 };
@@ -34,17 +40,24 @@ export const getContactData = async (contactId: string) => {
 
 export const createNewContactInfo = async (
 	profileId: string,
+	{
+		city,
+		street,
+		phoneNumber,
+	}: { city: string; street: string; phoneNumber: string },
 ) => {
 	const contactInfo = await addData('contacts', {
-		address: { city: '', street: '' },
-		phoneNumber: '',
+		address: { city, street },
+		phoneNumber,
 		profileId,
 	});
 	await updateDocs('contacts', contactInfo?.id, {
 		id: contactInfo?.id,
 	});
-
-	return contactInfo;
+	const profile = await getData('profiles', 'id', profileId);
+	await updateDocs('profiles', profile?.docId as string, {
+		contacts: arrayUnion(contactInfo?.id),
+	});
 };
 
 export const updateUserContactInfo = async ({
@@ -57,13 +70,8 @@ export const updateUserContactInfo = async ({
 	try {
 		const { city, street, phoneNumber } = data;
 		await updateDocs('contacts', contactId, {
-			contact: {
-				address: {
-					city,
-					street,
-				},
-				phoneNumber,
-			},
+			address: { city, street },
+			phoneNumber,
 		});
 
 		return {

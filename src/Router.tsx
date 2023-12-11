@@ -21,6 +21,7 @@ import ShowProduct from './routes/store/ShowProduct';
 import OrderSettings from './routes/dashboard/OrderSettings';
 import ContactInfo from './routes/account/ContactInfo';
 import ShowContactInfo from './routes/account/ShowContactInfo';
+import AddNewContact from './routes/account/AddNewContact';
 
 export const Router = createBrowserRouter([
 	{
@@ -78,6 +79,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'profile/:profileId/contact-info/:contactId',
 						element: <ShowContactInfo />,
+					},
+					{
+						path: 'profile/:profileId/contact-info/new-contact',
+						element: <AddNewContact />,
 					},
 				],
 			},
