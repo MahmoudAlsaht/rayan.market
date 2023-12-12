@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import Home from './routes/Home';
 import RootLayout from './layouts/RootLayout';
@@ -125,6 +126,7 @@ function Wrapper() {
 				exit={{ x: 2000, opacity: 0 }}
 			>
 				<Outlet />
+				<SpeedInsights />
 			</motion.div>
 		</Provider>
 	);
