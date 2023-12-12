@@ -17,6 +17,7 @@ import { removeCookies, setCookies } from '../utils';
 import { uploadImage } from '../firebase/firestore/uploadFile';
 import { deleteImage } from '../firebase/firestore/deleteFile';
 import destroyDoc from '../firebase/firestore/deleteDoc';
+import { TProfile } from '../app/auth/profile';
 
 export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
@@ -25,11 +26,7 @@ export const fetchProfile = createAsyncThunk(
 			(await getData('profiles', 'id', profileId)) ?? {};
 
 		if (data) {
-			return {
-				id: data?.id,
-				user: data?.user,
-				contact: data?.contact,
-			};
+			return data;
 		} else {
 			return;
 		}
@@ -80,11 +77,7 @@ export const updateUserEmailAndUsername = createAsyncThunk(
 				docId,
 			});
 
-			return {
-				user: userData.data?.uid,
-				docId: profileData?.docId,
-				contact: profileData.data?.contact,
-			};
+			return profileData?.data;
 		} catch (e: any) {
 			throw new Error(
 				'Something went wrong, Please check your credential and try again later.',
@@ -115,47 +108,31 @@ export const updateProfileImage = createAsyncThunk(
 	async (options: {
 		imageFile: File | null;
 		password: string;
-		uid: string;
+		profile: TProfile;
 	}) => {
-		const { imageFile, password, uid } = options;
+		const { imageFile, password, profile } = options;
 		try {
 			await checkAuth(password);
 
-			const { data, docId } =
-				(await getData('users', 'uid', uid)) ?? {};
+			const { docId } =
+				(await getData('profiles', 'id', profile?.id)) ??
+				{};
 
 			const imageURL = await uploadImage(
 				imageFile,
-				uid,
+				profile?.id,
 				'profilesImages',
 			);
 
-			await updateDocs('users', docId!, {
+			await updateDocs('profiles', docId!, {
 				photoURL: imageURL,
 			});
-
-			setCookies('user', {
-				...data,
-				photoURL: imageURL,
-				docId,
-			});
-
-			const userData =
-				(await getData('users', 'uid', uid as string)) ??
-				{};
 
 			const profileData =
-				(await getData(
-					'profiles',
-					'user',
-					uid as string,
-				)) ?? {};
+				(await getData('profiles', 'id', profile?.id))
+					?.data ?? {};
 
-			return {
-				user: userData?.data?.uid,
-				docId: userData?.docId,
-				contact: profileData?.data?.contact,
-			};
+			return profileData;
 		} catch (e: any) {
 			throw new Error(
 				'Something went wrong, Please check your credential and try again later.',
@@ -169,15 +146,25 @@ export const destroyUser = createAsyncThunk(
 	async (options: { password: string; profileId: string }) => {
 		const { password, profileId } = options;
 		try {
-			const user = await checkAuth(password);
-
-			await deleteImage(
-				user?.uid as string,
-				'profilesImages',
+			const auth = await checkAuth(password);
+			const user = await getData(
+				'users',
+				'profile',
+				profileId,
 			);
-			await destroyDoc('users', user?.uid as string);
-			await destroyDoc('profiles', profileId);
-			await deleteUser(user!);
+			const profile = await getData(
+				'profiles',
+				'id',
+				profileId,
+			);
+
+			await deleteImage(profileId, 'profilesImages');
+			await destroyDoc('users', user?.docId as string);
+			await destroyDoc(
+				'profiles',
+				profile?.docId as string,
+			);
+			await deleteUser(auth!);
 			removeCookies('user');
 			return null;
 		} catch (e: any) {

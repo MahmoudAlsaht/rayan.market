@@ -6,7 +6,6 @@ import { User } from 'firebase/auth';
 export type TUser = Partial<User> & {
 	username: string | null;
 	isAdmin: boolean;
-	photoURL: string;
 	profile: string;
 	docId: string;
 };
@@ -15,7 +14,6 @@ const initialState: TUser | null = null;
 
 export const UserSlice = createSlice({
 	name: 'user',
-	// `createSlice` will infer the state type from the `initialState` argument
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {

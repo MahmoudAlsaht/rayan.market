@@ -14,6 +14,8 @@ import { BsJustify } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logOut } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
+import { TProfile } from '../app/auth/profile';
+import { fetchProfile } from '../controllers/profile';
 
 function AccountNavbar() {
 	const [show, setShow] = useState(false);
@@ -26,6 +28,10 @@ function AccountNavbar() {
 		(state) => state.user,
 	);
 
+	const profile: TProfile | any = useAppSelector(
+		(state) => state.profile,
+	);
+
 	const isAccountSettingPage =
 		window.location.pathname.includes('account-setting');
 
@@ -33,7 +39,8 @@ function AccountNavbar() {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-	}, [dispatch]);
+		dispatch(fetchProfile(user?.profile));
+	}, [dispatch, user?.profile]);
 
 	const handleLogout = async () => {
 		await logOut();
@@ -80,10 +87,8 @@ function AccountNavbar() {
 										width={30}
 										height={30}
 										src={
-											user?.photoURL ==
-											null
-												? defaultAvatar
-												: user?.photoURL
+											profile?.photoURL ||
+											defaultAvatar
 										}
 									/>
 								}

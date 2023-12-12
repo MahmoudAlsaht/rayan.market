@@ -1,11 +1,22 @@
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import defaultAvatar from '../../default_avatar.png';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import {
+	ChangeEvent,
+	FormEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { TUser } from '../../app/auth/auth';
 import ErrorComponent, { IError } from '../Error';
-import { updateProfileImage } from '../../controllers/profile';
+import {
+	fetchProfile,
+	updateProfileImage,
+} from '../../controllers/profile';
 import LoadingButton from '../LoadingButton';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { TProfile } from '../../app/auth/profile';
+import { useParams } from 'react-router-dom';
 
 function UploadImageForm({
 	profileOwner,
@@ -16,7 +27,11 @@ function UploadImageForm({
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
+	const { profileId } = useParams();
 	const dispatch = useAppDispatch();
+	const profile: TProfile | any = useAppSelector(
+		(state) => state.profile,
+	);
 
 	const [reviewImage, setReviewImage] = useState(
 		profileOwner?.photoURL,
@@ -31,6 +46,10 @@ function UploadImageForm({
 	});
 
 	const passwordRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		dispatch(fetchProfile(profileId as string));
+	}, [dispatch, profileId]);
 
 	const updateImage = (e: ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
@@ -81,7 +100,7 @@ function UploadImageForm({
 						imageFile: selectedImage,
 						password: passwordRef.current
 							?.value as string,
-						uid: profileOwner?.uid as string,
+						profile: profile,
 					}),
 				);
 				setIsLoading(false);
@@ -114,7 +133,7 @@ function UploadImageForm({
 						className='rounded-circle'
 						src={
 							reviewImage ||
-							profileOwner?.photoURL ||
+							profile?.photoURL ||
 							defaultAvatar
 						}
 						width={130}

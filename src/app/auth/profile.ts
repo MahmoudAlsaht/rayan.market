@@ -11,6 +11,7 @@ export type TProfile = {
 	id: string;
 	user: string;
 	contacts: string[];
+	photoURL: string;
 };
 
 const initialState: TProfile | any = null;
