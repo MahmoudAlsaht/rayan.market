@@ -38,7 +38,7 @@ function ProductCard({ product }: ProductCardProps) {
 						}
 					/>
 					<Card.Title className='ms-3'>
-						{product?.name}
+						{product?.name.substring(0, 50)}
 					</Card.Title>
 					<Card.Subtitle className='text-muted ms-3'>
 						{product?.price} JOD

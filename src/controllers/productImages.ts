@@ -34,10 +34,9 @@ export const fetchPreviewImage = async (imageId: string) => {
 			'id',
 			imageId,
 		);
-		console.log(image);
 		return image?.data?.path;
 	} catch (e: any) {
-		console.log(e.message);
+		throw new Error('Something went wrong!');
 	}
 };
 

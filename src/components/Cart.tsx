@@ -44,7 +44,7 @@ function Cart({ show, handleClose }: CartProps) {
 				{cart?.products?.map((product) => (
 					<div
 						key={product?.id}
-						className='cartContainer'
+						className='cartContainer mb-5'
 					>
 						<Image
 							src={product?.imageUrl}
@@ -52,7 +52,9 @@ function Cart({ show, handleClose }: CartProps) {
 						/>
 
 						<div className='productInfo'>
-							<h6>{product?.name}</h6>
+							<h6>
+								{product?.name?.substring(0, 50)}
+							</h6>
 							<h6>{product?.price}</h6>
 							<h6>
 								{product?.quantity}{' '}

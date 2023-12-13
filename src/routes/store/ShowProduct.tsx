@@ -88,6 +88,7 @@ function ShowProduct() {
 					<h3 className='text-muted'>
 						{product?.name}
 					</h3>
+					<hr className='mb-5' />
 					<h4 className='text-muted'>
 						{product?.price} JOD
 					</h4>
