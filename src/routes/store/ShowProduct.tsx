@@ -35,7 +35,7 @@ function ShowProduct() {
 			!productInCart
 				? dispatch(
 						addToCart({
-							id: product?.id,
+							id: productId,
 							name: product?.name,
 							price: product?.price,
 							imageUrl: previewImageUrl,
@@ -45,7 +45,7 @@ function ShowProduct() {
 				  )
 				: dispatch(
 						addToCounter({
-							id: product?.id as string,
+							id: productId as string,
 							maxNum: parseInt(
 								product?.price as string,
 							),

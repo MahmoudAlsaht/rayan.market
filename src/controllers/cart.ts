@@ -7,10 +7,12 @@ export const checkIfProductInCart = (
 	cart: TCart,
 	productId: string,
 ) => {
+	let isProductInCart = false;
 	for (const product of cart.products!) {
-		if (product.id === productId) return true;
-		return false;
+		isProductInCart =
+			isProductInCart || product?.id === productId;
 	}
+	return isProductInCart;
 };
 
 const cartReducers = {

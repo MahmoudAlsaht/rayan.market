@@ -53,9 +53,9 @@ function Cart({ show, handleClose }: CartProps) {
 
 						<div className='productInfo'>
 							<h6>
-								{product?.name?.substring(0, 50)}
+								{product?.name?.substring(0, 52)}
 							</h6>
-							<h6>{product?.price}</h6>
+							<h6>{product?.price} JOD</h6>
 							<h6>
 								{product?.quantity}{' '}
 								<span className='text-muted'>

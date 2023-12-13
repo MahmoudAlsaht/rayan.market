@@ -28,7 +28,6 @@ export const fetchProductsImages = async (
 
 export const fetchPreviewImage = async (imageId: string) => {
 	try {
-		console.log(imageId);
 		const image = await getData(
 			'productImages',
 			'id',
