@@ -26,6 +26,11 @@ export const fetchProducts = createAsyncThunk(
 	},
 );
 
+export const fetchProduct = async (productId: string) => {
+	const product = await getData('products', 'id', productId);
+	return product?.data;
+};
+
 export const fetchCategoryProducts = async (
 	categoryId: string,
 ) => {

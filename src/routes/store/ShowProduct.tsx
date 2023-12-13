@@ -4,8 +4,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { TProduct } from '../../app/store/product';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { DocumentData } from 'firebase/firestore';
-import { fetchProducts } from '../../controllers/product';
+import { fetchProduct } from '../../controllers/product';
 import '../../assets/styles/ShowProduct.css';
 import { BsCart } from 'react-icons/bs';
 import ProductImageCarousel from '../../components/ProductImageCarousel';
@@ -15,22 +14,21 @@ import {
 	addToCounter,
 } from '../../app/store/cart';
 import { checkIfProductInCart } from '../../controllers/cart';
-import { fetchProductsImages } from '../../controllers/productImages';
+import { fetchPreviewImage } from '../../controllers/productImages';
+import { DocumentData } from 'firebase/firestore';
 
 function ShowProduct() {
 	const { productId } = useParams();
 	const [previewImageUrl, setPreviewImageUrl] = useState('');
+	const [imageUrl, setImageUrl] = useState('');
 	const [productInCart, setProductInCart] = useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
 
 	const [product, setProduct] = useState<
-		TProduct | undefined
+		DocumentData | undefined
 	>();
 
 	const dispatch = useAppDispatch();
-	const products: (DocumentData | null)[] = useAppSelector(
-		(state) => state.products,
-	);
 
 	const handleAddToCart = () => {
 		if (product) {
@@ -57,26 +55,26 @@ function ShowProduct() {
 	};
 
 	useEffect(() => {
-		dispatch(fetchProducts());
-		const handlePreviewImageUrl = async () => {
-			const url = await fetchProductsImages(
-				product?.images as string[],
+		const getProduct = async () => {
+			const productData = await fetchProduct(
+				productId as string,
 			);
-			if (url) setPreviewImageUrl(url[0]?.path as string);
+			setProduct(productData);
+			setImageUrl(productData?.images[0]);
 		};
-		handlePreviewImageUrl();
-		setProduct(() => {
-			return products?.filter(
-				(product) =>
-					productId === product?.id && product,
-			)[0] as TProduct;
-		});
+		getProduct();
+		const getPreviewImage = async () => {
+			const image = await fetchPreviewImage(imageUrl);
+			setPreviewImageUrl(image);
+		};
+		getPreviewImage();
+
 		const gotProduct = checkIfProductInCart(
 			cart,
 			productId as string,
 		) as boolean;
 		setProductInCart(gotProduct);
-	}, [cart, dispatch, product?.images, productId, products]);
+	}, [cart, imageUrl, productId]);
 
 	return (
 		<Container fluid>

@@ -26,6 +26,21 @@ export const fetchProductsImages = async (
 	}
 };
 
+export const fetchPreviewImage = async (imageId: string) => {
+	try {
+		console.log(imageId);
+		const image = await getData(
+			'productImages',
+			'id',
+			imageId,
+		);
+		console.log(image);
+		return image?.data?.path;
+	} catch (e: any) {
+		console.log(e.message);
+	}
+};
+
 const uploadProductImages = async (
 	images: FileList | null,
 	productId: string,
