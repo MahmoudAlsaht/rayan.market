@@ -5,9 +5,11 @@ import { TCartProduct } from '../app/store/cart';
 const cookies = new Cookies();
 
 export const setCookies = (name: string, data: any) => {
+	const date = new Date();
+	date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
 	cookies.set(name, data, {
 		path: '/',
-		maxAge: 1000 * 60 * 60 * 24,
+		expires: date,
 	});
 };
 
