@@ -23,6 +23,7 @@ import OrderSettings from './routes/dashboard/OrderSettings';
 import ContactInfo from './routes/account/ContactInfo';
 import ShowContactInfo from './routes/account/ShowContactInfo';
 import AddNewContact from './routes/account/AddNewContact';
+import Checkout from './routes/checkout/Checkout';
 
 export const Router = createBrowserRouter([
 	{
@@ -33,6 +34,15 @@ export const Router = createBrowserRouter([
 				children: [
 					{ path: '/', element: <Home /> },
 					{ path: 'about', element: <h1>About</h1> },
+					{
+						path: '/checkout',
+						children: [
+							{
+								index: true,
+								element: <Checkout />,
+							},
+						],
+					},
 				],
 			},
 			{

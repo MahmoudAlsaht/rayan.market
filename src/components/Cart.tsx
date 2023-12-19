@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import '../assets/styles/CartStyle.css';
 import { useState, useEffect } from 'react';
 import { sumTotalPrice } from '../utils';
+import { useNavigate } from 'react-router-dom';
 
 type CartProps = {
 	show: boolean;
@@ -28,6 +29,12 @@ function Cart({ show, handleClose }: CartProps) {
 	const cart: TCart = useAppSelector((state) => state.cart);
 	const [totalCartPrice, setTotalCartPrice] = useState(0);
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	const handleCheckout = () => {
+		navigate('/checkout');
+		handleClose();
+	};
 
 	useEffect(() => {
 		setTotalCartPrice(
@@ -109,7 +116,7 @@ function Cart({ show, handleClose }: CartProps) {
 					</div>
 				))}
 				<div className='totalPrice text-muted'>
-					Total Price: {totalCartPrice}
+					Total Cart Price: {totalCartPrice}
 				</div>
 			</ModalBody>
 			<Modal.Footer>
@@ -120,7 +127,9 @@ function Cart({ show, handleClose }: CartProps) {
 					Close
 				</Button>
 
-				<Button>Checkout</Button>
+				<Button onClick={handleCheckout}>
+					Checkout
+				</Button>
 			</Modal.Footer>
 		</Modal>
 	);

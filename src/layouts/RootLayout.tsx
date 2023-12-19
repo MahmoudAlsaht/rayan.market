@@ -11,20 +11,30 @@ function RootLayout() {
 
 	const handleClickCart = () => setShow(!show);
 
+	const isCheckoutPage =
+		window.location.pathname.includes('checkout');
+
 	return (
 		<>
 			<MainNavbar />
 			<CategoryNavbar />
 			<Outlet />
 
-			<FloatingButton
-				icon={
-					<BsCart className='floatingButtonIcon text-white' />
-				}
-				handleClickFn={handleClickCart}
-			/>
+			{!isCheckoutPage && (
+				<div>
+					<FloatingButton
+						icon={
+							<BsCart className='floatingButtonIcon text-white' />
+						}
+						handleClickFn={handleClickCart}
+					/>
 
-			<Cart show={show} handleClose={handleClickCart} />
+					<Cart
+						show={show}
+						handleClose={handleClickCart}
+					/>
+				</div>
+			)}
 		</>
 	);
 }
