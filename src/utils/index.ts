@@ -56,3 +56,9 @@ export const sumTotalPrice = (products: TCartProduct[]) => {
 	}
 	return totalPrice;
 };
+
+export const sumEachProductTotalPrice = (
+	product: TCartProduct,
+) => {
+	return product?.counter * parseInt(product?.price as string);
+};

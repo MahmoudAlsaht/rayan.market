@@ -8,6 +8,8 @@ import {
 } from '../app/store/cart';
 import { Image, Pagination } from 'react-bootstrap';
 import { BsTrash } from 'react-icons/bs';
+import { useEffect, useState } from 'react';
+import { sumEachProductTotalPrice } from '../utils';
 
 type CartProductCardProps = {
 	product: TCartProduct | null;
@@ -15,6 +17,12 @@ type CartProductCardProps = {
 
 function CartProductCard({ product }: CartProductCardProps) {
 	const dispatch = useAppDispatch();
+	const [totalProductPrice, setTotalProductPrice] =
+		useState(0);
+
+	useEffect(() => {
+		setTotalProductPrice(sumEachProductTotalPrice(product!));
+	}, [product]);
 
 	return (
 		<>
@@ -76,6 +84,12 @@ function CartProductCard({ product }: CartProductCardProps) {
 							<BsTrash className='text-danger' />
 						</Link>
 					</Pagination>
+					<span className='text-muted'>
+						Total Price For This Product:{' '}
+						<span className='text-dark'>
+							{totalProductPrice}
+						</span>
+					</span>
 				</div>
 			</div>
 		</>
