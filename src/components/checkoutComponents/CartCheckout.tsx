@@ -4,7 +4,7 @@ import { sumTotalPrice } from '../../utils';
 import { useEffect, useState } from 'react';
 import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../CartProductCard';
-import { Button } from 'react-bootstrap';
+import { Breadcrumb, Button } from 'react-bootstrap';
 
 function CartCheckout({
 	handleStep,
@@ -22,6 +22,15 @@ function CartCheckout({
 
 	return (
 		<>
+			<Breadcrumb className='mb-5'>
+				<Breadcrumb.Item
+					className='text-info'
+					active
+					onClick={() => handleStep('cart')}
+				>
+					Cart
+				</Breadcrumb.Item>
+			</Breadcrumb>
 			{cart?.products?.map((product) => (
 				<CartProductCard
 					key={product?.id}
