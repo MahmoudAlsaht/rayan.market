@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import CartCheckout from '../../components/checkoutComponents/CartCheckout';
-import ContactCheckout from '../../components/checkoutComponents/ContactCheckout';
+import Information from '../../components/checkoutComponents/Information';
 import Payment from '../../components/checkoutComponents/Payment';
+import '../../assets/styles/CheckoutStyle.css';
 
 function Checkout() {
-	const [checkoutStep, setCheckoutStep] = useState('cart');
+	const [checkoutStep, setCheckoutStep] =
+		useState('information');
 
 	return (
-		<Container>
-			{checkoutStep === 'contact' ? (
-				<ContactCheckout handleStep={setCheckoutStep} />
-			) : checkoutStep === 'payment' ? (
-				<Payment handleStep={setCheckoutStep} />
+		<Container fluid>
+			{checkoutStep === 'information' ? (
+				<Information handleStep={setCheckoutStep} />
 			) : (
-				<div>
-					<CartCheckout handleStep={setCheckoutStep} />
-				</div>
+				checkoutStep === 'payment' && (
+					<Payment handleStep={setCheckoutStep} />
+				)
 			)}
 		</Container>
 	);
