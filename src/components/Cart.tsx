@@ -18,7 +18,7 @@ function Cart({ show, handleClose }: CartProps) {
 	const navigate = useNavigate();
 
 	const handleCheckout = () => {
-		navigate('/checkout');
+		navigate('/cart');
 		handleClose();
 	};
 
