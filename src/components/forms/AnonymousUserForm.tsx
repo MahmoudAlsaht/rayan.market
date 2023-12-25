@@ -3,8 +3,9 @@ import { Col, Container, Form, Row } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { DocumentData } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
 import { createAnonymousUser } from '../../controllers/user';
+import { addUserToCart } from '../../app/store/cart';
+import { useAppDispatch } from '../../app/hooks';
 
 function AnonymousUserForm({
 	isLoading,
@@ -22,7 +23,7 @@ function AnonymousUserForm({
 		status: null,
 		message: '',
 	});
-	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const firstNameRef = useRef<HTMLInputElement>(null);
 	const lastNameRef = useRef<HTMLInputElement>(null);
@@ -33,7 +34,7 @@ function AnonymousUserForm({
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		handleStep('payment');
+
 		try {
 			setIsLoading(true);
 			const form = e.currentTarget as HTMLFormElement;
@@ -56,7 +57,9 @@ function AnonymousUserForm({
 						?.value as string,
 				};
 
-				await createAnonymousUser(data);
+				const userId = await createAnonymousUser(data);
+
+				dispatch(addUserToCart(userId));
 
 				setIsLoading(false);
 				firstNameRef.current!.value = '';
@@ -65,7 +68,7 @@ function AnonymousUserForm({
 				cityRef.current!.value = '';
 				streetRef.current!.value = '';
 				phoneNumberRef.current!.value = '';
-				navigate(-1);
+				handleStep('payment');
 			}
 		} catch (e: any) {
 			setError({

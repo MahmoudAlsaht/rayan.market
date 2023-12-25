@@ -1,10 +1,16 @@
 import { Breadcrumb, Button } from 'react-bootstrap';
+import { TCart } from '../../app/store/cart';
+import { useAppSelector } from '../../app/hooks';
 
 function Payment({
 	handleStep,
 }: {
 	handleStep: (step: string) => void;
 }) {
+	const cart: TCart | null = useAppSelector(
+		(state) => state.cart,
+	);
+
 	return (
 		<>
 			<Breadcrumb className='mb-5'>
@@ -28,7 +34,7 @@ function Payment({
 					Payment
 				</Breadcrumb.Item>
 			</Breadcrumb>
-			Payment
+			{cart?.userId}
 			<Button
 				className='float-end'
 				// onClick={}

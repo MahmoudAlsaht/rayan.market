@@ -29,6 +29,7 @@ export const {
 	addToCounter,
 	removeFromCounter,
 	removeProduct,
+	addUserToCart,
 } = CartSlice.actions;
 
 export const selectProfile = (state: RootState) => state;

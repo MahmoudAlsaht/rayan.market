@@ -11,7 +11,7 @@ export const setCookies = (
 ) => {
 	const date = new Date();
 	date.setTime(
-		date.getTime() + 1000 * 60 * 60 * expireDate * 24,
+		date.getTime() + 1000 * 60 * 60 * 24 * expireDate,
 	);
 	cookies.set(name, data, {
 		path: '/',

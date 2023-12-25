@@ -23,6 +23,13 @@ const cartReducers = {
 		state!.products?.push(action.payload);
 		setCookies('cart', state, 30);
 	},
+	addUserToCart: (
+		state: TCart,
+		action: PayloadAction<string>,
+	) => {
+		state.userId = action.payload;
+		setCookies('cart', state, 30);
+	},
 	addToCounter: (
 		state: TCart,
 		action: PayloadAction<{ id: string; maxNum: number }>,
