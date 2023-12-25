@@ -1,9 +1,17 @@
-import { Breadcrumb, Col } from 'react-bootstrap';
+import {
+	Breadcrumb,
+	Card,
+	Col,
+	Form,
+	Row,
+} from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { TProfile } from '../../app/auth/profile';
 import { getContactsData } from '../../controllers/contact';
 import AnonymousUserForm from '../forms/AnonymousUserForm';
+import ChooseContactAddress from './ChooseContactAddress';
+import { BsPlus } from 'react-icons/bs';
 
 function ContactInformation({
 	handleStep,
@@ -58,11 +66,9 @@ function ContactInformation({
 				</div>
 			)}
 
-			{contactInfo ? (
-				contactInfo[0]?.id
-			) : (
+			{!profile ? (
 				<div>
-					<h3 className='mt-3 mb-2'>Contact</h3>
+					<h3 className='m-3'>Contact</h3>
 					<AnonymousUserForm
 						isLoading={isLoading}
 						setIsLoading={setIsLoading}
@@ -70,6 +76,39 @@ function ContactInformation({
 						handleStep={handleStep}
 					/>
 				</div>
+			) : (
+				<Row>
+					<Col xs={12}>
+						<Form>
+							{contactInfo?.map(
+								(contact, index) => (
+									<ChooseContactAddress
+										contact={contact}
+										profile={profile}
+										key={contact?.id}
+										index={index}
+									/>
+								),
+							)}
+						</Form>
+					</Col>
+					<Col xs={12}>
+						<Card style={{ width: '30%' }}>
+							<Card.Body>
+								<a
+									href={`/account/profile/${profile?.id}/contact-info/new-contact`}
+								>
+									<BsPlus
+										style={{
+											fontSize: '100px',
+											cursor: 'pointer',
+										}}
+									/>
+								</a>
+							</Card.Body>
+						</Card>
+					</Col>
+				</Row>
 			)}
 		</Col>
 	);
