@@ -4,9 +4,15 @@ import { TCartProduct } from '../app/store/cart';
 
 const cookies = new Cookies();
 
-export const setCookies = (name: string, data: any) => {
+export const setCookies = (
+	name: string,
+	data: any,
+	expireDate: number = 1,
+) => {
 	const date = new Date();
-	date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
+	date.setTime(
+		date.getTime() + 1000 * 60 * 60 * expireDate * 24,
+	);
 	cookies.set(name, data, {
 		path: '/',
 		expires: date,

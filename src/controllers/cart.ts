@@ -21,7 +21,7 @@ const cartReducers = {
 		action: PayloadAction<TCartProduct>,
 	) => {
 		state!.products?.push(action.payload);
-		setCookies('cart', state);
+		setCookies('cart', state, 30);
 	},
 	addToCounter: (
 		state: TCart,
