@@ -149,7 +149,7 @@ function ContactInfoForm({
 					<Form.Control
 						required
 						onChange={handleChange}
-						type='text'
+						type='number'
 						placeholder='Enter Your phone Number'
 						defaultValue={contact?.phoneNumber}
 						ref={phoneNumberRef}
