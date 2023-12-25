@@ -1,35 +1,47 @@
 body {
-    background-color: #F8F9FA;
+	background-color: #f8f9fa;
 }
 
 a {
-    text-decoration: none;
-    color: #5d5d57;
+	text-decoration: none;
+	color: #5d5d57;
 }
 
 .arb-text {
-    direction: rtl;
-    float: right;
-    margin-right: '25px';
-    width: 100%;
+	direction: rtl;
+	float: right;
+	margin-right: '25px';
+	width: 100%;
 }
 
 .productContainer {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .productContainer input {
-    align-self: center;
-    width: 50%;
-    height: 2.5rem;
-    margin-bottom: 2rem;
-    border-radius: .5rem;
-    border-color: gray;
+	align-self: center;
+	width: 50%;
+	height: 2.5rem;
+	margin-bottom: 2rem;
+	border-radius: 0.5rem;
+	border-color: gray;
 }
 
 .productContainer input:focus {
-    outline-color: #008042;
-    border: none;
-    padding: .5rem;
+	outline-color: #008042;
+	border: none;
+	padding: 0.5rem;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
 }
