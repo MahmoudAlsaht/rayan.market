@@ -11,6 +11,7 @@ export type TCartProduct = {
 
 export type TCart = {
 	products: TCartProduct[] | undefined;
+	userId?: string;
 };
 
 const initialState: TCart = getCookies('cart') || {
