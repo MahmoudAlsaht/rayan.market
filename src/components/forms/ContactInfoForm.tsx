@@ -88,6 +88,12 @@ function ContactInfoForm({
 				status: false,
 				message: 'please provide all the missing fields',
 			});
+		} else if (phoneNumberRef.current?.value.length !== 10) {
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'phone number must be 10 characters',
+			});
 		} else {
 			setValidated(true);
 			setError({
