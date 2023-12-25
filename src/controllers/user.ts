@@ -124,3 +124,23 @@ export const resetPassword = async (email: string) => {
 		);
 	}
 };
+
+export const createAnonymousUser = async (data: {
+	firstName: string;
+	lastName: string;
+	email: string;
+	city: string;
+	street: string;
+	phoneNumber: string;
+}) => {
+	try {
+		const anonymousUser = await addData(
+			'anonymousUsers',
+			data,
+		);
+		return anonymousUser.id;
+	} catch (e: any) {
+		console.log(e.message);
+		throw new Error('Something went wrong!');
+	}
+};

@@ -55,7 +55,7 @@ function SignIn() {
 					passwordRef.current!.value,
 				);
 				setIsLoading(false);
-				navigate('/');
+				navigate(-1);
 			}
 		} catch (e: any) {
 			setError({

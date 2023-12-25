@@ -4,12 +4,9 @@ import { TCart } from '../../app/store/cart';
 // import { useEffect, useState } from 'react';
 import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../../components/CartProductCard';
-import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 
 function CartCheckout() {
 	const cart: TCart = useAppSelector((state) => state.cart);
-	const navigate = useNavigate();
 	// const [totalCartPrice, setTotalCartPrice] = useState(0);
 
 	// useEffect(() => {
@@ -28,12 +25,12 @@ function CartCheckout() {
 			))}
 			<div className='totalPrice text-muted'>
 				{/* Total Cart Price: {totalCartPrice} */}
-				<Button
-					className='float-end'
-					onClick={() => navigate('/checkout')}
+				<a
+					href='/checkout'
+					className='float-end btn btn-outline-primary'
 				>
 					Add Your Info
-				</Button>
+				</a>
 			</div>
 		</div>
 	);

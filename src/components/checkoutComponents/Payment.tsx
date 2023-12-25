@@ -10,14 +10,13 @@ function Payment({
 			<Breadcrumb className='mb-5'>
 				<Breadcrumb.Item
 					className='text-info'
-					active
-					onClick={() => handleStep('cart')}
+					href='/cart'
 				>
 					Cart
 				</Breadcrumb.Item>
 				<Breadcrumb.Item
 					className='text-info'
-					onClick={() => handleStep('contact')}
+					onClick={() => handleStep('information')}
 				>
 					Contact &amp; shipping
 				</Breadcrumb.Item>
@@ -34,7 +33,7 @@ function Payment({
 				className='float-end'
 				// onClick={}
 			>
-				Pay
+				Proceed to Payment
 			</Button>
 		</>
 	);

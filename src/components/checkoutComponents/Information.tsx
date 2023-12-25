@@ -1,48 +1,37 @@
-import { Breadcrumb, Button, Col, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
+import ContactInformation from './ContactInformation';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { TUser } from '../../app/auth/auth';
+import { TProfile } from '../../app/auth/profile';
+import { useEffect } from 'react';
+import { fetchUser } from '../../controllers/user';
+import { fetchProfile } from '../../controllers/profile';
 
 function Information({
 	handleStep,
 }: {
 	handleStep: (step: string) => void;
 }) {
-	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const user: TUser | any = useAppSelector(
+		(state) => state.user,
+	);
+	const profile: TProfile | null = useAppSelector(
+		(state) => state.profile,
+	);
+
+	useEffect(() => {
+		dispatch(fetchUser());
+		dispatch(fetchProfile(user?.profile));
+	}, [dispatch, user?.profile]);
 
 	return (
 		<>
 			<Row>
-				<Col
-					xs={12}
-					md={6}
-					className='checkoutInformation'
-				>
-					<h1 className='logo'>mStore</h1>
-					<Breadcrumb className='mb-5'>
-						<Breadcrumb.Item
-							className='text-info'
-							onClick={() => navigate('/cart')}
-						>
-							Cart
-						</Breadcrumb.Item>
-						<Breadcrumb.Item
-							className='text-info'
-							active
-							onClick={() =>
-								handleStep('information')
-							}
-						>
-							Information
-						</Breadcrumb.Item>
-					</Breadcrumb>
-					Information
-					<Button
-						className='float-end'
-						onClick={() => handleStep('payment')}
-					>
-						Payment
-					</Button>
-				</Col>
-
+				<ContactInformation
+					handleStep={handleStep}
+					profile={profile}
+				/>
 				<Col
 					xs={{ order: 'first' }}
 					md={{ order: 'last' }}
