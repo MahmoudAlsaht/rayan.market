@@ -4,21 +4,18 @@ import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { DocumentData } from 'firebase/firestore';
 import { createAnonymousUser } from '../../controllers/user';
-import { addUserToCart } from '../../app/store/cart';
+import { addAnonymousUserToCart } from '../../app/store/cart';
 import { useAppDispatch } from '../../app/hooks';
 
 function AnonymousUserForm({
-	isLoading,
-	setIsLoading,
 	contact,
 	handleStep,
 }: {
 	contact: DocumentData | undefined;
-	isLoading: boolean;
-	setIsLoading: (status: boolean) => void;
 	handleStep: (step: string) => void;
 }) {
 	const [validated, setValidated] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
 		message: '',
@@ -59,7 +56,7 @@ function AnonymousUserForm({
 
 				const userId = await createAnonymousUser(data);
 
-				dispatch(addUserToCart(userId));
+				dispatch(addAnonymousUserToCart(userId));
 
 				setIsLoading(false);
 				firstNameRef.current!.value = '';

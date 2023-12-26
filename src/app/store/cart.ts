@@ -12,6 +12,8 @@ export type TCartProduct = {
 export type TCart = {
 	products: TCartProduct[] | undefined;
 	userId?: string;
+	contactId?: string;
+	anonymousUserId?: string;
 };
 
 const initialState: TCart = getCookies('cart') || {
@@ -29,7 +31,8 @@ export const {
 	addToCounter,
 	removeFromCounter,
 	removeProduct,
-	addUserToCart,
+	addAnonymousUserToCart,
+	addUserAndContactToCart,
 } = CartSlice.actions;
 
 export const selectProfile = (state: RootState) => state;

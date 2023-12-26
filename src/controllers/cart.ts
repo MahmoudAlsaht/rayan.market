@@ -23,11 +23,22 @@ const cartReducers = {
 		state!.products?.push(action.payload);
 		setCookies('cart', state, 30);
 	},
-	addUserToCart: (
+	addAnonymousUserToCart: (
 		state: TCart,
 		action: PayloadAction<string>,
 	) => {
-		state.userId = action.payload;
+		state.anonymousUserId = action.payload;
+		setCookies('cart', state, 30);
+	},
+	addUserAndContactToCart: (
+		state: TCart,
+		action: PayloadAction<{
+			userId: string;
+			contactId: string;
+		}>,
+	) => {
+		state.userId = action.payload.userId;
+		state.contactId = action.payload.contactId;
 		setCookies('cart', state, 30);
 	},
 	addToCounter: (

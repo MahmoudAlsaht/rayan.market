@@ -1,5 +1,6 @@
 import { Form } from 'react-bootstrap';
 import LoadingSpinner from './LoadingSpinner';
+import { FormEvent } from 'react';
 
 type ButtonProps = {
 	body: any;
@@ -8,7 +9,7 @@ type ButtonProps = {
 	className?: string;
 	isLoading?: boolean;
 	disabled?: boolean;
-	handleClick?: () => void;
+	handleClick?: (e?: FormEvent) => void;
 };
 
 function LoadingButton({
