@@ -32,6 +32,7 @@ function ContactInfo() {
 	return (
 		<Container>
 			<Row>
+				// TODO: Add Remove Contact Feature
 				{contactInfo?.map((contact, index) => (
 					<Col
 						xs={12}

@@ -37,7 +37,7 @@ function Information({
 					md={{ order: 'last' }}
 					className='cartSummary'
 				>
-					Cart Summary
+					// TODO: Add Cart Summary Cart Summary
 				</Col>
 			</Row>
 		</>
