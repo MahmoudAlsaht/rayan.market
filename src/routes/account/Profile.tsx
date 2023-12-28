@@ -15,7 +15,7 @@ function Profile() {
 		dispatch(fetchProfile(profileId as string));
 	}, [dispatch, profileId]);
 
-	return <div>{profile?.uid}</div>;
+	return <div>{profile?.id}</div>;
 }
 
 export default Profile;

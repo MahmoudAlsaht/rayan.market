@@ -10,7 +10,7 @@ import UpdateUserInfoForm from '../../components/forms/UpdateUserInfoForm';
 import DeleteUser from '../../components/forms/DeleteUser';
 
 function EditUser() {
-	const profileOwner: TUser | any = useAppSelector(
+	const profileOwner: TUser | null = useAppSelector(
 		(state) => state.user,
 	);
 

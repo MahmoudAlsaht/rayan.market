@@ -25,7 +25,7 @@ function MainNavbar() {
 	const handleShow = () => setShow(true);
 
 	const dispatch = useAppDispatch();
-	const user: TUser | any = useAppSelector(
+	const user: TUser | null = useAppSelector(
 		(state) => state.user,
 	);
 

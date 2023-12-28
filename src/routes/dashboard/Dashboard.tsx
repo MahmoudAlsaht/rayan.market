@@ -9,7 +9,7 @@ import { fetchUser } from '../../controllers/user';
 function Dashboard() {
 	const dispatch = useAppDispatch();
 
-	const user: TUser | any = useAppSelector(
+	const user: TUser | null = useAppSelector(
 		(state) => state.user,
 	);
 
