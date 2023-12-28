@@ -4,13 +4,19 @@ import { fetchUser } from '../../controllers/user';
 import { User } from 'firebase/auth';
 
 export type TUser = Partial<User> & {
-	username: string | null;
+	username: string;
 	isAdmin: boolean;
 	profile: string;
 	docId: string;
 };
 
-const initialState: TUser | null = null;
+const initialState: TUser = {
+	username: 'anonymous',
+	email: '',
+	isAdmin: false,
+	profile: '',
+	docId: '',
+};
 
 export const UserSlice = createSlice({
 	name: 'user',
@@ -18,7 +24,7 @@ export const UserSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchUser.fulfilled, (state, action) => {
-			state = action.payload;
+			if (action.payload !== null) state = action.payload;
 			return state;
 		});
 	},

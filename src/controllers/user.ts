@@ -14,13 +14,14 @@ import getData from '../firebase/firestore/getData';
 import { v4 as uuidv4 } from 'uuid';
 import updateDocs from '../firebase/firestore/updateDoc';
 import { createNewContactInfo } from './contact';
+import { TUser } from '../app/auth/auth';
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
 	() => {
-		const user = getCookies('user');
+		const user: TUser | null = getCookies('user');
 
-		return user ? user : null;
+		return user;
 	},
 );
 
