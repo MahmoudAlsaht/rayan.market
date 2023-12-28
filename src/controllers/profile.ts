@@ -25,11 +25,7 @@ export const fetchProfile = createAsyncThunk(
 		const { data } =
 			(await getData('profiles', 'id', profileId)) ?? {};
 
-		if (data) {
-			return data;
-		} else {
-			return;
-		}
+		return data ? (data as TProfile) : null;
 	},
 );
 
@@ -64,11 +60,13 @@ export const updateUserEmailAndUsername = createAsyncThunk(
 				)) ?? {};
 
 			const profileData =
-				(await getData(
-					'profiles',
-					'user',
-					user?.uid as string,
-				)) ?? {};
+				(
+					await getData(
+						'profiles',
+						'user',
+						user?.uid as string,
+					)
+				).data ?? {};
 
 			setCookies('user', {
 				...userData.data,
@@ -77,7 +75,9 @@ export const updateUserEmailAndUsername = createAsyncThunk(
 				docId,
 			});
 
-			return profileData?.data;
+			return profileData
+				? (profileData as TProfile)
+				: null;
 		} catch (e: any) {
 			throw new Error(
 				'Something went wrong, Please check your credential and try again later.',
@@ -132,7 +132,9 @@ export const updateProfileImage = createAsyncThunk(
 				(await getData('profiles', 'id', profile?.id))
 					?.data ?? {};
 
-			return profileData;
+			return profileData
+				? (profileData as TProfile)
+				: null;
 		} catch (e: any) {
 			throw new Error(
 				'Something went wrong, Please check your credential and try again later.',

@@ -28,7 +28,7 @@ function AccountNavbar() {
 		(state) => state.user,
 	);
 
-	const profile: TProfile = useAppSelector(
+	const profile: TProfile | null = useAppSelector(
 		(state) => state.profile,
 	);
 

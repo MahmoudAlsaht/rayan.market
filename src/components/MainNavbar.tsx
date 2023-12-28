@@ -29,7 +29,7 @@ function MainNavbar() {
 		(state) => state.user,
 	);
 
-	const profile: TProfile | any = useAppSelector(
+	const profile: TProfile | null = useAppSelector(
 		(state) => state.profile,
 	);
 

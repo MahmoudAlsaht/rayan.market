@@ -14,7 +14,12 @@ export type TProfile = {
 	photoURL: string;
 };
 
-const initialState: TProfile | any = null;
+const initialState: TProfile = {
+	id: '',
+	user: '',
+	contacts: [],
+	photoURL: '',
+};
 
 export const ProfileSlice = createSlice({
 	name: 'profile',
@@ -24,14 +29,16 @@ export const ProfileSlice = createSlice({
 		builder.addCase(
 			fetchProfile.fulfilled,
 			(state, action) => {
-				state = action.payload;
+				if (action.payload !== null)
+					state = action.payload;
 				return state;
 			},
 		);
 		builder.addCase(
 			updateUserEmailAndUsername.fulfilled,
 			(state, action) => {
-				state = action.payload;
+				if (action.payload !== null)
+					state = action.payload;
 				return state;
 			},
 		);
@@ -39,14 +46,16 @@ export const ProfileSlice = createSlice({
 		builder.addCase(
 			updateProfileImage.fulfilled,
 			(state, action) => {
-				state = action.payload;
+				if (action.payload !== null)
+					state = action.payload;
 				return state;
 			},
 		);
 		builder.addCase(
 			destroyUser.fulfilled,
 			(state, action) => {
-				state = action.payload;
+				if (action.payload !== null)
+					state = action.payload;
 				return state;
 			},
 		);

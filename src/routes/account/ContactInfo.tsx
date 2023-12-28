@@ -12,7 +12,7 @@ import { BsPlus } from 'react-icons/bs';
 function ContactInfo() {
 	const { profileId } = useParams();
 	const dispatch = useAppDispatch();
-	const profile: TProfile | any = useAppSelector(
+	const profile: TProfile | null = useAppSelector(
 		(state) => state.profile,
 	);
 	const [contactInfo, setContactInfo] =
