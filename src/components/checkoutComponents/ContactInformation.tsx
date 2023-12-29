@@ -49,17 +49,13 @@ function ContactInformation({
 				</Breadcrumb.Item>
 			</Breadcrumb>
 			<hr />
-			{!profile && (
+
+			{profile?.id === '' ? (
 				<div>
 					<small>
 						Do You want to sign in?{' '}
 						<a href='/auth/signin'>Signin</a>
 					</small>
-				</div>
-			)}
-
-			{!profile ? (
-				<div>
 					<h3 className='m-3'>Contact</h3>
 					<AnonymousUserForm
 						contact={undefined}

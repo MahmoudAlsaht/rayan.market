@@ -77,7 +77,7 @@ function MainNavbar() {
 							</Nav.Link>
 						</Nav>
 						<Nav className='ms-auto'>
-							{user != null ? (
+							{user?.username !== 'anonymous' ? (
 								<NavDropdown
 									title={
 										<Image
@@ -179,7 +179,7 @@ function MainNavbar() {
 						<Nav.Link href='/about'>About</Nav.Link>
 						<hr />
 
-						{user != null ? (
+						{user?.username !== 'anonymous' ? (
 							<div>
 								{user.isAdmin ? (
 									<Nav.Link

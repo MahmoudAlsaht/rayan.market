@@ -36,7 +36,7 @@ function SignIn() {
 		dispatch(fetchUser());
 	}, [dispatch]);
 
-	if (user != null) navigate(-1);
+	if (user?.username !== 'anonymous') navigate(-1);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
