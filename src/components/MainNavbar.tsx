@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import defaultAvatar from '../default_avatar.png';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser, logOut } from '../controllers/user';
+import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
@@ -41,7 +41,7 @@ function MainNavbar() {
 	}, [dispatch, user?.profile]);
 
 	const handleLogout = async () => {
-		await logOut();
+		await dispatch(logout());
 		dispatch(fetchUser());
 		handleClose();
 		navigate('/');

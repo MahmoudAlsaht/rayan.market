@@ -6,6 +6,7 @@ import { TProfile } from '../../app/auth/profile';
 import { useEffect } from 'react';
 import { fetchUser } from '../../controllers/user';
 import { fetchProfile } from '../../controllers/profile';
+import CartSummary from './CartSummary';
 
 function Information({
 	handleStep,
@@ -37,7 +38,7 @@ function Information({
 					md={{ order: 'last' }}
 					className='cartSummary'
 				>
-					// TODO: Add Cart Summary Cart Summary
+					<CartSummary />
 				</Col>
 			</Row>
 		</>

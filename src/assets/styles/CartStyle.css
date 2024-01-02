@@ -1,17 +1,28 @@
 .cartContainer {
-    display: flex;
-}
-
-.productInfo {
-    margin-left: 1rem;
+	display: flex;
+	margin-bottom: 4rem;
 }
 
 .imageProduct {
-    width: 100px;
-    border-radius: 10px;
+	width: 100px;
+	border-radius: 10px;
+	position: absolute;
+}
+
+.imageBadge {
+	position: relative;
+	background-color: #00000098 !important;
+	left: 79px;
+	bottom: 2.5px;
+}
+
+.productInfo {
+	margin-left: 1rem;
+	position: relative;
+	left: 80px;
 }
 
 .totalPrice {
-    margin-top: 3rem;
-    font-weight: bolder;
+	margin-top: 3rem;
+	font-weight: bolder;
 }

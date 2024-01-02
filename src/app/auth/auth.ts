@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import { fetchUser } from '../../controllers/user';
+import { fetchUser, logout } from '../../controllers/user';
 import { User } from 'firebase/auth';
 
 export type TUser = Partial<User> & {
@@ -25,6 +25,10 @@ export const UserSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(fetchUser.fulfilled, (state, action) => {
 			if (action.payload !== null) state = action.payload;
+			return state;
+		});
+		builder.addCase(logout.fulfilled, (state, action) => {
+			state = action.payload;
 			return state;
 		});
 	},

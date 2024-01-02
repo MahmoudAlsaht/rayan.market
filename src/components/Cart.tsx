@@ -41,7 +41,7 @@ function Cart({ show, handleClose }: CartProps) {
 					/>
 				))}
 				<div className='totalPrice text-muted'>
-					Total Cart Price: {totalCartPrice}
+					Total: {totalCartPrice} JOD
 				</div>
 			</ModalBody>
 			<Modal.Footer>

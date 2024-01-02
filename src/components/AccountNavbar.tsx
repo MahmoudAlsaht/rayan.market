@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import defaultAvatar from '../default_avatar.png';
 import { BsJustify } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser, logOut } from '../controllers/user';
+import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 import { TProfile } from '../app/auth/profile';
 import { fetchProfile } from '../controllers/profile';
@@ -43,7 +43,7 @@ function AccountNavbar() {
 	}, [dispatch, user?.profile]);
 
 	const handleLogout = async () => {
-		await logOut();
+		await dispatch(logout());
 		dispatch(fetchUser());
 		handleClose();
 		navigate('/');

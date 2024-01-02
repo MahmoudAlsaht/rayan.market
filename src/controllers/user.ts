@@ -105,16 +105,26 @@ export const signIn = async (
 	}
 };
 
-export const logOut = async () => {
-	try {
-		await signOut(auth);
-		removeCookies('user');
-	} catch (e: any) {
-		throw new Error(
-			'Something went wrong, Please try again later',
-		);
-	}
-};
+export const logout = createAsyncThunk(
+	'user/logout',
+	async () => {
+		try {
+			await signOut(auth);
+			removeCookies('user');
+			return {
+				username: 'anonymous',
+				email: '',
+				isAdmin: false,
+				profile: '',
+				docId: '',
+			};
+		} catch (e: any) {
+			throw new Error(
+				'Something went wrong, Please try again later',
+			);
+		}
+	},
+);
 
 export const resetPassword = async (email: string) => {
 	try {

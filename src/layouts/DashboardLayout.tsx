@@ -7,7 +7,7 @@ import {
 	BsArrowRightCircle,
 } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser, logOut } from '../controllers/user';
+import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 
 export default function AuthLayout() {
@@ -28,7 +28,7 @@ export default function AuthLayout() {
 
 	const handleResize = () => setShow(!show);
 	const handleLogout = async () => {
-		await logOut();
+		await dispatch(logout());
 		dispatch(fetchUser());
 		navigate('/');
 	};

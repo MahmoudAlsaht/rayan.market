@@ -14,6 +14,9 @@ import { fetchUser } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 import ErrorComponent, { IError } from '../components/Error';
 import LoadingButton from '../components/LoadingButton';
+// import { effect } from '@preact/signals-react';
+
+// const user = signal('user')
 
 function SignIn() {
 	const [validated, setValidated] = useState(false);
@@ -31,6 +34,8 @@ function SignIn() {
 	const user: TUser | null = useAppSelector(
 		(state) => state.user,
 	);
+
+	// effect(() => )
 
 	useEffect(() => {
 		dispatch(fetchUser());
