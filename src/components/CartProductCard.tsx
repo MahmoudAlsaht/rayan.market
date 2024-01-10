@@ -5,6 +5,7 @@ import {
 	addToCounter,
 	removeFromCounter,
 	removeProduct,
+	updateTotalPrice,
 } from '../app/store/cart';
 import { Badge, Image, Pagination } from 'react-bootstrap';
 import { BsTrash } from 'react-icons/bs';
@@ -27,6 +28,32 @@ function CartProductCard({
 	useEffect(() => {
 		setTotalProductPrice(sumEachProductTotalPrice(product!));
 	}, [product]);
+
+	const handleAddProduct = () => {
+		dispatch(
+			addToCounter({
+				id: product?.id as string,
+				maxNum: parseInt(product?.price as string),
+			}),
+		);
+		dispatch(
+			updateTotalPrice(parseInt(product?.price as string)),
+		);
+	};
+
+	const handleRemoveProduct = () => {
+		dispatch(removeFromCounter(product?.id as string));
+		dispatch(
+			updateTotalPrice(
+				-parseInt(product?.price as string),
+			),
+		);
+	};
+
+	const handleDestroyProduct = () => {
+		dispatch(removeProduct(product?.id as string));
+		dispatch(updateTotalPrice(-totalProductPrice));
+	};
 
 	return (
 		<>
@@ -56,13 +83,7 @@ function CartProductCard({
 					{type !== 'cartSummary' && (
 						<Pagination>
 							<Pagination.Item
-								onClick={() =>
-									dispatch(
-										removeFromCounter(
-											product?.id as string,
-										),
-									)
-								}
+								onClick={handleRemoveProduct}
 							>
 								-
 							</Pagination.Item>
@@ -70,29 +91,14 @@ function CartProductCard({
 								{product?.counter}
 							</Pagination.Item>
 							<Pagination.Item
-								onClick={() =>
-									dispatch(
-										addToCounter({
-											id: product?.id as string,
-											maxNum: parseInt(
-												product?.price as string,
-											),
-										}),
-									)
-								}
+								onClick={handleAddProduct}
 							>
 								+
 							</Pagination.Item>
 							<Link
 								to='#'
 								className='border p-1'
-								onClick={() =>
-									dispatch(
-										removeProduct(
-											product?.id as string,
-										),
-									)
-								}
+								onClick={handleDestroyProduct}
 							>
 								<BsTrash className='text-danger' />
 							</Link>

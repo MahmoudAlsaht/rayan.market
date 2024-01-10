@@ -12,6 +12,7 @@ import {
 	TCart,
 	addToCart,
 	addToCounter,
+	updateTotalPrice,
 } from '../../app/store/cart';
 import { checkIfProductInCart } from '../../controllers/cart';
 import { fetchPreviewImage } from '../../controllers/productImages';
@@ -52,6 +53,9 @@ function ShowProduct() {
 						}),
 				  );
 		}
+		dispatch(
+			updateTotalPrice(parseInt(product?.price as string)),
+		);
 	};
 
 	useEffect(() => {

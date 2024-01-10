@@ -23,10 +23,19 @@ const cartReducers = {
 		state!.products?.push(action.payload);
 		setCookies('cart', state, 30);
 	},
+	updateTotalPrice: (
+		state: TCart,
+		action: PayloadAction<number>,
+	) => {
+		state.totalPrice += action.payload;
+		setCookies('cart', state, 30);
+	},
 	addAnonymousUserToCart: (
 		state: TCart,
 		action: PayloadAction<string>,
 	) => {
+		state.userId = null;
+		state.contactId = null;
 		state.anonymousUserId = action.payload;
 		setCookies('cart', state, 30);
 	},
@@ -37,6 +46,7 @@ const cartReducers = {
 			contactId: string;
 		}>,
 	) => {
+		state.anonymousUserId = null;
 		state.userId = action.payload.userId;
 		state.contactId = action.payload.contactId;
 		setCookies('cart', state, 30);
@@ -58,7 +68,7 @@ const cartReducers = {
 		});
 
 		state.products = products;
-		setCookies('cart', state);
+		setCookies('cart', state, 30);
 	},
 	removeFromCounter: (
 		state: TCart,
@@ -75,7 +85,7 @@ const cartReducers = {
 			}
 			return product;
 		});
-		setCookies('cart', state);
+		setCookies('cart', state, 30);
 	},
 
 	removeProduct: (

@@ -1,21 +1,12 @@
-import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
-import { TCart, TCartProduct } from '../../app/store/cart';
+import { TCart } from '../../app/store/cart';
 import CartProductCard from '../CartProductCard';
-import { sumTotalPrice } from '../../utils';
 import { Container } from 'react-bootstrap';
 
 function CartSummary() {
 	const cart: TCart | null = useAppSelector(
 		(state) => state.cart,
 	);
-	const [totalCartPrice, setTotalCartPrice] = useState(0);
-
-	useEffect(() => {
-		setTotalCartPrice(
-			sumTotalPrice(cart?.products as TCartProduct[]),
-		);
-	}, [cart?.products]);
 
 	return (
 		<Container className='mt-5'>
@@ -27,7 +18,7 @@ function CartSummary() {
 				/>
 			))}
 			<div className='totalPrice text-muted'>
-				Total : {totalCartPrice} JOD
+				Total : {cart.totalPrice} JOD
 			</div>
 		</Container>
 	);
