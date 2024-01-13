@@ -16,7 +16,7 @@ export const createAnOrder = async (cart: TCart) => {
 	try {
 		const currUser: User | null = auth.currentUser;
 		const order = await addData('orders', {
-			userId: cart?.userId || cart?.anonymousUserId,
+			userId: cart?.userId,
 			contact: cart?.contactId || null,
 			products: cart?.products,
 			totalPrice: cart?.totalPrice,
@@ -47,7 +47,23 @@ const updateProductQuantity = async (
 		if (product)
 			await updateDocs('products', product?.id as string, {
 				quantity:
-					parseInt(product?.quantity as string) - 1,
+					parseInt(product?.quantity as string) -
+					product?.counter,
 			});
 	}
+};
+
+export const checkIfProductIsAvailable = (
+	products: TCartProduct[] | undefined,
+) => {
+	const notAvailable = [];
+	for (const product of products!) {
+		if (
+			product?.counter >
+			parseInt(product?.quantity as string)
+		)
+			notAvailable.push(product);
+	}
+
+	return notAvailable.length === 0;
 };

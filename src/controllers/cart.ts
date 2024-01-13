@@ -34,9 +34,8 @@ const cartReducers = {
 		state: TCart,
 		action: PayloadAction<string>,
 	) => {
-		state.userId = null;
+		state.userId = action.payload;
 		state.contactId = null;
-		state.anonymousUserId = action.payload;
 		setCookies('cart', state, 30);
 	},
 	addUserAndContactToCart: (
@@ -46,7 +45,6 @@ const cartReducers = {
 			contactId: string;
 		}>,
 	) => {
-		state.anonymousUserId = null;
 		state.userId = action.payload.userId;
 		state.contactId = action.payload.contactId;
 		setCookies('cart', state, 30);
@@ -96,6 +94,13 @@ const cartReducers = {
 			(product) =>
 				product.id !== action.payload && product,
 		);
+		setCookies('cart', state);
+	},
+	emptyTheCart: (state: TCart) => {
+		state.products = [];
+		state.userId = null;
+		state.contactId = null;
+		state.totalPrice = 0;
 		setCookies('cart', state);
 	},
 };

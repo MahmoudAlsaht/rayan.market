@@ -1,19 +1,20 @@
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { TCart } from '../../app/store/cart';
-// import { sumTotalPrice } from '../../utils';
-// import { useEffect, useState } from 'react';
 import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../../components/CartProductCard';
+import { checkIfProductIsAvailable } from '../../controllers/order';
 
 function CartCheckout() {
 	const cart: TCart = useAppSelector((state) => state.cart);
-	// const [totalCartPrice, setTotalCartPrice] = useState(0);
 
-	// useEffect(() => {
-	// 	setTotalCartPrice(
-	// 		sumTotalPrice(cart?.products as TCartProduct[]),
-	// 	);
-	// }, [cart?.products]);
+	const [isAvailable, setIsAvailable] = useState(true);
+
+	useEffect(() => {
+		setIsAvailable(
+			checkIfProductIsAvailable(cart?.products),
+		);
+	}, [cart?.products]);
 
 	return (
 		<div className='m-5'>
@@ -24,14 +25,29 @@ function CartCheckout() {
 				/>
 			))}
 			<div className='totalPrice text-muted'>
-				{/* Total Cart Price: {totalCartPrice} */}
 				<a
-					href='/checkout'
-					className='float-end btn btn-outline-primary'
+					href={isAvailable ? '/checkout' : '#'}
+					className={`float-end btn ${
+						isAvailable
+							? 'btn-outline-primary'
+							: 'btn-secondary'
+					}`}
+					style={{
+						cursor: isAvailable
+							? 'pointer'
+							: 'unset',
+					}}
 				>
 					Add Your Info
 				</a>
 			</div>
+
+			{!isAvailable && (
+				<div className='text-danger'>
+					There are some products in cart not available
+					check the stock to proceed!
+				</div>
+			)}
 		</div>
 	);
 }

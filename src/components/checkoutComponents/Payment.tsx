@@ -7,11 +7,12 @@ import {
 	Form,
 	Row,
 } from 'react-bootstrap';
-import { TCart } from '../../app/store/cart';
-import { useAppSelector } from '../../app/hooks';
+import { TCart, emptyTheCart } from '../../app/store/cart';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ChangeEvent, useState } from 'react';
 import PaymentButton from './PaymentButton';
 import { createAnOrder } from '../../controllers/order';
+import { useNavigate } from 'react-router-dom';
 
 function Payment({
 	handleStep,
@@ -21,6 +22,9 @@ function Payment({
 	const cart: TCart | null = useAppSelector(
 		(state) => state.cart,
 	);
+	const dispatch = useAppDispatch();
+
+	const navigate = useNavigate();
 
 	const [paymentMethod, setPaymentMethod] = useState<string>();
 
@@ -31,6 +35,8 @@ function Payment({
 	const handleClick = async () => {
 		if (paymentMethod === 'cashOnDelivery') {
 			await createAnOrder(cart);
+			dispatch(emptyTheCart());
+			navigate('/');
 		} else {
 			return;
 		}

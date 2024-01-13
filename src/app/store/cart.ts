@@ -13,7 +13,6 @@ export type TCart = {
 	products: TCartProduct[] | undefined;
 	userId?: string | null;
 	contactId?: string | null;
-	anonymousUserId?: string | null;
 	totalPrice: number;
 };
 
@@ -36,6 +35,7 @@ export const {
 	addAnonymousUserToCart,
 	addUserAndContactToCart,
 	updateTotalPrice,
+	emptyTheCart,
 } = CartSlice.actions;
 
 export const selectProfile = (state: RootState) => state;
