@@ -149,6 +149,9 @@ export const createAnonymousUser = async (data: {
 			'anonymousUsers',
 			data,
 		);
+		await updateDocs('anonymousUsers', anonymousUser?.id, {
+			id: anonymousUser?.id,
+		});
 		return anonymousUser.id;
 	} catch (e: any) {
 		console.log(e.message);

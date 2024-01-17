@@ -12,6 +12,7 @@ export type TCartProduct = {
 export type TCart = {
 	products: TCartProduct[] | undefined;
 	userId?: string | null;
+	anonymousUserId: string | null;
 	contactId?: string | null;
 	totalPrice: number;
 };

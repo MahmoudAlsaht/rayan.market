@@ -34,7 +34,7 @@ const cartReducers = {
 		state: TCart,
 		action: PayloadAction<string>,
 	) => {
-		state.userId = action.payload;
+		state.anonymousUserId = action.payload;
 		state.contactId = null;
 		setCookies('cart', state, 30);
 	},
@@ -45,6 +45,7 @@ const cartReducers = {
 			contactId: string;
 		}>,
 	) => {
+		state.anonymousUserId = null;
 		state.userId = action.payload.userId;
 		state.contactId = action.payload.contactId;
 		setCookies('cart', state, 30);
