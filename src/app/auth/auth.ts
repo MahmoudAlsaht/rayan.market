@@ -8,7 +8,7 @@ export type TUser = Partial<User> & {
 	isAdmin: boolean;
 	profile: string;
 	docId: string;
-	orderId?: string;
+	orders?: string[];
 };
 
 const initialState: TUser = {

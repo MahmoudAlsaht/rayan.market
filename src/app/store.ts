@@ -4,6 +4,7 @@ import ProfileReducer from './auth/profile';
 import CategoriesReducer from './store/category';
 import ProductsReducer from './store/product';
 import CartReducer from './store/cart';
+import OrderReducer from './store/order';
 
 export const store = configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
 		categories: CategoriesReducer,
 		products: ProductsReducer,
 		cart: CartReducer,
+		orders: OrderReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }),

@@ -34,7 +34,7 @@ function Payment({
 
 	const handleClick = async () => {
 		if (paymentMethod === 'cashOnDelivery') {
-			await createAnOrder(cart);
+			dispatch(createAnOrder(cart));
 			dispatch(emptyTheCart());
 			navigate('/');
 		} else {
