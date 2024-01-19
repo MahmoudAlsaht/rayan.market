@@ -98,9 +98,9 @@ const fetchUserOrders = async (orders: string[]) => {
 
 export const fetchOrders = createAsyncThunk(
 	'orders/fetchUserOrders',
-	async (userId?: string) => {
+	async (userId: string) => {
 		try {
-			if (userId && userId.length > 0) {
+			if (userId !== '') {
 				const user = (
 					await getData('users', 'uid', userId)
 				).data as TUser;
@@ -110,7 +110,6 @@ export const fetchOrders = createAsyncThunk(
 				return orders;
 			} else {
 				const orders = await getAllData('orders');
-				console.log(orders);
 				return orders as any[];
 			}
 		} catch (e: any) {

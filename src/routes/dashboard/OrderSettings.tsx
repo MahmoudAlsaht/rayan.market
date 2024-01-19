@@ -15,7 +15,7 @@ function OrderSettings() {
 
 	useEffect(() => {
 		console.log('dispatched');
-		dispatch(fetchOrders());
+		dispatch(fetchOrders(''));
 	}, [dispatch]);
 
 	return (
