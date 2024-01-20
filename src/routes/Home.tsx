@@ -35,6 +35,7 @@ function Home() {
 			<input
 				type='search'
 				placeholder='search products'
+				className='searchInput'
 				value={queryInput}
 				onChange={handleQueryChange}
 			/>

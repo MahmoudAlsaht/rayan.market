@@ -57,6 +57,7 @@ function Category() {
 			</h1>
 			<input
 				type='search'
+				className='searchInput'
 				placeholder='search products'
 				value={queryInput}
 				onChange={handleQueryChange}
