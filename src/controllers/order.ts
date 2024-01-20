@@ -9,7 +9,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getAllData } from '../firebase/firestore/getAllData';
 import { arrayUnion } from 'firebase/firestore';
 import { TUser } from '../app/auth/auth';
-import { v4 as uuidv4 } from 'uuid';
 
 export const createAnOrder = createAsyncThunk(
 	'orders/createAnOrder',
@@ -21,10 +20,11 @@ export const createAnOrder = createAsyncThunk(
 				products: cart?.products,
 				totalPrice: cart?.totalPrice,
 				createdAt: Date.now(),
+				status: 'pending',
 			});
 			await updateDocs('orders', order?.id, {
 				id: order?.id,
-				orderNumber: uuidv4() + order?.id.slice(15),
+				orderId: order?.id.slice(10),
 			});
 
 			if (!cart?.anonymousUserId) {

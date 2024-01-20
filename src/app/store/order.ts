@@ -13,7 +13,8 @@ export type TOrder = {
 	productIds: TCartProduct[];
 	totalPrice: number;
 	createdAt: Date;
-	orderNumber: number;
+	orderId: string;
+	status: string;
 };
 
 const initialState: TOrder[] = [];

@@ -1,29 +1,107 @@
-import { useEffect } from 'react';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchOrders } from '../../controllers/order';
-// import { TUser } from '../../app/auth/auth';
 import { TOrder } from '../../app/store/order';
-import { Container } from 'react-bootstrap';
+import { Container, Nav } from 'react-bootstrap';
 import Widget from '../../components/dashboardComponents/Widget';
+import { escapeRegExp } from '../../utils';
 
 function OrderSettings() {
 	const orders: TOrder[] = useAppSelector(
 		(state) => state.orders,
 	);
-	// const user: TUser = useAppSelector((state) => state.user);
+	const [queryInput, setQueryInput] = useState('');
+	const [orderStatus, setOrderStatus] = useState<
+		string | null
+	>('all');
+
 	const dispatch = useAppDispatch();
 
+	const handleSelect = (selectedKey: string | null) => {
+		setOrderStatus(selectedKey);
+	};
+
+	const handleQueryChange = (
+		e: FormEvent<HTMLInputElement>,
+	) => {
+		setQueryInput(e.currentTarget.value);
+	};
+
+	const filteredOrdersByStatus: TOrder[] = orders?.filter(
+		(order) => {
+			return order.status === orderStatus;
+		},
+	);
+
+	const filteredOrders = useMemo(() => {
+		const data =
+			orderStatus === 'all'
+				? orders
+				: filteredOrdersByStatus;
+
+		return data?.filter((order) => {
+			return order.orderId
+				.toLowerCase()
+				.includes(
+					escapeRegExp(
+						queryInput?.toLocaleLowerCase(),
+					),
+				);
+		});
+	}, [
+		filteredOrdersByStatus,
+		orderStatus,
+		orders,
+		queryInput,
+	]);
+
 	useEffect(() => {
-		console.log('dispatched');
 		dispatch(fetchOrders(''));
 	}, [dispatch]);
 
 	return (
 		<Container className='m-5'>
-			{orders?.map((order) => (
+			<Nav
+				variant='tabs'
+				defaultActiveKey={orderStatus!}
+				className='mb-5'
+				onSelect={handleSelect}
+			>
+				<Nav.Item>
+					<Nav.Link eventKey='all'>
+						All Orders
+					</Nav.Link>
+				</Nav.Item>
+				<Nav.Item>
+					<Nav.Link eventKey='pending'>
+						Pending
+					</Nav.Link>
+				</Nav.Item>
+				<Nav.Item>
+					<Nav.Link eventKey='accepted'>
+						Accepted
+					</Nav.Link>
+				</Nav.Item>
+				<Nav.Item>
+					<Nav.Link eventKey='completed'>
+						Completed
+					</Nav.Link>
+				</Nav.Item>
+			</Nav>
+
+			<input
+				type='search'
+				className='searchInput'
+				placeholder='search products'
+				value={queryInput}
+				onChange={handleQueryChange}
+			/>
+
+			{filteredOrders?.map((order) => (
 				<Widget
 					key={order?.id}
-					widgetTitle={order?.id}
+					widgetTitle={order?.orderId}
 					href='#'
 				/>
 			))}

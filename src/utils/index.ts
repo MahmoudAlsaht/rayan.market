@@ -34,7 +34,7 @@ export const checkIfDocIsNew = (createdAt: number) => {
 	return days < 7;
 };
 
-function escapeRegExp(str: string) {
+export function escapeRegExp(str: string) {
 	return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
 }
 

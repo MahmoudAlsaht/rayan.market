@@ -19,7 +19,7 @@ a {
 	flex-direction: column;
 }
 
-.productContainer input {
+.searchInput {
 	align-self: center;
 	width: 50%;
 	height: 2.5rem;
@@ -28,7 +28,7 @@ a {
 	border-color: gray;
 }
 
-.productContainer input:focus {
+.searchInput:focus {
 	outline-color: #008042;
 	border: none;
 	padding: 0.5rem;
