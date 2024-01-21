@@ -6,11 +6,17 @@ import { Link } from 'react-router-dom';
 
 type widgetProps = {
 	widgetTitle: string | ReactNode;
+	badge?: ReactNode;
 	className?: string;
 	href: string;
 };
 
-function Widget({ widgetTitle, className, href }: widgetProps) {
+function Widget({
+	widgetTitle,
+	className,
+	href,
+	badge,
+}: widgetProps) {
 	const isTitleAString = typeof widgetTitle === 'string';
 
 	return (
@@ -23,7 +29,7 @@ function Widget({ widgetTitle, className, href }: widgetProps) {
 					<Card.Body>
 						{isTitleAString ? (
 							<Card.Title>
-								{widgetTitle}
+								{widgetTitle} {badge}
 							</Card.Title>
 						) : (
 							<Card.Title
