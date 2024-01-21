@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchOrders } from '../../controllers/order';
 import { TOrder } from '../../app/store/order';
-import { Container, Nav } from 'react-bootstrap';
+import { Badge, Container, Nav } from 'react-bootstrap';
 import Widget from '../../components/dashboardComponents/Widget';
 import { escapeRegExp } from '../../utils';
 
@@ -33,6 +33,10 @@ function OrderSettings() {
 			return order.status === orderStatus;
 		},
 	);
+
+	const pendingOrders: TOrder[] = orders?.filter((order) => {
+		return order.status === 'pending';
+	});
 
 	const filteredOrders = useMemo(() => {
 		const data =
@@ -75,7 +79,10 @@ function OrderSettings() {
 				</Nav.Item>
 				<Nav.Item>
 					<Nav.Link eventKey='pending'>
-						Pending
+						Pending{' '}
+						<Badge pill bg='danger'>
+							{pendingOrders.length}
+						</Badge>
 					</Nav.Link>
 				</Nav.Item>
 				<Nav.Item>

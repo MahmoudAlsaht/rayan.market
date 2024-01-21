@@ -1,10 +1,12 @@
-import { Col, Container, Row } from 'react-bootstrap';
+import { Badge, Col, Container, Row } from 'react-bootstrap';
 import '../../assets/styles/Dashboard.css';
 import Widget from '../../components/dashboardComponents/Widget';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
 import { useEffect } from 'react';
 import { fetchUser } from '../../controllers/user';
+import { TOrder } from '../../app/store/order';
+import { fetchOrders } from '../../controllers/order';
 
 function Dashboard() {
 	const dispatch = useAppDispatch();
@@ -13,8 +15,17 @@ function Dashboard() {
 		(state) => state.user,
 	);
 
+	const orders: TOrder[] = useAppSelector(
+		(state) => state.orders,
+	);
+
+	const pendingOrders: TOrder[] = orders?.filter((order) => {
+		return order.status === 'pending';
+	});
+
 	useEffect(() => {
 		dispatch(fetchUser());
+		dispatch(fetchOrders(''));
 	}, [dispatch]);
 
 	const adminWidgets = [
@@ -36,6 +47,14 @@ function Dashboard() {
 								widget === 'settings'
 									? `/account/profile/${user?.profile}/account-setting`
 									: `/dashboard/settings/${widget.toLocaleLowerCase()}`
+							}
+							badge={
+								pendingOrders.length > 0 &&
+								widget === 'Orders' && (
+									<Badge pill bg='danger'>
+										{pendingOrders?.length}
+									</Badge>
+								)
 							}
 						/>
 					</Col>

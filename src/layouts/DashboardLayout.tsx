@@ -9,6 +9,8 @@ import {
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
+import { fetchOrders } from '../controllers/order';
+import { TOrder } from '../app/store/order';
 
 export default function AuthLayout() {
 	const [show, setShow] = useState(false);
@@ -19,12 +21,21 @@ export default function AuthLayout() {
 		(state) => state.user,
 	);
 
+	const orders: TOrder[] = useAppSelector(
+		(state) => state.orders,
+	);
+
 	const isDashboardHomePage =
 		window.location.pathname.includes('settings');
 
 	useEffect(() => {
 		dispatch(fetchUser());
+		dispatch(fetchOrders(''));
 	}, [dispatch]);
+
+	const pendingOrders: TOrder[] = orders?.filter((order) => {
+		return order.status === 'pending';
+	});
 
 	const handleResize = () => setShow(!show);
 	const handleLogout = async () => {
@@ -86,8 +97,13 @@ export default function AuthLayout() {
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/dashboard/settings/users'>
-								Orders
+							<Nav.Link href='/dashboard/settings/orders'>
+								Orders{' '}
+								{pendingOrders.length > 0 && (
+									<span>
+										({pendingOrders?.length})
+									</span>
+								)}
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
