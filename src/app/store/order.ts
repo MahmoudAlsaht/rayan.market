@@ -10,7 +10,7 @@ export type TOrder = {
 	id: string;
 	userId: string;
 	contact: string | null;
-	productIds: TCartProduct[];
+	products: TCartProduct[];
 	totalPrice: number;
 	createdAt: Date;
 	orderId: string;

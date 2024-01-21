@@ -25,6 +25,7 @@ import ShowContactInfo from './routes/account/ShowContactInfo';
 import AddNewContact from './routes/account/AddNewContact';
 import Checkout from './routes/checkout/Checkout';
 import CartCheckout from './routes/checkout/CartCheckout';
+import ShowOrder from './routes/dashboard/ShowOrder';
 
 export const Router = createBrowserRouter([
 	{
@@ -118,6 +119,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/orders',
 						element: <OrderSettings />,
+					},
+					{
+						path: 'settings/orders/:orderId',
+						element: <ShowOrder />,
 					},
 				],
 			},

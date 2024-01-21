@@ -109,7 +109,7 @@ function OrderSettings() {
 				<Widget
 					key={order?.id}
 					widgetTitle={order?.orderId}
-					href='#'
+					href={`/dashboard/settings/orders/${order?.id}`}
 				/>
 			))}
 		</Container>

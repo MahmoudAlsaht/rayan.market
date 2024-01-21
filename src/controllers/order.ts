@@ -81,6 +81,16 @@ export const createAnOrder = createAsyncThunk(
 	},
 );
 
+export const fetchOrder = async (orderId: string) => {
+	try {
+		const { data } = await getData('orders', 'id', orderId);
+		return data as any;
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error('something went wrong!');
+	}
+};
+
 const fetchUserOrders = async (orders: string[]) => {
 	const userOrders = [];
 	if (orders && orders?.length > 0) {
