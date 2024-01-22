@@ -15,8 +15,6 @@ export const createAnOrder = createAsyncThunk(
 	async (cart: TCart) => {
 		try {
 			const order = await addData('orders', {
-				userId: cart?.userId || cart?.anonymousUserId,
-				contact: cart?.contactId || null,
 				products: cart?.products,
 				totalPrice: cart?.totalPrice,
 				createdAt: Date.now(),
@@ -26,35 +24,34 @@ export const createAnOrder = createAsyncThunk(
 				id: order?.id,
 				orderId: order?.id.slice(10),
 			});
-
-			if (!cart?.anonymousUserId) {
-				const currUser: User | null = auth.currentUser;
-				const { docId } = await getData(
-					'users',
-					'uid',
-					currUser?.uid as string,
-				);
-				await updateDocs('users', docId as string, {
-					orders: arrayUnion(order?.id),
-				});
-			}
-
 			await updateProductQuantity(cart?.products);
 
 			if (!cart?.anonymousUserId) {
 				const currUser: User | null = auth.currentUser;
-				const user = (
-					await getData(
-						'users',
-						'uid',
-						currUser?.uid as string,
-					)
-				).data;
-				await sendEmailToCustomer(
-					user?.username,
-					user?.email,
-					cart.products!,
+				const user = await getData(
+					'users',
+					'uid',
+					currUser?.uid as string,
 				);
+				const contact = await getData(
+					'contacts',
+					'id',
+					cart?.contactId as string,
+				);
+
+				await updateDocs(
+					'users',
+					user?.docId as string,
+					{
+						orders: arrayUnion(order?.id),
+					},
+				);
+				await updateDocs('orders', order?.id, {
+					username: user?.data?.username,
+					email: user?.data?.email,
+					contact: `${contact?.data?.address?.city}, ${contact?.data?.address?.street}`,
+					phoneNumber: contact?.data?.phoneNumber,
+				});
 				const updatedOrder = (
 					await getData('orders', 'id', order?.id)
 				).data;
@@ -68,15 +65,54 @@ export const createAnOrder = createAsyncThunk(
 						cart?.anonymousUserId as string,
 					)
 				).data;
-				await sendEmailToCustomer(
-					anonymousUser?.firstName,
-					anonymousUser?.email,
-					cart.products!,
-				);
+				await updateDocs('orders', order?.id, {
+					username: `${anonymousUser?.firstName} ${anonymousUser?.lastName}`,
+					email: anonymousUser?.email,
+					contact: `${anonymousUser?.city}, ${anonymousUser?.street}`,
+					phoneNumber: anonymousUser?.phoneNumber,
+				});
 				return null;
 			}
 		} catch (e: any) {
 			console.log(e.message);
+			throw new Error('Something went wrong');
+		}
+	},
+);
+
+export const updateOrderStatus = createAsyncThunk(
+	'orders/updateOrderStatus',
+	async ({
+		orderId,
+		updatedStatus,
+	}: {
+		orderId: string;
+		updatedStatus: string;
+	}) => {
+		try {
+			await updateDocs('orders', orderId, {
+				status: updatedStatus,
+			});
+			const { data, docId } = await getData(
+				'orders',
+				'id',
+				orderId,
+			);
+			if (
+				updatedStatus === 'accepted' ||
+				updatedStatus === 'rejected'
+			)
+				await sendEmailToCustomer(
+					data?.username,
+					data?.email,
+					data?.products,
+					updatedStatus,
+				);
+
+			return { docId, updatedStatus };
+		} catch (e: any) {
+			console.error(e.message);
+			throw new Error('Something went wrong');
 		}
 	},
 );
@@ -133,12 +169,14 @@ const sendEmailToCustomer = async (
 	username: string,
 	email: string,
 	products: TCartProduct[],
+	orderStatus: string,
 ) => {
 	try {
 		const data = {
 			username,
 			email,
-			products: products,
+			products,
+			orderStatus,
 		};
 
 		const res = await axios({

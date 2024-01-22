@@ -80,9 +80,11 @@ function OrderSettings() {
 				<Nav.Item>
 					<Nav.Link eventKey='pending'>
 						Pending{' '}
-						<Badge pill bg='danger'>
-							{pendingOrders.length}
-						</Badge>
+						{pendingOrders?.length > 0 && (
+							<Badge pill bg='danger'>
+								{pendingOrders.length}
+							</Badge>
+						)}
 					</Nav.Link>
 				</Nav.Item>
 				<Nav.Item>
