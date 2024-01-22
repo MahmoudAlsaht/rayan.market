@@ -1,13 +1,19 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchOrder } from '../../controllers/order';
+import {
+	fetchOrder,
+	updateOrderStatus,
+} from '../../controllers/order';
 import { TOrder } from '../../app/store/order';
 import { Button, Card, Container } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
+import { useAppDispatch } from '../../app/hooks';
 
 function ShowOrder() {
 	const { orderId } = useParams();
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const [order, setOrder] = useState<TOrder | null>(null);
 
@@ -18,6 +24,49 @@ function ShowOrder() {
 			}${productId}`,
 			'_blank',
 		);
+	};
+
+	const handleClick = async () => {
+		try {
+			if (order?.status === 'pending') {
+				dispatch(
+					updateOrderStatus({
+						orderId: order?.id as string,
+						updatedStatus: 'accepted',
+					}),
+				);
+			} else if (order?.status === 'accepted') {
+				dispatch(
+					updateOrderStatus({
+						orderId: order?.id as string,
+						updatedStatus: 'completed',
+					}),
+				);
+			}
+			const updatedOrder = await fetchOrder(
+				orderId as string,
+			);
+			setOrder(updatedOrder);
+		} catch (e) {
+			console.error(e);
+		}
+	};
+
+	const handleReject = async () => {
+		try {
+			dispatch(
+				updateOrderStatus({
+					orderId: order?.id as string,
+					updatedStatus: 'rejected',
+				}),
+			);
+			const updatedOrder = await fetchOrder(
+				orderId as string,
+			);
+			setOrder(updatedOrder);
+		} catch (e) {
+			console.error(e);
+		}
 	};
 
 	useEffect(() => {
@@ -55,9 +104,15 @@ function ShowOrder() {
 							Order Status:{' '}
 							<span
 								className={
-									order?.status === 'completed'
+									order?.status === 'pending'
+										? 'text-primary'
+										: order?.status ===
+										  'accepted'
+										? 'text-warning'
+										: order?.status ===
+										  'completed'
 										? 'text-success'
-										: 'text-warning'
+										: 'text-danger'
 								}
 							>
 								{order?.status}
@@ -83,25 +138,63 @@ function ShowOrder() {
 								</small>
 							</p>
 						))}
+						<hr />
+						<h3>Customer Information:</h3>
+						<h6>
+							<span className='text-muted'>
+								Username:
+							</span>{' '}
+							{order?.username}{' '}
+						</h6>
+						<h6>
+							<span className='text-muted'>
+								Email:
+							</span>{' '}
+							{order?.email}
+						</h6>
+						<h6>
+							<span className='text-muted'>
+								Address:
+							</span>{' '}
+							{order?.address}
+						</h6>
+						<h6>
+							<span className='text-muted'>
+								PhoneNumber:
+							</span>{' '}
+							{order?.phoneNumber}
+						</h6>
 					</Card.Body>
 					<Card.Footer>
-						{order?.status === 'pending' && (
-							<Button
-								variant='danger'
-								className='me-2'
-							>
-								Reject
+						{order?.status === 'pending' ? (
+							<div>
+								<Button
+									variant='danger'
+									className='me-2'
+									onClick={handleReject}
+								>
+									Reject
+								</Button>
+								<Button
+									variant='primary'
+									className='me-2'
+									onClick={handleClick}
+								>
+									Accept
+								</Button>
+							</div>
+						) : order?.status === 'accepted' ? (
+							<Button onClick={handleClick}>
+								Complete Order
 							</Button>
-						)}
-						{order?.status !== 'completed' ? (
-							<Button>
-								{order?.status === 'pending'
-									? 'Accept'
-									: 'Complete Order'}
+						) : order?.status === 'completed' ? (
+							<Button variant='secondary' disabled>
+								This order has been completed,
+								There are no actions available
 							</Button>
 						) : (
 							<Button variant='secondary' disabled>
-								This order has been completed,
+								This order has been rejected,
 								There are no actions available
 							</Button>
 						)}
