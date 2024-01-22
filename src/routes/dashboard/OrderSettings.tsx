@@ -97,6 +97,11 @@ function OrderSettings() {
 						Completed
 					</Nav.Link>
 				</Nav.Item>
+				<Nav.Item>
+					<Nav.Link eventKey='rejected'>
+						Rejected
+					</Nav.Link>
+				</Nav.Item>
 			</Nav>
 
 			<input
