@@ -37,7 +37,7 @@ function MainNavbar() {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchProfile(user?.profile));
+		dispatch(fetchProfile(user?.profile as string));
 	}, [dispatch, user?.profile]);
 
 	const handleLogout = async () => {

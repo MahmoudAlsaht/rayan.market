@@ -35,6 +35,9 @@ function AccountNavbar() {
 	const isAccountSettingPage =
 		window.location.pathname.includes('account-setting');
 
+	const isOrdersPage =
+		window.location.pathname.includes('orders-history');
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -94,24 +97,37 @@ function AccountNavbar() {
 								}
 								id='collapsible-nav-dropdown'
 							>
-								{!isAccountSettingPage ? (
+								{!isAccountSettingPage && (
 									<NavDropdown.Item
 										href={`/account/profile/${user?.profile}/account-setting`}
 									>
 										Settings
 									</NavDropdown.Item>
-								) : user?.isAdmin ? (
+								)}
+								{!isOrdersPage && (
+									<NavDropdown.Item
+										href={`/account/profile/${user?.profile}/orders-history`}
+									>
+										Orders
+									</NavDropdown.Item>
+								)}
+								{(isAccountSettingPage ||
+									isOrdersPage) &&
+								user?.isAdmin ? (
 									<NavDropdown.Item
 										href={`/dashboard/admin/${user?.profile}`}
 									>
 										Dashboard
 									</NavDropdown.Item>
 								) : (
-									<NavDropdown.Item
-										href={`/account/profile/${user?.profile}`}
-									>
-										Profile
-									</NavDropdown.Item>
+									(isAccountSettingPage ||
+										isOrdersPage) && (
+										<NavDropdown.Item
+											href={`/account/profile/${user?.profile}`}
+										>
+											Profile
+										</NavDropdown.Item>
+									)
 								)}
 								{!user?.isAdmin && (
 									<NavDropdown.Item
@@ -180,7 +196,7 @@ function AccountNavbar() {
 						<hr />
 
 						<div>
-							{!isAccountSettingPage ? (
+							{!isAccountSettingPage && (
 								<Nav.Link
 									href={`/account/profile/${user?.profile}/account-setting`}
 									onClick={handleClick}
@@ -188,7 +204,19 @@ function AccountNavbar() {
 								>
 									Settings
 								</Nav.Link>
-							) : user?.isAdmin ? (
+							)}
+							{!isOrdersPage && (
+								<Nav.Link
+									href={`/account/profile/${user?.profile}/orders-history`}
+									onClick={handleClick}
+									className='text-white'
+								>
+									Orders
+								</Nav.Link>
+							)}
+							{(isAccountSettingPage ||
+								isOrdersPage) &&
+							user?.isAdmin ? (
 								<Nav.Link
 									href={`/dashboard/admin/${user?.profile}`}
 									onClick={handleClick}
@@ -197,13 +225,16 @@ function AccountNavbar() {
 									Dashboard
 								</Nav.Link>
 							) : (
-								<Nav.Link
-									href={`/account/profile/${user?.profile}`}
-									onClick={handleClick}
-									className='text-white'
-								>
-									Profile
-								</Nav.Link>
+								(isAccountSettingPage ||
+									isOrdersPage) && (
+									<Nav.Link
+										href={`/account/profile/${user?.profile}`}
+										onClick={handleClick}
+										className='text-white'
+									>
+										Profile
+									</Nav.Link>
+								)
 							)}
 
 							{!user?.isAdmin && (
