@@ -102,6 +102,12 @@ function OrderSettings() {
 						Rejected
 					</Nav.Link>
 				</Nav.Item>
+
+				<Nav.Item>
+					<Nav.Link eventKey='canceled'>
+						Canceled
+					</Nav.Link>
+				</Nav.Item>
 			</Nav>
 
 			<input

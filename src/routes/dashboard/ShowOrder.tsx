@@ -156,7 +156,7 @@ function ShowOrder() {
 							<span className='text-muted'>
 								Address:
 							</span>{' '}
-							{order?.address}
+							{order?.contact}
 						</h6>
 						<h6>
 							<span className='text-muted'>
@@ -187,15 +187,11 @@ function ShowOrder() {
 							<Button onClick={handleClick}>
 								Complete Order
 							</Button>
-						) : order?.status === 'completed' ? (
-							<Button variant='secondary' disabled>
-								This order has been completed,
-								There are no actions available
-							</Button>
 						) : (
 							<Button variant='secondary' disabled>
-								This order has been rejected,
-								There are no actions available
+								This order has been{' '}
+								{order?.status}, There are no
+								actions to be performed
 							</Button>
 						)}
 					</Card.Footer>

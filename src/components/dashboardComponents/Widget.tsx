@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 type widgetProps = {
 	widgetTitle: string | ReactNode;
 	badge?: ReactNode;
+	body?: ReactNode;
 	className?: string;
+	height?: string;
 	href: string;
 };
 
@@ -15,7 +17,9 @@ function Widget({
 	widgetTitle,
 	className,
 	href,
+	body,
 	badge,
+	height = '100px',
 }: widgetProps) {
 	const isTitleAString = typeof widgetTitle === 'string';
 
@@ -24,7 +28,7 @@ function Widget({
 			<Link to={href}>
 				<Card
 					className={`widget ${className}`}
-					style={{ height: '100px' }}
+					style={{ height }}
 				>
 					<Card.Body>
 						{isTitleAString ? (
@@ -39,6 +43,8 @@ function Widget({
 								{widgetTitle}
 							</Card.Title>
 						)}
+
+						{body}
 
 						<Card.Text>
 							{isTitleAString && (
