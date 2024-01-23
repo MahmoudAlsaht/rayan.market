@@ -27,6 +27,7 @@ import Checkout from './routes/checkout/Checkout';
 import CartCheckout from './routes/checkout/CartCheckout';
 import ShowOrder from './routes/dashboard/ShowOrder';
 import OrderHistoryList from './routes/account/OrderHistoryList';
+import ShowOrderDetails from './routes/account/ShowOrderDetails';
 
 export const Router = createBrowserRouter([
 	{
@@ -102,6 +103,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'profile/:profileId/orders-history',
 						element: <OrderHistoryList />,
+					},
+					{
+						path: 'profile/:profileId/orders-history/:orderId',
+						element: <ShowOrderDetails />,
 					},
 				],
 			},
