@@ -143,7 +143,7 @@ const fetchUserOrders = async (orders: string[]) => {
 };
 
 export const fetchOrders = createAsyncThunk(
-	'orders/fetchUserOrders',
+	'orders/fetchOrders',
 	async (userId: string) => {
 		try {
 			if (userId !== '') {

@@ -13,8 +13,7 @@ export type TOrder = {
 	username: string;
 	email: string;
 	phoneNumber: string;
-	address: string;
-	contact: string | null;
+	contact: string;
 	products: TCartProduct[];
 	totalPrice: number;
 	createdAt: Date;
