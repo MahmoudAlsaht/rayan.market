@@ -158,7 +158,7 @@ function ShowOrderDetails() {
 							>
 								This order has been
 								{order?.status} there are no
-								actions to be performed
+								actions to be performed.
 							</Button>
 						)}
 					</Card.Footer>

@@ -191,7 +191,7 @@ function ShowOrder() {
 							<Button variant='secondary' disabled>
 								This order has been{' '}
 								{order?.status}, There are no
-								actions to be performed
+								actions to be performed.
 							</Button>
 						)}
 					</Card.Footer>
