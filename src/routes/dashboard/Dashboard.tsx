@@ -1,6 +1,6 @@
 import { Badge, Col, Container, Row } from 'react-bootstrap';
 import '../../assets/styles/Dashboard.css';
-import Widget from '../../components/dashboardComponents/Widget';
+import Widget from '../../components/Widget';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
 import { useEffect } from 'react';

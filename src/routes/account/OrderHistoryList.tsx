@@ -5,7 +5,7 @@ import { TOrder } from '../../app/store/order';
 import { fetchOrders } from '../../controllers/order';
 import { TUser } from '../../app/auth/auth';
 import { fetchUser } from '../../controllers/user';
-import Widget from '../../components/dashboardComponents/Widget';
+import Widget from '../../components/Widget';
 import { Card, Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 

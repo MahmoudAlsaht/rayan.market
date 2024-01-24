@@ -1,88 +1,75 @@
 .offcanvas {
-    background-color: #314146;
-    color: #f7f7f7;
-    transition: all 0.5s;
+	background-color: #314146;
+	color: #f7f7f7;
+	transition: all 0.5s;
 }
 
 .logo {
-    transition: all 0.5s;
-    cursor: pointer;
+	transition: all 0.5s;
+	cursor: pointer;
 }
 
 .offcanvas.title {
-    transition: all 0.5s;
+	transition: all 0.5s;
 }
 
-.resizeOffcanvas{
-    width: 7% !important;
-    transition: all 0.5s;
+.resizeOffcanvas {
+	width: 12% !important;
+	transition: all 0.5s;
 }
 
 .arrowIcon {
-    cursor: pointer;
-    font-size: 30px !important;
+	cursor: pointer;
+	font-size: 30px !important;
 }
 
 .nav-item {
-    transition: all 0.5s;
+	transition: all 0.5s;
 }
 
 .nav-link {
-    color: #67bbeb;
-    text-decoration: none;
+	color: #67bbeb;
+	text-decoration: none;
 }
 
 .nav-link:hover {
-    color: #f7f7f7;
-    text-decoration: none;
+	color: #f7f7f7;
+	text-decoration: none;
 }
 .nav-item:hover {
-    background-color: #cacbcc60;
+	background-color: #cacbcc60;
 }
 
 .offcanvas.body {
-    transition: all 0.5s;
+	transition: all 0.5s;
 }
 
-
-@media (max-width:860px) {
-    .resizeOffcanvas{
-        width: 20% !important;
-    }
+@media (max-width: 1130px) {
+	.resizeOffcanvas {
+		width: 15% !important;
+	}
 }
 
-@media (max-width:650px) {
-    .resizeOffcanvas{
-        width:25% !important;
-    }
+@media (max-width: 920px) {
+	.resizeOffcanvas {
+		width: 17% !important;
+	}
 }
 
-@media (max-width:530px) {
-    .resizeOffcanvas{
-        width:30% !important;
-    }
+@media (max-width: 700px) {
+	.resizeOffcanvas {
+		width: 21% !important;
+	}
 }
 
-@media (max-width:410px) {
-    .resizeOffcanvas{
-        width:35% !important;
-    }
+@media (max-width: 600px) {
+	.resizeOffcanvas {
+		width: 25% !important;
+	}
 }
 
-@media (max-width:350px) {
-    .resizeOffcanvas{
-        width:40% !important;
-    }
-}
-
-@media (max-width:300px) {
-    .resizeOffcanvas{
-        width:45% !important;
-    }
-}
-
-@media (max-width:260px) {
-    .resizeOffcanvas{
-        width:50% !important;
-    }
+@media (max-width: 500px) {
+	.resizeOffcanvas {
+		width: 30% !important;
+	}
 }

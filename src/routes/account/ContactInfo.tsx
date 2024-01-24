@@ -7,7 +7,7 @@ import {
 } from '../../controllers/contact';
 import { useEffect, useState } from 'react';
 import { fetchProfile } from '../../controllers/profile';
-import Widget from '../../components/dashboardComponents/Widget';
+import Widget from '../../components/Widget';
 import { Col, Container, Row } from 'react-bootstrap';
 import { BsPlus } from 'react-icons/bs';
 
