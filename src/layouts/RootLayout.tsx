@@ -5,6 +5,7 @@ import { BsCart } from 'react-icons/bs';
 import CategoryNavbar from '../components/CategoryNavbar';
 import Cart from '../components/Cart';
 import { useState } from 'react';
+import BrandNavbar from '../components/BrandNavbar';
 
 function RootLayout() {
 	const [show, setShow] = useState(false);
@@ -18,6 +19,7 @@ function RootLayout() {
 
 	return (
 		<>
+			<BrandNavbar />
 			{!isCheckoutPage && <MainNavbar />}
 			{!isCheckoutPage && <CategoryNavbar />}
 			<Outlet />

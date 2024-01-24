@@ -66,12 +66,6 @@ function AccountNavbar() {
 				style={{ backgroundColor: '#334455' }}
 			>
 				<Container>
-					<Navbar.Brand
-						href='/'
-						className='text-white'
-					>
-						mStore
-					</Navbar.Brand>
 					<Navbar.Toggle aria-controls='responsive-navbar-nav' />
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='me-auto'>
@@ -178,13 +172,7 @@ function AccountNavbar() {
 				className='d-md-none'
 				style={{ backgroundColor: '#334455' }}
 			>
-				<Offcanvas.Header closeButton>
-					<Offcanvas.Title className='text-white'>
-						<Navbar.Brand href='/'>
-							mStore
-						</Navbar.Brand>
-					</Offcanvas.Title>
-				</Offcanvas.Header>
+				<Offcanvas.Header closeButton />
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
 						<Nav.Link

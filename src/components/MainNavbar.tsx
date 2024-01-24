@@ -60,7 +60,6 @@ function MainNavbar() {
 				sticky='top'
 			>
 				<Container>
-					<Navbar.Brand href='/'>mStore</Navbar.Brand>
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='me-auto'>
 							<Nav.Link
@@ -166,13 +165,7 @@ function MainNavbar() {
 				onHide={handleClose}
 				placement='end'
 			>
-				<Offcanvas.Header closeButton>
-					<Offcanvas.Title>
-						<Navbar.Brand href='/'>
-							mStore
-						</Navbar.Brand>
-					</Offcanvas.Title>
-				</Offcanvas.Header>
+				<Offcanvas.Header closeButton />
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
 						<Nav.Link href='/'>Store</Nav.Link>
