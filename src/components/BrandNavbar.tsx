@@ -1,10 +1,14 @@
 import { Navbar } from 'react-bootstrap';
+import Logo from '../mStoreLogo.png';
 
 function BrandNavbar() {
 	return (
-		<Navbar className='justify-content-center'>
+		<Navbar
+			className='justify-content-center'
+			// style={{ height: '100px' }}
+		>
 			<Navbar.Brand href='/'>
-				<h1>mStore</h1>
+				<img src={Logo} alt='logo' width={200} />
 			</Navbar.Brand>
 		</Navbar>
 	);
