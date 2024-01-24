@@ -47,7 +47,6 @@ export default function AuthLayout() {
 
 	return (
 		<>
-			<BrandNavbar />
 			<Offcanvas
 				show={true}
 				scroll={true}
