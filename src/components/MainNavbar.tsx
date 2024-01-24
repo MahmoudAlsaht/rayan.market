@@ -57,6 +57,7 @@ function MainNavbar() {
 				collapseOnSelect
 				expand='md'
 				className='bg-white d-none d-md-block'
+				id='mainNavbar'
 				sticky='top'
 			>
 				<Container>

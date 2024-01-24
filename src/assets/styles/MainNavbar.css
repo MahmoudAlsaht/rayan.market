@@ -1,11 +1,15 @@
-.dropdown>a::after {
-    color: #fff;
+.dropdown > a::after {
+	color: #fff;
 }
 
-.navLink {
-    color: #5ab6e1;
+#mainNavbar .navLink {
+	color: #5ab6e1;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	border-radius: 0.3rem;
 }
 
-.navLink:hover {
-    color: #000;
+#mainNavbar .navLink:hover {
+	color: #064869;
+	background-color: #0000000c;
 }
