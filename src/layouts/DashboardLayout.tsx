@@ -11,7 +11,6 @@ import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 import { fetchOrders } from '../controllers/order';
 import { TOrder } from '../app/store/order';
-import BrandNavbar from '../components/BrandNavbar';
 
 export default function AuthLayout() {
 	const [show, setShow] = useState(false);
