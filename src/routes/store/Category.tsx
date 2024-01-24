@@ -6,15 +6,23 @@ import { fetchCategoryProducts } from '../../controllers/product';
 import { DocumentData } from 'firebase/firestore';
 import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
-import { filteredData } from '../../utils';
+import {
+	filteredData,
+	sortProductsBasedOnPrice,
+} from '../../utils';
+import { TProduct } from '../../app/store/product';
+import FilterProducts from '../../components/filterProducts';
 
 function Category() {
 	const { categoryId } = useParams();
 	const [category, setCategory] = useState<TCategory | null>(
 		null,
 	);
-	const [products, setProducts] =
-		useState<(DocumentData | undefined)[]>();
+	const [filterOption, setFilterOption] = useState('all');
+
+	const [products, setProducts] = useState<
+		TProduct[] | null
+	>();
 	const [queryInput, setQueryInput] = useState('');
 
 	const handleQueryChange = (
@@ -24,11 +32,18 @@ function Category() {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filteredData(
-			products as DocumentData[],
-			queryInput,
+		return sortProductsBasedOnPrice(
+			filteredData(
+				products as DocumentData[],
+				queryInput,
+			) as TProduct[],
+			filterOption,
 		);
-	}, [products, queryInput]);
+	}, [filterOption, products, queryInput]);
+
+	const handleFilterOptionChange = (option: string) => {
+		setFilterOption(option);
+	};
 
 	useEffect(() => {
 		const getCategory = async () => {
@@ -55,13 +70,15 @@ function Category() {
 			<h1 className='text-center mb-3'>
 				{category?.name}
 			</h1>
-			<input
-				type='search'
-				className='searchInput'
-				placeholder='search products'
-				value={queryInput}
-				onChange={handleQueryChange}
+
+			<FilterProducts
+				queryInput={queryInput}
+				handleQueryChange={handleQueryChange}
+				handleFilterOptionChange={
+					handleFilterOptionChange
+				}
 			/>
+
 			<Row>
 				{filteredProducts?.map((product) => (
 					<Col key={product?.id} xs={12} sm={6} lg={4}>

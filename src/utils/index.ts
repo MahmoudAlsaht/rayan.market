@@ -1,6 +1,7 @@
 import { DocumentData } from 'firebase/firestore';
 import Cookies from 'universal-cookie';
 import { TCartProduct } from '../app/store/cart';
+import { TProduct } from '../app/store/product';
 
 const cookies = new Cookies();
 
@@ -39,11 +40,11 @@ export function escapeRegExp(str: string) {
 }
 
 export const filteredData = (
-	data: DocumentData[],
+	dataArray: DocumentData[],
 	query: string,
 ) => {
-	return data?.filter((category) => {
-		return category.name
+	return dataArray?.filter((data) => {
+		return data.name
 			.toLowerCase()
 			.includes(escapeRegExp(query?.toLocaleLowerCase()));
 	});
@@ -67,4 +68,19 @@ export const sumEachProductTotalPrice = (
 	product: TCartProduct,
 ) => {
 	return product?.counter * parseInt(product?.price as string);
+};
+
+export const sortProductsBasedOnPrice = (
+	products: TProduct[],
+	orderingType: string,
+) => {
+	if (orderingType === 'highest') {
+		return products?.sort(
+			(a, b) => parseInt(b.price) - parseInt(a.price),
+		);
+	} else if (orderingType === 'lowest') {
+		return products?.sort(
+			(a, b) => parseInt(a.price) - parseInt(b.price),
+		);
+	} else return products;
 };

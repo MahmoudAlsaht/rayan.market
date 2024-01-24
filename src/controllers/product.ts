@@ -19,7 +19,7 @@ export const fetchProducts = createAsyncThunk(
 			const products: DocumentData[] | undefined =
 				await getAllData('products');
 
-			return products ? products : null;
+			return products as any;
 		} catch (e: any) {
 			console.log(e);
 		}
@@ -45,7 +45,7 @@ export const fetchCategoryProducts = async (
 			products.push(product);
 		}
 
-	return products;
+	return products as any;
 };
 
 export const createProduct = createAsyncThunk(

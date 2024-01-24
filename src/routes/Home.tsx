@@ -4,14 +4,22 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { fetchProducts } from '../controllers/product';
 import ProductCard from '../components/ProductCard';
 import { Col, Row } from 'react-bootstrap';
-import { filteredData } from '../utils';
+import {
+	filteredData,
+	sortProductsBasedOnPrice,
+} from '../utils';
+import { TProduct } from '../app/store/product';
+import FilterProducts from '../components/filterProducts';
 
 function Home() {
 	const dispatch = useAppDispatch();
-	const products: (DocumentData | undefined)[] =
-		useAppSelector((state) => state.products);
+	const products: TProduct[] | null = useAppSelector(
+		(state) => state.products,
+	);
 
 	const [queryInput, setQueryInput] = useState('');
+
+	const [filterOption, setFilterOption] = useState('all');
 
 	const handleQueryChange = (
 		e: FormEvent<HTMLInputElement>,
@@ -19,12 +27,19 @@ function Home() {
 		setQueryInput(e.currentTarget.value);
 	};
 
+	const handleFilterOptionChange = (option: string) => {
+		setFilterOption(option);
+	};
+
 	const filteredProducts = useMemo(() => {
-		return filteredData(
-			products as DocumentData[],
-			queryInput,
+		return sortProductsBasedOnPrice(
+			filteredData(
+				products as DocumentData[],
+				queryInput,
+			) as TProduct[],
+			filterOption,
 		);
-	}, [products, queryInput]);
+	}, [filterOption, products, queryInput]);
 
 	useEffect(() => {
 		dispatch(fetchProducts());
@@ -32,12 +47,12 @@ function Home() {
 
 	return (
 		<div className='productContainer'>
-			<input
-				type='search'
-				placeholder='search products'
-				className='searchInput'
-				value={queryInput}
-				onChange={handleQueryChange}
+			<FilterProducts
+				queryInput={queryInput}
+				handleQueryChange={handleQueryChange}
+				handleFilterOptionChange={
+					handleFilterOptionChange
+				}
 			/>
 			<Row>
 				{filteredProducts &&
