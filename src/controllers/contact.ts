@@ -2,6 +2,8 @@ import { arrayUnion } from 'firebase/firestore';
 import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import updateDocs from '../firebase/firestore/updateDoc';
+import { TProfile } from '../app/auth/profile';
+import destroyDoc from '../firebase/firestore/deleteDoc';
 
 export type Address = {
 	city: string;
@@ -30,12 +32,20 @@ export const getContactsData = async (profileId: string) => {
 			contacts.push(contactInfo?.data);
 		}
 
-	return contacts;
+	return contacts as any;
 };
 
 export const getContactData = async (contactId: string) => {
-	const contact = await getData('contacts', 'id', contactId);
-	return contact?.data;
+	try {
+		const contact = await getData(
+			'contacts',
+			'id',
+			contactId,
+		);
+		return contact?.data as any;
+	} catch (e) {
+		console.error(e);
+	}
 };
 
 export const createNewContactInfo = async (
@@ -85,5 +95,29 @@ export const updateUserContactInfo = async ({
 		throw new Error(
 			'Something went wrong, Please check your credential and try again later.',
 		);
+	}
+};
+
+export const deleteContact = async (
+	profileId: string,
+	contactId: string,
+) => {
+	try {
+		const { data, docId } = (await getData(
+			'profiles',
+			'id',
+			profileId,
+		)) as { data: TProfile; docId: string };
+		const profileContacts = data?.contacts.filter(
+			(contact) => contact !== contactId,
+		);
+		await updateDocs('profiles', docId, {
+			contacts: profileContacts,
+		});
+		await destroyDoc('contacts', contactId);
+		return contactId;
+	} catch (e: any) {
+		console.error(e);
+		// throw new Error('Cannot delete contact');
 	}
 };

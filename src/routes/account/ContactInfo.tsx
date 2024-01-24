@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TProfile } from '../../app/auth/profile';
-import { getContactsData } from '../../controllers/contact';
+import {
+	TContactInfo,
+	getContactsData,
+} from '../../controllers/contact';
 import { useEffect, useState } from 'react';
 import { fetchProfile } from '../../controllers/profile';
 import Widget from '../../components/dashboardComponents/Widget';
 import { Col, Container, Row } from 'react-bootstrap';
-import { DocumentData } from 'firebase/firestore';
 import { BsPlus } from 'react-icons/bs';
 
 function ContactInfo() {
@@ -15,8 +17,9 @@ function ContactInfo() {
 	const profile: TProfile | null = useAppSelector(
 		(state) => state.profile,
 	);
-	const [contactInfo, setContactInfo] =
-		useState<(DocumentData | undefined)[]>();
+	const [contactInfo, setContactInfo] = useState<
+		TContactInfo[] | null
+	>(null);
 
 	useEffect(() => {
 		dispatch(fetchProfile(profileId as string));
@@ -32,7 +35,6 @@ function ContactInfo() {
 	return (
 		<Container>
 			<Row>
-				// TODO: Add Remove Contact Feature
 				{contactInfo?.map((contact, index) => (
 					<Col
 						xs={12}

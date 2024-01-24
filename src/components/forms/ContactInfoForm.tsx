@@ -1,24 +1,25 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Container, Form } from 'react-bootstrap';
 import {
+	TContactInfo,
 	createNewContactInfo,
+	deleteContact,
 	updateUserContactInfo,
 } from '../../controllers/contact';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
-import { DocumentData } from 'firebase/firestore';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function ContactInfoForm({
-	isLoading,
-	setIsLoading,
 	contact,
 }: {
-	contact: DocumentData | undefined;
-	isLoading: boolean;
-	setIsLoading: (status: boolean) => void;
+	contact: TContactInfo | null;
 }) {
 	const [validated, setValidated] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isDeleteLoading, setIsDeleteLoading] =
+		useState(false);
+
 	const [error, setError] = useState<IError>({
 		status: null,
 		message: '',
@@ -103,6 +104,20 @@ function ContactInfoForm({
 		}
 	};
 
+	const handleDelete = async () => {
+		try {
+			setIsDeleteLoading(true);
+			await deleteContact(
+				profileId as string,
+				contact?.id as string,
+			);
+			setIsDeleteLoading(false);
+			navigate(-1);
+		} catch (e) {
+			setIsDeleteLoading(false);
+		}
+	};
+
 	return (
 		<Container>
 			<Form
@@ -163,6 +178,14 @@ function ContactInfoForm({
 				</Form.Group>
 
 				<Form.Group className='mb-3'>
+					<LoadingButton
+						type='button'
+						body='Delete Contact'
+						variant='danger'
+						className='mb-2'
+						isLoading={isDeleteLoading}
+						handleClick={handleDelete}
+					/>
 					<LoadingButton
 						type='submit'
 						body='Update'
