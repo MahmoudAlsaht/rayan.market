@@ -37,6 +37,8 @@ export const signUp = async (
 			password,
 		);
 
+		if (displayName === 'anonymous')
+			throw new Error('You cannot pick this username');
 		await updateProfile(res.user, { displayName });
 
 		const profileId = `${res.user.uid}-user-${

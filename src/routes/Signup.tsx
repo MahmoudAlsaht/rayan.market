@@ -101,6 +101,12 @@ function Signup() {
 				message:
 					'password must be at least 6 characters',
 			});
+		} else if (usernameRef.current?.value === 'anonymous') {
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'you cannot pick this username',
+			});
 		} else {
 			setValidated(true);
 			setError({

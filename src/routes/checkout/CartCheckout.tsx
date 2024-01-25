@@ -4,17 +4,26 @@ import { TCart } from '../../app/store/cart';
 import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../../components/CartProductCard';
 import { checkIfProductIsAvailable } from '../../controllers/order';
+import { useNavigate } from 'react-router-dom';
 
 function CartCheckout() {
 	const cart: TCart = useAppSelector((state) => state.cart);
+	const navigate = useNavigate();
 
 	const [isAvailable, setIsAvailable] = useState(true);
+
+	const checkIfCartIsEmpty = cart.products!.length! > 0;
 
 	useEffect(() => {
 		setIsAvailable(
 			checkIfProductIsAvailable(cart?.products),
 		);
-	}, [cart?.products]);
+		if (!checkIfCartIsEmpty) {
+			location.pathname = '/';
+			navigate('/');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [cart?.products, checkIfCartIsEmpty]);
 
 	return (
 		<div className='m-5'>

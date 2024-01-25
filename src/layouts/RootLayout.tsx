@@ -12,19 +12,18 @@ function RootLayout() {
 
 	const handleClickCart = () => setShow(!show);
 
-	const isCheckoutPage =
+	const isCartPage =
+		window.location.pathname.includes('cart') ||
 		window.location.pathname.includes('checkout');
-
-	const isCartPage = window.location.pathname.includes('cart');
 
 	return (
 		<>
 			<BrandNavbar />
-			{!isCheckoutPage && <MainNavbar />}
-			{!isCheckoutPage && <CategoryNavbar />}
+			<MainNavbar />
+			{!isCartPage && <CategoryNavbar />}
 			<Outlet />
 
-			{!isCheckoutPage && !isCartPage && (
+			{!isCartPage && (
 				<div>
 					<FloatingButton
 						icon={

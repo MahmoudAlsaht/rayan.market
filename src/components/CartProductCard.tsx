@@ -70,7 +70,7 @@ function CartProductCard({
 				</div>
 
 				<div className='productInfo'>
-					<h6>{product?.name?.substring(0, 52)}</h6>
+					<h6>{product?.name?.substring(0, 45)}</h6>
 					<h6>{product?.price} JOD</h6>
 					{type !== 'cartSummary' && (
 						<h6>

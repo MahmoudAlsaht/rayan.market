@@ -14,7 +14,7 @@ function FilterProducts({
 	handleFilterOptionChange,
 }: filterProductsProps) {
 	return (
-		<div className='d-flex justify-content-center'>
+		<div className='d-flex justify-content-center mt-5'>
 			<input
 				type='search'
 				className='searchInput me-2'

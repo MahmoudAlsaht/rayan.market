@@ -10,6 +10,7 @@ export default async function updateDocs(
 		const docRef = await doc(db, collectionName, docId);
 		await updateDoc(docRef, { ...data });
 	} catch (e: any) {
+		console.error(e);
 		throw new Error(
 			'Something went wrong, please try again later',
 		);

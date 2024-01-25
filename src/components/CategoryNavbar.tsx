@@ -20,7 +20,7 @@ function CategoryNavbar() {
 		<Container fluid>
 			<Nav
 				variant='tabs'
-				className='justify-content-center mb-5 bg-white rounded d-none d-sm-flex'
+				className='justify-content-center bg-white rounded d-none d-sm-flex'
 			>
 				{categories?.map(
 					(category: TCategory, index) =>

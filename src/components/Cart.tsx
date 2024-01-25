@@ -14,6 +14,8 @@ function Cart({ show, handleClose }: CartProps) {
 	const cart: TCart = useAppSelector((state) => state.cart);
 	const navigate = useNavigate();
 
+	const checkIfCartIsEmpty = cart.products!.length! > 0;
+
 	const handleCheckout = () => {
 		navigate('/cart');
 		handleClose();
@@ -43,7 +45,10 @@ function Cart({ show, handleClose }: CartProps) {
 					Close
 				</Button>
 
-				<Button onClick={handleCheckout}>
+				<Button
+					onClick={handleCheckout}
+					disabled={!checkIfCartIsEmpty}
+				>
 					Checkout
 				</Button>
 			</Modal.Footer>

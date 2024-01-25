@@ -31,7 +31,11 @@ export default function AuthLayout() {
 	useEffect(() => {
 		dispatch(fetchUser());
 		dispatch(fetchOrders(''));
-	}, [dispatch]);
+		if (user?.username === 'anonymous' || !user?.isAdmin)
+			navigate('/');
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [dispatch, user]);
 
 	const pendingOrders: TOrder[] = orders?.filter((order) => {
 		return order.status === 'pending';

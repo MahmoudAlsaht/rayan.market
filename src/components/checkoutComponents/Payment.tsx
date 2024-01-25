@@ -36,6 +36,7 @@ function Payment({
 		if (paymentMethod === 'cashOnDelivery') {
 			dispatch(createAnOrder(cart));
 			dispatch(emptyTheCart());
+			location.pathname = '/';
 			navigate('/');
 		} else {
 			return;

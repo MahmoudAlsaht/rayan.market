@@ -19,6 +19,10 @@ export const createAnOrder = createAsyncThunk(
 				totalPrice: cart?.totalPrice,
 				createdAt: Date.now(),
 				status: 'pending',
+				username: '',
+				email: '',
+				contact: '',
+				phoneNumber: '',
 			});
 			await updateDocs('orders', order?.id, {
 				id: order?.id,

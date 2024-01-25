@@ -81,7 +81,7 @@ function ShowProduct() {
 	}, [cart, imageUrl, productId]);
 
 	return (
-		<Container fluid>
+		<Container fluid className='mt-5'>
 			<Row>
 				<Col xs={12} md={6}>
 					<ProductImageCarousel
@@ -95,6 +95,9 @@ function ShowProduct() {
 					<hr className='mb-5' />
 					<h4 className='text-muted'>
 						{product?.price} JOD
+					</h4>
+					<h4 className='text-muted'>
+						{product?.quantity} in stock
 					</h4>
 					<hr className='mb-5' />
 					<Button
