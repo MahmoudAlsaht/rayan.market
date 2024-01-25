@@ -11,7 +11,7 @@ import {
 	sortProductsBasedOnPrice,
 } from '../../utils';
 import { TProduct } from '../../app/store/product';
-import FilterProducts from '../../components/filterProducts';
+import FilterProducts from '../../components/FilterProducts';
 
 function Category() {
 	const { categoryId } = useParams();
