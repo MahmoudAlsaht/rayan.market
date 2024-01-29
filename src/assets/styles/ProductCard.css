@@ -1,17 +1,35 @@
 .productCard {
-    border: none;
-    border-radius: 7%;
-    background-color: inherit;
+	border: none;
+	border-radius: 7%;
+	background-color: inherit;
 }
 
 .productCard img {
-    height: 400px;
-    border-radius: 7%;
-    transition: all 150ms ease-in-out;
+	height: 250px;
+	border-radius: 7%;
+	transition: all 150ms ease-in-out;
 }
 
 .productCard img:hover {
-    height: 403px;
-    width: 101%;
-    margin-top: -5px;
+	height: 253px;
+	width: 101%;
+	margin-top: -5px;
+}
+
+.card .card-header {
+	background-color: inherit;
+	border: 0;
+}
+
+@media (max-width: 550px) {
+	.productCard {
+		width: 70%;
+		margin: 0 auto;
+	}
+
+	.productCard img:hover {
+		height: 250px;
+		width: 100%;
+		margin-top: 0;
+	}
 }
