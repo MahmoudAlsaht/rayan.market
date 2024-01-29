@@ -11,12 +11,11 @@ import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
 import { fetchOrders } from '../controllers/order';
 import { TOrder } from '../app/store/order';
-import { getCookies } from '../utils';
+import { isAdmin } from '../utils';
 
 export default function AuthLayout() {
 	const [show, setShow] = useState(false);
 	const navigate = useNavigate();
-	const admin = getCookies('user');
 
 	const dispatch = useAppDispatch();
 	const user: TUser | any = useAppSelector(
@@ -33,13 +32,8 @@ export default function AuthLayout() {
 	useEffect(() => {
 		dispatch(fetchUser());
 		dispatch(fetchOrders(''));
-		if (
-			!admin ||
-			admin?.username === 'anonymous' ||
-			!admin?.isAdmin
-		)
-			navigate('/');
-	}, [dispatch, navigate, admin]);
+		if (!isAdmin()) navigate('/home');
+	}, [dispatch, navigate]);
 
 	const pendingOrders: TOrder[] = orders?.filter((order) => {
 		return order.status === 'pending';
@@ -49,7 +43,7 @@ export default function AuthLayout() {
 	const handleLogout = async () => {
 		await dispatch(logout());
 		dispatch(fetchUser());
-		navigate('/');
+		navigate('/home');
 	};
 
 	return (

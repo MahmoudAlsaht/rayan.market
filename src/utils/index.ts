@@ -2,6 +2,7 @@ import { DocumentData } from 'firebase/firestore';
 import Cookies from 'universal-cookie';
 import { TCartProduct } from '../app/store/cart';
 import { TProduct } from '../app/store/product';
+import { TUser } from '../app/auth/auth';
 
 const cookies = new Cookies();
 
@@ -83,4 +84,15 @@ export const sortProductsBasedOnPrice = (
 			(a, b) => parseInt(a.price) - parseInt(b.price),
 		);
 	} else return products;
+};
+
+export const isAuthenticated = () => {
+	const user: TUser | null = getCookies('user');
+	return user && user?.username !== 'anonymous';
+};
+
+export const isAdmin = () => {
+	if (!isAuthenticated()) return false;
+	const user: TUser | null = getCookies('user');
+	return user?.isAdmin;
 };
