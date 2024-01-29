@@ -61,7 +61,7 @@ function Home() {
 							key={product?.id}
 							xs={12}
 							sm={6}
-							lg={4}
+							lg={3}
 						>
 							<ProductCard product={product} />
 						</Col>
