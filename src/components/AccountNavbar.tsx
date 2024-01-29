@@ -71,7 +71,7 @@ function AccountNavbar() {
 						<Nav className='me-auto'>
 							<Nav.Link
 								className='text-white'
-								href='/'
+								href='/home'
 							>
 								Store
 							</Nav.Link>
@@ -177,7 +177,7 @@ function AccountNavbar() {
 					<Nav className='flex-column justify-content-center'>
 						<Nav.Link
 							className='text-white'
-							href='/'
+							href='/home'
 						>
 							Store
 						</Nav.Link>

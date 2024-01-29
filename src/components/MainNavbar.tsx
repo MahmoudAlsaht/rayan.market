@@ -64,7 +64,7 @@ function MainNavbar() {
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='me-auto'>
 							<Nav.Link
-								href='/'
+								href='/home'
 								className='navLink'
 							>
 								Store
@@ -169,7 +169,7 @@ function MainNavbar() {
 				<Offcanvas.Header closeButton />
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
-						<Nav.Link href='/'>Store</Nav.Link>
+						<Nav.Link href='/home'>Store</Nav.Link>
 						<Nav.Link href='/about'>About</Nav.Link>
 						<hr />
 

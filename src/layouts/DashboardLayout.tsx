@@ -74,7 +74,7 @@ export default function AuthLayout() {
 				<Offcanvas.Body>
 					<Nav className='flex-column arb-text'>
 						<Nav.Item>
-							<Nav.Link href='/'>
+							<Nav.Link href='/home'>
 								Back To Store
 							</Nav.Link>
 						</Nav.Item>
