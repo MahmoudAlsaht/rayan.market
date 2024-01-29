@@ -59,7 +59,7 @@ function Signup() {
 					passwordRef.current?.value,
 					usernameRef.current!.value,
 				);
-				navigate('/');
+				navigate(-1);
 				setIsLoading(false);
 			}
 		} catch (e: any) {

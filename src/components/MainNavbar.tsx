@@ -44,7 +44,7 @@ function MainNavbar() {
 		await dispatch(logout());
 		dispatch(fetchUser());
 		handleClose();
-		navigate('/');
+		navigate('/home');
 	};
 
 	const handleClick = () => {

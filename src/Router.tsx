@@ -28,25 +28,22 @@ import CartCheckout from './routes/checkout/CartCheckout';
 import ShowOrder from './routes/dashboard/ShowOrder';
 import OrderHistoryList from './routes/account/OrderHistoryList';
 import ShowOrderDetails from './routes/account/ShowOrderDetails';
+import LandingPage from './routes/LandingPage';
 
 export const Router = createBrowserRouter([
 	{
 		element: <Wrapper />,
 		children: [
+			{ path: '/', element: <LandingPage /> },
 			{
 				element: <RootLayout />,
 				children: [
-					{ path: '/', element: <Home /> },
+					{ path: 'home', element: <Home /> },
 					{ path: 'about', element: <h1>About</h1> },
 					{ path: 'cart', element: <CartCheckout /> },
 					{
-						path: '/checkout',
-						children: [
-							{
-								index: true,
-								element: <Checkout />,
-							},
-						],
+						path: 'checkout',
+						element: <Checkout />,
 					},
 				],
 			},
