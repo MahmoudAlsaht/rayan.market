@@ -44,12 +44,18 @@ function BannersActions() {
 		<>
 			<Container>
 				<h1 className='ms-5 mt-3'>Banners</h1>
+				<input
+					className='searchInput'
+					type='search'
+					placeholder='search Banners'
+					value={queryInput}
+					onChange={handleQueryChange}
+				/>
 				<Table>
 					<thead>
 						<tr>
 							<th scope='col'>#</th>
 							<th scope='col'>Name</th>
-							<th scope='col'></th>
 							<th scope='col'>
 								<Button
 									onClick={
@@ -63,20 +69,6 @@ function BannersActions() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td>
-								<input
-									className='searchInput'
-									type='search'
-									placeholder='search Banners'
-									value={queryInput}
-									onChange={handleQueryChange}
-								/>
-							</td>
-							<td></td>
-							<td></td>
-						</tr>
 						{filteredBanners?.map(
 							(banner, index) => (
 								<BannerSettings

@@ -41,6 +41,7 @@ export const createBanner = createAsyncThunk(
 		try {
 			const banner = await addData('banners', {
 				name,
+				active: false,
 				createdAt: Date.now(),
 			});
 

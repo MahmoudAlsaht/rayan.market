@@ -29,7 +29,7 @@ function ProductSettings({
 		<>
 			<tr>
 				<td>{index + 1}</td>
-				<td>{product?.name}</td>
+				<td>{product?.name.substring(0, 45)}</td>
 
 				<td>
 					<EditProductForm
@@ -40,11 +40,11 @@ function ProductSettings({
 					<Button
 						variant='outline-warning'
 						onClick={handleClickEditProduct}
+						className='me-2'
 					>
 						<BsPen />
 					</Button>
-				</td>
-				<td>
+
 					<Button
 						variant='outline-danger'
 						onClick={handleProductDeletion}

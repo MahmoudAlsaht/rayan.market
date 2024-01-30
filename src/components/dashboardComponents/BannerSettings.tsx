@@ -26,7 +26,7 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 		<>
 			<tr>
 				<td>{index + 1}</td>
-				<td>{banner?.name}</td>
+				<td>{banner?.name.substring(0, 45)}</td>
 
 				<td>
 					<EditBannerForm
@@ -37,11 +37,11 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 					<Button
 						variant='outline-warning'
 						onClick={handleClickEditBanner}
+						className='me-2'
 					>
 						<BsPen />
 					</Button>
-				</td>
-				<td>
+
 					<Button
 						variant='outline-danger'
 						onClick={handleBannerDeletion}

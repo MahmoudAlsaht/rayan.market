@@ -14,6 +14,7 @@ export type TBanner = Partial<DocumentData> &
 		id: string;
 		name: string;
 		images: string[] | null;
+		active: boolean;
 		createdAt: Date;
 	};
 
