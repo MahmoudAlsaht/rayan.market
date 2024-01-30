@@ -51,21 +51,19 @@ function ProductsSettings() {
 					value={queryInput}
 					onChange={handleQueryChange}
 				/>
+				<Button
+					className='ms-2'
+					onClick={handleClickAddProduct}
+					variant='outline-primary'
+				>
+					<BsPlusLg className='floatingButtonIcon' />
+				</Button>
 				<Table>
 					<thead>
 						<tr>
 							<th scope='col'>#</th>
 							<th scope='col'>Name</th>
-							<th scope='col'>
-								<Button
-									onClick={
-										handleClickAddProduct
-									}
-									variant='outline-primary'
-								>
-									<BsPlusLg className='floatingButtonIcon' />
-								</Button>
-							</th>
+							<th scope='col'></th>
 						</tr>
 					</thead>
 					<tbody>

@@ -4,6 +4,7 @@ import {
 	fetchBanners,
 	createBanner,
 	updateBanner,
+	updateBannersActivity,
 	destroyBanner,
 } from '../../controllers/banner';
 import { DocumentData } from 'firebase/firestore';
@@ -47,6 +48,13 @@ export const BannerSlice = createSlice({
 						? action.payload
 						: product;
 				});
+				return state;
+			},
+		);
+		builder.addCase(
+			updateBannersActivity.fulfilled,
+			(state, action) => {
+				state = action.payload;
 				return state;
 			},
 		);

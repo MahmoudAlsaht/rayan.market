@@ -71,16 +71,44 @@ export const createBanner = createAsyncThunk(
 	},
 );
 
+export const updateBannersActivity = createAsyncThunk(
+	'Banners/updateBannerStatus',
+	async (option: { bannerId: string; active: boolean }) => {
+		try {
+			const { bannerId, active } = option;
+			const banners: DocumentData[] | undefined =
+				await getAllData('banners');
+
+			for (const banner of banners!) {
+				await updateDocs('banners', banner?.id, {
+					active: false,
+				});
+			}
+			await updateDocs('banners', bannerId, {
+				active,
+			});
+
+			const updatedBanners: DocumentData[] | undefined =
+				await getAllData('banners');
+
+			return updatedBanners as any;
+		} catch (e: any) {
+			console.error(e.message);
+		}
+	},
+);
+
 export const updateBanner = createAsyncThunk(
 	'banners/updateBanner',
 	async (options: { docId: string; data: any }) => {
 		try {
 			const { docId } = options;
-			const { bannerName, images } = options.data;
+			const { bannerName, images, active } = options.data;
 
 			if (bannerName) {
 				await updateDocs('banners', docId, {
 					name: bannerName,
+					active,
 				});
 			}
 

@@ -20,12 +20,14 @@ type EditBannerFormProps = {
 	show: boolean;
 	handleClose: () => void;
 	banner: TBanner;
+	updateBannersActivation: () => void;
 };
 
 function EditBannerForm({
 	show,
 	handleClose,
 	banner,
+	updateBannersActivation,
 }: EditBannerFormProps) {
 	const dispatch = useAppDispatch();
 	const [previewImages, setPreviewImages] = useState<
@@ -50,7 +52,7 @@ function EditBannerForm({
 			}
 		};
 		updateImages();
-	}, [dispatch, banner?.images]);
+	}, [banner?.images]);
 
 	const handleRemovePreviewImages = (id: string) => {
 		setPreviewImages((prevPreviewImages) => {
@@ -113,16 +115,17 @@ function EditBannerForm({
 					message: 'invalid fields',
 				});
 			} else {
-				const productName = bannerNameRef.current?.value;
+				const bannerName = bannerNameRef.current?.value;
 				await dispatch(
 					updateBanner({
 						docId: banner?.id,
 						data: {
-							productName,
+							bannerName,
 							images: selectedImages,
 						},
 					}),
 				);
+				await updateBannersActivation();
 				setIsLoading(false);
 				handleClose();
 				bannerNameRef.current!.value = '';
@@ -224,6 +227,7 @@ function EditBannerForm({
 								onChange={handleFileChange}
 							/>
 						</Form.Group>
+
 						{previewImages &&
 							previewImages?.map((image) => (
 								<PreviewImage

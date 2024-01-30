@@ -40,6 +40,10 @@ function BannersActions() {
 		dispatch(fetchBanners());
 	}, [dispatch]);
 
+	const updateBannersActivation = () => {
+		dispatch(fetchBanners());
+	};
+
 	return (
 		<>
 			<Container>
@@ -51,27 +55,30 @@ function BannersActions() {
 					value={queryInput}
 					onChange={handleQueryChange}
 				/>
+				<Button
+					onClick={handleClickAddBanner}
+					variant='outline-primary'
+					className='ms-2'
+				>
+					<BsPlusLg className='floatingButtonIcon' />
+				</Button>
 				<Table>
 					<thead>
 						<tr>
 							<th scope='col'>#</th>
 							<th scope='col'>Name</th>
-							<th scope='col'>
-								<Button
-									onClick={
-										handleClickAddBanner
-									}
-									variant='outline-primary'
-								>
-									<BsPlusLg className='floatingButtonIcon' />
-								</Button>
-							</th>
+							<th scope='col'>Activated</th>
+							<th scope='col'>Actions</th>
+							<th scope='col'></th>
 						</tr>
 					</thead>
 					<tbody>
 						{filteredBanners?.map(
 							(banner, index) => (
 								<BannerSettings
+									updateBannersActivation={
+										updateBannersActivation
+									}
 									key={banner?.id}
 									banner={banner as TBanner}
 									index={index}

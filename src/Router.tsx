@@ -16,7 +16,7 @@ import { motion } from 'framer-motion';
 import Category from './routes/store/Category';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './routes/dashboard/Dashboard';
-import CategoriesSettings from './routes/dashboard/CategoriesSettings';
+import CategoriesSettings from './routes/dashboard/CategoriesActions';
 import ProductsSettings from './routes/dashboard/ProductsActions';
 import ShowProduct from './routes/store/ShowProduct';
 import OrderSettings from './routes/dashboard/OrderSettings';
