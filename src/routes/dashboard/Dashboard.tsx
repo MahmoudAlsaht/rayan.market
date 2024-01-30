@@ -33,6 +33,7 @@ function Dashboard() {
 		'Orders',
 		'Categories',
 		'Products',
+		'Banner',
 	];
 
 	return (

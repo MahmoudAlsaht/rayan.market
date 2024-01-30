@@ -10,6 +10,7 @@ import {
 } from '../utils';
 import { TProduct } from '../app/store/product';
 import FilterProducts from '../components/FilterProducts';
+import Banner from '../components/Banner';
 
 function Home() {
 	const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ function Home() {
 
 	return (
 		<div className='productContainer'>
+			<Banner />
 			<FilterProducts
 				queryInput={queryInput}
 				handleQueryChange={handleQueryChange}

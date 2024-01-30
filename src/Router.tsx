@@ -29,6 +29,7 @@ import ShowOrder from './routes/dashboard/ShowOrder';
 import OrderHistoryList from './routes/account/OrderHistoryList';
 import ShowOrderDetails from './routes/account/ShowOrderDetails';
 import LandingPage from './routes/LandingPage';
+import BannerSettings from './routes/dashboard/BannersActions';
 
 export const Router = createBrowserRouter([
 	{
@@ -130,6 +131,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/orders/:orderId',
 						element: <ShowOrder />,
+					},
+					{
+						path: 'settings/banner',
+						element: <BannerSettings />,
 					},
 				],
 			},

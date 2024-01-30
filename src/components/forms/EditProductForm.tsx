@@ -334,7 +334,8 @@ function EditProductForm({
 									imageId={image?.id}
 									path={image?.path}
 									filename={image?.filename}
-									product={product}
+									data={product}
+									dataType='product'
 									handleRemove={
 										handleRemoveProductImages
 									}

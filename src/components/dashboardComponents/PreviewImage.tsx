@@ -1,6 +1,8 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { Image } from 'react-bootstrap';
 import { BsTrashFill } from 'react-icons/bs';
 import { destroyProductImage } from '../../controllers/productImages';
+import { destroyBannerImage } from '../../controllers/bannerImages';
 
 type PreviewImageProps = {
 	path: string;
@@ -8,7 +10,8 @@ type PreviewImageProps = {
 	imageId?: string;
 	className?: string;
 	type?: string;
-	product?: any;
+	data?: any;
+	dataType?: string;
 	handleRemove: (id: string) => void;
 };
 
@@ -17,7 +20,8 @@ function PreviewImage({
 	filename = '',
 	className,
 	path,
-	product,
+	data,
+	dataType,
 	type = '',
 	handleRemove,
 }: PreviewImageProps) {
@@ -25,11 +29,17 @@ function PreviewImage({
 		if (type !== '') {
 			handleRemove(imageId);
 		} else {
-			await destroyProductImage(
-				product,
-				filename,
-				imageId,
-			);
+			dataType === 'product'
+				? await destroyProductImage(
+						data,
+						filename,
+						imageId,
+				  )
+				: await destroyBannerImage(
+						data,
+						filename,
+						imageId,
+				  );
 			handleRemove(imageId);
 		}
 	};

@@ -12,6 +12,7 @@ import {
 } from '../../utils';
 import { TProduct } from '../../app/store/product';
 import FilterProducts from '../../components/FilterProducts';
+import Banner from '../../components/Banner';
 
 function Category() {
 	const { categoryId } = useParams();
@@ -67,6 +68,7 @@ function Category() {
 
 	return (
 		<div className='productContainer mt-5'>
+			<Banner />
 			<h1 className='text-center mb-3'>
 				{category?.name}
 			</h1>
