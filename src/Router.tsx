@@ -17,7 +17,7 @@ import Category from './routes/store/Category';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './routes/dashboard/Dashboard';
 import CategoriesSettings from './routes/dashboard/CategoriesSettings';
-import ProductsSettings from './routes/dashboard/ProductsSettings';
+import ProductsSettings from './routes/dashboard/ProductsActions';
 import ShowProduct from './routes/store/ShowProduct';
 import OrderSettings from './routes/dashboard/OrderSettings';
 import ContactInfo from './routes/account/ContactInfo';
@@ -133,7 +133,7 @@ export const Router = createBrowserRouter([
 						element: <ShowOrder />,
 					},
 					{
-						path: 'settings/banner',
+						path: 'settings/banners',
 						element: <BannerSettings />,
 					},
 				],

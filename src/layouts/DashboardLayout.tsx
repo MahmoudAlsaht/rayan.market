@@ -118,6 +118,11 @@ export default function AuthLayout() {
 								Products
 							</Nav.Link>
 						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link href='/dashboard/settings/banners'>
+								Banners
+							</Nav.Link>
+						</Nav.Item>
 						<hr />
 						<Nav.Item>
 							<Nav.Link onClick={handleLogout}>
