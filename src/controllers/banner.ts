@@ -25,9 +25,14 @@ export const fetchBanners = createAsyncThunk(
 	},
 );
 
-export const fetchBanner = async (bannerId: string) => {
-	const banner = await getData('banners', 'id', bannerId);
-	return banner?.data;
+export const fetchActiveBanner = async () => {
+	try {
+		const banners = await getAllData('banners');
+		const banner = banners?.filter((b) => b && b?.active);
+		return (banner![0] as any) || null;
+	} catch (e: any) {
+		console.error(e.message);
+	}
 };
 
 export const createBanner = createAsyncThunk(
@@ -103,12 +108,11 @@ export const updateBanner = createAsyncThunk(
 	async (options: { docId: string; data: any }) => {
 		try {
 			const { docId } = options;
-			const { bannerName, images, active } = options.data;
+			const { bannerName, images } = options.data;
 
 			if (bannerName) {
 				await updateDocs('banners', docId, {
 					name: bannerName,
-					active,
 				});
 			}
 

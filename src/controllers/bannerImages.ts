@@ -20,7 +20,7 @@ export const fetchBannersImages = async (
 				);
 				images.push(image.data);
 			}
-		return images ? images : null;
+		return images ? (images as any) : null;
 	} catch (e: any) {
 		throw new Error('Something went wrong');
 	}
