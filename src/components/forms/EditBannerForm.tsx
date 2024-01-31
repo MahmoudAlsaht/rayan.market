@@ -20,14 +20,12 @@ type EditBannerFormProps = {
 	show: boolean;
 	handleClose: () => void;
 	banner: TBanner;
-	updateBannersActivation: () => void;
 };
 
 function EditBannerForm({
 	show,
 	handleClose,
 	banner,
-	updateBannersActivation,
 }: EditBannerFormProps) {
 	const dispatch = useAppDispatch();
 	const [previewImages, setPreviewImages] = useState<
@@ -125,7 +123,6 @@ function EditBannerForm({
 						},
 					}),
 				);
-				await updateBannersActivation();
 				setIsLoading(false);
 				handleClose();
 				bannerNameRef.current!.value = '';

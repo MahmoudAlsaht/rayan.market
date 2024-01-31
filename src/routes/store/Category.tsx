@@ -67,9 +67,9 @@ function Category() {
 	}, [categoryId]);
 
 	return (
-		<div className='productContainer mt-5'>
+		<div className='productContainer'>
 			<Banner />
-			<h1 className='text-center mb-3'>
+			<h1 className='text-center mt-3'>
 				{category?.name}
 			</h1>
 

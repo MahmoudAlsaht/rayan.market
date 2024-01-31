@@ -11,14 +11,9 @@ import { useAppDispatch } from '../../app/hooks';
 type BannerSettingsProps = {
 	banner: TBanner;
 	index: number;
-	updateBannersActivation: () => void;
 };
 
-function BannerSettings({
-	banner,
-	index,
-	updateBannersActivation,
-}: BannerSettingsProps) {
+function BannerSettings({ banner, index }: BannerSettingsProps) {
 	const [show, setShow] = useState(false);
 	const dispatch = useAppDispatch();
 	const [showEditBannerForm, setShowEditBannerForm] =
@@ -78,9 +73,6 @@ function BannerSettings({
 						banner={banner}
 						show={showEditBannerForm}
 						handleClose={handleClickEditBanner}
-						updateBannersActivation={
-							updateBannersActivation
-						}
 					/>
 					<Button
 						variant='outline-warning'

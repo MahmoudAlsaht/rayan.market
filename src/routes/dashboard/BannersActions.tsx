@@ -40,10 +40,6 @@ function BannersActions() {
 		dispatch(fetchBanners());
 	}, [dispatch]);
 
-	const updateBannersActivation = () => {
-		dispatch(fetchBanners());
-	};
-
 	return (
 		<>
 			<Container>
@@ -76,9 +72,6 @@ function BannersActions() {
 						{filteredBanners?.map(
 							(banner, index) => (
 								<BannerSettings
-									updateBannersActivation={
-										updateBannersActivation
-									}
 									key={banner?.id}
 									banner={banner as TBanner}
 									index={index}
