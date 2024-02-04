@@ -77,11 +77,15 @@ export const sortProductsBasedOnPrice = (
 ) => {
 	if (orderingType === 'highest') {
 		return products?.sort(
-			(a, b) => parseInt(b.price) - parseInt(a.price),
+			(a, b) =>
+				parseInt(b.newPrice || b.price) -
+				parseInt(a.newPrice || a.price),
 		);
 	} else if (orderingType === 'lowest') {
 		return products?.sort(
-			(a, b) => parseInt(a.price) - parseInt(b.price),
+			(a, b) =>
+				parseInt(a.newPrice || a.price) -
+				parseInt(b.newPrice || b.price),
 		);
 	} else return products;
 };
