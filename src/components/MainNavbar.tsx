@@ -70,6 +70,12 @@ function MainNavbar() {
 								Store
 							</Nav.Link>
 							<Nav.Link
+								href='/offers'
+								className='navLink'
+							>
+								Offers
+							</Nav.Link>
+							<Nav.Link
 								href='/about'
 								className='navLink'
 							>
@@ -170,6 +176,9 @@ function MainNavbar() {
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
 						<Nav.Link href='/home'>Store</Nav.Link>
+						<Nav.Link href='/offers'>
+							Offers
+						</Nav.Link>
 						<Nav.Link href='/about'>About</Nav.Link>
 						<hr />
 

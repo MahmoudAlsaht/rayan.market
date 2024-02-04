@@ -76,14 +76,29 @@ function ProductCard({ product }: ProductCardProps) {
 							defaultProductImage
 						}
 					/>
-					<Card.Title className='ms-3'>
+					<Card.Title className='ms-3 mt-1'>
 						{product?.name.substring(0, 45)}
 					</Card.Title>
 				</Link>
 				<Card.Header>
-					<Card.Subtitle className='text-muted'>
-						{product?.price} JOD
-					</Card.Subtitle>
+					{!product?.isOffer ? (
+						<Card.Subtitle className='text-muted'>
+							{product?.price} JOD
+						</Card.Subtitle>
+					) : (
+						<Card.Subtitle className='text-muted'>
+							<span
+								className='me-3'
+								style={{
+									textDecoration:
+										'line-through',
+								}}
+							>
+								{product?.price} JOD
+							</span>
+							<span>{product?.newPrice} JOD</span>
+						</Card.Subtitle>
+					)}
 					<Card.Text className='float-end'>
 						<Button
 							onClick={handleAddProduct}

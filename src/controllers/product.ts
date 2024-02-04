@@ -26,6 +26,19 @@ export const fetchProducts = createAsyncThunk(
 	},
 );
 
+export const fetchOffers = async () => {
+	try {
+		const fetchedProducts: DocumentData[] | undefined =
+			await getAllData('products');
+		const products = fetchedProducts?.filter(
+			(product) => product?.isOffer && product,
+		);
+		return products as any;
+	} catch (e: any) {
+		console.log(e);
+	}
+};
+
 export const fetchProduct = async (productId: string) => {
 	const product = await getData('products', 'id', productId);
 	return product?.data;
@@ -54,11 +67,20 @@ export const createProduct = createAsyncThunk(
 		name: string;
 		categoryId: string;
 		price: string;
+		newPrice: string | null;
+		isOffer: boolean;
 		quantity: string;
 		images: FileList | null;
 	}) => {
-		const { name, categoryId, price, quantity, images } =
-			option;
+		const {
+			name,
+			categoryId,
+			price,
+			quantity,
+			images,
+			newPrice,
+			isOffer,
+		} = option;
 
 		try {
 			const product = await addData('products', {
@@ -66,6 +88,8 @@ export const createProduct = createAsyncThunk(
 				categoryId,
 				price,
 				quantity,
+				newPrice,
+				isOffer,
 				createdAt: Date.now(),
 			});
 
@@ -141,6 +165,7 @@ export const updateProduct = createAsyncThunk(
 				productQuantity,
 				category,
 				images,
+				newPrice,
 			} = options.data;
 
 			if (productName)
@@ -150,6 +175,10 @@ export const updateProduct = createAsyncThunk(
 			if (productPrice)
 				await updateDocs('products', docId, {
 					price: productPrice,
+				});
+			if (newPrice)
+				await updateDocs('products', docId, {
+					newPrice,
 				});
 			if (productQuantity)
 				await updateDocs('products', docId, {

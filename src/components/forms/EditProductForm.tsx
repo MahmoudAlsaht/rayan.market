@@ -90,6 +90,7 @@ function EditProductForm({
 	});
 	const productNameRef = useRef<HTMLInputElement>(null);
 	const productPriceRef = useRef<HTMLInputElement>(null);
+	const productNewPriceRef = useRef<HTMLInputElement>(null);
 	const productQuantityRef = useRef<HTMLInputElement>(null);
 	const categoryRef = useRef<HTMLSelectElement>(null);
 
@@ -131,6 +132,8 @@ function EditProductForm({
 					productNameRef.current?.value;
 				const productPrice =
 					productPriceRef.current?.value;
+				const newPrice =
+					productNewPriceRef.current?.value;
 				const productQuantity =
 					productQuantityRef.current?.value;
 				const category = categoryRef.current?.value;
@@ -140,6 +143,7 @@ function EditProductForm({
 						data: {
 							productName,
 							productPrice,
+							newPrice,
 							productQuantity,
 							category,
 							images: selectedImages,
@@ -209,12 +213,12 @@ function EditProductForm({
 				show={show}
 				onHide={handleClose}
 				className='productEditForm'
+				style={{ height: '100%' }}
 			>
 				<Form
 					noValidate
 					validated={!validated}
 					onSubmit={handleSubmit}
-					style={{ width: '100%' }}
 				>
 					<Modal.Body className='text-muted'>
 						<Modal.Header closeButton>
@@ -227,10 +231,7 @@ function EditProductForm({
 						</Modal.Header>
 						<ErrorComponent error={error} />
 
-						<Form.Group
-							className='mt-3 mb-3'
-							controlId='selectCategory'
-						>
+						<Form.Group controlId='selectCategory'>
 							<Form.Select
 								ref={categoryRef}
 								onChange={handleChange}
@@ -265,10 +266,8 @@ function EditProductForm({
 							</Form.Select>
 						</Form.Group>
 
-						<Form.Group
-							className='mt-3 mb-3'
-							controlId='productNameFormInput'
-						>
+						<Form.Group controlId='productNameFormInput'>
+							<Form.Label>Name</Form.Label>
 							<Form.Control
 								onChange={handleChange}
 								type='text'
@@ -278,24 +277,45 @@ function EditProductForm({
 							/>
 						</Form.Group>
 
-						<Form.Group
-							className='mt-3 mb-3'
-							controlId='productPriceFormInput'
-						>
+						<Form.Group controlId='productPriceFormInput'>
+							<Form.Label>
+								{product?.isOffer
+									? 'Old Price'
+									: 'Price'}
+							</Form.Label>
 							<Form.Control
 								onChange={handleChange}
 								type='number'
-								placeholder='Product Price'
+								placeholder={
+									product?.isOffer
+										? 'Old Price'
+										: 'Price'
+								}
 								ref={productPriceRef}
 								defaultValue={product?.price}
 							/>
 						</Form.Group>
+						{product?.isOffer && (
+							<Form.Group controlId='productPriceFormInput'>
+								<Form.Label>
+									New Price
+								</Form.Label>
+								<Form.Control
+									onChange={handleChange}
+									type='number'
+									placeholder='New Price'
+									ref={productNewPriceRef}
+									defaultValue={
+										product?.newPrice
+									}
+								/>
+							</Form.Group>
+						)}
 
-						<Form.Group
-							className='mt-3 mb-3'
-							controlId='productQuantityFormInput'
-						>
+						<Form.Group controlId='productQuantityFormInput'>
+							<Form.Label>Quantity</Form.Label>
 							<Form.Control
+								className='mb-2'
 								onChange={handleChange}
 								type='number'
 								placeholder='Product Quantity'
@@ -304,10 +324,7 @@ function EditProductForm({
 							/>
 						</Form.Group>
 
-						<Form.Group
-							controlId='productImagesFormInput'
-							className='mt-2 mb-3'
-						>
+						<Form.Group controlId='productImagesFormInput'>
 							<Form.Control
 								type='file'
 								multiple

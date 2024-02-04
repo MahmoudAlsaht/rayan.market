@@ -16,8 +16,10 @@ export type TProduct = Partial<DocumentData> &
 		images: string[] | null;
 		createdAt: Date;
 		price: string;
+		newPrice?: string;
 		quantity: string;
 		categoryId: string;
+		isOffer?: boolean;
 	};
 
 const initialState: TProduct[] | any = null;

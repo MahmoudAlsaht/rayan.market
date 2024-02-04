@@ -95,11 +95,15 @@ export const signIn = async (
 			email: res?.user?.email,
 		});
 
-		setCookies('user', {
-			...data,
-			email: res?.user?.email,
-			docId,
-		});
+		setCookies(
+			'user',
+			{
+				...data,
+				email: res?.user?.email,
+				docId,
+			},
+			0.3,
+		);
 	} catch (e: any) {
 		throw new Error(
 			'Something went wrong, Please check your credential and try again later.',

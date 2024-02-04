@@ -30,6 +30,7 @@ import OrderHistoryList from './routes/account/OrderHistoryList';
 import ShowOrderDetails from './routes/account/ShowOrderDetails';
 import LandingPage from './routes/LandingPage';
 import BannerSettings from './routes/dashboard/BannersActions';
+import Offers from './routes/store/Offers';
 
 export const Router = createBrowserRouter([
 	{
@@ -40,6 +41,7 @@ export const Router = createBrowserRouter([
 				element: <RootLayout />,
 				children: [
 					{ path: 'home', element: <Home /> },
+					{ path: 'offers', element: <Offers /> },
 					{ path: 'about', element: <h1>About</h1> },
 					{ path: 'cart', element: <CartCheckout /> },
 					{
