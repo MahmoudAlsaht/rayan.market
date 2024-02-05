@@ -5,6 +5,7 @@ import updateDocs from '../firebase/firestore/updateDoc';
 import destroyDoc from '../firebase/firestore/deleteDoc';
 import { deleteImage } from '../firebase/firestore/deleteFile';
 import { TBanner } from '../app/store/banner';
+import { isAdmin } from '../utils';
 
 export const fetchBannersImages = async (
 	imagesIds: string[] | null,
@@ -44,6 +45,9 @@ const uploadBannerImages = async (
 	bannerId: string,
 ) => {
 	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		const urls = [];
 		for (const file of images!) {
 			urls.push({
@@ -67,6 +71,9 @@ export const createImagesDocument = async (
 	bannerId: string,
 ) => {
 	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		const imagesUrls = await uploadBannerImages(
 			images,
 			bannerId,
@@ -102,6 +109,9 @@ export const destroyBannerImage = async (
 	imageId: string,
 ) => {
 	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		// delete the image from banner's images list
 		const images = banner?.images?.filter(
 			(image) => image !== imageId && image,

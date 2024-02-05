@@ -10,6 +10,7 @@ import {
 	destroyBannerImage,
 } from './bannerImages';
 import { TBanner } from '../app/store/banner';
+import { isAdmin } from '../utils';
 
 export const fetchBanners = createAsyncThunk(
 	'banners/fetchBanners',
@@ -41,9 +42,11 @@ export const createBanner = createAsyncThunk(
 		name: string;
 		images: FileList | null;
 	}) => {
-		const { name, images } = option;
-
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
+			const { name, images } = option;
 			const banner = await addData('banners', {
 				name,
 				active: false,
@@ -80,6 +83,9 @@ export const updateBannersActivity = createAsyncThunk(
 	'Banners/updateBannerStatus',
 	async (option: { bannerId: string; active: boolean }) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			const { bannerId, active } = option;
 			const banners: DocumentData[] | undefined =
 				await getAllData('banners');
@@ -107,6 +113,9 @@ export const updateBanner = createAsyncThunk(
 	'banners/updateBanner',
 	async (options: { docId: string; data: any }) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			const { docId } = options;
 			const { bannerName, images } = options.data;
 
@@ -144,17 +153,25 @@ export const deleteBannerImageList = async (
 	images: string[],
 	banner: TBanner,
 ) => {
-	for (const image of images) {
-		// find banner's images
-		const bannerImage: DocumentData | undefined = (
-			await getData('bannerImages', 'id', image)
-		).data;
-		// delete banner's images
-		await destroyBannerImage(
-			banner,
-			bannerImage?.filename,
-			banner?.id,
-		);
+	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
+		for (const image of images) {
+			// find banner's images
+			const bannerImage: DocumentData | undefined = (
+				await getData('bannerImages', 'id', image)
+			).data;
+			// delete banner's images
+			await destroyBannerImage(
+				banner,
+				bannerImage?.filename,
+				banner?.id,
+			);
+		}
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
 	}
 };
 
@@ -162,6 +179,9 @@ export const destroyBanner = createAsyncThunk(
 	'banners/destroyBanner',
 	async (docId: string) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			const banner: DocumentData | undefined = (
 				await getData('banners', 'id', docId)
 			).data;

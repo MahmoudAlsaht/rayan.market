@@ -11,6 +11,7 @@ import {
 } from './productImages';
 import { TProduct } from '../app/store/product';
 import { fetchCategory } from './category';
+import { isAdmin } from '../utils';
 
 export const fetchProducts = createAsyncThunk(
 	'products/fetchProducts',
@@ -72,6 +73,9 @@ export const createProduct = createAsyncThunk(
 		quantity: string;
 		images: FileList | null;
 	}) => {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		const {
 			name,
 			categoryId,
@@ -158,6 +162,9 @@ export const updateProduct = createAsyncThunk(
 	'products/putProduct',
 	async (options: { docId: string; data: any }) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			const { docId } = options;
 			const {
 				productName,
@@ -224,17 +231,25 @@ export const deleteProductImageList = async (
 	images: string[],
 	product: TProduct,
 ) => {
-	for (const image of images) {
-		// find product's images
-		const productImage: DocumentData | undefined = (
-			await getData('productImages', 'id', image)
-		).data;
-		// delete product's images
-		await destroyProductImage(
-			product,
-			productImage?.filename,
-			productImage?.id,
-		);
+	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
+		for (const image of images) {
+			// find product's images
+			const productImage: DocumentData | undefined = (
+				await getData('productImages', 'id', image)
+			).data;
+			// delete product's images
+			await destroyProductImage(
+				product,
+				productImage?.filename,
+				productImage?.id,
+			);
+		}
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
 	}
 };
 
@@ -242,6 +257,9 @@ export const destroyProduct = createAsyncThunk(
 	'products/destroyProduct',
 	async (docId: string) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			// delete product from category's products list
 			await updateCategoryProducts(docId);
 			const product: DocumentData | undefined = (

@@ -4,6 +4,7 @@ import getData from '../firebase/firestore/getData';
 import updateDocs from '../firebase/firestore/updateDoc';
 import { TProfile } from '../app/auth/profile';
 import destroyDoc from '../firebase/firestore/deleteDoc';
+import { isAuthenticated } from '../utils';
 
 export type Address = {
 	city: string;
@@ -18,25 +19,40 @@ export type TContactInfo = {
 };
 
 export const getContactsData = async (profileId: string) => {
-	const profile = await getData('profiles', 'id', profileId);
-	const contactsIds = profile?.data?.contacts;
-	const contacts = [];
+	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
 
-	if (profile?.data?.contacts)
-		for (const id of contactsIds) {
-			const contactInfo = await getData(
-				'contacts',
-				'id',
-				id,
-			);
-			contacts.push(contactInfo?.data);
-		}
+		const profile = await getData(
+			'profiles',
+			'id',
+			profileId,
+		);
+		const contactsIds = profile?.data?.contacts;
+		const contacts = [];
 
-	return contacts as any;
+		if (profile?.data?.contacts)
+			for (const id of contactsIds) {
+				const contactInfo = await getData(
+					'contacts',
+					'id',
+					id,
+				);
+				contacts.push(contactInfo?.data);
+			}
+
+		return contacts as any;
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
+	}
 };
 
 export const getContactData = async (contactId: string) => {
 	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
+
 		const contact = await getData(
 			'contacts',
 			'id',
@@ -56,18 +72,30 @@ export const createNewContactInfo = async (
 		phoneNumber,
 	}: { city: string; street: string; phoneNumber: string },
 ) => {
-	const contactInfo = await addData('contacts', {
-		address: { city, street },
-		phoneNumber,
-		profileId,
-	});
-	await updateDocs('contacts', contactInfo?.id, {
-		id: contactInfo?.id,
-	});
-	const profile = await getData('profiles', 'id', profileId);
-	await updateDocs('profiles', profile?.docId as string, {
-		contacts: arrayUnion(contactInfo?.id),
-	});
+	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
+
+		const contactInfo = await addData('contacts', {
+			address: { city, street },
+			phoneNumber,
+			profileId,
+		});
+		await updateDocs('contacts', contactInfo?.id, {
+			id: contactInfo?.id,
+		});
+		const profile = await getData(
+			'profiles',
+			'id',
+			profileId,
+		);
+		await updateDocs('profiles', profile?.docId as string, {
+			contacts: arrayUnion(contactInfo?.id),
+		});
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
+	}
 };
 
 export const updateUserContactInfo = async ({
@@ -78,6 +106,9 @@ export const updateUserContactInfo = async ({
 	contactId: string;
 }) => {
 	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
+
 		const { city, street, phoneNumber } = data;
 		await updateDocs('contacts', contactId, {
 			address: { city, street },
@@ -103,6 +134,9 @@ export const deleteContact = async (
 	contactId: string,
 ) => {
 	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
+
 		const { data, docId } = (await getData(
 			'profiles',
 			'id',

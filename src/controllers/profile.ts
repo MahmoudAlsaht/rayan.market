@@ -13,7 +13,11 @@ import {
 	verifyBeforeUpdateEmail,
 } from 'firebase/auth';
 import updateDocs from '../firebase/firestore/updateDoc';
-import { removeCookies, setCookies } from '../utils';
+import {
+	isAuthenticated,
+	removeCookies,
+	setCookies,
+} from '../utils';
 import { uploadImage } from '../firebase/firestore/uploadFile';
 import { deleteImage } from '../firebase/firestore/deleteFile';
 import destroyDoc from '../firebase/firestore/deleteDoc';
@@ -22,10 +26,16 @@ import { TProfile } from '../app/auth/profile';
 export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
 	async (profileId: string) => {
-		const { data } =
-			(await getData('profiles', 'id', profileId)) ?? {};
+		try {
+			const { data } =
+				(await getData('profiles', 'id', profileId)) ??
+				{};
 
-		return data ? (data as TProfile) : null;
+			return data ? (data as TProfile) : null;
+		} catch (e: any) {
+			console.error(e.message);
+			throw new Error(e.message);
+		}
 	},
 );
 
@@ -33,8 +43,10 @@ export const updateUserEmailAndUsername = createAsyncThunk(
 	'profile/updateUserEmailAndUsername',
 	async (options: { data: any; docId: string }) => {
 		const { data, docId } = options;
-
 		try {
+			if (!isAuthenticated())
+				throw new Error('You Are Not Authorized');
+
 			const { email, username, currentPassword } = data;
 			const user = await checkAuth(currentPassword);
 
@@ -90,6 +102,9 @@ export const updateUserPassword = createAsyncThunk(
 	'profile/updateUserPassword',
 	async (data: any) => {
 		try {
+			if (!isAuthenticated())
+				throw new Error('You Are Not Authorized');
+
 			const { newPassword, currentPassword } = data;
 			const user = await checkAuth(currentPassword);
 
@@ -110,6 +125,9 @@ export const updateProfileImage = createAsyncThunk(
 		password: string;
 		profile: TProfile;
 	}) => {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
+
 		const { imageFile, password, profile } = options;
 		try {
 			await checkAuth(password);
@@ -148,6 +166,9 @@ export const destroyUser = createAsyncThunk(
 	async (options: { password: string; profileId: string }) => {
 		const { password, profileId } = options;
 		try {
+			if (!isAuthenticated())
+				throw new Error('You Are Not Authorized');
+
 			const auth = await checkAuth(password);
 			const user = await getData(
 				'users',

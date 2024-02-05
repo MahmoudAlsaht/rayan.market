@@ -8,7 +8,12 @@ import {
 	sendEmailVerification,
 	sendPasswordResetEmail,
 } from 'firebase/auth';
-import { getCookies, removeCookies, setCookies } from '../utils';
+import {
+	getCookies,
+	isAuthenticated,
+	removeCookies,
+	setCookies,
+} from '../utils';
 import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import { v4 as uuidv4 } from 'uuid';
@@ -115,6 +120,9 @@ export const logout = createAsyncThunk(
 	'user/logout',
 	async () => {
 		try {
+			if (!isAuthenticated())
+				throw new Error('You Are Not Authorized');
+
 			await signOut(auth);
 			removeCookies('user');
 			return {

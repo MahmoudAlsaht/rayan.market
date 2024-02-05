@@ -9,11 +9,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getAllData } from '../firebase/firestore/getAllData';
 import { arrayUnion } from 'firebase/firestore';
 import { TUser } from '../app/auth/auth';
+import { isAdmin, isAuthenticated } from '../utils';
 
 export const createAnOrder = createAsyncThunk(
 	'orders/createAnOrder',
 	async (cart: TCart) => {
 		try {
+			if (!isAuthenticated())
+				throw new Error('You Are Not Authorized');
+
 			const order = await addData('orders', {
 				products: cart?.products,
 				totalPrice: cart?.totalPrice,
@@ -94,9 +98,25 @@ export const updateOrderStatus = createAsyncThunk(
 		updatedStatus: string;
 	}) => {
 		try {
+			if (
+				updatedStatus in
+				['accepted', 'rejected', 'completed']
+			) {
+				if (!isAdmin())
+					throw new Error('You Are Not Authorized');
+			} else if (updatedStatus === 'canceled') {
+				if (!isAuthenticated())
+					throw new Error('You Are Not Authorized');
+			} else {
+				throw new Error(
+					'Unexpected status: ' + updatedStatus,
+				);
+			}
+
 			await updateDocs('orders', orderId, {
 				status: updatedStatus,
 			});
+
 			const { data, docId } = await getData(
 				'orders',
 				'id',
@@ -123,6 +143,9 @@ export const updateOrderStatus = createAsyncThunk(
 
 export const fetchOrder = async (orderId: string) => {
 	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
+
 		const { data } = await getData('orders', 'id', orderId);
 		return data as any;
 	} catch (e: any) {
@@ -132,17 +155,22 @@ export const fetchOrder = async (orderId: string) => {
 };
 
 const fetchUserOrders = async (orders: string[]) => {
-	const userOrders = [];
-	if (orders && orders?.length > 0) {
-		for (const order of orders) {
-			const { data } = await getData(
-				'orders',
-				'id',
-				order,
-			);
-			userOrders.push(data);
+	try {
+		const userOrders = [];
+		if (orders && orders?.length > 0) {
+			for (const order of orders) {
+				const { data } = await getData(
+					'orders',
+					'id',
+					order,
+				);
+				userOrders.push(data);
+			}
+			return userOrders as any[];
 		}
-		return userOrders as any[];
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
 	}
 };
 
@@ -150,6 +178,9 @@ export const fetchOrders = createAsyncThunk(
 	'orders/fetchOrders',
 	async (userId: string) => {
 		try {
+			if (!isAuthenticated())
+				throw new Error('You Are Not Authorized');
+
 			if (userId !== '') {
 				const user = (
 					await getData('users', 'uid', userId)
@@ -202,27 +233,42 @@ const sendEmailToCustomer = async (
 const updateProductQuantity = async (
 	products: TCartProduct[] | undefined,
 ) => {
-	for (const product of products!) {
-		if (product)
-			await updateDocs('products', product?.id as string, {
-				quantity:
-					parseInt(product?.quantity as string) -
-					product?.counter,
-			});
+	try {
+		for (const product of products!) {
+			if (product)
+				await updateDocs(
+					'products',
+					product?.id as string,
+					{
+						quantity:
+							parseInt(
+								product?.quantity as string,
+							) - product?.counter,
+					},
+				);
+		}
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
 	}
 };
 
 export const checkIfProductIsAvailable = (
 	products: TCartProduct[] | undefined,
 ) => {
-	const notAvailable = [];
-	for (const product of products!) {
-		if (
-			product?.counter >
-			parseInt(product?.quantity as string)
-		)
-			notAvailable.push(product);
-	}
+	try {
+		const notAvailable = [];
+		for (const product of products!) {
+			if (
+				product?.counter >
+				parseInt(product?.quantity as string)
+			)
+				notAvailable.push(product);
+		}
 
-	return notAvailable.length === 0;
+		return notAvailable.length === 0;
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
+	}
 };

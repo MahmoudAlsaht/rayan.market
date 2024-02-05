@@ -7,6 +7,7 @@ import getData from '../firebase/firestore/getData';
 import destroyDoc from '../firebase/firestore/deleteDoc';
 import { deleteProductImageList } from './product';
 import { TProduct } from '../app/store/product';
+import { isAdmin } from '../utils';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
@@ -41,6 +42,9 @@ export const createCategory = createAsyncThunk(
 	'categories/postCategory',
 	async (name: string) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			const category = await addData('categories', {
 				name: name,
 				createdAt: Date.now(),
@@ -69,6 +73,9 @@ export const updateCategory = createAsyncThunk(
 	'categories/putCategory',
 	async (options: { docId: string; data: any }) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			const { docId, data } = options;
 			await updateDocs('categories', docId, data);
 
@@ -89,6 +96,9 @@ const destroyCategoryProductList = async (
 	products: string[],
 ) => {
 	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		// loop through category's products
 		for (const product of products) {
 			const categoryProduct: DocumentData | undefined = (
@@ -113,6 +123,9 @@ export const destroyCategory = createAsyncThunk(
 	'categories/destroyCategory',
 	async (docId: string) => {
 		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
 			const category: DocumentData | undefined = (
 				await getData('categories', 'id', docId)
 			).data;

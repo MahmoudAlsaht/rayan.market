@@ -22,8 +22,7 @@ function CartCheckout() {
 			location.pathname = '/';
 			navigate('/');
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [cart?.products, checkIfCartIsEmpty]);
+	}, [cart?.products, checkIfCartIsEmpty, navigate]);
 
 	return (
 		<div className='m-5'>

@@ -5,6 +5,7 @@ import updateDocs from '../firebase/firestore/updateDoc';
 import { TProduct } from '../app/store/product';
 import destroyDoc from '../firebase/firestore/deleteDoc';
 import { deleteImage } from '../firebase/firestore/deleteFile';
+import { isAdmin } from '../utils';
 
 export const fetchProductsImages = async (
 	imagesIds: string[] | null,
@@ -44,6 +45,9 @@ const uploadProductImages = async (
 	productId: string,
 ) => {
 	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		const urls = [];
 		for (const file of images!) {
 			urls.push({
@@ -67,6 +71,9 @@ export const createImagesDocument = async (
 	productId: string,
 ) => {
 	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		const imagesUrls = await uploadProductImages(
 			images,
 			productId,
@@ -102,6 +109,9 @@ export const destroyProductImage = async (
 	imageId: string,
 ) => {
 	try {
+		if (!isAdmin())
+			throw new Error('You Are Not Authorized');
+
 		// delete the image from product's images list
 		const images = product?.images?.filter(
 			(image) => image !== imageId && image,
