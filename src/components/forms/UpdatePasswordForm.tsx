@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { updateUserPassword } from '../../controllers/profile';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
+import { useParams } from 'react-router-dom';
 
 function UpdatePasswordForm({
 	isLoading,
@@ -11,6 +12,7 @@ function UpdatePasswordForm({
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
+	const { profileId } = useParams();
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -30,23 +32,25 @@ function UpdatePasswordForm({
 
 			if (form.checkValidity() === false) {
 				setError({
-					status: true,
+					status: false,
 					message: 'invalid fields',
 				});
 			} else {
 				const data = {
 					currentPassword: passwordRef.current?.value,
 					newPassword: newPasswordRef.current?.value,
+					profileId,
 				};
 				await updateUserPassword(data);
 				setIsLoading(false);
+
 				passwordRef.current!.value = '';
 				newPasswordRef.current!.value = '';
 				confirmPasswordRef.current!.value = '';
 			}
 		} catch (e: any) {
 			setError({
-				status: true,
+				status: false,
 				message: e.message,
 			});
 			setIsLoading(false);

@@ -84,7 +84,8 @@ function AccountNavbar() {
 										width={30}
 										height={30}
 										src={
-											profile?.photoURL ||
+											profile?.profileImage
+												?.path ||
 											defaultAvatar
 										}
 									/>

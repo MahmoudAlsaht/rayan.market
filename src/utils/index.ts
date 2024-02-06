@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import { TCartProduct } from '../app/store/cart';
 import { TProduct } from '../app/store/product';
 import { TUser } from '../app/auth/auth';
+import axios from 'axios';
 
 const cookies = new Cookies();
 
@@ -99,4 +100,29 @@ export const isAdmin = () => {
 	if (!isAuthenticated()) return false;
 	const user: TUser | null = getCookies('user');
 	return user?.isAdmin;
+};
+
+export const sendRequestToServer = async (
+	method: string,
+	urlStr: string,
+	data?: any,
+	contentType: string = 'application/json',
+) => {
+	try {
+		const url = `${import.meta.env.VITE_API_URL}/${urlStr}`;
+		const res = await axios({
+			url,
+			data,
+			method,
+			headers: {
+				Accept: contentType,
+				'Content-Type': contentType,
+				'Access-Control-Allow-Origin': '*',
+			},
+		});
+		return res?.data;
+	} catch (e: any) {
+		console.error(e);
+		throw new Error(e?.response?.data?.error);
+	}
 };

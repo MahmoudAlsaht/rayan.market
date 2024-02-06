@@ -2,20 +2,20 @@ import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { TUser } from '../../app/auth/auth';
 import { updateUserEmailAndUsername } from '../../controllers/profile';
-import { useAppDispatch } from '../../app/hooks';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
+import { useParams } from 'react-router-dom';
 
 function UpdateUserInfoForm({
-	profileOwner,
+	user,
 	isLoading,
 	setIsLoading,
 }: {
-	profileOwner: TUser;
+	user: TUser | null;
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
 }) {
-	const dispatch = useAppDispatch();
+	const { profileId } = useParams();
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -40,24 +40,20 @@ function UpdateUserInfoForm({
 				});
 			} else {
 				const data = {
-					currentPassword: passwordRef.current?.value,
+					password: passwordRef.current?.value,
 					email: emailRef.current?.value,
 					username: usernameRef.current?.value,
+					profileId,
 				};
-				await dispatch(
-					updateUserEmailAndUsername({
-						data,
-						docId: profileOwner?.docId,
-					}),
-				);
-				setIsLoading(false);
-				emailRef.current!.value = '';
-				usernameRef.current!.value = '';
+				await updateUserEmailAndUsername(data),
+					setIsLoading(false);
+
 				passwordRef.current!.value = '';
 			}
 		} catch (e: any) {
+			setValidated(false);
 			setError({
-				status: true,
+				status: false,
 				message: e.message,
 			});
 			setIsLoading(false);
@@ -104,7 +100,7 @@ function UpdateUserInfoForm({
 					type='email'
 					required
 					placeholder='name@example.com'
-					defaultValue={profileOwner?.email as string}
+					defaultValue={user?.email as string}
 					ref={emailRef}
 				/>
 			</Form.Group>
@@ -116,9 +112,7 @@ function UpdateUserInfoForm({
 					onChange={handleChange}
 					type='text'
 					placeholder='your name'
-					defaultValue={
-						profileOwner?.username as string
-					}
+					defaultValue={user?.username as string}
 					ref={usernameRef}
 				/>
 			</Form.Group>

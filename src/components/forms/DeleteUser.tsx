@@ -51,7 +51,7 @@ function DeleteUser({
 				);
 				handleClose();
 				setIsLoading(false);
-				navigate('/');
+				navigate('/home');
 			}
 		} catch (e: any) {
 			setError({

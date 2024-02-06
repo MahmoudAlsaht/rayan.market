@@ -1,40 +1,27 @@
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import defaultAvatar from '../../default_avatar.png';
-import {
-	ChangeEvent,
-	FormEvent,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
-import { TUser } from '../../app/auth/auth';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import ErrorComponent, { IError } from '../Error';
-import {
-	fetchProfile,
-	updateProfileImage,
-} from '../../controllers/profile';
+import { updateProfileImage } from '../../controllers/profile';
 import LoadingButton from '../LoadingButton';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { TProfile } from '../../app/auth/profile';
 import { useParams } from 'react-router-dom';
 
 function UploadImageForm({
-	profileOwner,
 	isLoading,
 	setIsLoading,
+	profile,
 }: {
-	profileOwner: TUser;
 	isLoading: boolean;
 	setIsLoading: (status: boolean) => void;
+	profile: TProfile | null;
 }) {
-	const { profileId } = useParams();
 	const dispatch = useAppDispatch();
-	const profile: TProfile | null = useAppSelector(
-		(state) => state.profile,
-	);
+	const { profileId } = useParams();
 
 	const [reviewImage, setReviewImage] = useState(
-		profileOwner?.photoURL,
+		profile?.profileImage?.path,
 	);
 	const [selectedImage, setSelectedImage] =
 		useState<File | null>(null);
@@ -46,10 +33,6 @@ function UploadImageForm({
 	});
 
 	const passwordRef = useRef<HTMLInputElement>(null);
-
-	useEffect(() => {
-		dispatch(fetchProfile(profileId as string));
-	}, [dispatch, profileId]);
 
 	const updateImage = (e: ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
@@ -100,7 +83,7 @@ function UploadImageForm({
 						imageFile: selectedImage,
 						password: passwordRef.current
 							?.value as string,
-						profile: profile,
+						profileId: profileId as string,
 					}),
 				);
 				setIsLoading(false);
@@ -133,7 +116,7 @@ function UploadImageForm({
 						className='rounded-circle'
 						src={
 							reviewImage ||
-							profile?.photoURL ||
+							profile?.profileImage?.path ||
 							defaultAvatar
 						}
 						width={130}

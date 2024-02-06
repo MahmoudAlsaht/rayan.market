@@ -2,23 +2,50 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import {
 	fetchProfile,
-	updateUserEmailAndUsername,
 	updateProfileImage,
 	destroyUser,
 } from '../../controllers/profile';
+import { TUser } from './auth';
+
+export type TImage = {
+	id: string;
+	filename: string;
+	path: string;
+	imageType: string;
+};
+
+export type TProfileImage = TImage & {
+	profile: TProfile;
+};
 
 export type TProfile = {
 	id: string;
-	user: string;
-	contacts: string[];
-	photoURL: string;
+	user: TUser | null;
+	contactsInfo?: [
+		{
+			address: {
+				city: string;
+				street: string;
+			};
+			contactNumber: string;
+		},
+	];
+	profileImage: TProfileImage | null;
 };
 
 const initialState: TProfile = {
 	id: '',
-	user: '',
-	contacts: [],
-	photoURL: '',
+	user: null,
+	contactsInfo: [
+		{
+			address: {
+				city: '',
+				street: '',
+			},
+			contactNumber: '',
+		},
+	],
+	profileImage: null,
 };
 
 export const ProfileSlice = createSlice({
@@ -28,14 +55,6 @@ export const ProfileSlice = createSlice({
 	extraReducers(builder) {
 		builder.addCase(
 			fetchProfile.fulfilled,
-			(state, action) => {
-				if (action.payload !== null)
-					state = action.payload;
-				return state;
-			},
-		);
-		builder.addCase(
-			updateUserEmailAndUsername.fulfilled,
 			(state, action) => {
 				if (action.payload !== null)
 					state = action.payload;

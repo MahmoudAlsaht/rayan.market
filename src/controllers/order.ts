@@ -215,7 +215,7 @@ const sendEmailToCustomer = async (
 		};
 
 		const res = await axios({
-			url: import.meta.env.VITE_API_URL,
+			url: `${import.meta.env.VITE_API_URL}/send`,
 			data: data,
 			method: 'POST',
 			headers: {

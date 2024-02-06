@@ -1,22 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import { fetchUser, logout } from '../../controllers/user';
-import { User } from 'firebase/auth';
 
-export type TUser = Partial<User> & {
+export type TUser = {
+	id: string;
 	username: string;
+	email: string;
 	isAdmin: boolean;
+	phoneNumber?: string;
 	profile: string;
-	docId: string;
 	orders?: string[];
 };
 
 const initialState: TUser = {
+	id: '',
 	username: 'anonymous',
 	email: '',
+	phoneNumber: '',
 	isAdmin: false,
 	profile: '',
-	docId: '',
 };
 
 export const UserSlice = createSlice({

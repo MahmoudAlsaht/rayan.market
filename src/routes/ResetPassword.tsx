@@ -2,7 +2,7 @@ import { Col, Container, Form, Row } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../components/Error';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { resetPassword } from '../controllers/user';
+// import { resetPassword } from '../controllers/user';
 
 function ResetPassword() {
 	const [validated, setValidated] = useState(false);
@@ -26,7 +26,7 @@ function ResetPassword() {
 					message: 'invalid fields',
 				});
 			} else {
-				resetPassword(emailRef.current?.value as string);
+				// resetPassword(emailRef.current?.value as string);
 				navigate('/');
 			}
 		} catch (e: any) {

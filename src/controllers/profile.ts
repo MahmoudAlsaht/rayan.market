@@ -1,162 +1,93 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import getData from '../firebase/firestore/getData';
-import { auth } from '../firebase/config';
-import {
-	AuthCredential,
-	EmailAuthProvider,
-	User,
-	deleteUser,
-	reauthenticateWithCredential,
-	updateEmail,
-	updatePassword,
-	updateProfile,
-	verifyBeforeUpdateEmail,
-} from 'firebase/auth';
-import updateDocs from '../firebase/firestore/updateDoc';
 import {
 	isAuthenticated,
-	removeCookies,
+	sendRequestToServer,
 	setCookies,
 } from '../utils';
 import { uploadImage } from '../firebase/firestore/uploadFile';
-import { deleteImage } from '../firebase/firestore/deleteFile';
-import destroyDoc from '../firebase/firestore/deleteDoc';
-import { TProfile } from '../app/auth/profile';
 
 export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
 	async (profileId: string) => {
 		try {
-			const { data } =
-				(await getData('profiles', 'id', profileId)) ??
-				{};
-
-			return data ? (data as TProfile) : null;
+			const res = await sendRequestToServer(
+				'GET',
+				`account/profile/${profileId}`,
+			);
+			return res;
 		} catch (e: any) {
-			console.error(e.message);
 			throw new Error(e.message);
 		}
 	},
 );
 
-export const updateUserEmailAndUsername = createAsyncThunk(
-	'profile/updateUserEmailAndUsername',
-	async (options: { data: any; docId: string }) => {
-		const { data, docId } = options;
-		try {
-			if (!isAuthenticated())
-				throw new Error('You Are Not Authorized');
+export const updateUserEmailAndUsername = async (data: any) => {
+	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
 
-			const { email, username, currentPassword } = data;
-			const user = await checkAuth(currentPassword);
+		const { email, username, password, profileId } = data;
 
-			!user?.emailVerified
-				? await verifyBeforeUpdateEmail(user!, email)
-				: await updateEmail(user!, email);
+		const res = await sendRequestToServer(
+			'POST',
+			`account/profile/${profileId}/updateUserEmailAndUsername`,
+			{ email, username, password },
+		);
 
-			if (username)
-				await updateProfile(user!, {
-					displayName: username,
-				});
+		setCookies('user', res, 0.3);
+	} catch (e: any) {
+		console.error(e.message);
+		throw new Error(e.message);
+	}
+};
 
-			await updateDocs('users', docId, {
-				email: user?.email,
-				username: user?.displayName,
-			});
+export const updateUserPassword = async (data: any) => {
+	try {
+		if (!isAuthenticated())
+			throw new Error('You Are Not Authorized');
 
-			const userData =
-				(await getData(
-					'users',
-					'uid',
-					user?.uid as string,
-				)) ?? {};
+		const { newPassword, currentPassword, profileId } = data;
 
-			const profileData =
-				(
-					await getData(
-						'profiles',
-						'user',
-						user?.uid as string,
-					)
-				).data ?? {};
+		if (!newPassword) return;
 
-			setCookies('user', {
-				...userData.data,
-				email: data?.email,
-				username: data?.username,
-				docId,
-			});
-
-			return profileData
-				? (profileData as TProfile)
-				: null;
-		} catch (e: any) {
-			throw new Error(
-				'Something went wrong, Please check your credential and try again later.',
-			);
-		}
-	},
-);
-
-export const updateUserPassword = createAsyncThunk(
-	'profile/updateUserPassword',
-	async (data: any) => {
-		try {
-			if (!isAuthenticated())
-				throw new Error('You Are Not Authorized');
-
-			const { newPassword, currentPassword } = data;
-			const user = await checkAuth(currentPassword);
-
-			if (newPassword)
-				await updatePassword(user!, newPassword);
-		} catch (e: any) {
-			throw new Error(
-				'Something went wrong, Please check your credential and try again later.',
-			);
-		}
-	},
-);
+		await sendRequestToServer(
+			'POST',
+			`account/profile/${profileId}/updateUserPassword`,
+			{ newPassword, currentPassword },
+		);
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
 
 export const updateProfileImage = createAsyncThunk(
 	'profile/updateProfileImage',
 	async (options: {
 		imageFile: File | null;
 		password: string;
-		profile: TProfile;
+		profileId: string;
 	}) => {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
-		const { imageFile, password, profile } = options;
 		try {
-			await checkAuth(password);
-
-			const { docId } =
-				(await getData('profiles', 'id', profile?.id)) ??
-				{};
+			if (!isAuthenticated())
+				throw new Error('You Are Not Authorized');
+			const { imageFile, password, profileId } = options;
 
 			const imageURL = await uploadImage(
 				imageFile,
-				profile?.id,
+				profileId as string,
 				'profilesImages',
 			);
 
-			await updateDocs('profiles', docId!, {
-				photoURL: imageURL,
-			});
-
-			const profileData =
-				(await getData('profiles', 'id', profile?.id))
-					?.data ?? {};
-
-			return profileData
-				? (profileData as TProfile)
-				: null;
-		} catch (e: any) {
-			throw new Error(
-				'Something went wrong, Please check your credential and try again later.',
+			console.log(imageURL);
+			const res = await sendRequestToServer(
+				'POST',
+				`account/profile/${profileId}/upload-profile-image`,
+				{ imageURL, password },
 			);
+
+			return res;
+		} catch (e: any) {
+			throw new Error(e.message);
 		}
 	},
 );
@@ -169,47 +100,22 @@ export const destroyUser = createAsyncThunk(
 			if (!isAuthenticated())
 				throw new Error('You Are Not Authorized');
 
-			const auth = await checkAuth(password);
-			const user = await getData(
-				'users',
-				'profile',
-				profileId,
+			await sendRequestToServer(
+				'DELETE',
+				`account/profile/${profileId}/delete-account`,
+				{ password },
 			);
-			const profile = await getData(
-				'profiles',
-				'id',
-				profileId,
-			);
-
-			await deleteImage(profileId, 'profilesImages');
-			await destroyDoc('users', user?.docId as string);
-			await destroyDoc(
-				'profiles',
-				profile?.docId as string,
-			);
-			await deleteUser(auth!);
-			removeCookies('user');
+			setCookies('user', {
+				username: 'anonymous',
+				email: '',
+				isAdmin: false,
+				profile: '',
+				id: '',
+				phoneNumber: '',
+			});
 			return null;
 		} catch (e: any) {
-			throw new Error(
-				'Something went wrong, Please try again later.',
-			);
+			throw new Error(e.message);
 		}
 	},
 );
-
-export const checkAuth = async (currentPassword: string) => {
-	try {
-		const user: User | null = auth.currentUser;
-		const credential: AuthCredential =
-			EmailAuthProvider.credential(
-				user?.email as string,
-				currentPassword,
-			);
-		await reauthenticateWithCredential(user!, credential);
-
-		return user;
-	} catch (e: any) {
-		throw new Error(e.message);
-	}
-};

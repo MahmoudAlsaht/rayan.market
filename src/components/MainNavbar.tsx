@@ -91,7 +91,9 @@ function MainNavbar() {
 											width={30}
 											height={30}
 											src={
-												profile?.photoURL ||
+												profile
+													?.profileImage
+													?.path ||
 												defaultAvatar
 											}
 										/>
@@ -106,7 +108,7 @@ function MainNavbar() {
 										</NavDropdown.Item>
 									) : (
 										<NavDropdown.Item
-											href={`/account/profile/${user.profile}`}
+											href={`/account/profile/${user?.id}`}
 										>
 											Profile
 										</NavDropdown.Item>
