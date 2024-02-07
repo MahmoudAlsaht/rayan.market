@@ -15,7 +15,7 @@ function ProductsSettings() {
 	const [queryInput, setQueryInput] = useState('');
 
 	const dispatch = useAppDispatch();
-	const products: TProduct[] | null = useAppSelector(
+	const products: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
 	);
 
@@ -70,7 +70,7 @@ function ProductsSettings() {
 						{filteredProducts?.map(
 							(product, index) => (
 								<ProductSettings
-									key={product?.id}
+									key={product?._id}
 									product={product as TProduct}
 									index={index}
 								/>

@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { TCategory } from '../../app/store/category';
 import { fetchCategory } from '../../controllers/category';
 import { fetchCategoryProducts } from '../../controllers/product';
-import { DocumentData } from 'firebase/firestore';
 import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
 import {
@@ -21,9 +20,8 @@ function Category() {
 	);
 	const [filterOption, setFilterOption] = useState('all');
 
-	const [products, setProducts] = useState<
-		TProduct[] | null
-	>();
+	const [products, setProducts] =
+		useState<(TProduct | null)[]>();
 	const [queryInput, setQueryInput] = useState('');
 
 	const handleQueryChange = (
@@ -35,7 +33,7 @@ function Category() {
 	const filteredProducts = useMemo(() => {
 		return sortProductsBasedOnPrice(
 			filteredData(
-				products as DocumentData[],
+				products as any,
 				queryInput,
 			) as TProduct[],
 			filterOption,
@@ -84,7 +82,7 @@ function Category() {
 			<Row>
 				{filteredProducts?.map((product) => (
 					<Col
-						key={product?.id}
+						key={product?._id}
 						xs={12}
 						sm={6}
 						md={4}

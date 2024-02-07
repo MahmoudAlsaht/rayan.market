@@ -14,7 +14,7 @@ import Banner from '../components/Banner';
 
 function Home() {
 	const dispatch = useAppDispatch();
-	const products: TProduct[] | null = useAppSelector(
+	const products: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
 	);
 
@@ -60,7 +60,7 @@ function Home() {
 				{filteredProducts &&
 					filteredProducts?.map((product) => (
 						<Col
-							key={product?.id}
+							key={product?._id}
 							xs={12}
 							sm={6}
 							lg={3}

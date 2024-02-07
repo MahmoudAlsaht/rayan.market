@@ -2,7 +2,10 @@
 import { useParams } from 'react-router-dom';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { TProduct } from '../../app/store/product';
+import {
+	TProduct,
+	TProductImage,
+} from '../../app/store/product';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchProduct } from '../../controllers/product';
 import '../../assets/styles/ShowProduct.css';
@@ -15,19 +18,15 @@ import {
 	updateTotalPrice,
 } from '../../app/store/cart';
 import { checkIfProductInCart } from '../../controllers/cart';
-import { fetchPreviewImage } from '../../controllers/productImages';
-import { DocumentData } from 'firebase/firestore';
 
 function ShowProduct() {
 	const { productId } = useParams();
-	const [previewImageUrl, setPreviewImageUrl] = useState('');
-	const [imageUrl, setImageUrl] = useState('');
+	const [previewImageUrl, setPreviewImageUrl] =
+		useState<TProductImage | null>();
 	const [productInCart, setProductInCart] = useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
 
-	const [product, setProduct] = useState<
-		DocumentData | undefined
-	>();
+	const [product, setProduct] = useState<TProduct | null>();
 
 	const dispatch = useAppDispatch();
 
@@ -36,10 +35,11 @@ function ShowProduct() {
 			!productInCart
 				? dispatch(
 						addToCart({
-							id: productId,
+							_id: productId,
 							name: product?.name,
 							price: product?.price,
-							imageUrl: previewImageUrl,
+							imageUrl:
+								previewImageUrl?.path as string,
 							quantity: product?.quantity,
 							counter: 1,
 						}),
@@ -64,28 +64,26 @@ function ShowProduct() {
 				productId as string,
 			);
 			setProduct(productData);
-			setImageUrl(productData?.images[0]);
+			if (productData?.productImages)
+				setPreviewImageUrl(productData.productImages[0]);
 		};
 		getProduct();
-		const getPreviewImage = async () => {
-			const image = await fetchPreviewImage(imageUrl);
-			setPreviewImageUrl(image);
-		};
-		getPreviewImage();
 
 		const gotProduct = checkIfProductInCart(
 			cart,
 			productId as string,
 		) as boolean;
 		setProductInCart(gotProduct);
-	}, [cart, imageUrl, productId]);
+	}, [cart, productId]);
 
 	return (
 		<Container fluid className='mt-5'>
 			<Row>
 				<Col xs={12} md={6}>
 					<ProductImageCarousel
-						product={product as TProduct}
+						productImages={
+							product?.productImages as (TProductImage | null)[]
+						}
 					/>
 				</Col>
 				<Col xs={12} md={6} className='mt-5 mt-md-0'>

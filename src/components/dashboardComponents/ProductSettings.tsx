@@ -54,7 +54,7 @@ function ProductSettings({
 					</Button>
 
 					<DeleteProductForm
-						productId={product?.id}
+						productId={product?._id}
 						show={show}
 						handleClose={handleProductDeletion}
 						productName={product?.name}

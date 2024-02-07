@@ -14,15 +14,15 @@ import {
 } from '../app/store/cart';
 import { BsCartPlus, BsCheck } from 'react-icons/bs';
 import { checkIfProductInCart } from '../controllers/cart';
+import { TProductImage } from '../app/store/product';
 
 type ProductCardProps = {
 	product: DocumentData | undefined;
 };
 
 function ProductCard({ product }: ProductCardProps) {
-	const [productImages, setProductImages] = useState<
-		(DocumentData | undefined)[] | null
-	>(null);
+	const [productImages, setProductImages] =
+		useState<(TProductImage | null)[]>();
 	const [productInCart, setProductInCart] = useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
 
@@ -32,11 +32,12 @@ function ProductCard({ product }: ProductCardProps) {
 		if (product && !productInCart) {
 			dispatch(
 				addToCart({
-					id: product?.id,
+					_id: product?._id,
 					name: product?.name,
 					price: product?.price,
 					imageUrl:
-						productImages && productImages[0]?.path,
+						productImages! &&
+						(productImages[0]?.path as string),
 					quantity: product?.quantity,
 					counter: 1,
 				}),
@@ -52,22 +53,22 @@ function ProductCard({ product }: ProductCardProps) {
 	useEffect(() => {
 		const getImages = async () => {
 			const fetchedImages = await fetchProductsImages(
-				product?.images,
+				product?._id,
 			);
 			setProductImages(fetchedImages);
 		};
 		getImages();
 		const gotProduct = checkIfProductInCart(
 			cart,
-			product?.id as string,
+			product?._id as string,
 		) as boolean;
 		setProductInCart(gotProduct);
-	}, [cart, product?.id, product?.images]);
+	}, [cart, product?._id]);
 
 	return (
 		<Container fluid>
 			<Card className='productCard mb-5'>
-				<Link to={`/store/products/${product?.id}`}>
+				<Link to={`/store/products/${product?._id}`}>
 					<Card.Img
 						variant='top'
 						src={

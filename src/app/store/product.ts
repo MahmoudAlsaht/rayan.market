@@ -6,23 +6,26 @@ import {
 	updateProduct,
 	destroyProduct,
 } from '../../controllers/product';
-import { DocumentData } from 'firebase/firestore';
-import { DocType } from '../../firebase/firestore/getData';
+import { TImage } from '../auth/profile';
+import { TCategory } from './category';
 
-export type TProduct = Partial<DocumentData> &
-	Partial<DocType> & {
-		id: string;
-		name: string;
-		images: string[] | null;
-		createdAt: Date;
-		price: string;
-		newPrice?: string;
-		quantity: string;
-		categoryId: string;
-		isOffer?: boolean;
-	};
+export type TProductImage = TImage & {
+	profile: TProduct;
+};
 
-const initialState: TProduct[] | any = null;
+export type TProduct = {
+	_id: string;
+	name: string;
+	productImages: TProductImage[] | null;
+	createdAt: Date;
+	price: string;
+	newPrice?: string;
+	quantity: string;
+	category: TCategory;
+	isOffer?: boolean;
+};
+
+const initialState: (TProduct | null)[] = [];
 
 export const ProductsSlice = createSlice({
 	name: 'products',
@@ -46,8 +49,8 @@ export const ProductsSlice = createSlice({
 		builder.addCase(
 			updateProduct.fulfilled,
 			(state, action) => {
-				state = state.map((product: TProduct) => {
-					return product.id === action.payload.id
+				state = state.map((product: TProduct | null) => {
+					return product?._id === action.payload?._id
 						? action.payload
 						: product;
 				});
@@ -57,11 +60,14 @@ export const ProductsSlice = createSlice({
 		builder.addCase(
 			destroyProduct.fulfilled,
 			(state, action) => {
-				state = state.filter((product: TProduct) => {
-					return (
-						product.id !== action.payload && product
-					);
-				});
+				state = state.filter(
+					(product: TProduct | null) => {
+						return (
+							product?._id !== action.payload &&
+							product
+						);
+					},
+				);
 				return state;
 			},
 		);

@@ -12,9 +12,8 @@ import {
 import { DocumentData } from 'firebase/firestore';
 
 function Offers() {
-	const [products, setProducts] = useState<
-		TProduct[] | null
-	>();
+	const [products, setProducts] =
+		useState<(TProduct | null)[]>();
 
 	const [queryInput, setQueryInput] = useState('');
 
@@ -61,7 +60,7 @@ function Offers() {
 				{filteredProducts &&
 					filteredProducts?.map((product) => (
 						<Col
-							key={product?.id}
+							key={product?._id}
 							xs={12}
 							sm={6}
 							lg={3}

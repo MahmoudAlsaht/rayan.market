@@ -13,9 +13,11 @@ import { fetchProductsImages } from '../../controllers/productImages';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TCategory } from '../../app/store/category';
-import { TProduct } from '../../app/store/product';
+import {
+	TProduct,
+	TProductImage,
+} from '../../app/store/product';
 import PreviewImage from '../dashboardComponents/PreviewImage';
-import { DocumentData } from 'firebase/firestore';
 
 type EditProductFormProps = {
 	show: boolean;
@@ -38,10 +40,10 @@ function EditProductForm({
 		useState<FileList | null>(null);
 
 	const [productImages, setProductImages] = useState<
-		(DocumentData | undefined)[] | null | undefined
-	>(null);
+		(TProductImage | null)[]
+	>([]);
 
-	const categories: TCategory[] | null = useAppSelector(
+	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
 	);
 
@@ -50,7 +52,7 @@ function EditProductForm({
 		const updateImages = async () => {
 			try {
 				const images = await fetchProductsImages(
-					product?.images,
+					product?._id as string,
 				);
 				setProductImages(images);
 			} catch (e: any) {
@@ -58,7 +60,7 @@ function EditProductForm({
 			}
 		};
 		updateImages();
-	}, [dispatch, product?.images]);
+	}, [dispatch, product?._id]);
 
 	const handleRemovePreviewImages = (id: string) => {
 		setPreviewImages((prevPreviewImages) => {
@@ -77,7 +79,7 @@ function EditProductForm({
 	const handleRemoveProductImages = (id: string) => {
 		setProductImages((prevProductImages) => {
 			return prevProductImages!.filter((image) => {
-				return image?.id !== id && image;
+				return image?._id !== id && image;
 			});
 		});
 	};
@@ -128,23 +130,21 @@ function EditProductForm({
 					message: 'invalid fields',
 				});
 			} else {
-				const productName =
-					productNameRef.current?.value;
-				const productPrice =
-					productPriceRef.current?.value;
+				const name = productNameRef.current?.value;
+				const price = productPriceRef.current?.value;
 				const newPrice =
 					productNewPriceRef.current?.value;
-				const productQuantity =
+				const quantity =
 					productQuantityRef.current?.value;
 				const category = categoryRef.current?.value;
 				await dispatch(
 					updateProduct({
-						docId: product?.id,
+						productId: product?._id,
 						data: {
-							productName,
-							productPrice,
+							name,
+							price,
 							newPrice,
-							productQuantity,
+							quantity,
 							category,
 							images: selectedImages,
 						},
@@ -237,25 +237,29 @@ function EditProductForm({
 								onChange={handleChange}
 							>
 								<option
-									value={product?.categoryId}
+									value={
+										product?.category?._id
+									}
 								>
 									{categories?.map(
 										(category) =>
-											category?.id ===
-												product?.categoryId &&
+											category?._id ===
+												product?.category
+													?._id &&
 											category?.name,
 									)}
 								</option>
 								{categories?.map((category) => {
 									return (
-										category?.id !==
-											product?.categoryId && (
+										category?._id !==
+											product?.category
+												?._id && (
 											<option
 												value={
-													category?.id
+													category?._id
 												}
 												key={
-													category?.id
+													category?._id
 												}
 											>
 												{category?.name}
@@ -347,15 +351,16 @@ function EditProductForm({
 						{productImages &&
 							productImages?.map((image) => (
 								<PreviewImage
-									key={image?.id}
-									imageId={image?.id}
-									path={image?.path}
+									key={image?._id}
+									imageId={image?._id}
+									path={image?.path as string}
 									filename={image?.filename}
 									data={product}
 									dataType='product'
 									handleRemove={
 										handleRemoveProductImages
 									}
+									productId={product?._id}
 								/>
 							))}
 					</Modal.Body>

@@ -1,65 +1,64 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { DocumentData, arrayUnion } from 'firebase/firestore';
-import { getAllData } from '../firebase/firestore/getAllData';
-import addData from '../firebase/firestore/addData';
-import updateDocs from '../firebase/firestore/updateDoc';
-import getData from '../firebase/firestore/getData';
-import destroyDoc from '../firebase/firestore/deleteDoc';
-import {
-	createImagesDocument,
-	destroyProductImage,
-} from './productImages';
+import { uploadProductImages } from './productImages';
 import { TProduct } from '../app/store/product';
-import { fetchCategory } from './category';
-import { isAdmin } from '../utils';
+import { isAdmin, sendRequestToServer } from '../utils';
 
 export const fetchProducts = createAsyncThunk(
 	'products/fetchProducts',
 	async () => {
 		try {
-			const products: DocumentData[] | undefined =
-				await getAllData('products');
+			const products: (TProduct | null)[] =
+				await sendRequestToServer('GET', `product`);
 
-			return products as any;
+			return products;
 		} catch (e: any) {
-			console.log(e);
+			throw new Error(e.message);
 		}
 	},
 );
 
 export const fetchOffers = async () => {
 	try {
-		const fetchedProducts: DocumentData[] | undefined =
-			await getAllData('products');
-		const products = fetchedProducts?.filter(
-			(product) => product?.isOffer && product,
-		);
-		return products as any;
+		const fetchedProducts: (TProduct | null)[] =
+			await sendRequestToServer('GET', `product`);
+
+		const products: (TProduct | null)[] =
+			fetchedProducts?.filter(
+				(product) => product?.isOffer && product,
+			);
+		return products;
 	} catch (e: any) {
 		console.log(e);
 	}
 };
 
 export const fetchProduct = async (productId: string) => {
-	const product = await getData('products', 'id', productId);
-	return product?.data;
+	try {
+		const product: TProduct | null =
+			await sendRequestToServer(
+				'GET',
+				`product/${productId}`,
+			);
+		return product;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
 };
 
 export const fetchCategoryProducts = async (
 	categoryId: string,
 ) => {
-	const category = await fetchCategory(categoryId);
+	try {
+		const products: (TProduct | null)[] =
+			await sendRequestToServer(
+				'GET',
+				`category/${categoryId}/products`,
+			);
 
-	const products = [];
-	if (category?.products)
-		for (const productId of category.products) {
-			const product = (
-				await getData('products', 'id', productId)
-			).data;
-			products.push(product);
-		}
-
-	return products as any;
+		return products;
+	} catch (e: any) {
+		console.log(e);
+	}
 };
 
 export const createProduct = createAsyncThunk(
@@ -87,194 +86,85 @@ export const createProduct = createAsyncThunk(
 		} = option;
 
 		try {
-			const product = await addData('products', {
-				name,
+			const imagesUrls = await uploadProductImages(
+				images,
 				categoryId,
-				price,
-				quantity,
-				newPrice,
-				isOffer,
-				createdAt: Date.now(),
-			});
-
-			if (images) {
-				const imagesIds = await createImagesDocument(
-					images,
-					product?.id,
-				);
-				await updateDocs('products', product.id, {
-					images: imagesIds,
-				});
-			}
-
-			// create an (id) field to store the product (docId) inside
-			await updateDocs('products', product.id, {
-				id: product.id,
-			});
-
-			// add the product to the targeted category
-			await updateDocs('categories', categoryId, {
-				products: arrayUnion(product?.id),
-			});
-
-			const newProduct: DocumentData = await getData(
-				'products',
-				'id',
-				product?.id,
 			);
 
-			return newProduct.data;
+			const product: TProduct | null =
+				await sendRequestToServer('POST', 'product', {
+					imagesUrls,
+					name,
+					categoryId,
+					price,
+					quantity,
+					isOffer,
+					newPrice,
+				});
+
+			return product;
 		} catch (e) {
 			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},
 );
 
-const updateCategoryProducts = async (productId: string) => {
-	try {
-		const product: DocumentData | undefined = (
-			await getData('products', 'id', productId)
-		).data;
-		// find current category to update it
-		const category: DocumentData | undefined = (
-			await getData(
-				'categories',
-				'id',
-				product?.categoryId,
-			)
-		).data;
-		// get the product list from category
-		const categoryProducts = category?.products;
-		const filteredCategoryProducts =
-			categoryProducts?.filter((product: string) => {
-				return product !== productId && product;
-			});
-		// update current category
-		await updateDocs('categories', category?.id, {
-			products: filteredCategoryProducts,
-		});
-	} catch (e: any) {
-		throw new Error('Sorry, Something went wrong!!!');
-	}
-};
-
 export const updateProduct = createAsyncThunk(
 	'products/putProduct',
-	async (options: { docId: string; data: any }) => {
+	async (options: { productId: string; data: any }) => {
 		try {
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
-			const { docId } = options;
+			const { productId } = options;
 			const {
-				productName,
-				productPrice,
-				productQuantity,
+				name,
+				price,
+				quantity,
 				category,
 				images,
 				newPrice,
 			} = options.data;
 
-			if (productName)
-				await updateDocs('products', docId, {
-					name: productName,
-				});
-			if (productPrice)
-				await updateDocs('products', docId, {
-					price: productPrice,
-				});
-			if (newPrice)
-				await updateDocs('products', docId, {
-					newPrice,
-				});
-			if (productQuantity)
-				await updateDocs('products', docId, {
-					quantity: productQuantity,
-				});
-			if (category) {
-				await updateCategoryProducts(docId);
-				await updateDocs('categories', category, {
-					products: arrayUnion(docId),
-				});
-				await updateDocs('products', docId, {
-					categoryId: category,
-				});
-			}
-
-			if (images) {
-				const imagesIds = await createImagesDocument(
-					images,
-					docId,
-				);
-				// update product's images with the new images
-				for (const id of imagesIds) {
-					await updateDocs('products', docId, {
-						images: arrayUnion(id),
-					});
-				}
-			}
-
-			const product: DocumentData = await getData(
-				'products',
-				'id',
-				docId,
+			const imagesUrls = await uploadProductImages(
+				images,
+				category,
 			);
 
-			return product.data;
+			const product: TProduct | null =
+				await sendRequestToServer(
+					'PUT',
+					`product/${productId}`,
+					{
+						name,
+						price,
+						newPrice,
+						quantity,
+						category,
+						imagesUrls,
+					},
+				);
+
+			return product;
 		} catch (e) {
 			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},
 );
 
-export const deleteProductImageList = async (
-	images: string[],
-	product: TProduct,
-) => {
-	try {
-		if (!isAdmin())
-			throw new Error('You Are Not Authorized');
-
-		for (const image of images) {
-			// find product's images
-			const productImage: DocumentData | undefined = (
-				await getData('productImages', 'id', image)
-			).data;
-			// delete product's images
-			await destroyProductImage(
-				product,
-				productImage?.filename,
-				productImage?.id,
-			);
-		}
-	} catch (e: any) {
-		console.error(e.message);
-		throw new Error(e.message);
-	}
-};
-
 export const destroyProduct = createAsyncThunk(
 	'products/destroyProduct',
-	async (docId: string) => {
+	async (productId: string) => {
 		try {
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
-			// delete product from category's products list
-			await updateCategoryProducts(docId);
-			const product: DocumentData | undefined = (
-				await getData('products', 'id', docId)
-			).data;
+			await sendRequestToServer(
+				'DELETE',
+				`product/${productId}`,
+			);
 
-			if (product?.images)
-				deleteProductImageList(
-					product.images,
-					product as TProduct,
-				);
-
-			await destroyDoc('products', docId);
-
-			return docId;
+			return productId;
 		} catch (e: any) {
 			console.log(e.message);
 			throw new Error('Sorry, Something went wrong!!!');

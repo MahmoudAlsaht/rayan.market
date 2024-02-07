@@ -1,128 +1,75 @@
-import getData from '../firebase/firestore/getData';
 import { uploadImage } from '../firebase/firestore/uploadFile';
-import addData from '../firebase/firestore/addData';
-import updateDocs from '../firebase/firestore/updateDoc';
-import { TProduct } from '../app/store/product';
-import destroyDoc from '../firebase/firestore/deleteDoc';
-import { deleteImage } from '../firebase/firestore/deleteFile';
-import { isAdmin } from '../utils';
+import { TProductImage } from '../app/store/product';
+import { isAdmin, sendRequestToServer } from '../utils';
 
-export const fetchProductsImages = async (
-	imagesIds: string[] | null,
+export const fetchProductsImages = async (productId: string) => {
+	try {
+		const images: (TProductImage | null)[] =
+			await sendRequestToServer(
+				'GET',
+				`product/${productId}/images`,
+			);
+		return images;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
+
+export const fetchPreviewImage = async (
+	productId: string,
+	imageId: string,
 ) => {
 	try {
-		const images = [];
-		if (imagesIds && imagesIds.length)
-			for (const id of imagesIds) {
-				const image = await getData(
-					'productImages',
-					'id',
-					id,
-				);
-				images.push(image.data);
-			}
-		return images ? images : null;
+		const images: TProductImage | null =
+			await sendRequestToServer(
+				'GET',
+				`product/${productId}/images/${imageId}`,
+			);
+		return images;
 	} catch (e: any) {
-		throw new Error('Something went wrong');
+		throw new Error(e.message);
 	}
 };
 
-export const fetchPreviewImage = async (imageId: string) => {
-	try {
-		const image = await getData(
-			'productImages',
-			'id',
-			imageId,
-		);
-		return image?.data?.path;
-	} catch (e: any) {
-		throw new Error('Something went wrong!');
-	}
-};
-
-const uploadProductImages = async (
+export const uploadProductImages = async (
 	images: FileList | null,
-	productId: string,
+	categoryId: string,
 ) => {
 	try {
 		if (!isAdmin())
 			throw new Error('You Are Not Authorized');
 
 		const urls = [];
-		for (const file of images!) {
-			urls.push({
-				url: await uploadImage(
-					file,
-					`${file.name}`,
-					`products/${productId}`,
-				),
-				filename: file.name,
-			});
-		}
+		if (images)
+			for (const file of images!) {
+				urls.push({
+					url: await uploadImage(
+						file,
+						`${file.name}`,
+						`products/${categoryId}`,
+					),
+					fileName: file.name,
+				});
+			}
 
 		return urls;
 	} catch (e: any) {
-		throw new Error('Something went wrong');
-	}
-};
-
-export const createImagesDocument = async (
-	images: FileList | null,
-	productId: string,
-) => {
-	try {
-		if (!isAdmin())
-			throw new Error('You Are Not Authorized');
-
-		const imagesUrls = await uploadProductImages(
-			images,
-			productId,
-		);
-
-		const imagesIds = [];
-		for (const imageUrl of imagesUrls) {
-			const { url, filename } = imageUrl;
-			const data = {
-				filename: filename,
-				path: url,
-				product: productId,
-			};
-			const image = await addData('productImages', data);
-
-			// create an (id) field to store the images (docId) inside
-			await updateDocs('productImages', image.id, {
-				id: image.id,
-			});
-
-			// save the images ids in array to pass to the product document
-			imagesIds.push(image.id);
-		}
-		return imagesIds;
-	} catch (e: any) {
-		throw new Error('Something went wrong');
+		throw new Error(e.message);
 	}
 };
 
 export const destroyProductImage = async (
-	product: TProduct,
-	filename: string,
+	productId: string,
 	imageId: string,
 ) => {
 	try {
 		if (!isAdmin())
 			throw new Error('You Are Not Authorized');
-
-		// delete the image from product's images list
-		const images = product?.images?.filter(
-			(image) => image !== imageId && image,
+		await sendRequestToServer(
+			'DELETE',
+			`product/${productId}/images/${imageId}`,
 		);
-		// update product document with the filtered images
-		await updateDocs('products', product?.id, { images });
-
-		await destroyDoc('productImages', imageId);
-
-		await deleteImage(filename, `products/${product?.id}`);
 	} catch (e: any) {
-		throw new Error('Something went wrong');
+		throw new Error(e.message);
 	}
 };

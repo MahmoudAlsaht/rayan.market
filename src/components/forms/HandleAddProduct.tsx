@@ -25,7 +25,7 @@ function HandleAddProduct({
 	handleClose,
 }: HandleAddProductProps) {
 	const dispatch = useAppDispatch();
-	const categories: TCategory[] | null = useAppSelector(
+	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
 	);
 
@@ -190,8 +190,8 @@ function HandleAddProduct({
 						</option>
 						{categories?.map((category) => (
 							<option
-								value={category?.id}
-								key={category?.id}
+								value={category?._id}
+								key={category?._id}
 							>
 								{category?.name}
 							</option>

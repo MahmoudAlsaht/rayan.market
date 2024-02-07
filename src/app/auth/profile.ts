@@ -8,7 +8,7 @@ import {
 import { TUser } from './auth';
 
 export type TImage = {
-	id: string;
+	_id: string;
 	filename: string;
 	path: string;
 	imageType: string;

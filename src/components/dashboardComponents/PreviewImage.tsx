@@ -13,6 +13,7 @@ type PreviewImageProps = {
 	data?: any;
 	dataType?: string;
 	handleRemove: (id: string) => void;
+	productId?: string;
 };
 
 function PreviewImage({
@@ -23,6 +24,7 @@ function PreviewImage({
 	data,
 	dataType,
 	type = '',
+	productId,
 	handleRemove,
 }: PreviewImageProps) {
 	const handleDelete = async () => {
@@ -31,8 +33,7 @@ function PreviewImage({
 		} else {
 			dataType === 'product'
 				? await destroyProductImage(
-						data,
-						filename,
+						productId as string,
 						imageId,
 				  )
 				: await destroyBannerImage(
