@@ -6,18 +6,15 @@ import {
 	updateCategory,
 	destroyCategory,
 } from '../../controllers/category';
-import { DocumentData } from 'firebase/firestore';
-import { DocType } from '../../firebase/firestore/getData';
 
-export type TCategory = Partial<DocumentData> &
-	Partial<DocType> & {
-		id: string;
-		name: string;
-		products: string[];
-		createdAt: Date;
-	};
+export type TCategory = {
+	_id: string;
+	name: string;
+	products: string[];
+	createdAt: Date;
+};
 
-const initialState: TCategory[] | any = null;
+const initialState: (TCategory | null)[] = [];
 
 export const CategoriesSlice = createSlice({
 	name: 'categories',
@@ -41,23 +38,28 @@ export const CategoriesSlice = createSlice({
 		builder.addCase(
 			updateCategory.fulfilled,
 			(state, action) => {
-				state = state.map((category: TCategory) => {
-					return category.id === action.payload.id
-						? action.payload
-						: category;
-				});
+				state = state.map(
+					(category: TCategory | null) => {
+						return category?._id ===
+							action.payload?._id
+							? action.payload
+							: category;
+					},
+				);
 				return state;
 			},
 		);
 		builder.addCase(
 			destroyCategory.fulfilled,
 			(state, action) => {
-				state = state.filter((category: TCategory) => {
-					return (
-						category.id !== action.payload &&
-						category
-					);
-				});
+				state = state.filter(
+					(category: TCategory | null) => {
+						return (
+							category?._id !== action.payload &&
+							category
+						);
+					},
+				);
 				return state;
 			},
 		);

@@ -186,7 +186,7 @@ function MainNavbar() {
 
 						{user?.username !== 'anonymous' ? (
 							<div>
-								{user.isAdmin ? (
+								{user?.isAdmin ? (
 									<Nav.Link
 										href='/dashboard'
 										onClick={handleClick}
@@ -195,7 +195,7 @@ function MainNavbar() {
 									</Nav.Link>
 								) : (
 									<Nav.Link
-										href={`/account/profile/${user.profile}`}
+										href={`/account/profile/${user?.profile}`}
 										onClick={handleClick}
 									>
 										Profile

@@ -31,10 +31,8 @@ function CategorySettings({
 		try {
 			await dispatch(
 				updateCategory({
-					docId: categoryId,
-					data: {
-						name: nameRef.current?.value,
-					},
+					categoryId,
+					name: nameRef.current?.value as string,
 				}),
 			);
 			setIsLoading(true);

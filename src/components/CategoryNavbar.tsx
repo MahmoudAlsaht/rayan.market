@@ -25,9 +25,9 @@ function CategoryNavbar() {
 				{categories?.map(
 					(category: TCategory, index) =>
 						index <= 7 && (
-							<Nav.Item key={category?.id}>
+							<Nav.Item key={category?._id}>
 								<Nav.Link
-									href={`/store/categories/${category?.id}/products`}
+									href={`/store/categories/${category?._id}/products`}
 								>
 									{category?.name}
 								</Nav.Link>
@@ -47,10 +47,10 @@ function CategoryNavbar() {
 								(category: TCategory, index) =>
 									index > 7 && (
 										<Nav.Item
-											key={category?.id}
+											key={category?._id}
 										>
 											<Nav.Link
-												href={`/store/categories/${category?.id}/products`}
+												href={`/store/categories/${category?._id}/products`}
 											>
 												{category?.name}
 											</Nav.Link>
@@ -69,9 +69,9 @@ function CategoryNavbar() {
 				{categories?.map(
 					(category: TCategory, index) =>
 						index <= 2 && (
-							<Nav.Item key={category?.id}>
+							<Nav.Item key={category?._id}>
 								<Nav.Link
-									href={`/store/categories/${category?.id}/products`}
+									href={`/store/categories/${category?._id}/products`}
 								>
 									{category?.name}
 								</Nav.Link>
@@ -91,10 +91,10 @@ function CategoryNavbar() {
 								(category: TCategory, index) =>
 									index > 2 && (
 										<Nav.Item
-											key={category?.id}
+											key={category?._id}
 										>
 											<Nav.Link
-												href={`/store/categories/${category?.id}/products`}
+												href={`/store/categories/${category?._id}/products`}
 											>
 												{category?.name}
 											</Nav.Link>

@@ -7,7 +7,6 @@ import AddCategoryForm from '../../components/forms/AddCategoryForm';
 import { Table, Button, Container } from 'react-bootstrap';
 import CategorySettings from '../../components/dashboardComponents/CategorySettings';
 import { filteredData } from '../../utils';
-import { DocumentData } from 'firebase/firestore';
 
 function CategoriesSettings() {
 	const [showAddCategoryForm, setShowAddCategoryForm] =
@@ -31,10 +30,7 @@ function CategoriesSettings() {
 	};
 
 	const filteredCategories = useMemo(() => {
-		return filteredData(
-			categories as DocumentData[],
-			queryInput,
-		);
+		return filteredData(categories as any, queryInput);
 	}, [categories, queryInput]);
 
 	useEffect(() => {
@@ -71,8 +67,8 @@ function CategoriesSettings() {
 						{filteredCategories?.map(
 							(category, index) => (
 								<CategorySettings
-									key={category?.id}
-									categoryId={category?.id}
+									key={category?._id}
+									categoryId={category?._id}
 									index={index}
 									categoryName={category?.name}
 								/>

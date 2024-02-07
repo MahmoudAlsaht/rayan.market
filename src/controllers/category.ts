@@ -1,40 +1,32 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getAllData } from '../firebase/firestore/getAllData';
-import { DocumentData } from 'firebase/firestore';
-import addData from '../firebase/firestore/addData';
-import updateDocs from '../firebase/firestore/updateDoc';
-import getData from '../firebase/firestore/getData';
-import destroyDoc from '../firebase/firestore/deleteDoc';
-import { deleteProductImageList } from './product';
-import { TProduct } from '../app/store/product';
-import { isAdmin } from '../utils';
+import { isAdmin, sendRequestToServer } from '../utils';
+import { TCategory } from '../app/store/category';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
 	async () => {
 		try {
-			const categories: DocumentData[] | undefined =
-				await getAllData('categories');
+			const categories: (TCategory | null)[] =
+				await sendRequestToServer('GET', `category`);
 
-			return categories ? categories : null;
+			return categories;
 		} catch (e: any) {
-			throw new Error('Sorry, Something went wrong!!!');
+			throw new Error(e.message);
 		}
 	},
 );
 
 export const fetchCategory = async (categoryId: string) => {
 	try {
-		const category = await getData(
-			'categories',
-			'id',
-			categoryId,
-		);
+		const category: TCategory | null =
+			await sendRequestToServer(
+				'GET',
+				`category/${categoryId}`,
+			);
 
-		return category.data;
+		return category;
 	} catch (e: any) {
-		console.log(e.message);
-		throw new Error('Something went wrong!');
+		throw new Error(e.message);
 	}
 };
 
@@ -45,98 +37,81 @@ export const createCategory = createAsyncThunk(
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
-			const category = await addData('categories', {
-				name: name,
-				createdAt: Date.now(),
-			});
+			const category: TCategory | null =
+				await sendRequestToServer('POST', `category`, {
+					name,
+				});
 
-			// add docId to created category as a field
-			await updateDocs('categories', category.id, {
-				id: category.id,
-			});
-
-			// get category's data after adding doc id
-			const newCategory: DocumentData = await getData(
-				'categories',
-				'id',
-				category?.id,
-			);
-
-			return newCategory.data;
-		} catch (e) {
-			throw new Error('Sorry, Something went wrong!!!');
+			return category;
+		} catch (e: any) {
+			throw new Error(e.message);
 		}
 	},
 );
 
 export const updateCategory = createAsyncThunk(
 	'categories/putCategory',
-	async (options: { docId: string; data: any }) => {
+	async (options: { categoryId: string; name: string }) => {
 		try {
+			const { categoryId, name } = options;
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
-			const { docId, data } = options;
-			await updateDocs('categories', docId, data);
+			const category: TCategory | null =
+				await sendRequestToServer(
+					'PUT',
+					`category/${categoryId}`,
+					{
+						name,
+					},
+				);
 
-			const category: DocumentData = await getData(
-				'categories',
-				'id',
-				docId,
-			);
-
-			return category.data;
+			return category;
 		} catch (e) {
 			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},
 );
 
-const destroyCategoryProductList = async (
-	products: string[],
-) => {
-	try {
-		if (!isAdmin())
-			throw new Error('You Are Not Authorized');
+// const destroyCategoryProductList = async (
+// 	products: string[],
+// ) => {
+// 	try {
+// 		if (!isAdmin())
+// 			throw new Error('You Are Not Authorized');
 
-		// loop through category's products
-		for (const product of products) {
-			const categoryProduct: DocumentData | undefined = (
-				await getData('products', 'id', product)
-			).data;
+// 		// loop through category's products
+// 		for (const product of products) {
+// 			const categoryProduct: DocumentData | undefined = (
+// 				await getData('products', 'id', product)
+// 			).data;
 
-			// delete every image in current product
-			if (categoryProduct?.images)
-				await deleteProductImageList(
-					categoryProduct.images,
-					categoryProduct as TProduct,
-				);
+// 			// delete every image in current product
+// 			if (categoryProduct?.images)
+// 				await deleteProductImageList(
+// 					categoryProduct.images,
+// 					categoryProduct as TProduct,
+// 				);
 
-			await destroyDoc('products', product);
-		}
-	} catch (e: any) {
-		throw new Error('Sorry, Something went wrong!!!');
-	}
-};
+// 			await destroyDoc('products', product);
+// 		}
+// 	} catch (e: any) {
+// 		throw new Error('Sorry, Something went wrong!!!');
+// 	}
+// };
 
 export const destroyCategory = createAsyncThunk(
 	'categories/destroyCategory',
-	async (docId: string) => {
+	async (categoryId: string) => {
 		try {
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
-			const category: DocumentData | undefined = (
-				await getData('categories', 'id', docId)
-			).data;
-			if (category?.products)
-				await destroyCategoryProductList(
-					category?.products,
-				);
-
-			await destroyDoc('categories', docId);
-
-			return docId;
+			await sendRequestToServer(
+				'DELETE',
+				`category/${categoryId}`,
+			);
+			return categoryId;
 		} catch (e) {
 			throw new Error('Sorry, Something went wrong!!!');
 		}
