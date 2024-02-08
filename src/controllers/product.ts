@@ -102,6 +102,8 @@ export const createProduct = createAsyncThunk(
 					newPrice,
 				});
 
+			console.log(product);
+
 			return product;
 		} catch (e) {
 			throw new Error('Sorry, Something went wrong!!!');
