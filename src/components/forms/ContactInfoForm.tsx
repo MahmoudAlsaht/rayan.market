@@ -29,7 +29,7 @@ function ContactInfoForm({
 
 	const cityRef = useRef<HTMLInputElement>(null);
 	const streetRef = useRef<HTMLInputElement>(null);
-	const phoneNumberRef = useRef<HTMLInputElement>(null);
+	const contactNumberRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -47,13 +47,14 @@ function ContactInfoForm({
 				const data = {
 					city: cityRef.current?.value as string,
 					street: streetRef.current?.value as string,
-					phoneNumber: phoneNumberRef.current
+					contactNumber: contactNumberRef.current
 						?.value as string,
 				};
 				if (contact) {
 					await updateUserContactInfo({
 						data,
-						contactId: contact?.id,
+						contactId: contact?._id,
+						profileId: profileId as string,
 					});
 				} else {
 					await createNewContactInfo(
@@ -64,7 +65,7 @@ function ContactInfoForm({
 				setIsLoading(false);
 				cityRef.current!.value = '';
 				streetRef.current!.value = '';
-				phoneNumberRef.current!.value = '';
+				contactNumberRef.current!.value = '';
 				navigate(-1);
 			}
 		} catch (e: any) {
@@ -81,7 +82,7 @@ function ContactInfoForm({
 		if (
 			cityRef.current?.value === '' ||
 			streetRef.current?.value === '' ||
-			phoneNumberRef.current?.value === '' ||
+			contactNumberRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -89,7 +90,9 @@ function ContactInfoForm({
 				status: false,
 				message: 'please provide all the missing fields',
 			});
-		} else if (phoneNumberRef.current?.value.length !== 10) {
+		} else if (
+			contactNumberRef.current?.value.length !== 10
+		) {
 			setValidated(false);
 			setError({
 				status: false,
@@ -109,7 +112,7 @@ function ContactInfoForm({
 			setIsDeleteLoading(true);
 			await deleteContact(
 				profileId as string,
-				contact?.id as string,
+				contact?._id as string,
 			);
 			setIsDeleteLoading(false);
 			navigate(-1);
@@ -164,7 +167,7 @@ function ContactInfoForm({
 
 				<Form.Group
 					className='mb-3'
-					controlId='phoneNumberInput'
+					controlId='contactNumberInput'
 				>
 					<Form.Label>Phone Number</Form.Label>
 					<Form.Control
@@ -172,8 +175,8 @@ function ContactInfoForm({
 						onChange={handleChange}
 						type='number'
 						placeholder='Enter Your phone Number'
-						defaultValue={contact?.phoneNumber}
-						ref={phoneNumberRef}
+						defaultValue={contact?.contactNumber}
+						ref={contactNumberRef}
 					/>
 				</Form.Group>
 

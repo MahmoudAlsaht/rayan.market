@@ -1,8 +1,10 @@
 import { Breadcrumb, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { DocumentData } from 'firebase/firestore';
 import { TProfile } from '../../app/auth/profile';
-import { getContactsData } from '../../controllers/contact';
+import {
+	TContactInfo,
+	getContactsData,
+} from '../../controllers/contact';
 import AnonymousUserForm from '../forms/AnonymousUserForm';
 import ChooseContactAddress from './ChooseContactAddress';
 
@@ -14,13 +16,13 @@ function ContactInformation({
 	profile: TProfile | null;
 }) {
 	const [contacts, setContacts] =
-		useState<(DocumentData | undefined)[]>();
+		useState<(TContactInfo | null)[]>();
 
 	useEffect(() => {
 		if (profile) {
 			const getContacts = async () => {
 				const contactsArray = await getContactsData(
-					profile?.id as string,
+					profile?._id as string,
 				);
 				setContacts(contactsArray);
 			};
@@ -50,7 +52,7 @@ function ContactInformation({
 			</Breadcrumb>
 			<hr />
 
-			{profile?.id === '' ? (
+			{profile?._id === '' ? (
 				<div>
 					<small>
 						Do You want to sign in?{' '}
@@ -64,7 +66,7 @@ function ContactInformation({
 				</div>
 			) : (
 				<ChooseContactAddress
-					contacts={contacts}
+					contacts={contacts!}
 					profile={profile}
 					handleStep={handleStep}
 				/>

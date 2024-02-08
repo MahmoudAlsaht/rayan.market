@@ -19,7 +19,7 @@ export type TProfileImage = TImage & {
 };
 
 export type TProfile = {
-	id: string;
+	_id: string;
 	user: TUser | null;
 	contactsInfo?: [
 		{
@@ -34,7 +34,7 @@ export type TProfile = {
 };
 
 const initialState: TProfile = {
-	id: '',
+	_id: '',
 	user: null,
 	contactsInfo: [
 		{

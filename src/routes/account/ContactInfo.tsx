@@ -18,8 +18,8 @@ function ContactInfo() {
 		(state) => state.profile,
 	);
 	const [contactInfo, setContactInfo] = useState<
-		TContactInfo[] | null
-	>(null);
+		(TContactInfo | null)[]
+	>([]);
 
 	useEffect(() => {
 		dispatch(fetchProfile(profileId as string));
@@ -47,14 +47,14 @@ function ContactInfo() {
 							widgetTitle={`Address - ${
 								index + 1
 							}`}
-							href={`/account/profile/${profile?.id}/contact-info/${contact?.id}`}
+							href={`/account/profile/${profile?._id}/contact-info/${contact?._id}`}
 						/>
 					</Col>
 				))}
 				<Col xs={12} sm={6} lg={3} xl={2}>
 					<Widget
 						widgetTitle={<BsPlus />}
-						href={`/account/profile/${profile?.id}/contact-info/new-contact`}
+						href={`/account/profile/${profile?._id}/contact-info/new-contact`}
 					/>
 				</Col>
 			</Row>

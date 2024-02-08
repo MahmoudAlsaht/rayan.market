@@ -7,24 +7,24 @@ import {
 } from '../../controllers/contact';
 
 function ShowContactInfo() {
-	const { contactId } = useParams();
-	const [contact, setContact] = useState<TContactInfo | null>(
-		null,
-	);
+	const { profileId, contactId } = useParams();
+	const [contact, setContact] =
+		useState<TContactInfo | null>();
 
 	useEffect(() => {
 		const getContact = async () => {
 			const contactData = await getContactData(
+				profileId as string,
 				contactId as string,
 			);
 			await setContact(contactData);
 		};
 		getContact();
-	}, [contactId]);
+	}, [contactId, profileId]);
 
 	return (
 		<div>
-			<ContactInfoForm contact={contact} />
+			<ContactInfoForm contact={contact!} />
 		</div>
 	);
 }

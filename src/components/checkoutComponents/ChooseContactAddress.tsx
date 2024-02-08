@@ -1,14 +1,14 @@
 import { Card, Col, Form, Row } from 'react-bootstrap';
 import { TProfile } from '../../app/auth/profile';
-import { DocumentData } from 'firebase/firestore';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import LoadingButton from '../LoadingButton';
 import { useAppDispatch } from '../../app/hooks';
 import { addUserAndContactToCart } from '../../app/store/cart';
+import { TContactInfo } from '../../controllers/contact';
 
 type ChooseContactAddressProps = {
-	contacts: (DocumentData | undefined)[] | undefined;
+	contacts: (TContactInfo | null)[];
 	profile: TProfile | null;
 	handleStep: (step: string) => void;
 };
@@ -37,7 +37,7 @@ function ChooseContactAddress({
 			setIsLoading(true);
 			dispatch(
 				addUserAndContactToCart({
-					userId: profile?.user as string,
+					userId: profile?.user?.id as string,
 					contactId: selectedAddress as string,
 				}),
 			);
@@ -54,7 +54,10 @@ function ChooseContactAddress({
 				<h3 className='m-3'>Choose An Address</h3>
 				<Col xs={12}>
 					{contacts?.map((contact, index) => (
-						<Card className='mb-2' key={contact?.id}>
+						<Card
+							className='mb-2'
+							key={contact?._id}
+						>
 							<Card.Header>
 								<Card.Title>
 									{contact?.address?.city ||
@@ -65,17 +68,17 @@ function ChooseContactAddress({
 								<Form.Check
 									type='radio'
 									label={
-										`${contact?.address?.street} - ${contact?.phoneNumber}` ||
+										`${contact?.address?.street} - ${contact?.contactNumber}` ||
 										`Address - ${index + 1}`
 									}
 									name='defaultAddress'
-									value={contact?.id}
+									value={contact?._id}
 									onChange={handleChange}
 								/>
 							</Card.Body>
 							<Card.Footer>
 								<a
-									href={`/account/profile/${profile?.id}/contact-info/${contact?.id}`}
+									href={`/account/profile/${profile?._id}/contact-info/${contact?._id}`}
 								>
 									Edit
 								</a>
@@ -87,7 +90,7 @@ function ChooseContactAddress({
 					<Card className='text-center'>
 						<Card.Body>
 							<a
-								href={`/account/profile/${profile?.id}/contact-info/new-contact`}
+								href={`/account/profile/${profile?._id}/contact-info/new-contact`}
 							>
 								<BsPlus
 									style={{
