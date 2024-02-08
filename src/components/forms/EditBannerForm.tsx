@@ -11,9 +11,8 @@ import LoadingButton from '../LoadingButton';
 import { updateBanner } from '../../controllers/banner';
 import { fetchBannersImages } from '../../controllers/bannerImages';
 import { useAppDispatch } from '../../app/hooks';
-import { TBanner } from '../../app/store/banner';
+import { TBanner, TBannerImage } from '../../app/store/banner';
 import PreviewImage from '../dashboardComponents/PreviewImage';
-import { DocumentData } from 'firebase/firestore';
 import { TPreviewImage } from './EditProductForm';
 
 type EditBannerFormProps = {
@@ -35,14 +34,14 @@ function EditBannerForm({
 		useState<FileList | null>(null);
 
 	const [bannerImages, setBannerImages] = useState<
-		(DocumentData | undefined)[] | null | undefined
-	>(null);
+		(TBannerImage | null)[]
+	>([]);
 
 	useEffect(() => {
 		const updateImages = async () => {
 			try {
 				const images = await fetchBannersImages(
-					banner?.images,
+					banner?._id,
 				);
 				setBannerImages(images);
 			} catch (e: any) {
@@ -50,7 +49,7 @@ function EditBannerForm({
 			}
 		};
 		updateImages();
-	}, [banner?.images]);
+	}, [banner?._id]);
 
 	const handleRemovePreviewImages = (id: string) => {
 		setPreviewImages((prevPreviewImages) => {
@@ -69,7 +68,7 @@ function EditBannerForm({
 	const handleRemoveBannerImages = (id: string) => {
 		setBannerImages((prevBannerImages) => {
 			return prevBannerImages!.filter((image) => {
-				return image?.id !== id && image;
+				return image?._id !== id && image;
 			});
 		});
 	};
@@ -116,7 +115,8 @@ function EditBannerForm({
 				const bannerName = bannerNameRef.current?.value;
 				await dispatch(
 					updateBanner({
-						docId: banner?.id,
+						bannerId: banner?._id,
+						currName: banner?.name,
 						data: {
 							bannerName,
 							images: selectedImages,
@@ -241,11 +241,10 @@ function EditBannerForm({
 						{bannerImages &&
 							bannerImages?.map((image) => (
 								<PreviewImage
-									key={image?.id}
-									imageId={image?.id}
-									path={image?.path}
-									filename={image?.filename}
-									data={banner}
+									key={image?._id}
+									imageId={image?._id}
+									path={image?.path as string}
+									bannerId={banner?._id}
 									dataType='banner'
 									handleRemove={
 										handleRemoveBannerImages

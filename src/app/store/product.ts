@@ -10,7 +10,7 @@ import { TImage } from '../auth/profile';
 import { TCategory } from './category';
 
 export type TProductImage = TImage & {
-	profile: TProduct;
+	product: TProduct;
 };
 
 export type TProduct = {

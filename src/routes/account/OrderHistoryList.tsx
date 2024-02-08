@@ -20,8 +20,8 @@ function OrderHistoryList() {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchOrders(user?.uid as string));
-	}, [dispatch, user?.uid]);
+		dispatch(fetchOrders(user?.id as string));
+	}, [dispatch, user?.id]);
 
 	return (
 		<Container>

@@ -238,7 +238,7 @@ const updateProductQuantity = async (
 			if (product)
 				await updateDocs(
 					'products',
-					product?.id as string,
+					product?._id as string,
 					{
 						quantity:
 							parseInt(

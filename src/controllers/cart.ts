@@ -10,7 +10,7 @@ export const checkIfProductInCart = (
 	let isProductInCart = false;
 	for (const product of cart.products!) {
 		isProductInCart =
-			isProductInCart || product?.id === productId;
+			isProductInCart || product?._id === productId;
 	}
 	return isProductInCart;
 };
@@ -55,7 +55,7 @@ const cartReducers = {
 		action: PayloadAction<{ id: string; maxNum: number }>,
 	) => {
 		const products = state!.products!.map((product) => {
-			if (product.id === action.payload.id) {
+			if (product?._id === action.payload.id) {
 				return product?.counter < action.payload.maxNum
 					? {
 							...product,
@@ -74,7 +74,7 @@ const cartReducers = {
 		action: PayloadAction<string>,
 	) => {
 		state.products = state!.products!.map((product) => {
-			if (product.id === action.payload) {
+			if (product?._id === action.payload) {
 				return product.counter > 0
 					? {
 							...product,
@@ -93,7 +93,7 @@ const cartReducers = {
 	) => {
 		state.products = state.products?.filter(
 			(product) =>
-				product.id !== action.payload && product,
+				product?._id !== action.payload && product,
 		);
 		setCookies('cart', state);
 	},

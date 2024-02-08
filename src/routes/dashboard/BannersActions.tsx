@@ -15,7 +15,7 @@ function BannersActions() {
 	const [queryInput, setQueryInput] = useState('');
 
 	const dispatch = useAppDispatch();
-	const banners: TBanner[] | null = useAppSelector(
+	const banners: (TBanner | null)[] = useAppSelector(
 		(state) => state.banners,
 	);
 
@@ -65,14 +65,13 @@ function BannersActions() {
 							<th scope='col'>Name</th>
 							<th scope='col'>Activated</th>
 							<th scope='col'>Actions</th>
-							<th scope='col'></th>
 						</tr>
 					</thead>
 					<tbody>
 						{filteredBanners?.map(
 							(banner, index) => (
 								<BannerSettings
-									key={banner?.id}
+									key={banner?._id}
 									banner={banner as TBanner}
 									index={index}
 								/>

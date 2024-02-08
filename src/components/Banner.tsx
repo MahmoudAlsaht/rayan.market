@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { TBanner } from '../app/store/banner';
+import { TBanner, TBannerImage } from '../app/store/banner';
 import { fetchActiveBanner } from '../controllers/banner';
-import { DocumentData } from 'firebase/firestore';
 import { fetchBannersImages } from '../controllers/bannerImages';
 import { Carousel } from 'react-bootstrap';
 
 function Banner() {
 	const [banner, setBanner] = useState<TBanner | null>(null);
 	const [bannerImages, setBannerImages] = useState<
-		DocumentData[] | null
-	>(null);
+		(TBannerImage | null)[]
+	>([]);
 
 	useEffect(() => {
 		const getBanner = async () => {
@@ -20,7 +19,7 @@ function Banner() {
 		const updateImages = async () => {
 			try {
 				const images = await fetchBannersImages(
-					banner?.images as string[],
+					banner?._id as string,
 				);
 				setBannerImages(images);
 			} catch (e: any) {
@@ -28,14 +27,14 @@ function Banner() {
 			}
 		};
 		updateImages();
-	}, [banner?.images]);
+	}, [banner?._id]);
 
 	return (
 		<div>
 			{bannerImages && bannerImages!.length < 2 ? (
 				bannerImages?.map((image) => (
 					<img
-						key={image?.id}
+						key={image?._id}
 						src={image?.path}
 						className='banner-image'
 					/>
@@ -49,7 +48,7 @@ function Banner() {
 						bannerImages!.map((image) => (
 							<Carousel.Item
 								interval={2000}
-								key={image?.id}
+								key={image?._id}
 							>
 								<img
 									src={image?.path}

@@ -25,7 +25,7 @@ function ProductCartActions({
 		if (product?.counter == product?.quantity) return;
 		dispatch(
 			addToCounter({
-				id: product?.id as string,
+				id: product?._id as string,
 				maxNum: parseInt(product?.price as string),
 			}),
 		);
@@ -36,7 +36,7 @@ function ProductCartActions({
 
 	const handleRemoveProduct = () => {
 		if (product?.counter === 0) return;
-		dispatch(removeFromCounter(product?.id as string));
+		dispatch(removeFromCounter(product?._id as string));
 		dispatch(
 			updateTotalPrice(
 				-parseInt(product?.price as string),
@@ -45,7 +45,7 @@ function ProductCartActions({
 	};
 
 	const handleDestroyProduct = () => {
-		dispatch(removeProduct(product?.id as string));
+		dispatch(removeProduct(product?._id as string));
 		dispatch(updateTotalPrice(-totalProductPrice));
 	};
 

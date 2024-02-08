@@ -28,7 +28,7 @@ function CartCheckout() {
 		<div className='m-5'>
 			{cart?.products?.map((product) => (
 				<CartProductCard
-					key={product?.id}
+					key={product?._id}
 					product={product}
 				/>
 			))}

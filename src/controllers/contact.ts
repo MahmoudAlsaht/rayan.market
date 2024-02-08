@@ -2,7 +2,7 @@ import { arrayUnion } from 'firebase/firestore';
 import addData from '../firebase/firestore/addData';
 import getData from '../firebase/firestore/getData';
 import updateDocs from '../firebase/firestore/updateDoc';
-import { TProfile } from '../app/auth/profile';
+// import { TProfile } from '../app/auth/profile';
 import destroyDoc from '../firebase/firestore/deleteDoc';
 import { isAuthenticated } from '../utils';
 
@@ -137,17 +137,17 @@ export const deleteContact = async (
 		if (!isAuthenticated())
 			throw new Error('You Are Not Authorized');
 
-		const { data, docId } = (await getData(
-			'profiles',
-			'id',
-			profileId,
-		)) as { data: TProfile; docId: string };
-		const profileContacts = data?.contacts.filter(
-			(contact) => contact !== contactId,
-		);
-		await updateDocs('profiles', docId, {
-			contacts: profileContacts,
-		});
+		// const { data, docId } = (await getData(
+		// 	'profiles',
+		// 	'id',
+		// 	profileId,
+		// )) as { data: TProfile; docId: string };
+		// const profileContacts = data?.contacts.filter(
+		// 	(contact) => contact !== contactId,
+		// );
+		// await updateDocs('profiles', docId, {
+		// 	contacts: profileContacts,
+		// });
 		await destroyDoc('contacts', contactId);
 		return contactId;
 	} catch (e: any) {

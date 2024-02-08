@@ -29,7 +29,7 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 		try {
 			await dispatch(
 				updateBannersActivity({
-					bannerId: banner?.id,
+					bannerId: banner?._id,
 					active: !banner?.active,
 				}),
 			);
@@ -91,7 +91,7 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 					</Button>
 
 					<DeleteBannerForm
-						bannerId={banner?.id}
+						bannerId={banner?._id}
 						show={show}
 						handleClose={handleBannerDeletion}
 						bannerName={banner?.name}

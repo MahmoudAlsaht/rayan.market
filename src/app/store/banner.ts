@@ -7,19 +7,21 @@ import {
 	updateBannersActivity,
 	destroyBanner,
 } from '../../controllers/banner';
-import { DocumentData } from 'firebase/firestore';
-import { DocType } from '../../firebase/firestore/getData';
+import { TImage } from '../auth/profile';
 
-export type TBanner = Partial<DocumentData> &
-	Partial<DocType> & {
-		id: string;
-		name: string;
-		images: string[] | null;
-		active: boolean;
-		createdAt: Date;
-	};
+export type TBannerImage = TImage & {
+	banner: TBanner;
+};
 
-const initialState: TBanner[] | any = null;
+export type TBanner = {
+	_id: string;
+	name: string;
+	bannerImages: TBannerImage[] | null;
+	createdAt: Date;
+	active: boolean;
+};
+
+const initialState: (TBanner | null)[] = [];
 
 export const BannerSlice = createSlice({
 	name: 'banners',
@@ -43,10 +45,10 @@ export const BannerSlice = createSlice({
 		builder.addCase(
 			updateBanner.fulfilled,
 			(state, action) => {
-				state = state.map((product: TBanner) => {
-					return product.id === action.payload.id
+				state = state.map((banner: TBanner | null) => {
+					return banner?._id === action.payload?._id
 						? action.payload
-						: product;
+						: banner;
 				});
 				return state;
 			},
@@ -61,11 +63,14 @@ export const BannerSlice = createSlice({
 		builder.addCase(
 			destroyBanner.fulfilled,
 			(state, action) => {
-				state = state.filter((product: TBanner) => {
-					return (
-						product.id !== action.payload && product
-					);
-				});
+				state = state.filter(
+					(banner: TBanner | null) => {
+						return (
+							banner?._id !== action.payload &&
+							banner
+						);
+					},
+				);
 				return state;
 			},
 		);

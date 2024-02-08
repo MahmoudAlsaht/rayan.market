@@ -6,25 +6,23 @@ import { destroyBannerImage } from '../../controllers/bannerImages';
 
 type PreviewImageProps = {
 	path: string;
-	filename?: string;
 	imageId?: string;
 	className?: string;
 	type?: string;
-	data?: any;
 	dataType?: string;
 	handleRemove: (id: string) => void;
 	productId?: string;
+	bannerId?: string;
 };
 
 function PreviewImage({
 	imageId = '',
-	filename = '',
 	className,
 	path,
-	data,
 	dataType,
 	type = '',
 	productId,
+	bannerId,
 	handleRemove,
 }: PreviewImageProps) {
 	const handleDelete = async () => {
@@ -37,8 +35,7 @@ function PreviewImage({
 						imageId,
 				  )
 				: await destroyBannerImage(
-						data,
-						filename,
+						bannerId as string,
 						imageId,
 				  );
 			handleRemove(imageId);

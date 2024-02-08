@@ -1,38 +1,30 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { DocumentData, arrayUnion } from 'firebase/firestore';
-import { getAllData } from '../firebase/firestore/getAllData';
-import addData from '../firebase/firestore/addData';
-import updateDocs from '../firebase/firestore/updateDoc';
-import getData from '../firebase/firestore/getData';
-import destroyDoc from '../firebase/firestore/deleteDoc';
-import {
-	createImagesDocument,
-	destroyBannerImage,
-} from './bannerImages';
+import { uploadBannerImages } from './bannerImages';
 import { TBanner } from '../app/store/banner';
-import { isAdmin } from '../utils';
+import { isAdmin, sendRequestToServer } from '../utils';
 
 export const fetchBanners = createAsyncThunk(
 	'banners/fetchBanners',
 	async () => {
 		try {
-			const banners: DocumentData[] | undefined =
-				await getAllData('banners');
+			const banners: (TBanner | null)[] =
+				await sendRequestToServer('GET', `banner`);
 
-			return banners as any;
+			return banners;
 		} catch (e: any) {
-			console.log(e);
+			throw new Error(e.message);
 		}
 	},
 );
 
 export const fetchActiveBanner = async () => {
 	try {
-		const banners = await getAllData('banners');
+		const banners: (TBanner | null)[] =
+			await sendRequestToServer('GET', `banner`);
 		const banner = banners?.filter((b) => b && b?.active);
-		return (banner![0] as any) || null;
+		return (banner![0] as TBanner) || null;
 	} catch (e: any) {
-		console.error(e.message);
+		throw new Error(e.message);
 	}
 };
 
@@ -47,34 +39,20 @@ export const createBanner = createAsyncThunk(
 				throw new Error('You Are Not Authorized');
 
 			const { name, images } = option;
-			const banner = await addData('banners', {
+
+			const imagesUrls = await uploadBannerImages(
+				images,
 				name,
-				active: false,
-				createdAt: Date.now(),
-			});
-
-			if (images) {
-				const imagesIds = await createImagesDocument(
-					images,
-					banner?.id,
-				);
-				await updateDocs('banners', banner.id, {
-					images: imagesIds,
+			);
+			const banner: TBanner | null =
+				await sendRequestToServer('POST', `banner`, {
+					name,
+					imagesUrls,
 				});
-			}
 
-			// create an (id) field to store the banner (docId) inside
-			await updateDocs('banners', banner.id, {
-				id: banner.id,
-			});
-
-			const newBanner = (
-				await getData('banners', 'id', banner?.id)
-			).data as TBanner;
-
-			return newBanner;
-		} catch (e) {
-			throw new Error('Sorry, Something went wrong!!!');
+			return banner;
+		} catch (e: any) {
+			throw new Error(e.message);
 		}
 	},
 );
@@ -87,116 +65,70 @@ export const updateBannersActivity = createAsyncThunk(
 				throw new Error('You Are Not Authorized');
 
 			const { bannerId, active } = option;
-			const banners: DocumentData[] | undefined =
-				await getAllData('banners');
 
-			for (const banner of banners!) {
-				await updateDocs('banners', banner?.id, {
-					active: false,
-				});
-			}
-			await updateDocs('banners', bannerId, {
-				active,
-			});
+			const banners: (TBanner | null)[] =
+				await sendRequestToServer(
+					'PATCH',
+					`banner/${bannerId}`,
+					{ active },
+				);
 
-			const updatedBanners: DocumentData[] | undefined =
-				await getAllData('banners');
-
-			return updatedBanners as any;
+			return banners;
 		} catch (e: any) {
-			console.error(e.message);
+			throw new Error(e.message);
 		}
 	},
 );
 
 export const updateBanner = createAsyncThunk(
 	'banners/updateBanner',
-	async (options: { docId: string; data: any }) => {
+	async (options: {
+		bannerId: string;
+		data: any;
+		currName: string;
+	}) => {
 		try {
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
-			const { docId } = options;
-			const { bannerName, images } = options.data;
+			const { bannerId } = options;
+			const { bannerName, images, currName } =
+				options.data;
 
-			if (bannerName) {
-				await updateDocs('banners', docId, {
-					name: bannerName,
-				});
-			}
+			const imagesUrls = await uploadBannerImages(
+				images,
+				bannerName || currName,
+			);
 
-			if (images) {
-				const imagesIds = await createImagesDocument(
-					images,
-					docId,
+			const banner: TBanner | null =
+				await sendRequestToServer(
+					'PUT',
+					`banner/${bannerId}`,
+					{ imagesUrls, name: bannerName || currName },
 				);
-				// update banner's images with the new images
-				for (const id of imagesIds) {
-					await updateDocs('banners', docId, {
-						images: arrayUnion(id),
-					});
-				}
-			}
-
-			const banner = (
-				await getData('banners', 'id', docId)
-			).data as TBanner;
 
 			return banner;
-		} catch (e) {
-			throw new Error('Sorry, Something went wrong!!!');
+		} catch (e: any) {
+			throw new Error(e.message);
 		}
 	},
 );
 
-export const deleteBannerImageList = async (
-	images: string[],
-	banner: TBanner,
-) => {
-	try {
-		if (!isAdmin())
-			throw new Error('You Are Not Authorized');
-
-		for (const image of images) {
-			// find banner's images
-			const bannerImage: DocumentData | undefined = (
-				await getData('bannerImages', 'id', image)
-			).data;
-			// delete banner's images
-			await destroyBannerImage(
-				banner,
-				bannerImage?.filename,
-				banner?.id,
-			);
-		}
-	} catch (e: any) {
-		console.error(e.message);
-		throw new Error(e.message);
-	}
-};
-
 export const destroyBanner = createAsyncThunk(
 	'banners/destroyBanner',
-	async (docId: string) => {
+	async (bannerId: string) => {
 		try {
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
-			const banner: DocumentData | undefined = (
-				await getData('banners', 'id', docId)
-			).data;
-			if (banner?.images)
-				deleteBannerImageList(
-					banner?.images,
-					banner as TBanner,
-				);
+			await sendRequestToServer(
+				'DELETE',
+				`banner/${bannerId}`,
+			);
 
-			await destroyDoc('banners', docId);
-
-			return docId;
+			return bannerId;
 		} catch (e: any) {
-			console.log(e.message);
-			throw new Error('Sorry, Something went wrong!!!');
+			throw new Error(e.message);
 		}
 	},
 );

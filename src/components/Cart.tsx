@@ -29,7 +29,7 @@ function Cart({ show, handleClose }: CartProps) {
 			<ModalBody>
 				{cart?.products?.map((product) => (
 					<CartProductCard
-						key={product?.id}
+						key={product?._id}
 						product={product}
 					/>
 				))}

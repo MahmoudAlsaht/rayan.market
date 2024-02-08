@@ -13,7 +13,7 @@ function CartSummary() {
 			{cart?.products?.map((product) => (
 				<CartProductCard
 					type='cartSummary'
-					key={product?.id}
+					key={product?._id}
 					product={product}
 				/>
 			))}

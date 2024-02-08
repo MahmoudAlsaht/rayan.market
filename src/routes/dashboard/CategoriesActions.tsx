@@ -15,7 +15,7 @@ function CategoriesSettings() {
 	const [queryInput, setQueryInput] = useState('');
 
 	const dispatch = useAppDispatch();
-	const categories: TCategory[] | null = useAppSelector(
+	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
 	);
 

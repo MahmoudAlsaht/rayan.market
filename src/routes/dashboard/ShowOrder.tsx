@@ -124,11 +124,11 @@ function ShowOrder() {
 						{order?.products?.map((product) => (
 							<p
 								className='text-info'
-								key={product?.id}
+								key={product?._id}
 								style={{ cursor: 'pointer' }}
 								onClick={() =>
 									openProductPage(
-										product?.id as string,
+										product?._id as string,
 									)
 								}
 							>

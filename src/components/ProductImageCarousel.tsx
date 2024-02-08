@@ -12,9 +12,9 @@ function ProductImageCarousel({
 }: ProductImagesProps) {
 	return (
 		<Carousel className='productImageCarousel'>
-			{productImages?.length > 1 ? (
+			{productImages ? (
 				productImages?.map((productImage) => (
-					<Carousel.Item key={productImage?.id}>
+					<Carousel.Item key={productImage?._id}>
 						<Image
 							className='productImage'
 							src={productImage?.path}
@@ -24,11 +24,7 @@ function ProductImageCarousel({
 			) : (
 				<Image
 					className='productImage'
-					src={
-						(productImages &&
-							productImages[0]?.path) ||
-						defaultProductImage
-					}
+					src={defaultProductImage}
 				/>
 			)}
 		</Carousel>
