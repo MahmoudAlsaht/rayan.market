@@ -8,7 +8,7 @@ import { TCategory } from '../app/store/category';
 
 function CategoryNavbar() {
 	const dispatch = useAppDispatch();
-	const categories: TCategory[] | null = useAppSelector(
+	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
 	);
 
@@ -23,7 +23,7 @@ function CategoryNavbar() {
 				className='justify-content-center bg-white rounded d-none d-sm-flex'
 			>
 				{categories?.map(
-					(category: TCategory, index) =>
+					(category: TCategory | null, index) =>
 						index <= 7 && (
 							<Nav.Item key={category?._id}>
 								<Nav.Link
@@ -44,7 +44,10 @@ function CategoryNavbar() {
 						</Dropdown.Toggle>
 						<Dropdown.Menu>
 							{categories?.map(
-								(category: TCategory, index) =>
+								(
+									category: TCategory | null,
+									index,
+								) =>
 									index > 7 && (
 										<Nav.Item
 											key={category?._id}
@@ -67,7 +70,7 @@ function CategoryNavbar() {
 				className='justify-content-center mb-5 bg-white rounded d-sm-none'
 			>
 				{categories?.map(
-					(category: TCategory, index) =>
+					(category: TCategory | null, index) =>
 						index <= 2 && (
 							<Nav.Item key={category?._id}>
 								<Nav.Link
@@ -88,7 +91,10 @@ function CategoryNavbar() {
 						</Dropdown.Toggle>
 						<Dropdown.Menu>
 							{categories?.map(
-								(category: TCategory, index) =>
+								(
+									category: TCategory | null,
+									index,
+								) =>
 									index > 2 && (
 										<Nav.Item
 											key={category?._id}
