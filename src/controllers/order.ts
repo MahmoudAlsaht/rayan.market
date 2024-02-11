@@ -1,5 +1,4 @@
 import { TCart, TCartProduct } from '../app/store/cart';
-import updateDocs from '../firebase/firestore/updateDoc';
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TUser } from '../app/auth/auth';
@@ -71,10 +70,6 @@ export const updateOrderStatus = createAsyncThunk(
 					'Unexpected status: ' + updatedStatus,
 				);
 			}
-
-			await updateDocs('orders', orderId, {
-				status: updatedStatus,
-			});
 
 			if (
 				updatedStatus === 'accepted' ||
