@@ -1,10 +1,7 @@
-.LandingContainer {
-	height: 100dvh;
-}
-
 .welcomeSection {
 	background-color: #27444e;
 	color: #ffffff;
+	height: 100dvh;
 }
 
 .welcomeSection a {
@@ -21,6 +18,7 @@
 }
 
 .logoSection {
+	height: 100dvh;
 	background: rgb(240, 241, 234);
 	background: linear-gradient(
 		90deg,
