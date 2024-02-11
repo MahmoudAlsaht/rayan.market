@@ -8,12 +8,17 @@ import {
 import { TOrder } from '../../app/store/order';
 import { Button, Card, Container } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { TUser } from '../../app/auth/auth';
+import { fetchUser } from '../../controllers/user';
 
 function ShowOrder() {
 	const { orderId } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const user: TUser | null = useAppSelector(
+		(state) => state.user,
+	);
 
 	const [order, setOrder] = useState<TOrder | null>(null);
 
@@ -31,15 +36,17 @@ function ShowOrder() {
 			if (order?.status === 'pending') {
 				dispatch(
 					updateOrderStatus({
-						orderId: order?.id as string,
+						orderId: order?._id as string,
 						updatedStatus: 'accepted',
+						userId: user?._id as string,
 					}),
 				);
 			} else if (order?.status === 'accepted') {
 				dispatch(
 					updateOrderStatus({
-						orderId: order?.id as string,
+						orderId: order?._id as string,
 						updatedStatus: 'completed',
+						userId: user?._id as string,
 					}),
 				);
 			}
@@ -56,8 +63,9 @@ function ShowOrder() {
 		try {
 			dispatch(
 				updateOrderStatus({
-					orderId: order?.id as string,
+					orderId: order?._id as string,
 					updatedStatus: 'rejected',
+					userId: user?._id as string,
 				}),
 			);
 			const updatedOrder = await fetchOrder(
@@ -70,6 +78,7 @@ function ShowOrder() {
 	};
 
 	useEffect(() => {
+		dispatch(fetchUser());
 		const getOrder = async () => {
 			const fetchedOrder = await fetchOrder(
 				orderId as string,
@@ -78,7 +87,7 @@ function ShowOrder() {
 		};
 
 		getOrder();
-	}, [orderId]);
+	}, [dispatch, orderId]);
 
 	return (
 		<>
@@ -144,25 +153,26 @@ function ShowOrder() {
 							<span className='text-muted'>
 								Username:
 							</span>{' '}
-							{order?.username}{' '}
+							{order?.user?.username}{' '}
 						</h6>
 						<h6>
 							<span className='text-muted'>
 								Email:
 							</span>{' '}
-							{order?.email}
+							{order?.user?.email}
 						</h6>
 						<h6>
 							<span className='text-muted'>
 								Address:
 							</span>{' '}
-							{order?.contact}
+							{order?.contact.address.street},{' '}
+							{order?.contact.address.city}
 						</h6>
 						<h6>
 							<span className='text-muted'>
 								PhoneNumber:
 							</span>{' '}
-							{order?.phoneNumber}
+							{order?.contact.contactNumber}
 						</h6>
 					</Card.Body>
 					<Card.Footer>

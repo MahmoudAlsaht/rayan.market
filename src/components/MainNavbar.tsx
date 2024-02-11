@@ -83,7 +83,7 @@ function MainNavbar() {
 							</Nav.Link>
 						</Nav>
 						<Nav className='ms-auto'>
-							{user?.username !== 'anonymous' ? (
+							{user.username !== 'anonymous' ? (
 								<NavDropdown
 									title={
 										<Image
@@ -108,7 +108,7 @@ function MainNavbar() {
 										</NavDropdown.Item>
 									) : (
 										<NavDropdown.Item
-											href={`/account/profile/${user?.id}`}
+											href={`/account/profile/${user?._id}`}
 										>
 											Profile
 										</NavDropdown.Item>

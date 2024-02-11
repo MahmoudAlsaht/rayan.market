@@ -1,89 +1,39 @@
-import { auth } from '../firebase/config';
 import { TCart, TCartProduct } from '../app/store/cart';
-import addData from '../firebase/firestore/addData';
 import updateDocs from '../firebase/firestore/updateDoc';
-import { User } from 'firebase/auth';
-import getData from '../firebase/firestore/getData';
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getAllData } from '../firebase/firestore/getAllData';
-import { arrayUnion } from 'firebase/firestore';
 import { TUser } from '../app/auth/auth';
-import { isAdmin, isAuthenticated } from '../utils';
+import {
+	getCookies,
+	isAdmin,
+	isAuthenticated,
+	sendRequestToServer,
+} from '../utils';
+import { TOrder } from '../app/store/order';
 
 export const createAnOrder = createAsyncThunk(
 	'orders/createAnOrder',
 	async (cart: TCart) => {
 		try {
-			if (!isAuthenticated())
-				throw new Error('You Are Not Authorized');
+			const user: TUser | null = getCookies('user');
+			const isUserRegistered = user == null ? false : true;
+			const userId = cart?.anonymousUserId || user?._id;
 
-			const order = await addData('orders', {
-				products: cart?.products,
-				totalPrice: cart?.totalPrice,
-				createdAt: Date.now(),
-				status: 'pending',
-				username: '',
-				email: '',
-				contact: '',
-				phoneNumber: '',
-			});
-			await updateDocs('orders', order?.id, {
-				id: order?.id,
-				orderId: order?.id.slice(10),
-			});
-			await updateProductQuantity(cart?.products);
+			const order = await sendRequestToServer(
+				'POST',
+				'order/new',
+				{
+					products: cart?.products,
+					totalPrice: cart?.totalPrice,
+					userId,
+					isUserRegistered,
+					contactId: cart?.contactId,
+				},
+			);
 
-			if (!cart?.anonymousUserId) {
-				const currUser: User | null = auth.currentUser;
-				const user = await getData(
-					'users',
-					'uid',
-					currUser?.uid as string,
-				);
-				const contact = await getData(
-					'contacts',
-					'id',
-					cart?.contactId as string,
-				);
-
-				await updateDocs(
-					'users',
-					user?.docId as string,
-					{
-						orders: arrayUnion(order?.id),
-					},
-				);
-				await updateDocs('orders', order?.id, {
-					username: user?.data?.username,
-					email: user?.data?.email,
-					contact: `${contact?.data?.address?.city}, ${contact?.data?.address?.street}`,
-					phoneNumber: contact?.data?.phoneNumber,
-				});
-				const updatedOrder = (
-					await getData('orders', 'id', order?.id)
-				).data;
-
-				return updatedOrder as any;
-			} else {
-				const anonymousUser = (
-					await getData(
-						'anonymousUsers',
-						'id',
-						cart?.anonymousUserId as string,
-					)
-				).data;
-				await updateDocs('orders', order?.id, {
-					username: `${anonymousUser?.firstName} ${anonymousUser?.lastName}`,
-					email: anonymousUser?.email,
-					contact: `${anonymousUser?.city}, ${anonymousUser?.street}`,
-					phoneNumber: anonymousUser?.phoneNumber,
-				});
-				return null;
-			}
+			return order;
 		} catch (e: any) {
-			console.log(e.message);
-			throw new Error('Something went wrong');
+			throw new Error(e.message);
 		}
 	},
 );
@@ -93,11 +43,21 @@ export const updateOrderStatus = createAsyncThunk(
 	async ({
 		orderId,
 		updatedStatus,
+		userId,
 	}: {
 		orderId: string;
 		updatedStatus: string;
+		userId: string;
 	}) => {
 		try {
+			console.log(userId);
+			const order: TOrder | null =
+				await sendRequestToServer(
+					'PUT',
+					`order/${orderId}`,
+					{ updatedStatus, userId },
+				);
+
 			if (
 				updatedStatus in
 				['accepted', 'rejected', 'completed']
@@ -117,23 +77,18 @@ export const updateOrderStatus = createAsyncThunk(
 				status: updatedStatus,
 			});
 
-			const { data, docId } = await getData(
-				'orders',
-				'id',
-				orderId,
-			);
 			if (
 				updatedStatus === 'accepted' ||
 				updatedStatus === 'rejected'
 			)
 				await sendEmailToCustomer(
-					data?.username,
-					data?.email,
-					data?.products,
+					order?.user?.username as string,
+					order?.user?.email as string,
+					order?.products as TCartProduct[],
 					updatedStatus,
 				);
 
-			return { docId, updatedStatus };
+			return order;
 		} catch (e: any) {
 			console.error(e.message);
 			throw new Error('Something went wrong');
@@ -146,30 +101,15 @@ export const fetchOrder = async (orderId: string) => {
 		if (!isAuthenticated())
 			throw new Error('You Are Not Authorized');
 
-		const { data } = await getData('orders', 'id', orderId);
-		return data as any;
-	} catch (e: any) {
-		console.error(e.message);
-		throw new Error('something went wrong!');
-	}
-};
+		const order: TOrder | null = await sendRequestToServer(
+			'GET',
+			`order/${orderId}`,
+		);
 
-const fetchUserOrders = async (orders: string[]) => {
-	try {
-		const userOrders = [];
-		if (orders && orders?.length > 0) {
-			for (const order of orders) {
-				const { data } = await getData(
-					'orders',
-					'id',
-					order,
-				);
-				userOrders.push(data);
-			}
-			return userOrders as any[];
-		}
+		console.log(order);
+
+		return order;
 	} catch (e: any) {
-		console.error(e.message);
 		throw new Error(e.message);
 	}
 };
@@ -181,21 +121,14 @@ export const fetchOrders = createAsyncThunk(
 			if (!isAuthenticated())
 				throw new Error('You Are Not Authorized');
 
-			if (userId !== '') {
-				const user = (
-					await getData('users', 'uid', userId)
-				).data as TUser;
-				const orders = await fetchUserOrders(
-					user?.orders as string[],
-				);
-				return orders;
-			} else {
-				const orders = await getAllData('orders');
-				return orders as any[];
-			}
+			const orders: TOrder[] | null =
+				await sendRequestToServer('POST', 'order', {
+					userId,
+				});
+
+			return orders;
 		} catch (e: any) {
-			console.error(e.message);
-			return null;
+			throw new Error(e.message);
 		}
 	},
 );
@@ -227,29 +160,6 @@ const sendEmailToCustomer = async (
 		console.log(res);
 	} catch (e: any) {
 		console.error(e.message);
-	}
-};
-
-const updateProductQuantity = async (
-	products: TCartProduct[] | undefined,
-) => {
-	try {
-		for (const product of products!) {
-			if (product)
-				await updateDocs(
-					'products',
-					product?._id as string,
-					{
-						quantity:
-							parseInt(
-								product?.quantity as string,
-							) - product?.counter,
-					},
-				);
-		}
-	} catch (e: any) {
-		console.error(e.message);
-		throw new Error(e.message);
 	}
 };
 

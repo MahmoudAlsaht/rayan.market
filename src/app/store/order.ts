@@ -7,13 +7,13 @@ import {
 	fetchOrders,
 	updateOrderStatus,
 } from '../../controllers/order';
+import { TContactInfo } from '../../controllers/contact';
+import { TAnonymousUser, TUser } from '../auth/auth';
 
 export type TOrder = {
-	id: string;
-	username: string;
-	email: string;
-	phoneNumber: string;
-	contact: string;
+	_id: string;
+	contact: TContactInfo;
+	user: TUser | TAnonymousUser;
 	products: TCartProduct[];
 	totalPrice: number;
 	createdAt: Date;
@@ -47,13 +47,11 @@ const orderSlice = createSlice({
 		builder.addCase(
 			updateOrderStatus.fulfilled,
 			(state, action) => {
-				if (!action.payload.docId) return state;
 				state = state.map((order) => {
-					return order?.id === action.payload.docId
+					return order?._id === action.payload?._id
 						? {
 								...order,
-								status: action.payload
-									.updatedStatus,
+								status: action.payload.status,
 						  }
 						: order;
 				});

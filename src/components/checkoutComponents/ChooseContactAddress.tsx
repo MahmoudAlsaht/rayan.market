@@ -37,7 +37,7 @@ function ChooseContactAddress({
 			setIsLoading(true);
 			dispatch(
 				addUserAndContactToCart({
-					userId: profile?.user?.id as string,
+					userId: profile?.user?._id as string,
 					contactId: selectedAddress as string,
 				}),
 			);

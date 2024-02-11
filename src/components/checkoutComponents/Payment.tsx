@@ -12,7 +12,6 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ChangeEvent, useState } from 'react';
 import PaymentButton from './PaymentButton';
 import { createAnOrder } from '../../controllers/order';
-import { useNavigate } from 'react-router-dom';
 
 function Payment({
 	handleStep,
@@ -24,8 +23,6 @@ function Payment({
 	);
 	const dispatch = useAppDispatch();
 
-	const navigate = useNavigate();
-
 	const [paymentMethod, setPaymentMethod] = useState<string>();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +33,7 @@ function Payment({
 		if (paymentMethod === 'cashOnDelivery') {
 			dispatch(createAnOrder(cart));
 			dispatch(emptyTheCart());
-			location.pathname = '/';
-			navigate('/');
+			location.pathname = '/home';
 		} else {
 			return;
 		}

@@ -120,9 +120,9 @@ function OrderSettings() {
 
 			{filteredOrders?.map((order) => (
 				<Widget
-					key={order?.id}
+					key={order?._id}
 					widgetTitle={order?.orderId}
-					href={`/dashboard/settings/orders/${order?.id}`}
+					href={`/dashboard/settings/orders/${order?._id}`}
 				/>
 			))}
 		</Container>

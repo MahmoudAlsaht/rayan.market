@@ -2,6 +2,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { setCookies } from '../utils';
 import { TCart, TCartProduct } from '../app/store/cart';
+import { TAnonymousUser } from '../app/auth/auth';
 
 export const checkIfProductInCart = (
 	cart: TCart,
@@ -32,10 +33,10 @@ const cartReducers = {
 	},
 	addAnonymousUserToCart: (
 		state: TCart,
-		action: PayloadAction<string>,
+		action: PayloadAction<TAnonymousUser>,
 	) => {
-		state.anonymousUserId = action.payload;
-		state.contactId = null;
+		state.anonymousUserId = action.payload?._id;
+		state.contactId = action.payload?.contact?._id;
 		setCookies('cart', state, 30);
 	},
 	addUserAndContactToCart: (

@@ -6,6 +6,7 @@ import { DocumentData } from 'firebase/firestore';
 import { createAnonymousUser } from '../../controllers/user';
 import { addAnonymousUserToCart } from '../../app/store/cart';
 import { useAppDispatch } from '../../app/hooks';
+import { TAnonymousUser } from '../../app/auth/auth';
 
 function AnonymousUserForm({
 	contact,
@@ -27,7 +28,7 @@ function AnonymousUserForm({
 	const emailRef = useRef<HTMLInputElement>(null);
 	const cityRef = useRef<HTMLInputElement>(null);
 	const streetRef = useRef<HTMLInputElement>(null);
-	const phoneNumberRef = useRef<HTMLInputElement>(null);
+	const contactNumberRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -50,13 +51,14 @@ function AnonymousUserForm({
 					email: emailRef.current?.value as string,
 					city: cityRef.current?.value as string,
 					street: streetRef.current?.value as string,
-					phoneNumber: phoneNumberRef.current
+					contactNumber: contactNumberRef.current
 						?.value as string,
 				};
 
-				const userId = await createAnonymousUser(data);
+				const user: TAnonymousUser =
+					await createAnonymousUser(data);
 
-				dispatch(addAnonymousUserToCart(userId));
+				dispatch(addAnonymousUserToCart(user));
 
 				setIsLoading(false);
 				firstNameRef.current!.value = '';
@@ -64,7 +66,7 @@ function AnonymousUserForm({
 				emailRef.current!.value = '';
 				cityRef.current!.value = '';
 				streetRef.current!.value = '';
-				phoneNumberRef.current!.value = '';
+				contactNumberRef.current!.value = '';
 				handleStep('payment');
 			}
 		} catch (e: any) {
@@ -85,7 +87,7 @@ function AnonymousUserForm({
 			lastNameRef.current?.value === '' ||
 			emailRef.current?.value === '' ||
 			streetRef.current?.value === '' ||
-			phoneNumberRef.current?.value === '' ||
+			contactNumberRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -93,7 +95,9 @@ function AnonymousUserForm({
 				status: false,
 				message: 'please provide all the missing fields',
 			});
-		} else if (phoneNumberRef.current?.value.length !== 10) {
+		} else if (
+			contactNumberRef.current?.value.length !== 10
+		) {
 			setValidated(false);
 			setError({
 				status: false,
@@ -202,7 +206,7 @@ function AnonymousUserForm({
 						type='number'
 						placeholder='Enter Your phone Number'
 						defaultValue={contact?.phoneNumber}
-						ref={phoneNumberRef}
+						ref={contactNumberRef}
 					/>
 				</Form.Group>
 

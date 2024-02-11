@@ -6,8 +6,6 @@ import {
 	sendRequestToServer,
 	setCookies,
 } from '../utils';
-import addData from '../firebase/firestore/addData';
-import updateDocs from '../firebase/firestore/updateDoc';
 import { TUser } from '../app/auth/auth';
 
 export const fetchUser = createAsyncThunk(
@@ -76,7 +74,7 @@ export const logout = createAsyncThunk(
 				email: '',
 				isAdmin: false,
 				profile: '',
-				id: '',
+				_id: '',
 				phoneNumber: '',
 			};
 		} catch (e: any) {
@@ -93,17 +91,16 @@ export const createAnonymousUser = async (data: {
 	email: string;
 	city: string;
 	street: string;
-	phoneNumber: string;
+	contactNumber: string;
 }) => {
 	try {
-		const anonymousUser = await addData(
-			'anonymousUsers',
+		const anonymousUser = await sendRequestToServer(
+			'post',
+			'auth/anonymous',
 			data,
 		);
-		await updateDocs('anonymousUsers', anonymousUser?.id, {
-			id: anonymousUser?.id,
-		});
-		return anonymousUser.id;
+
+		return anonymousUser;
 	} catch (e: any) {
 		console.log(e.message);
 		throw new Error('Something went wrong!');

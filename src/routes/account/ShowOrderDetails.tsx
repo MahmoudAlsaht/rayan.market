@@ -30,7 +30,7 @@ function ShowOrderDetails() {
 			if (order?.status === 'pending') {
 				dispatch(
 					updateOrderStatus({
-						orderId: order?.id as string,
+						orderId: order?._id as string,
 						updatedStatus: 'canceled',
 					}),
 				);
@@ -119,25 +119,26 @@ function ShowOrderDetails() {
 							<span className='text-muted'>
 								Username:
 							</span>{' '}
-							{order?.username}{' '}
+							{order?.user?.username}{' '}
 						</h6>
 						<h6>
 							<span className='text-muted'>
 								Email:
 							</span>{' '}
-							{order?.email}
+							{order?.user?.email}
 						</h6>
 						<h6>
 							<span className='text-muted'>
 								Address:
 							</span>{' '}
-							{order?.contact}
+							{order?.contact?.address?.street},{' '}
+							{order?.contact?.address?.city}
 						</h6>
 						<h6>
 							<span className='text-muted'>
 								PhoneNumber:
 							</span>{' '}
-							{order?.phoneNumber}
+							{order?.contact?.contactNumber}
 						</h6>
 					</Card.Body>
 					<Card.Footer>

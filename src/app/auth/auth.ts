@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import { fetchUser, logout } from '../../controllers/user';
+import { TOrder } from '../store/order';
+import { TContactInfo } from '../../controllers/contact';
 
 export type TUser = {
-	id: string;
+	_id: string;
 	username: string;
 	email: string;
 	isAdmin: boolean;
@@ -12,8 +14,16 @@ export type TUser = {
 	orders?: string[];
 };
 
+export type TAnonymousUser = {
+	_id: string;
+	username: string;
+	email: string;
+	orders?: TOrder[];
+	contact?: TContactInfo;
+};
+
 const initialState: TUser = {
-	id: '',
+	_id: '',
 	username: 'anonymous',
 	email: '',
 	phoneNumber: '',
@@ -27,7 +37,7 @@ export const UserSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchUser.fulfilled, (state, action) => {
-			if (action.payload !== null) state = action.payload;
+			state = action.payload;
 			return state;
 		});
 		builder.addCase(logout.fulfilled, (state, action) => {
