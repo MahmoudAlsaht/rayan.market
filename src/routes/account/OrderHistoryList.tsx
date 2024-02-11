@@ -27,9 +27,9 @@ function OrderHistoryList() {
 		<Container>
 			{orders?.map((order) => (
 				<Widget
-					href={`/account/profile/${profileId}/orders-history/${order?.id}`}
+					href={`/account/profile/${profileId}/orders-history/${order?._id}`}
 					widgetTitle={order?.orderId}
-					key={order?.id}
+					key={order?._id}
 					body={
 						<Card.Text className='text-muted'>
 							Status:{' '}

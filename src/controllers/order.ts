@@ -50,7 +50,6 @@ export const updateOrderStatus = createAsyncThunk(
 		userId: string;
 	}) => {
 		try {
-			console.log(userId);
 			const order: TOrder | null =
 				await sendRequestToServer(
 					'PUT',
@@ -105,8 +104,6 @@ export const fetchOrder = async (orderId: string) => {
 			'GET',
 			`order/${orderId}`,
 		);
-
-		console.log(order);
 
 		return order;
 	} catch (e: any) {

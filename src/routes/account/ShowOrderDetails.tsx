@@ -8,13 +8,18 @@ import {
 import { TOrder } from '../../app/store/order';
 import { Button, Card, Container } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { fetchUser } from '../../controllers/user';
+import { TUser } from '../../app/auth/auth';
 
 function ShowOrderDetails() {
 	const { orderId } = useParams();
 	const navigate = useNavigate();
 	const [order, setOrder] = useState<TOrder | null>(null);
 	const dispatch = useAppDispatch();
+	const user: TUser | null = useAppSelector(
+		(state) => state.user,
+	);
 
 	const openProductPage = (productId: string) => {
 		window.open(
@@ -32,6 +37,7 @@ function ShowOrderDetails() {
 					updateOrderStatus({
 						orderId: order?._id as string,
 						updatedStatus: 'canceled',
+						userId: user?._id as string,
 					}),
 				);
 				const updatedOrder = await fetchOrder(
@@ -53,7 +59,8 @@ function ShowOrderDetails() {
 		};
 
 		getOrder();
-	}, [orderId]);
+		dispatch(fetchUser());
+	}, [orderId, dispatch]);
 
 	return (
 		<>
