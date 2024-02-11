@@ -92,12 +92,16 @@ function ProductCard({ product }: ProductCardProps) {
 								className='me-3'
 								style={{
 									textDecoration:
+										product?.newPrice &&
 										'line-through',
 								}}
 							>
 								{product?.price} JOD
 							</span>
-							<span>{product?.newPrice} JOD</span>
+							<span>
+								{product?.newPrice &&
+									`${product?.newPrice} JOD`}{' '}
+							</span>
 						</Card.Subtitle>
 					)}
 					<Card.Text className='float-end'>

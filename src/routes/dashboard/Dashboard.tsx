@@ -45,9 +45,10 @@ function Dashboard() {
 							widgetTitle={widget}
 							key={widget}
 							href={
-								widget === 'settings'
+								widget.toLowerCase() ===
+								'settings'
 									? `/account/profile/${user?.profile}/account-setting`
-									: `/dashboard/settings/${widget.toLocaleLowerCase()}`
+									: `/dashboard/settings/${widget.toLowerCase()}`
 							}
 							badge={
 								pendingOrders.length > 0 &&
