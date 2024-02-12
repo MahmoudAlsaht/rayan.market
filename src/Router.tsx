@@ -12,7 +12,6 @@ import Profile from './routes/account/Profile';
 import EditUser from './routes/account/EditUser';
 // import ResetPassword from './routes/ResetPassword';
 import NotFound404 from './routes/NotFound404';
-import Category from './routes/store/Category';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './routes/dashboard/Dashboard';
 import CategoriesSettings from './routes/dashboard/CategoriesActions';
@@ -54,10 +53,6 @@ export const Router = createBrowserRouter([
 				element: <RootLayout />,
 				path: 'store',
 				children: [
-					{
-						path: 'categories/:categoryId/products',
-						element: <Category />,
-					},
 					{
 						path: 'products/:productId',
 						element: <ShowProduct />,
