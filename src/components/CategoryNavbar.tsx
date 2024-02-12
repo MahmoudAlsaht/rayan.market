@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import '../assets/styles/CategoryNavbar.css';
 import { TCategory } from '../app/store/category';
 import FilterProducts from './FilterProducts';
+import { fetchCategoryProducts } from '../controllers/product';
 
 function CategoryNavbar() {
 	const dispatch = useAppDispatch();
@@ -20,8 +21,9 @@ function CategoryNavbar() {
 	return (
 		<div className='bg-white'>
 			<Navbar
-				className='justify-content-center'
+				className=' w-75'
 				sticky='top'
+				style={{ margin: '0 auto' }}
 			>
 				<Nav
 					variant='tabs'
@@ -32,7 +34,13 @@ function CategoryNavbar() {
 							index <= 5 && (
 								<Nav.Item key={category?._id}>
 									<Nav.Link
-										href={`/store/categories/${category?._id}/products`}
+										onClick={() =>
+											dispatch(
+												fetchCategoryProducts(
+													category?._id as string,
+												),
+											)
+										}
 									>
 										{category?.name}
 									</Nav.Link>
@@ -60,7 +68,13 @@ function CategoryNavbar() {
 												}
 											>
 												<Nav.Link
-													href={`/store/categories/${category?._id}/products`}
+													onClick={() =>
+														dispatch(
+															fetchCategoryProducts(
+																category?._id as string,
+															),
+														)
+													}
 												>
 													{
 														category?.name
@@ -83,7 +97,13 @@ function CategoryNavbar() {
 							index <= 2 && (
 								<Nav.Item key={category?._id}>
 									<Nav.Link
-										href={`/store/categories/${category?._id}/products`}
+										onClick={() =>
+											dispatch(
+												fetchCategoryProducts(
+													category?._id as string,
+												),
+											)
+										}
 									>
 										{category?.name}
 									</Nav.Link>
@@ -111,7 +131,13 @@ function CategoryNavbar() {
 												}
 											>
 												<Nav.Link
-													href={`/store/categories/${category?._id}/products`}
+													onClick={() =>
+														dispatch(
+															fetchCategoryProducts(
+																category?._id as string,
+															),
+														)
+													}
 												>
 													{
 														category?.name

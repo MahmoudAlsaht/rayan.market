@@ -48,21 +48,22 @@ export const fetchProduct = async (productId: string) => {
 	}
 };
 
-export const fetchCategoryProducts = async (
-	categoryId: string,
-) => {
-	try {
-		const products: (TProduct | null)[] =
-			await sendRequestToServer(
-				'GET',
-				`category/${categoryId}/products`,
-			);
+export const fetchCategoryProducts = createAsyncThunk(
+	'products/fetchCategoryProducts',
+	async (categoryId: string) => {
+		try {
+			const products: (TProduct | null)[] =
+				await sendRequestToServer(
+					'GET',
+					`category/${categoryId}/products`,
+				);
 
-		return products;
-	} catch (e: any) {
-		console.log(e);
-	}
-};
+			return products;
+		} catch (e: any) {
+			throw new Error(e.message);
+		}
+	},
+);
 
 export const createProduct = createAsyncThunk(
 	'products/postProduct',

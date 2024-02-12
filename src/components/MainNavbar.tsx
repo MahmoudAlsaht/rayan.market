@@ -148,7 +148,7 @@ function MainNavbar() {
 
 			<Navbar
 				collapseOnSelect
-				className='bg-none mb-3 d-md-none'
+				className='bg-white d-md-none'
 				sticky='top'
 			>
 				<Nav className='ms-auto'>
