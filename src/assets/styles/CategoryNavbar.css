@@ -1,9 +1,9 @@
-.nav .nav-item .nav-link:hover {
-    color: black;
+.navbar .nav-item .nav-link:hover {
+	color: black;
 }
 
-.nav .dropdown .dropdown-toggle {
-    background: none;
-    border: none;
-    color: rgb(0, 166, 255);
+.navbar .dropdown .dropdown-toggle {
+	background: none;
+	border: none;
+	color: rgb(0, 166, 255);
 }

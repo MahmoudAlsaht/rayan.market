@@ -85,8 +85,8 @@ function Category() {
 						key={product?._id}
 						xs={12}
 						sm={6}
-						md={4}
-						lg={3}
+						md={3}
+						lg={2}
 					>
 						<ProductCard product={product} />
 					</Col>

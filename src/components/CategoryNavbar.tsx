@@ -1,4 +1,4 @@
-import { Nav, Container, Dropdown } from 'react-bootstrap';
+import { Nav, Dropdown, Navbar } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchCategories } from '../controllers/category';
 import { BsArrowRight } from 'react-icons/bs';
@@ -17,14 +17,17 @@ function CategoryNavbar() {
 	}, [dispatch]);
 
 	return (
-		<Container fluid>
+		<Navbar
+			className='bg-white justify-content-center'
+			sticky='top'
+		>
 			<Nav
 				variant='tabs'
-				className='justify-content-center bg-white rounded d-none d-sm-flex'
+				className='border-0 d-none d-sm-flex'
 			>
 				{categories?.map(
 					(category: TCategory | null, index) =>
-						index <= 7 && (
+						index <= 5 && (
 							<Nav.Item key={category?._id}>
 								<Nav.Link
 									href={`/store/categories/${category?._id}/products`}
@@ -34,7 +37,7 @@ function CategoryNavbar() {
 							</Nav.Item>
 						),
 				)}
-				{categories && categories?.length > 7 && (
+				{categories && categories?.length > 5 && (
 					<Dropdown>
 						<Dropdown.Toggle
 							className='text-info'
@@ -48,7 +51,7 @@ function CategoryNavbar() {
 									category: TCategory | null,
 									index,
 								) =>
-									index > 7 && (
+									index > 5 && (
 										<Nav.Item
 											key={category?._id}
 										>
@@ -65,10 +68,7 @@ function CategoryNavbar() {
 				)}
 			</Nav>
 
-			<Nav
-				variant='tabs'
-				className='justify-content-center mb-5 bg-white rounded d-sm-none'
-			>
+			<Nav variant='tabs' className='rounded d-sm-none'>
 				{categories?.map(
 					(category: TCategory | null, index) =>
 						index <= 2 && (
@@ -111,7 +111,7 @@ function CategoryNavbar() {
 					</Dropdown>
 				)}
 			</Nav>
-		</Container>
+		</Navbar>
 	);
 }
 
