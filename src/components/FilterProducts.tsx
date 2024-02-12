@@ -77,6 +77,8 @@ function FilterProducts() {
 				<Dropdown.Toggle
 					id='filterProducts'
 					variant='outline-secondary'
+					size='sm'
+					style={{ marginTop: '7px' }}
 				>
 					<BsFilter />
 				</Dropdown.Toggle>

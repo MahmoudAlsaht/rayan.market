@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
-import { TCart } from '../../app/store/cart';
+import { TCart, TCartProduct } from '../../app/store/cart';
 import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../../components/CartProductCard';
 import { checkIfProductIsAvailable } from '../../controllers/order';
 import { useNavigate } from 'react-router-dom';
+import { checkEveryProductCounter } from '../../controllers/cart';
 
 function CartCheckout() {
 	const cart: TCart = useAppSelector((state) => state.cart);
 	const navigate = useNavigate();
 
 	const [isAvailable, setIsAvailable] = useState(true);
+	const [isCountersAboveZero, setIsCountersAboveZero] =
+		useState(true);
 
 	const checkIfCartIsEmpty = cart.products!.length! > 0;
 
@@ -22,6 +25,11 @@ function CartCheckout() {
 			location.pathname = '/';
 			navigate('/');
 		}
+		setIsCountersAboveZero(
+			checkEveryProductCounter(
+				cart?.products as TCartProduct[],
+			),
+		);
 	}, [cart?.products, checkIfCartIsEmpty, navigate]);
 
 	return (
@@ -34,16 +42,21 @@ function CartCheckout() {
 			))}
 			<div className='totalPrice text-muted'>
 				<a
-					href={isAvailable ? '/checkout' : '#'}
+					href={
+						isCountersAboveZero && isAvailable
+							? '/checkout'
+							: '#'
+					}
 					className={`float-end btn ${
-						isAvailable
+						isCountersAboveZero && isAvailable
 							? 'btn-outline-primary'
 							: 'btn-secondary'
 					}`}
 					style={{
-						cursor: isAvailable
-							? 'pointer'
-							: 'unset',
+						cursor:
+							isCountersAboveZero && isAvailable
+								? 'pointer'
+								: 'unset',
 					}}
 				>
 					Add Your Info

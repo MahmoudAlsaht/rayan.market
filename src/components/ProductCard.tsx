@@ -104,44 +104,61 @@ function ProductCard({ product }: ProductCardProps) {
 							</span>
 						</Card.Subtitle>
 					)}
-					<Card.Text className='float-end'>
-						<Button
-							onClick={handleAddProduct}
-							variant='outline-secondary'
-							className='border-0'
-							disabled={
-								product?.quantity === 0 ||
-								productInCart
+				</Card.Header>
+				<Card.Body>
+					<Card.Text>
+						<span
+							className={
+								product?.quantity === 0
+									? 'text-danger'
+									: 'text-success'
 							}
 						>
-							{!productInCart ? (
-								<BsCartPlus
-									style={{
-										fontSize: '20px',
-									}}
-								/>
-							) : (
-								<span>
-									<BsCheck
-										style={{
-											fontSize: '20px',
-										}}
-									/>{' '}
-									in cart
-								</span>
-							)}
-						</Button>
+							{product?.quantity} stock
+						</span>
 					</Card.Text>
-					<Card.Text
-						className={
-							product?.quantity === 0
-								? 'text-danger'
-								: 'text-success'
+				</Card.Body>
+				<Card.Footer
+					style={{
+						background: 'none',
+						border: 'none',
+					}}
+				>
+					<Button
+						onClick={handleAddProduct}
+						variant={
+							product?.quantity === 0 ||
+							productInCart
+								? 'secondary'
+								: 'outline-secondary'
+						}
+						className='w-100'
+						disabled={
+							product?.quantity === 0 ||
+							productInCart
 						}
 					>
-						{product?.quantity} in stock
-					</Card.Text>
-				</Card.Header>
+						{!productInCart ? (
+							<span>
+								Add To{' '}
+								<BsCartPlus
+									style={{
+										fontSize: '22px',
+									}}
+								/>{' '}
+							</span>
+						) : (
+							<span>
+								In Cart
+								<BsCheck
+									style={{
+										fontSize: '22px',
+									}}
+								/>
+							</span>
+						)}
+					</Button>
+				</Card.Footer>
 			</Card>
 		</Container>
 	);

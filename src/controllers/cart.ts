@@ -16,6 +16,24 @@ export const checkIfProductInCart = (
 	return isProductInCart;
 };
 
+export const findCartProduct = (
+	cart: TCart,
+	productId: string,
+) => {
+	const product = cart.products?.find(
+		(product) => product?._id === productId,
+	);
+	return product;
+};
+
+export const checkEveryProductCounter = (
+	products: (TCartProduct | null)[],
+) => {
+	return products?.every(
+		(product) => product && product?.counter > 0,
+	);
+};
+
 const cartReducers = {
 	addToCart: (
 		state: TCart,

@@ -1,9 +1,11 @@
 import { Button, Modal, ModalBody } from 'react-bootstrap';
 import { useAppSelector } from '../app/hooks';
-import { TCart } from '../app/store/cart';
+import { TCart, TCartProduct } from '../app/store/cart';
 import '../assets/styles/CartStyle.css';
 import { useNavigate } from 'react-router-dom';
 import CartProductCard from './CartProductCard';
+import { useEffect, useState } from 'react';
+import { checkEveryProductCounter } from '../controllers/cart';
 
 type CartProps = {
 	show: boolean;
@@ -15,11 +17,21 @@ function Cart({ show, handleClose }: CartProps) {
 	const navigate = useNavigate();
 
 	const checkIfCartIsEmpty = cart.products!.length! > 0;
+	const [isCountersAboveZero, setIsCountersAboveZero] =
+		useState(true);
 
 	const handleCheckout = () => {
 		navigate('/cart');
 		handleClose();
 	};
+
+	useEffect(() => {
+		setIsCountersAboveZero(
+			checkEveryProductCounter(
+				cart?.products as TCartProduct[],
+			),
+		);
+	}, [cart?.products]);
 
 	return (
 		<Modal show={show}>
@@ -47,7 +59,10 @@ function Cart({ show, handleClose }: CartProps) {
 
 				<Button
 					onClick={handleCheckout}
-					disabled={!checkIfCartIsEmpty}
+					disabled={
+						!checkIfCartIsEmpty ||
+						!isCountersAboveZero
+					}
 				>
 					Checkout
 				</Button>

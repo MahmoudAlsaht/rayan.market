@@ -27,7 +27,7 @@ function Home() {
 							xs={12}
 							sm={6}
 							md={3}
-							lg={2}
+							xl={2}
 						>
 							<ProductCard
 								product={product as TProduct}

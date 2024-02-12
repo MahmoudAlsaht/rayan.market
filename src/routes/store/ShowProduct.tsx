@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 import { useParams } from 'react-router-dom';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
@@ -9,12 +8,11 @@ import {
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchProduct } from '../../controllers/product';
 import '../../assets/styles/ShowProduct.css';
-import { BsCart } from 'react-icons/bs';
+import { BsCart, BsCheck } from 'react-icons/bs';
 import ProductImageCarousel from '../../components/ProductImageCarousel';
 import {
 	TCart,
 	addToCart,
-	addToCounter,
 	updateTotalPrice,
 } from '../../app/store/cart';
 import { checkIfProductInCart } from '../../controllers/cart';
@@ -23,7 +21,8 @@ function ShowProduct() {
 	const { productId } = useParams();
 	const [previewImageUrl, setPreviewImageUrl] =
 		useState<TProductImage | null>();
-	const [productInCart, setProductInCart] = useState(false);
+	const [isProductInCart, setIsProductInCart] =
+		useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
 
 	const [product, setProduct] = useState<TProduct | null>();
@@ -31,28 +30,18 @@ function ShowProduct() {
 	const dispatch = useAppDispatch();
 
 	const handleAddToCart = () => {
-		if (product) {
-			!productInCart
-				? dispatch(
-						addToCart({
-							_id: productId,
-							name: product?.name,
-							price: product?.price,
-							imageUrl:
-								previewImageUrl?.path as string,
-							quantity: product?.quantity,
-							counter: 1,
-						}),
-				  )
-				: dispatch(
-						addToCounter({
-							id: productId as string,
-							maxNum: parseInt(
-								product?.price as string,
-							),
-						}),
-				  );
-		}
+		if (product)
+			dispatch(
+				addToCart({
+					_id: productId,
+					name: product?.name,
+					price: product?.price,
+					imageUrl: previewImageUrl?.path as string,
+					quantity: product?.quantity,
+					counter: 1,
+				}),
+			);
+
 		dispatch(
 			updateTotalPrice(parseInt(product?.price as string)),
 		);
@@ -73,8 +62,8 @@ function ShowProduct() {
 			cart,
 			productId as string,
 		) as boolean;
-		setProductInCart(gotProduct);
-	}, [cart, productId]);
+		setIsProductInCart(gotProduct);
+	}, [cart, isProductInCart, productId, setIsProductInCart]);
 
 	return (
 		<Container fluid className='mt-5'>
@@ -86,7 +75,11 @@ function ShowProduct() {
 						}
 					/>
 				</Col>
-				<Col xs={12} md={6} className='mt-5 mt-md-0'>
+				<Col
+					xs={12}
+					md={6}
+					className='d-flex flex-column mt-5 mt-md-0'
+				>
 					<h3 className='text-muted'>
 						{product?.name}
 					</h3>
@@ -98,14 +91,40 @@ function ShowProduct() {
 						{product?.quantity} in stock
 					</h4>
 					<hr className='mb-5' />
+
 					<Button
 						size='lg'
-						variant='outline-primary'
-						className='w-100'
+						variant={
+							isProductInCart
+								? 'success'
+								: 'outline-success'
+						}
+						style={{ margin: '0 auto' }}
+						className='w-75'
 						onClick={handleAddToCart}
+						disabled={isProductInCart}
 					>
-						Add To Cart
-						<BsCart className='ms-2' />
+						{!isProductInCart ? (
+							<span>
+								Add To Cart
+								<BsCart
+									className='ms-2'
+									style={{
+										fontSize: '25px',
+									}}
+								/>
+							</span>
+						) : (
+							<span>
+								In Cart
+								<BsCheck
+									className='ms-2'
+									style={{
+										fontSize: '25px',
+									}}
+								/>
+							</span>
+						)}
 					</Button>
 				</Col>
 			</Row>
