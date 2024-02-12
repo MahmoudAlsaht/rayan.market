@@ -1,7 +1,5 @@
-import { DocumentData } from 'firebase/firestore';
 import Cookies from 'universal-cookie';
 import { TCartProduct } from '../app/store/cart';
-import { TProduct } from '../app/store/product';
 import { TUser } from '../app/auth/auth';
 import axios from 'axios';
 
@@ -41,12 +39,9 @@ export function escapeRegExp(str: string) {
 	return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
 }
 
-export const filteredData = (
-	dataArray: DocumentData[],
-	query: string,
-) => {
-	return dataArray?.filter((data) => {
-		return data.name
+export const filterData = (products: any[], query: string) => {
+	return products?.filter((data) => {
+		return data?.name
 			.toLowerCase()
 			.includes(escapeRegExp(query?.toLocaleLowerCase()));
 	});
@@ -70,25 +65,6 @@ export const sumEachProductTotalPrice = (
 	product: TCartProduct,
 ) => {
 	return product?.counter * parseInt(product?.price as string);
-};
-
-export const sortProductsBasedOnPrice = (
-	products: TProduct[],
-	orderingType: string,
-) => {
-	if (orderingType === 'highest') {
-		return products?.sort(
-			(a, b) =>
-				parseInt(b.newPrice || b.price) -
-				parseInt(a.newPrice || a.price),
-		);
-	} else if (orderingType === 'lowest') {
-		return products?.sort(
-			(a, b) =>
-				parseInt(a.newPrice || a.price) -
-				parseInt(b.newPrice || b.price),
-		);
-	} else return products;
 };
 
 export const isAuthenticated = () => {

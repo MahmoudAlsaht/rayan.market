@@ -6,7 +6,7 @@ import AddProductForm from '../../components/forms/AddProductForm';
 import { Table, Button, Container } from 'react-bootstrap';
 import ProductSettings from '../../components/dashboardComponents/ProductSettings';
 import { TProduct } from '../../app/store/product';
-import { filteredData } from '../../utils';
+import { filterData } from '../../utils';
 import { DocumentData } from 'firebase/firestore';
 
 function ProductsSettings() {
@@ -30,7 +30,7 @@ function ProductsSettings() {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filteredData(
+		return filterData(
 			products as DocumentData[],
 			queryInput,
 		);

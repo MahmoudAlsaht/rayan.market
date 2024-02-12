@@ -6,7 +6,7 @@ import AddBannerForm from '../../components/forms/AddBannerForm';
 import { Table, Button, Container } from 'react-bootstrap';
 import BannerSettings from '../../components/dashboardComponents/BannerSettings';
 import { TBanner } from '../../app/store/banner';
-import { filteredData } from '../../utils';
+import { filterData } from '../../utils';
 import { DocumentData } from 'firebase/firestore';
 
 function BannersActions() {
@@ -30,10 +30,7 @@ function BannersActions() {
 	};
 
 	const filteredBanners = useMemo(() => {
-		return filteredData(
-			banners as DocumentData[],
-			queryInput,
-		);
+		return filterData(banners as DocumentData[], queryInput);
 	}, [banners, queryInput]);
 
 	useEffect(() => {

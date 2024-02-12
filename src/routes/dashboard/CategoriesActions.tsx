@@ -6,7 +6,7 @@ import { BsPlusLg } from 'react-icons/bs';
 import AddCategoryForm from '../../components/forms/AddCategoryForm';
 import { Table, Button, Container } from 'react-bootstrap';
 import CategorySettings from '../../components/dashboardComponents/CategorySettings';
-import { filteredData } from '../../utils';
+import { filterData } from '../../utils';
 
 function CategoriesSettings() {
 	const [showAddCategoryForm, setShowAddCategoryForm] =
@@ -30,7 +30,7 @@ function CategoriesSettings() {
 	};
 
 	const filteredCategories = useMemo(() => {
-		return filteredData(categories as any, queryInput);
+		return filterData(categories as any, queryInput);
 	}, [categories, queryInput]);
 
 	useEffect(() => {

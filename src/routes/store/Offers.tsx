@@ -1,43 +1,13 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TProduct } from '../../app/store/product';
 import { fetchOffers } from '../../controllers/product';
 import Banner from '../../components/Banner';
-import FilterProducts from '../../components/FilterProducts';
 import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
-import {
-	filteredData,
-	sortProductsBasedOnPrice,
-} from '../../utils';
-import { DocumentData } from 'firebase/firestore';
 
 function Offers() {
 	const [products, setProducts] =
 		useState<(TProduct | null)[]>();
-
-	const [queryInput, setQueryInput] = useState('');
-
-	const [filterOption, setFilterOption] = useState('all');
-
-	const handleQueryChange = (
-		e: FormEvent<HTMLInputElement>,
-	) => {
-		setQueryInput(e.currentTarget.value);
-	};
-
-	const handleFilterOptionChange = (option: string) => {
-		setFilterOption(option);
-	};
-
-	const filteredProducts = useMemo(() => {
-		return sortProductsBasedOnPrice(
-			filteredData(
-				products as DocumentData[],
-				queryInput,
-			) as TProduct[],
-			filterOption,
-		);
-	}, [filterOption, products, queryInput]);
 
 	useEffect(() => {
 		const getProducts = async () => {
@@ -49,16 +19,9 @@ function Offers() {
 	return (
 		<div className='productContainer'>
 			<Banner />
-			<FilterProducts
-				queryInput={queryInput}
-				handleQueryChange={handleQueryChange}
-				handleFilterOptionChange={
-					handleFilterOptionChange
-				}
-			/>
 			<Row>
-				{filteredProducts &&
-					filteredProducts?.map((product) => (
+				{products &&
+					products?.map((product) => (
 						<Col
 							key={product?._id}
 							xs={12}
@@ -66,7 +29,9 @@ function Offers() {
 							md={3}
 							lg={2}
 						>
-							<ProductCard product={product} />
+							<ProductCard
+								product={product as TProduct}
+							/>
 						</Col>
 					))}
 			</Row>
