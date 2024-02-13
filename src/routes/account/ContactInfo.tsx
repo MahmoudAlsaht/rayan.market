@@ -35,22 +35,23 @@ function ContactInfo() {
 	return (
 		<Container>
 			<Row>
-				{contactInfo?.map((contact, index) => (
-					<Col
-						xs={12}
-						sm={6}
-						lg={4}
-						xl={3}
-						key={index}
-					>
-						<Widget
-							widgetTitle={`Address - ${
-								index + 1
-							}`}
-							href={`/account/profile/${profile?._id}/contact-info/${contact?._id}`}
-						/>
-					</Col>
-				))}
+				{contactInfo &&
+					contactInfo?.map((contact, index) => (
+						<Col
+							xs={12}
+							sm={6}
+							lg={4}
+							xl={3}
+							key={index}
+						>
+							<Widget
+								widgetTitle={`Address - ${
+									index + 1
+								}`}
+								href={`/account/profile/${profile?._id}/contact-info/${contact?._id}`}
+							/>
+						</Col>
+					))}
 				<Col xs={12} sm={6} lg={3} xl={2}>
 					<Widget
 						widgetTitle={<BsPlus />}

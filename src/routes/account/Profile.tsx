@@ -1,24 +1,37 @@
-import { memo, useEffect } from 'react';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import { memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchProfile } from '../../controllers/profile';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { TProfile } from '../../app/auth/profile';
-import { fetchUser } from '../../controllers/user';
+import { Col, Container, Row } from 'react-bootstrap';
+import Widget from '../../components/Widget';
 
 const Profile = memo(() => {
-	const dispatch = useAppDispatch();
-
-	const profile: TProfile | null = useAppSelector(
-		(state) => state.profile,
-	);
 	const { profileId } = useParams();
 
-	useEffect(() => {
-		dispatch(fetchProfile(profileId as string));
-		dispatch(fetchUser());
-	}, [dispatch, profileId]);
+	const userWidgets = ['Settings', 'Orders', 'Contacts'];
 
-	return <div>{profile?._id}</div>;
+	return (
+		<Container className='mt-5'>
+			<Row xs={1}>
+				{userWidgets.map((widget, index) => (
+					<Col md={6} key={index}>
+						<Widget
+							widgetTitle={widget}
+							key={widget}
+							href={
+								widget.toLowerCase() ===
+								'settings'
+									? `/account/profile/${profileId}/account-setting`
+									: widget.toLowerCase() ===
+									  'orders'
+									? `/account/profile/${profileId}/orders-history`
+									: `/account/profile/${profileId}/contact-info`
+							}
+						/>
+					</Col>
+				))}
+			</Row>
+		</Container>
+	);
 });
 
 export default Profile;

@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { Badge, Col, Container, Row } from 'react-bootstrap';
 import '../../assets/styles/Dashboard.css';
 import Widget from '../../components/Widget';
@@ -47,7 +48,9 @@ const Dashboard = memo(() => {
 							href={
 								widget.toLowerCase() ===
 								'settings'
-									? `/account/profile/${user?.profile}/account-setting`
+									? `/account/profile/${
+											user?.profile
+									  }/${widget.toLowerCase()}`
 									: `/dashboard/settings/${widget.toLowerCase()}`
 							}
 							badge={
