@@ -33,7 +33,7 @@ function UpdatePasswordForm({
 			if (form.checkValidity() === false) {
 				setError({
 					status: false,
-					message: 'invalid fields',
+					message: 'حقول غير صالحة',
 				});
 			} else {
 				const data = {
@@ -68,7 +68,7 @@ function UpdatePasswordForm({
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرجاء قم بإدخال جميع الحقول المطلوبة',
 			});
 		} else if (
 			newPasswordRef.current!.value.length > 0 &&
@@ -78,7 +78,7 @@ function UpdatePasswordForm({
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'passwords do not match',
+				message: 'تأكد من تطابق كلمتي المرور',
 			});
 		} else if (
 			newPasswordRef.current!.value.length > 0 &&
@@ -88,13 +88,13 @@ function UpdatePasswordForm({
 			setError({
 				status: false,
 				message:
-					'password must be at least 6 characters',
+					'كلمة المرور يجب أن لا تكون اقل من 6 خانات',
 			});
 		} else {
 			setValidated(true);
 			setError({
 				status: true,
-				message: 'looks good!',
+				message: 'ممتاز!',
 			});
 		}
 	};
@@ -107,7 +107,9 @@ function UpdatePasswordForm({
 			style={{ width: '100%' }}
 			className='mt-5'
 		>
-			<h3 className='text-muted mb-3'>Update Password</h3>
+			<h3 className='text-muted mb-3'>
+				تحديث كلمة المرور
+			</h3>
 
 			<ErrorComponent error={error} />
 
@@ -115,7 +117,7 @@ function UpdatePasswordForm({
 				className='mb-3'
 				controlId='CurrentPasswordInput'
 			>
-				<Form.Label>Current Password</Form.Label>
+				<Form.Label>كلمة المرور الحالية</Form.Label>
 				<Form.Control
 					onChange={handleChange}
 					required
@@ -128,7 +130,7 @@ function UpdatePasswordForm({
 				className='mb-3'
 				controlId='NewPasswordInput'
 			>
-				<Form.Label>New Password</Form.Label>
+				<Form.Label>كلمة المرور الجديدة</Form.Label>
 				<Form.Control
 					required
 					onChange={handleChange}
@@ -141,7 +143,7 @@ function UpdatePasswordForm({
 				className='mb-3'
 				controlId='passwordConfirmationInput'
 			>
-				<Form.Label>Confirm Password</Form.Label>
+				<Form.Label>تأكيد كلمة المرور</Form.Label>
 				<Form.Control
 					required
 					onChange={handleChange}

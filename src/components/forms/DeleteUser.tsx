@@ -39,7 +39,7 @@ function DeleteUser({
 			if (form.checkValidity() === false) {
 				setError({
 					status: true,
-					message: 'invalid fields',
+					message: 'حقول غير صالحة',
 				});
 			} else {
 				await dispatch(
@@ -71,20 +71,20 @@ function DeleteUser({
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرجاء قم بإدخال جميع الحقول المطلوبة',
 			});
 		} else {
 			setValidated(true);
 			setError({
 				status: true,
-				message: 'looks good!',
+				message: 'ممتاز!',
 			});
 		}
 	};
 
 	return (
 		<>
-			<h3 className='text-muted mb-3'>Account Deletion</h3>
+			<h3 className='text-muted mb-3'>حذف الحساب</h3>
 
 			<Button
 				variant={
@@ -93,13 +93,13 @@ function DeleteUser({
 				onClick={handleShow}
 				disabled={isLoading}
 			>
-				Delete User
+				حذف المستخدم
 			</Button>
 
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title className='text-danger'>
-						Delete Account?
+						هل أنت متأكد بأنك تريد أن تحذف الحساب؟
 					</Modal.Title>
 				</Modal.Header>
 
@@ -133,7 +133,7 @@ function DeleteUser({
 						</Button>
 						<LoadingButton
 							type='submit'
-							body='Delete Account'
+							body='حذف الحساب'
 							variant='danger'
 							className={'w-50'}
 							isLoading={isLoading}

@@ -36,7 +36,7 @@ function UpdateUserInfoForm({
 			if (form.checkValidity() === false) {
 				setError({
 					status: true,
-					message: 'invalid fields',
+					message: 'حقول غير صالحة',
 				});
 			} else {
 				const data = {
@@ -71,13 +71,13 @@ function UpdateUserInfoForm({
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرجاء قم بإدخال جميع الحقول المطلوبة',
 			});
 		} else {
 			setValidated(true);
 			setError({
 				status: true,
-				message: 'looks good!',
+				message: 'ممتاز!',
 			});
 		}
 	};
@@ -89,12 +89,12 @@ function UpdateUserInfoForm({
 			onSubmit={handleSubmit}
 			style={{ width: '100%' }}
 		>
-			<h3 className='text-muted mb-3'>Personal Info</h3>
+			<h3 className='text-muted mb-3'>معلومات الحساب</h3>
 
 			<ErrorComponent error={error} />
 
 			<Form.Group className='mb-3' controlId='emailInput'>
-				<Form.Label>Email address</Form.Label>
+				<Form.Label>البريد الإلكتروني</Form.Label>
 				<Form.Control
 					onChange={handleChange}
 					type='email'
@@ -106,7 +106,7 @@ function UpdateUserInfoForm({
 			</Form.Group>
 
 			<Form.Group className='mb-3' controlId='NameInput'>
-				<Form.Label>username</Form.Label>
+				<Form.Label>اسم المستخدم</Form.Label>
 				<Form.Control
 					required
 					onChange={handleChange}
@@ -120,7 +120,7 @@ function UpdateUserInfoForm({
 				className='mb-3'
 				controlId='passwordUserInfoFormInput'
 			>
-				<Form.Label>Password</Form.Label>
+				<Form.Label>كلمة المرور</Form.Label>
 				<Form.Control
 					required
 					onChange={handleChange}
@@ -132,7 +132,7 @@ function UpdateUserInfoForm({
 			<Form.Group className='mb-3'>
 				<LoadingButton
 					type='submit'
-					body='Update'
+					body='حفظ'
 					variant='primary'
 					isLoading={isLoading}
 					disabled={!validated}
