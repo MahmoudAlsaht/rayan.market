@@ -18,7 +18,13 @@ import '../assets/styles/MainNavbar.css';
 import { TProfile } from '../app/auth/profile';
 import { fetchProfile } from '../controllers/profile';
 
-function MainNavbar() {
+function MainNavbar({
+	setIsDropDownOpen,
+	isDropDownOpened,
+}: {
+	setIsDropDownOpen: (status: boolean) => void;
+	isDropDownOpened: boolean;
+}) {
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
@@ -34,6 +40,10 @@ function MainNavbar() {
 	);
 
 	const navigate = useNavigate();
+
+	const handleDropdownClick = () => {
+		setIsDropDownOpen(!isDropDownOpened);
+	};
 
 	useEffect(() => {
 		dispatch(fetchUser());
@@ -90,6 +100,7 @@ function MainNavbar() {
 						<Nav className='ms-auto'>
 							{user.username !== 'anonymous' ? (
 								<NavDropdown
+									onClick={handleDropdownClick}
 									title={
 										<Image
 											className='rounded-circle'
