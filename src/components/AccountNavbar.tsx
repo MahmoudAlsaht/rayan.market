@@ -63,12 +63,16 @@ function AccountNavbar() {
 							<Link
 								to='/home'
 								className='text-white'
+								style={{ marginLeft: '3.5rem' }}
 							>
 								Store
 							</Link>
 						</Nav.Link>
 					</Nav>
-					<Nav className='ms-auto'>
+					<Nav
+						className='ms-auto'
+						style={{ marginRight: '3.5rem' }}
+					>
 						<NavDropdown
 							title={
 								<Image

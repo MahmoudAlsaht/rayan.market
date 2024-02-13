@@ -34,7 +34,7 @@ function Cart({ show, handleClose }: CartProps) {
 	}, [cart?.products]);
 
 	return (
-		<Modal show={show}>
+		<Modal show={show} className=''>
 			<Modal.Header>
 				<Modal.Title>Cart</Modal.Title>
 			</Modal.Header>
@@ -45,18 +45,11 @@ function Cart({ show, handleClose }: CartProps) {
 						product={product}
 					/>
 				))}
-				<div className='totalPrice text-muted'>
-					Total: {cart?.totalPrice} JOD
+				<div className='totalPrice text-muted me-5'>
+					المجموع الكلي: {cart?.totalPrice} د.أ
 				</div>
 			</ModalBody>
-			<Modal.Footer>
-				<Button
-					onClick={handleClose}
-					variant='outline-secondary'
-				>
-					Close
-				</Button>
-
+			<Modal.Footer className='arb-text'>
 				<Button
 					onClick={handleCheckout}
 					disabled={
@@ -64,7 +57,13 @@ function Cart({ show, handleClose }: CartProps) {
 						!isCountersAboveZero
 					}
 				>
-					Checkout
+					الدفع
+				</Button>
+				<Button
+					onClick={handleClose}
+					variant='outline-secondary'
+				>
+					الغاء
 				</Button>
 			</Modal.Footer>
 		</Modal>

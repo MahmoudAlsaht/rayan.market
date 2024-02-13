@@ -77,30 +77,34 @@ function ProductCard({ product }: ProductCardProps) {
 							defaultProductImage
 						}
 					/>
-					<Card.Title className='ms-3 mt-1'>
+					<Card.Title className='arb-text ms-3 mt-1 text-muted'>
 						{product?.name?.substring(0, 45)}
 					</Card.Title>
 				</Link>
 				<Card.Header>
 					{!product?.isOffer ? (
-						<Card.Subtitle className='text-muted'>
-							{product?.price} JOD
+						<Card.Subtitle className='text-muted arb-text'>
+							<small>{product?.price} د.أ</small>
 						</Card.Subtitle>
 					) : (
-						<Card.Subtitle className='text-muted'>
+						<Card.Subtitle className='text-muted arb-text'>
 							<span
-								className='me-3'
 								style={{
 									textDecoration:
 										product?.newPrice &&
 										'line-through',
 								}}
 							>
-								{product?.price} JOD
+								<small className='ms-3'>
+									{product?.price} د.أ
+								</small>
 							</span>
 							<span>
-								{product?.newPrice &&
-									`${product?.newPrice} JOD`}{' '}
+								{product?.newPrice && (
+									<small>
+										{product?.newPrice} د.أ
+									</small>
+								)}{' '}
 							</span>
 						</Card.Subtitle>
 					)}
@@ -108,13 +112,13 @@ function ProductCard({ product }: ProductCardProps) {
 				<Card.Body>
 					<Card.Text>
 						<span
-							className={
+							className={`arb-text ${
 								product?.quantity === 0
 									? 'text-danger'
 									: 'text-success'
-							}
+							}`}
 						>
-							{product?.quantity} stock
+							{product?.quantity} في المخزون
 						</span>
 					</Card.Text>
 				</Card.Body>
@@ -132,7 +136,7 @@ function ProductCard({ product }: ProductCardProps) {
 								? 'secondary'
 								: 'outline-secondary'
 						}
-						className='w-100'
+						className='arb-text w-100'
 						disabled={
 							product?.quantity === 0 ||
 							productInCart
@@ -140,7 +144,7 @@ function ProductCard({ product }: ProductCardProps) {
 					>
 						{!productInCart ? (
 							<span>
-								Add To{' '}
+								أضف للعربة{' '}
 								<BsCartPlus
 									style={{
 										fontSize: '22px',
@@ -149,7 +153,7 @@ function ProductCard({ product }: ProductCardProps) {
 							</span>
 						) : (
 							<span>
-								In Cart
+								في العربة
 								<BsCheck
 									style={{
 										fontSize: '22px',

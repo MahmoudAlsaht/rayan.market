@@ -16,7 +16,7 @@ import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import '../assets/styles/MainNavbar.css';
 
-function MainNavbar() {
+const MainNavbar = () => {
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
@@ -49,7 +49,7 @@ function MainNavbar() {
 			<Navbar
 				collapseOnSelect
 				expand='md'
-				className='bg-white d-none d-md-block'
+				className='arb-text bg-white d-none d-md-block'
 				id='mainNavbar'
 				style={{
 					zIndex: 2,
@@ -57,13 +57,13 @@ function MainNavbar() {
 			>
 				<Container>
 					<Navbar.Collapse id='responsive-navbar-nav'>
-						<Nav className='me-auto'>
+						<Nav className='ms-auto'>
 							<Nav.Link>
 								<Link
 									to='/home'
 									className='navLink'
 								>
-									Store
+									الرئيسية
 								</Link>
 							</Nav.Link>
 							<Nav.Link>
@@ -71,7 +71,7 @@ function MainNavbar() {
 									to='/offers'
 									className='navLink'
 								>
-									Offers
+									العروض
 								</Link>
 							</Nav.Link>
 							<Nav.Link>
@@ -79,11 +79,11 @@ function MainNavbar() {
 									to='/about'
 									className='navLink'
 								>
-									About
+									حول
 								</Link>
 							</Nav.Link>
 						</Nav>
-						<Nav className='ms-auto'>
+						<Nav className='me-auto'>
 							{user.username !== 'anonymous' ? (
 								<NavDropdown
 									title={
@@ -101,7 +101,7 @@ function MainNavbar() {
 											<Link
 												to={`/dashboard/admin/${user?.profile}`}
 											>
-												Dashboard
+												لوحة التحكم
 											</Link>
 										</NavDropdown.Item>
 									) : (
@@ -109,7 +109,7 @@ function MainNavbar() {
 											<Link
 												to={`/account/profile/${user?._id}`}
 											>
-												Profile
+												الصفحة الشخصية
 											</Link>
 										</NavDropdown.Item>
 									)}
@@ -118,7 +118,7 @@ function MainNavbar() {
 									<NavDropdown.Item
 										onClick={handleLogout}
 									>
-										Logout
+										تسجيل الخروج
 									</NavDropdown.Item>
 								</NavDropdown>
 							) : (
@@ -134,13 +134,13 @@ function MainNavbar() {
 								>
 									<NavDropdown.Item>
 										<Link to='/auth/signin'>
-											Signin
+											تسجيل الدخول
 										</Link>
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
 									<NavDropdown.Item>
 										<Link to='/auth/signup'>
-											Signup
+											التسجيل
 										</Link>
 									</NavDropdown.Item>
 								</NavDropdown>
@@ -179,13 +179,13 @@ function MainNavbar() {
 			>
 				<Offcanvas.Header closeButton />
 				<Offcanvas.Body>
-					<Nav className='flex-column justify-content-center'>
+					<Nav className='flex-column justify-content-center arb-text'>
 						<Nav.Link onClick={handleClick}>
 							<Link
 								className='text-info'
 								to='/home'
 							>
-								Store
+								الرئيسية
 							</Link>
 						</Nav.Link>
 						<Nav.Link onClick={handleClick}>
@@ -193,7 +193,7 @@ function MainNavbar() {
 								className='text-info'
 								to='/offers'
 							>
-								Offers
+								العروض
 							</Link>
 						</Nav.Link>
 						<Nav.Link onClick={handleClick}>
@@ -201,7 +201,7 @@ function MainNavbar() {
 								className='text-info'
 								to='/about'
 							>
-								About
+								حول
 							</Link>
 						</Nav.Link>
 						<hr />
@@ -216,7 +216,7 @@ function MainNavbar() {
 											to={`/dashboard/admin/${user?.profile}`}
 											className='text-info'
 										>
-											Dashboard
+											لوحة التحكم
 										</Link>
 									</Nav.Link>
 								) : (
@@ -227,7 +227,7 @@ function MainNavbar() {
 											to={`/account/profile/${user?.profile}`}
 											className='text-info'
 										>
-											Profile
+											الصفحة الشخصية
 										</Link>
 									</Nav.Link>
 								)}
@@ -236,7 +236,7 @@ function MainNavbar() {
 									onClick={handleLogout}
 									className='mb-2 text-primary'
 								>
-									Logout
+									تسجيل الخروج
 								</Nav.Link>
 							</div>
 						) : (
@@ -246,7 +246,7 @@ function MainNavbar() {
 										to='/auth/signin'
 										className='text-info'
 									>
-										Signin
+										تسجيل الدخول
 									</Link>
 								</Nav.Link>
 								<Nav.Link onClick={handleClick}>
@@ -254,7 +254,7 @@ function MainNavbar() {
 										to='/auth/signup'
 										className='text-info'
 									>
-										Signup
+										التسجيل
 									</Link>
 								</Nav.Link>
 							</div>
@@ -264,6 +264,6 @@ function MainNavbar() {
 			</Offcanvas>
 		</>
 	);
-}
+};
 
 export default MainNavbar;

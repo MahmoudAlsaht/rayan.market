@@ -36,12 +36,12 @@ function CartProductCard({
 
 				<div className='productInfo'>
 					<h6>{product?.name?.substring(0, 45)}</h6>
-					<h6>{product?.price} JOD</h6>
+					<h6>{product?.price} د.أ</h6>
 					{type !== 'cartSummary' && (
 						<h6>
 							{product?.quantity}{' '}
 							<span className='text-muted'>
-								In stock
+								في المخزون
 							</span>
 						</h6>
 					)}
@@ -52,12 +52,12 @@ function CartProductCard({
 						/>
 					)}
 					<span className='text-muted'>
-						Total Price:{' '}
+						المجموع:{' '}
 						<span className='text-dark'>
 							{totalProductPrice}
 						</span>
 					</span>{' '}
-					JD
+					د.أ
 				</div>
 			</div>
 		</>

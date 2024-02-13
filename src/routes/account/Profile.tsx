@@ -15,7 +15,15 @@ const Profile = memo(() => {
 				{userWidgets.map((widget, index) => (
 					<Col md={6} key={index}>
 						<Widget
-							widgetTitle={widget}
+							widgetTitle={
+								widget.toLowerCase() ===
+								'settings'
+									? 'معلومات الحساب'
+									: widget.toLowerCase() ===
+									  'orders'
+									? 'طلباتي'
+									: 'عناويني'
+							}
 							key={widget}
 							href={
 								widget.toLowerCase() ===

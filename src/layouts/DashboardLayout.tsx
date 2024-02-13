@@ -53,7 +53,9 @@ export default function AuthLayout() {
 				scroll={true}
 				backdrop={false}
 				placement='end'
-				className={!show && 'resizeOffcanvas'}
+				className={`arb-text ${
+					!show && 'resizeOffcanvas'
+				}`}
 			>
 				<Offcanvas.Header>
 					<Offcanvas.Title>
@@ -76,13 +78,13 @@ export default function AuthLayout() {
 						<Nav.Item>
 							<Nav.Link>
 								<Link to='/home'>
-									Back To Store
+									العودة للمتجر
 								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<hr />
 						<h5 className='text-center mb-3'>
-							Settings
+							معلومات الحساب
 						</h5>
 						{isDashboardHomePage && (
 							<Nav.Item>
@@ -90,7 +92,7 @@ export default function AuthLayout() {
 									<Link
 										to={`/dashboard/admin/${user?.profile}`}
 									>
-										Dashboard
+										لوحة التحكم
 									</Link>
 								</Nav.Link>
 							</Nav.Item>
@@ -100,14 +102,14 @@ export default function AuthLayout() {
 								<Link
 									to={`/account/profile/${user?.profile}/account-setting`}
 								>
-									Settings
+									معلومات الحساب
 								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link>
 								<Link to='/dashboard/settings/orders'>
-									Orders{' '}
+									الطلبات{' '}
 									{pendingOrders.length >
 										0 && (
 										<span>
@@ -124,28 +126,28 @@ export default function AuthLayout() {
 						<Nav.Item>
 							<Nav.Link>
 								<Link to='/dashboard/settings/categories'>
-									Categories
+									الأقسام
 								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link>
 								<Link to='/dashboard/settings/products'>
-									Products
+									المنتجات
 								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link>
 								<Link to='/dashboard/settings/banners'>
-									Banners
+									اللافتات
 								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<hr />
 						<Nav.Item>
 							<Nav.Link onClick={handleLogout}>
-								<Link to='#'>logout</Link>
+								<Link to='#'>تسجيل الخروج</Link>
 							</Nav.Link>
 						</Nav.Item>
 					</Nav>

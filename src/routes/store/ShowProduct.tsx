@@ -78,25 +78,25 @@ const ShowProduct = memo(() => {
 				<Col
 					xs={12}
 					md={6}
-					className='d-flex flex-column mt-5 mt-md-0'
+					className='d-flex flex-column mt-5 mt-md-0 '
 				>
-					<h3 className='text-muted'>
+					<h3 className='text-muted arb-text'>
 						{product?.name}
 					</h3>
 					<hr className='mb-5' />
-					<h4 className='text-muted'>
+					<h4 className='text-muted arb-text'>
 						{product?.price} JOD
 					</h4>
 					<h4
-						className={
+						className={`arb-text ${
 							parseInt(
 								product?.quantity as string,
 							) === 0
 								? 'text-danger'
 								: 'text-muted'
-						}
+						}`}
 					>
-						{product?.quantity} in stock
+						{product?.quantity} متوافر
 					</h4>
 					<hr className='mb-5' />
 
@@ -111,7 +111,7 @@ const ShowProduct = memo(() => {
 								: 'outline-success'
 						}
 						style={{ margin: '0 auto' }}
-						className='w-75'
+						className='arb-text w-75'
 						onClick={handleAddToCart}
 						disabled={
 							isProductInCart ||
@@ -122,9 +122,9 @@ const ShowProduct = memo(() => {
 					>
 						{!isProductInCart ? (
 							<span>
-								Add To Cart
+								أضف للعربة
 								<BsCart
-									className='ms-2'
+									className='me-2'
 									style={{
 										fontSize: '25px',
 									}}
@@ -132,9 +132,9 @@ const ShowProduct = memo(() => {
 							</span>
 						) : (
 							<span>
-								In Cart
+								في العربة
 								<BsCheck
-									className='ms-2'
+									className='me-2'
 									style={{
 										fontSize: '25px',
 									}}

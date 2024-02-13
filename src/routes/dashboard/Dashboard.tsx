@@ -43,14 +43,26 @@ const Dashboard = memo(() => {
 				{adminWidgets.map((widget, index) => (
 					<Col md={6} key={index}>
 						<Widget
-							widgetTitle={widget}
+							widgetTitle={
+								widget.toLowerCase() ===
+								'settings'
+									? 'معلومات الحساب'
+									: widget.toLowerCase() ===
+									  'orders'
+									? 'الطلبات'
+									: widget.toLowerCase() ===
+									  'categories'
+									? 'الأقسام'
+									: widget.toLowerCase() ===
+									  'products'
+									? 'المنتجات'
+									: 'اللافتات'
+							}
 							key={widget}
 							href={
 								widget.toLowerCase() ===
 								'settings'
-									? `/account/profile/${
-											user?.profile
-									  }/${widget.toLowerCase()}`
+									? `/account/profile/${user?.profile}/account-setting`
 									: `/dashboard/settings/${widget.toLowerCase()}`
 							}
 							badge={

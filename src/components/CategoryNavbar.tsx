@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchCategories } from '../controllers/category';
-import { BsArrowRight } from 'react-icons/bs';
+import { BsArrowLeft } from 'react-icons/bs';
 import { useEffect } from 'react';
 import '../assets/styles/CategoryNavbar.css';
 import { TCategory } from '../app/store/category';
@@ -35,7 +35,7 @@ function CategoryNavbar() {
 				<Container>
 					<Nav
 						variant='tabs'
-						className='border-0 d-none d-sm-flex'
+						className='border-0 d-none d-sm-flex arb-text'
 					>
 						{categories?.map(
 							(
@@ -62,7 +62,7 @@ function CategoryNavbar() {
 										className='text-info'
 										id='dropdown-basic'
 									>
-										more <BsArrowRight />
+										المزيد <BsArrowLeft />
 									</Dropdown.Toggle>
 									<Dropdown.Menu>
 										{categories?.map(
@@ -94,7 +94,7 @@ function CategoryNavbar() {
 
 					<Nav
 						variant='tabs'
-						className='rounded d-sm-none'
+						className='arb-text rounded d-sm-none'
 					>
 						{categories?.map(
 							(
@@ -121,7 +121,7 @@ function CategoryNavbar() {
 										className='text-info'
 										id='dropdown-basic'
 									>
-										more <BsArrowRight />
+										المزيد <BsArrowLeft />
 									</Dropdown.Toggle>
 									<Dropdown.Menu>
 										{categories?.map(
