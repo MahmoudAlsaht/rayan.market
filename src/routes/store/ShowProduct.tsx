@@ -87,7 +87,15 @@ const ShowProduct = memo(() => {
 					<h4 className='text-muted'>
 						{product?.price} JOD
 					</h4>
-					<h4 className='text-muted'>
+					<h4
+						className={
+							parseInt(
+								product?.quantity as string,
+							) === 0
+								? 'text-danger'
+								: 'text-muted'
+						}
+					>
 						{product?.quantity} in stock
 					</h4>
 					<hr className='mb-5' />
@@ -95,14 +103,22 @@ const ShowProduct = memo(() => {
 					<Button
 						size='lg'
 						variant={
-							isProductInCart
+							isProductInCart ||
+							parseInt(
+								product?.quantity as string,
+							) === 0
 								? 'success'
 								: 'outline-success'
 						}
 						style={{ margin: '0 auto' }}
 						className='w-75'
 						onClick={handleAddToCart}
-						disabled={isProductInCart}
+						disabled={
+							isProductInCart ||
+							parseInt(
+								product?.quantity as string,
+							) === 0
+						}
 					>
 						{!isProductInCart ? (
 							<span>

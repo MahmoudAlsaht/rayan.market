@@ -39,8 +39,10 @@ const cartReducers = {
 		state: TCart,
 		action: PayloadAction<TCartProduct>,
 	) => {
-		state!.products?.push(action.payload);
-		setCookies('cart', state, 30);
+		if (parseInt(action?.payload.quantity as string) > 0) {
+			state!.products?.push(action.payload);
+			setCookies('cart', state, 30);
+		}
 	},
 	updateTotalPrice: (
 		state: TCart,
