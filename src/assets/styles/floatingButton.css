@@ -1,37 +1,45 @@
-.floatingButton{
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:110px;
-	right:40px;
-	background-color:#08c;
-	text-align:center;
+.floatingButton {
+	position: fixed;
+	/* opacity: 0.9; */
+	width: 60%;
+	height: 60px;
+	bottom: 5px;
+	left: 250px;
+	background-color: #039c6cce;
+	text-align: center;
+}
+
+@media (max-width: 1000px) {
+	.floatingButton {
+		left: 200px;
+	}
+}
+
+@media (max-width: 800px) {
+	.floatingButton {
+		left: 150px;
+	}
+}
+
+@media (max-width: 550px) {
+	.floatingButton {
+		left: 80px;
+		width: 70%;
+	}
+}
+
+@media (max-width: 550px) {
+	.floatingButton {
+		left: 0;
+		width: 100%;
+	}
 }
 
 .floatingButton:hover {
-	background-color:#58c;
+	background-color: #039c6c;
 }
 
-.floatingDropDown {
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:40px;
-	right:40px;
-	background-color:#0cb;
-	text-align:center;
-}
-
-
-.floatingDropDown:hover {
-    background-color:#5cb;
-}
-
-.floatingButtonIcon{
+.floatingButtonIcon {
 	margin: 0 auto;
-    font-size: xx-large;
-}
-
-.dropdown-toggle::after {
-	display: none;
+	font-size: xx-large;
 }

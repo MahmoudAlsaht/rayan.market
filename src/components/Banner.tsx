@@ -30,7 +30,7 @@ function Banner() {
 	}, [banner?._id]);
 
 	return (
-		<div>
+		<div className='w-100'>
 			{bannerImages && bannerImages!.length < 2 ? (
 				bannerImages?.map((image) => (
 					<img
