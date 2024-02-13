@@ -1,4 +1,10 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import {
+	FormEvent,
+	memo,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TCategory } from '../../app/store/category';
 import { fetchCategories } from '../../controllers/category';
@@ -8,7 +14,7 @@ import { Table, Button, Container } from 'react-bootstrap';
 import CategorySettings from '../../components/dashboardComponents/CategorySettings';
 import { filterData } from '../../utils';
 
-function CategoriesSettings() {
+const CategoriesSettings = memo(() => {
 	const [showAddCategoryForm, setShowAddCategoryForm] =
 		useState(false);
 
@@ -91,6 +97,6 @@ function CategoriesSettings() {
 			/>
 		</>
 	);
-}
+});
 
 export default CategoriesSettings;

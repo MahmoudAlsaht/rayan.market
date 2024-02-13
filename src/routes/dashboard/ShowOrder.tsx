@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
 	fetchOrder,
@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
 import { fetchUser } from '../../controllers/user';
 
-function ShowOrder() {
+const ShowOrder = memo(() => {
 	const { orderId } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -209,6 +209,6 @@ function ShowOrder() {
 			</Container>
 		</>
 	);
-}
+});
 
 export default ShowOrder;

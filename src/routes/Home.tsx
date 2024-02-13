@@ -1,12 +1,12 @@
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { fetchProducts } from '../controllers/product';
 import ProductCard from '../components/ProductCard';
 import { Col, Row } from 'react-bootstrap';
 import { TProduct } from '../app/store/product';
 import Banner from '../components/Banner';
 
-function Home() {
+const Home = memo(() => {
 	const dispatch = useAppDispatch();
 	const products: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
@@ -37,6 +37,6 @@ function Home() {
 			</Row>
 		</div>
 	);
-}
+});
 
 export default Home;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { TCart, TCartProduct } from '../../app/store/cart';
 import '../../assets/styles/CartStyle.css';
@@ -7,7 +7,7 @@ import { checkIfProductIsAvailable } from '../../controllers/order';
 import { Link, useNavigate } from 'react-router-dom';
 import { checkEveryProductCounter } from '../../controllers/cart';
 
-function CartCheckout() {
+const CartCheckout = memo(() => {
 	const cart: TCart = useAppSelector((state) => state.cart);
 	const navigate = useNavigate();
 
@@ -71,6 +71,6 @@ function CartCheckout() {
 			)}
 		</div>
 	);
-}
+});
 
 export default CartCheckout;

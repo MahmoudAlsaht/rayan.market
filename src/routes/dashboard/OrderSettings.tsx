@@ -1,5 +1,11 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import {
+	FormEvent,
+	memo,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchOrders } from '../../controllers/order';
 import { TOrder } from '../../app/store/order';
@@ -7,7 +13,7 @@ import { Badge, Container, Nav } from 'react-bootstrap';
 import Widget from '../../components/Widget';
 import { escapeRegExp } from '../../utils';
 
-function OrderSettings() {
+const OrderSettings = memo(() => {
 	const orders: TOrder[] = useAppSelector(
 		(state) => state.orders,
 	);
@@ -127,6 +133,5 @@ function OrderSettings() {
 			))}
 		</Container>
 	);
-}
-
+});
 export default OrderSettings;

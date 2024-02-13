@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TOrder } from '../../app/store/order';
 import { fetchOrders } from '../../controllers/order';
@@ -9,7 +9,7 @@ import Widget from '../../components/Widget';
 import { Card, Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
-function OrderHistoryList() {
+const OrderHistoryList = memo(() => {
 	const { profileId } = useParams();
 	const orders: TOrder[] = useAppSelector(
 		(state) => state.orders,
@@ -55,6 +55,6 @@ function OrderHistoryList() {
 			))}
 		</Container>
 	);
-}
+});
 
 export default OrderHistoryList;

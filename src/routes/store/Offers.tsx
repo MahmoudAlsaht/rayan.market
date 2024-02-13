@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { TProduct } from '../../app/store/product';
 import { fetchOffers } from '../../controllers/product';
 import Banner from '../../components/Banner';
 import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
 
-function Offers() {
+const Offers = memo(() => {
 	const [products, setProducts] =
 		useState<(TProduct | null)[]>();
 
@@ -37,6 +37,6 @@ function Offers() {
 			</Row>
 		</div>
 	);
-}
+});
 
 export default Offers;

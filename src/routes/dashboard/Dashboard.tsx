@@ -3,12 +3,12 @@ import '../../assets/styles/Dashboard.css';
 import Widget from '../../components/Widget';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { fetchUser } from '../../controllers/user';
 import { TOrder } from '../../app/store/order';
 import { fetchOrders } from '../../controllers/order';
 
-function Dashboard() {
+const Dashboard = memo(() => {
 	const dispatch = useAppDispatch();
 
 	const user: TUser | null = useAppSelector(
@@ -64,6 +64,5 @@ function Dashboard() {
 			</Row>
 		</Container>
 	);
-}
-
+});
 export default Dashboard;

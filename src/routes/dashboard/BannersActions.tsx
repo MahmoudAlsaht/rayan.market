@@ -1,4 +1,10 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import {
+	FormEvent,
+	memo,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchBanners } from '../../controllers/banner';
 import { BsPlusLg } from 'react-icons/bs';
@@ -9,7 +15,7 @@ import { TBanner } from '../../app/store/banner';
 import { filterData } from '../../utils';
 import { DocumentData } from 'firebase/firestore';
 
-function BannersActions() {
+const BannersActions = memo(() => {
 	const [showAddBannerForm, setShowAddBannerForm] =
 		useState(false);
 	const [queryInput, setQueryInput] = useState('');
@@ -90,6 +96,6 @@ function BannersActions() {
 			/>
 		</>
 	);
-}
+});
 
 export default BannersActions;

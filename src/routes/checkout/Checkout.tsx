@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Information from '../../components/checkoutComponents/Information';
 import Payment from '../../components/checkoutComponents/Payment';
 import '../../assets/styles/CheckoutStyle.css';
 
-function Checkout() {
+const Checkout = memo(() => {
 	const [checkoutStep, setCheckoutStep] =
 		useState('information');
 
@@ -19,6 +19,6 @@ function Checkout() {
 			)}
 		</Container>
 	);
-}
+});
 
 export default Checkout;

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import {
 	TProduct,
 	TProductImage,
@@ -17,7 +17,7 @@ import {
 } from '../../app/store/cart';
 import { checkIfProductInCart } from '../../controllers/cart';
 
-function ShowProduct() {
+const ShowProduct = memo(() => {
 	const { productId } = useParams();
 	const [previewImageUrl, setPreviewImageUrl] =
 		useState<TProductImage | null>();
@@ -130,6 +130,6 @@ function ShowProduct() {
 			</Row>
 		</Container>
 	);
-}
+});
 
 export default ShowProduct;

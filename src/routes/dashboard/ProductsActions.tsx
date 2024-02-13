@@ -1,4 +1,10 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import {
+	FormEvent,
+	memo,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
 import { BsPlusLg } from 'react-icons/bs';
@@ -9,7 +15,7 @@ import { TProduct } from '../../app/store/product';
 import { filterData } from '../../utils';
 import { DocumentData } from 'firebase/firestore';
 
-function ProductsSettings() {
+const ProductsSettings = memo(() => {
 	const [showAddProductForm, setShowAddProductForm] =
 		useState(false);
 	const [queryInput, setQueryInput] = useState('');
@@ -92,6 +98,6 @@ function ProductsSettings() {
 			/>
 		</>
 	);
-}
+});
 
 export default ProductsSettings;
