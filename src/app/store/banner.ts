@@ -7,7 +7,7 @@ import {
 	updateBannersActivity,
 	destroyBanner,
 } from '../../controllers/banner';
-import { TImage } from '../auth/profile';
+import { TImage } from './product';
 
 export type TBannerImage = TImage & {
 	banner: TBanner;

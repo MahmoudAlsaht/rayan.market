@@ -4,7 +4,6 @@ import {
 	sendRequestToServer,
 	setCookies,
 } from '../utils';
-import { uploadImage } from '../firebase/firestore/uploadFile';
 
 export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
@@ -59,38 +58,6 @@ export const updateUserPassword = async (data: any) => {
 		throw new Error(e.message);
 	}
 };
-
-export const updateProfileImage = createAsyncThunk(
-	'profile/updateProfileImage',
-	async (options: {
-		imageFile: File | null;
-		password: string;
-		profileId: string;
-	}) => {
-		try {
-			if (!isAuthenticated())
-				throw new Error('You Are Not Authorized');
-			const { imageFile, password, profileId } = options;
-
-			const imageURL = await uploadImage(
-				imageFile,
-				profileId as string,
-				'profilesImages',
-			);
-
-			console.log(imageURL);
-			const res = await sendRequestToServer(
-				'POST',
-				`account/profile/${profileId}/upload-profile-image`,
-				{ imageURL, password },
-			);
-
-			return res;
-		} catch (e: any) {
-			throw new Error(e.message);
-		}
-	},
-);
 
 export const destroyUser = createAsyncThunk(
 	'profile/destroyUser',

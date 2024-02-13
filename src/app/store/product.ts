@@ -6,8 +6,14 @@ import {
 	updateProduct,
 	destroyProduct,
 } from '../../controllers/product';
-import { TImage } from '../auth/profile';
 import { TCategory } from './category';
+
+export type TImage = {
+	_id: string;
+	filename: string;
+	path: string;
+	imageType: string;
+};
 
 export type TProductImage = TImage & {
 	product: TProduct;

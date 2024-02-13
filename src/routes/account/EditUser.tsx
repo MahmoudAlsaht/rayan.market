@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Container } from 'react-bootstrap';
-import UploadImageForm from '../../components/forms/UploadImageForm';
 import UpdatePasswordForm from '../../components/forms/UpdatePasswordForm';
 import UpdateUserInfoForm from '../../components/forms/UpdateUserInfoForm';
 import DeleteUser from '../../components/forms/DeleteUser';
@@ -25,12 +24,6 @@ function EditUser() {
 
 	return (
 		<Container className='bg-white mt-2 p-5 border rounded shadow'>
-			<UploadImageForm
-				profile={profile}
-				isLoading={isLoading}
-				setIsLoading={setIsLoading}
-			/>
-
 			<UpdateUserInfoForm
 				user={profile?.user}
 				isLoading={isLoading}

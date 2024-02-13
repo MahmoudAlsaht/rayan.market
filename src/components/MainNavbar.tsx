@@ -15,8 +15,6 @@ import { TUser } from '../app/auth/auth';
 import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import '../assets/styles/MainNavbar.css';
-import { TProfile } from '../app/auth/profile';
-import { fetchProfile } from '../controllers/profile';
 
 function MainNavbar() {
 	const [show, setShow] = useState(false);
@@ -29,16 +27,11 @@ function MainNavbar() {
 		(state) => state.user,
 	);
 
-	const profile: TProfile | null = useAppSelector(
-		(state) => state.profile,
-	);
-
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchProfile(user?.profile as string));
-	}, [dispatch, user?.profile]);
+	}, [dispatch]);
 
 	const handleLogout = async () => {
 		await dispatch(logout());
@@ -98,12 +91,7 @@ function MainNavbar() {
 											className='rounded-circle'
 											width={30}
 											height={30}
-											src={
-												profile
-													?.profileImage
-													?.path ||
-												defaultAvatar
-											}
+											src={defaultAvatar}
 										/>
 									}
 									id='collapsible-nav-dropdown'

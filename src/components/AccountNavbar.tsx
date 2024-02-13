@@ -13,8 +13,6 @@ import { BsJustify } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
-import { TProfile } from '../app/auth/profile';
-import { fetchProfile } from '../controllers/profile';
 
 function AccountNavbar() {
 	const [show, setShow] = useState(false);
@@ -27,10 +25,6 @@ function AccountNavbar() {
 		(state) => state.user,
 	);
 
-	const profile: TProfile | null = useAppSelector(
-		(state) => state.profile,
-	);
-
 	const isAccountSettingPage =
 		window.location.pathname.includes('account-setting');
 
@@ -41,7 +35,6 @@ function AccountNavbar() {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchProfile(user?.profile));
 	}, [dispatch, user?.profile]);
 
 	const handleLogout = async () => {
@@ -82,11 +75,7 @@ function AccountNavbar() {
 									className='rounded-circle'
 									width={30}
 									height={30}
-									src={
-										profile?.profileImage
-											?.path ||
-										defaultAvatar
-									}
+									src={defaultAvatar}
 								/>
 							}
 							id='collapsible-nav-dropdown'
