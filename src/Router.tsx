@@ -30,6 +30,7 @@ import LandingPage from './routes/LandingPage';
 import BannerSettings from './routes/dashboard/BannersActions';
 import Offers from './routes/store/Offers';
 import { Container } from 'react-bootstrap';
+import CheckoutLayout from './layouts/CheckoutLayout';
 
 export const Router = createBrowserRouter([
 	{
@@ -42,6 +43,11 @@ export const Router = createBrowserRouter([
 					{ path: 'home', element: <Home /> },
 					{ path: 'offers', element: <Offers /> },
 					{ path: 'about', element: <h1>About</h1> },
+				],
+			},
+			{
+				element: <CheckoutLayout />,
+				children: [
 					{ path: 'cart', element: <CartCheckout /> },
 					{
 						path: 'checkout',
