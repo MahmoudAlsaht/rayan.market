@@ -14,7 +14,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchProducts } from '../controllers/product';
 import { filterData } from '../utils';
-import { Link } from 'react-router-dom';
 
 function FilterProducts() {
 	const [showSearchResult, setShowSearchResult] =
@@ -48,7 +47,7 @@ function FilterProducts() {
 	}, [dispatch, queryInput]);
 
 	return (
-		<div className='d-flex justify-content-center mb-2'>
+		<div className='w-100 bg-white d-flex justify-content-center'>
 			<Dropdown show={showSearchResult}>
 				<Dropdown.Toggle
 					variant='none'
@@ -64,13 +63,24 @@ function FilterProducts() {
 				</Dropdown.Toggle>
 				<Dropdown.Menu className='w-100'>
 					{filteredProducts?.map((product) => (
-						<Link
-							to={`/store/products/${product?._id}`}
+						<Dropdown.Item
+							href={`/store/products/${product?._id}`}
+							key={product?._id}
 						>
-							<Dropdown.Item key={product?._id}>
-								{product?.name}
-							</Dropdown.Item>
-						</Link>
+							<img
+								width='50'
+								height='50'
+								src={
+									(product?.productImages &&
+										product?.productImages[0]
+											?.path) ||
+									''
+								}
+								alt={`${product?.name}'s image`}
+								className='mx-2'
+							/>
+							{product?.name}
+						</Dropdown.Item>
 					))}
 				</Dropdown.Menu>
 			</Dropdown>

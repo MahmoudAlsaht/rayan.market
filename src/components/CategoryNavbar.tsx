@@ -24,6 +24,7 @@ function CategoryNavbar() {
 
 	return (
 		<>
+			<FilterProducts />
 			<Navbar
 				className='bg-white'
 				sticky='top'
@@ -151,7 +152,6 @@ function CategoryNavbar() {
 					</Nav>
 				</Container>
 			</Navbar>
-			<FilterProducts />
 		</>
 	);
 }
