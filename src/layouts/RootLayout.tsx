@@ -21,10 +21,7 @@ function RootLayout() {
 	return (
 		<>
 			<BrandNavbar />
-			<MainNavbar
-				setIsDropDownOpen={setShowDropDown}
-				isDropDownOpened={showDropDown}
-			/>
+			<MainNavbar setIsDropDownOpen={setShowDropDown} />
 			<CategoryNavbar isDropDownOpened={showDropDown} />
 			<Outlet />
 

@@ -20,10 +20,8 @@ import { fetchProfile } from '../controllers/profile';
 
 function MainNavbar({
 	setIsDropDownOpen,
-	isDropDownOpened,
 }: {
-	setIsDropDownOpen: (status: boolean) => void;
-	isDropDownOpened: boolean;
+	setIsDropDownOpen?: (status: boolean) => void;
 }) {
 	const [show, setShow] = useState(false);
 
@@ -42,7 +40,7 @@ function MainNavbar({
 	const navigate = useNavigate();
 
 	const handleDropdownClick = () => {
-		setIsDropDownOpen(!isDropDownOpened);
+		if (setIsDropDownOpen) setIsDropDownOpen(true);
 	};
 
 	useEffect(() => {
