@@ -11,7 +11,6 @@ import { useAppSelector } from '../app/hooks';
 
 function RootLayout() {
 	const [show, setShow] = useState(false);
-	const [showDropDown, setShowDropDown] = useState(false);
 	const cart: TCart | null = useAppSelector(
 		(state) => state.cart,
 	);
@@ -21,8 +20,8 @@ function RootLayout() {
 	return (
 		<>
 			<BrandNavbar />
-			<MainNavbar setIsDropDownOpen={setShowDropDown} />
-			<CategoryNavbar isDropDownOpened={showDropDown} />
+			<MainNavbar />
+			<CategoryNavbar />
 			<Outlet />
 
 			<div>

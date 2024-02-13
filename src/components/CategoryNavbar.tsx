@@ -12,11 +12,7 @@ import '../assets/styles/CategoryNavbar.css';
 import { TCategory } from '../app/store/category';
 import FilterProducts from './FilterProducts';
 
-function CategoryNavbar({
-	isDropDownOpened,
-}: {
-	isDropDownOpened: boolean;
-}) {
+function CategoryNavbar() {
 	const dispatch = useAppDispatch();
 	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
@@ -32,7 +28,7 @@ function CategoryNavbar({
 				className='bg-white'
 				sticky='top'
 				style={{
-					zIndex: isDropDownOpened ? '-1' : 'unset',
+					zIndex: 1,
 				}}
 			>
 				<Container>
