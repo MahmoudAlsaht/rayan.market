@@ -11,14 +11,12 @@ import { useEffect } from 'react';
 import '../assets/styles/CategoryNavbar.css';
 import { TCategory } from '../app/store/category';
 import FilterProducts from './FilterProducts';
-import { Link, useNavigate } from 'react-router-dom';
 
 function CategoryNavbar() {
 	const dispatch = useAppDispatch();
 	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
 	);
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		dispatch(fetchCategories());
@@ -45,17 +43,12 @@ function CategoryNavbar() {
 									<Nav.Item
 										key={category?._id}
 									>
-										<Link
+										<Nav.Link
 											className='btn'
-											to='#'
-											onClick={() =>
-												navigate(
-													`/categories/${category?._id}`,
-												)
-											}
+											href={`/categories/${category?._id}`}
 										>
 											{category?.name}
-										</Link>
+										</Nav.Link>
 									</Nav.Item>
 								),
 						)}
@@ -80,19 +73,14 @@ function CategoryNavbar() {
 															category?._id
 														}
 													>
-														<Link
-															to='#'
-															onClick={() =>
-																navigate(
-																	`/categories/${category?._id}`,
-																)
-															}
+														<Nav.Link
+															href={`/categories/${category?._id}`}
 															className='btn'
 														>
 															{
 																category?.name
 															}
-														</Link>
+														</Nav.Link>
 													</Nav.Item>
 												),
 										)}
@@ -114,17 +102,12 @@ function CategoryNavbar() {
 									<Nav.Item
 										key={category?._id}
 									>
-										<Link
+										<Nav.Link
 											className='btn'
-											to='#'
-											onClick={() =>
-												navigate(
-													`/categories/${category?._id}`,
-												)
-											}
+											href={`/categories/${category?._id}`}
 										>
 											{category?.name}
-										</Link>
+										</Nav.Link>
 									</Nav.Item>
 								),
 						)}
@@ -149,19 +132,14 @@ function CategoryNavbar() {
 															category?._id
 														}
 													>
-														<Link
+														<Nav.Link
 															className='btn'
-															to='#'
-															onClick={() =>
-																navigate(
-																	`/categories/${category?._id}`,
-																)
-															}
+															href={`/categories/${category?._id}`}
 														>
 															{
 																category?.name
 															}
-														</Link>
+														</Nav.Link>
 													</Nav.Item>
 												),
 										)}
