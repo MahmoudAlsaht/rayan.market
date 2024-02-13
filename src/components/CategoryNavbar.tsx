@@ -27,7 +27,7 @@ function CategoryNavbar() {
 			<Navbar
 				className='bg-white'
 				sticky='top'
-				style={{ margin: '0 auto' }}
+				style={{ margin: '0 auto', zIndex: -1 }}
 			>
 				<Container>
 					<Nav

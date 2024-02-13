@@ -109,7 +109,6 @@ function MainNavbar() {
 										<NavDropdown.Item>
 											<Link
 												to={`/dashboard/admin/${user?.profile}`}
-												className='text-dark'
 											>
 												Dashboard
 											</Link>
@@ -118,7 +117,6 @@ function MainNavbar() {
 										<NavDropdown.Item>
 											<Link
 												to={`/account/profile/${user?._id}`}
-												className='text-dark'
 											>
 												Profile
 											</Link>
@@ -144,19 +142,13 @@ function MainNavbar() {
 									id='collapsible-nav-dropdown'
 								>
 									<NavDropdown.Item>
-										<Link
-											to='/auth/signin'
-											className='text-dark'
-										>
+										<Link to='/auth/signin'>
 											Signin
 										</Link>
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
 									<NavDropdown.Item>
-										<Link
-											to='/auth/signup'
-											className='text-dark'
-										>
+										<Link to='/auth/signup'>
 											Signup
 										</Link>
 									</NavDropdown.Item>
