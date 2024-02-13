@@ -14,6 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchProducts } from '../controllers/product';
 import { filterData } from '../utils';
+import { Link } from 'react-router-dom';
 
 function FilterProducts() {
 	const [showSearchResult, setShowSearchResult] =
@@ -63,12 +64,13 @@ function FilterProducts() {
 				</Dropdown.Toggle>
 				<Dropdown.Menu className='w-100'>
 					{filteredProducts?.map((product) => (
-						<Dropdown.Item
-							key={product?._id}
-							href={`/store/products/${product?._id}`}
+						<Link
+							to={`/store/products/${product?._id}`}
 						>
-							{product?.name}
-						</Dropdown.Item>
+							<Dropdown.Item key={product?._id}>
+								{product?.name}
+							</Dropdown.Item>
+						</Link>
 					))}
 				</Dropdown.Menu>
 			</Dropdown>

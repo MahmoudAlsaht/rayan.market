@@ -7,6 +7,7 @@ import {
 } from '../../controllers/contact';
 import AnonymousUserForm from '../forms/AnonymousUserForm';
 import ChooseContactAddress from './ChooseContactAddress';
+import { Link } from 'react-router-dom';
 
 function ContactInformation({
 	handleStep,
@@ -33,14 +34,15 @@ function ContactInformation({
 	return (
 		<Col xs={12} md={6} className='checkoutInformation'>
 			<h1 className='logo mb-5'>
-				<a href='/'>mStore</a>
+				<Link to='/home' className='text-info'>
+					mStore
+				</Link>
 			</h1>
 			<Breadcrumb className='mb-5'>
-				<Breadcrumb.Item
-					className='text-info'
-					href='/cart'
-				>
-					Cart
+				<Breadcrumb.Item>
+					<Link to='/cart' className='text-dark'>
+						Cart
+					</Link>
 				</Breadcrumb.Item>
 				<Breadcrumb.Item
 					className='text-info'
@@ -56,7 +58,7 @@ function ContactInformation({
 				<div>
 					<small>
 						Do You want to sign in?{' '}
-						<a href='/auth/signin'>Signin</a>
+						<Link to='/auth/signin'>Signin</Link>
 					</small>
 					<h3 className='m-3'>Contact</h3>
 					<AnonymousUserForm

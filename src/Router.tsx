@@ -31,6 +31,7 @@ import BannerSettings from './routes/dashboard/BannersActions';
 import Offers from './routes/store/Offers';
 import { Container } from 'react-bootstrap';
 import CheckoutLayout from './layouts/CheckoutLayout';
+import Category from './routes/store/Category';
 
 export const Router = createBrowserRouter([
 	{
@@ -38,9 +39,14 @@ export const Router = createBrowserRouter([
 		children: [
 			{ path: '/', element: <LandingPage /> },
 			{
+				path: '/',
 				element: <RootLayout />,
 				children: [
 					{ path: 'home', element: <Home /> },
+					{
+						path: 'categories/:categoryId',
+						element: <Category />,
+					},
 					{ path: 'offers', element: <Offers /> },
 					{ path: 'about', element: <h1>About</h1> },
 				],
@@ -152,7 +158,10 @@ export const Router = createBrowserRouter([
 function Wrapper() {
 	return (
 		<Provider store={store}>
-			<Container fluid style={{ maxWidth: '1478px' }}>
+			<Container
+				fluid
+				style={{ maxWidth: '1478px', margin: '0' }}
+			>
 				<Outlet />
 				<SpeedInsights />
 			</Container>

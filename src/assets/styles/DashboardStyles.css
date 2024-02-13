@@ -27,12 +27,12 @@
 	transition: all 0.5s;
 }
 
-.nav-link {
-	color: #67bbeb;
+.nav .nav-item .nav-link a {
+	color: #67d1eb;
 	text-decoration: none;
 }
 
-.nav-link:hover {
+a:hover {
 	color: #f7f7f7;
 	text-decoration: none;
 }

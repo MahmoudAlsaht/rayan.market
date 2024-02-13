@@ -4,8 +4,7 @@
 
 #mainNavbar .navLink {
 	color: #5ab6e1;
-	padding-left: 1rem;
-	padding-right: 1rem;
+	padding: 0.7rem;
 	border-radius: 0.3rem;
 }
 

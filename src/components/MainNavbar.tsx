@@ -7,7 +7,7 @@ import {
 	Button,
 	Offcanvas,
 } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import defaultAvatar from '../default_avatar.png';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logout } from '../controllers/user';
@@ -58,28 +58,33 @@ function MainNavbar() {
 				expand='md'
 				className='bg-white d-none d-md-block'
 				id='mainNavbar'
-				sticky='top'
 			>
 				<Container>
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='me-auto'>
-							<Nav.Link
-								href='/home'
-								className='navLink'
-							>
-								Store
+							<Nav.Link>
+								<Link
+									to='/home'
+									className='navLink'
+								>
+									Store
+								</Link>
 							</Nav.Link>
-							<Nav.Link
-								href='/offers'
-								className='navLink'
-							>
-								Offers
+							<Nav.Link>
+								<Link
+									to='/offers'
+									className='navLink'
+								>
+									Offers
+								</Link>
 							</Nav.Link>
-							<Nav.Link
-								href='/about'
-								className='navLink'
-							>
-								About
+							<Nav.Link>
+								<Link
+									to='/about'
+									className='navLink'
+								>
+									About
+								</Link>
 							</Nav.Link>
 						</Nav>
 						<Nav className='ms-auto'>
@@ -101,16 +106,22 @@ function MainNavbar() {
 									id='collapsible-nav-dropdown'
 								>
 									{user?.isAdmin ? (
-										<NavDropdown.Item
-											href={`/dashboard/admin/${user?.profile}`}
-										>
-											Dashboard
+										<NavDropdown.Item>
+											<Link
+												to={`/dashboard/admin/${user?.profile}`}
+												className='text-dark'
+											>
+												Dashboard
+											</Link>
 										</NavDropdown.Item>
 									) : (
-										<NavDropdown.Item
-											href={`/account/profile/${user?._id}`}
-										>
-											Profile
+										<NavDropdown.Item>
+											<Link
+												to={`/account/profile/${user?._id}`}
+												className='text-dark'
+											>
+												Profile
+											</Link>
 										</NavDropdown.Item>
 									)}
 
@@ -132,12 +143,22 @@ function MainNavbar() {
 									}
 									id='collapsible-nav-dropdown'
 								>
-									<NavDropdown.Item href='/auth/signin'>
-										Signin
+									<NavDropdown.Item>
+										<Link
+											to='/auth/signin'
+											className='text-dark'
+										>
+											Signin
+										</Link>
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
-									<NavDropdown.Item href='/auth/signup'>
-										Signup
+									<NavDropdown.Item>
+										<Link
+											to='/auth/signup'
+											className='text-dark'
+										>
+											Signup
+										</Link>
 									</NavDropdown.Item>
 								</NavDropdown>
 							)}
@@ -149,7 +170,6 @@ function MainNavbar() {
 			<Navbar
 				collapseOnSelect
 				className='bg-white d-md-none'
-				sticky='top'
 			>
 				<Nav className='ms-auto'>
 					<Button
@@ -177,33 +197,59 @@ function MainNavbar() {
 				<Offcanvas.Header closeButton />
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
-						<Nav.Link href='/home'>Store</Nav.Link>
-						<Nav.Link href='/offers'>
-							Offers
+						<Nav.Link onClick={handleClick}>
+							<Link
+								className='text-info'
+								to='/home'
+							>
+								Store
+							</Link>
 						</Nav.Link>
-						<Nav.Link href='/about'>About</Nav.Link>
+						<Nav.Link onClick={handleClick}>
+							<Link
+								className='text-info'
+								to='/offers'
+							>
+								Offers
+							</Link>
+						</Nav.Link>
+						<Nav.Link onClick={handleClick}>
+							<Link
+								className='text-info'
+								to='/about'
+							>
+								About
+							</Link>
+						</Nav.Link>
 						<hr />
 
 						{user?.username !== 'anonymous' ? (
 							<div>
 								{user?.isAdmin ? (
 									<Nav.Link
-										href='/dashboard'
 										onClick={handleClick}
 									>
-										Dashboard
+										<Link
+											to={`/dashboard/admin/${user?.profile}`}
+											className='text-info'
+										>
+											Dashboard
+										</Link>
 									</Nav.Link>
 								) : (
 									<Nav.Link
-										href={`/account/profile/${user?.profile}`}
 										onClick={handleClick}
 									>
-										Profile
+										<Link
+											to={`/account/profile/${user?.profile}`}
+											className='text-info'
+										>
+											Profile
+										</Link>
 									</Nav.Link>
 								)}
 
 								<Nav.Link
-									href='#'
 									onClick={handleLogout}
 									className='mb-2 text-primary'
 								>
@@ -212,17 +258,21 @@ function MainNavbar() {
 							</div>
 						) : (
 							<div>
-								<Nav.Link
-									href='/auth/signin'
-									onClick={handleClick}
-								>
-									Signin
+								<Nav.Link onClick={handleClick}>
+									<Link
+										to='/auth/signin'
+										className='text-info'
+									>
+										Signin
+									</Link>
 								</Nav.Link>
-								<Nav.Link
-									href='/auth/signup'
-									onClick={handleClick}
-								>
-									Signup
+								<Nav.Link onClick={handleClick}>
+									<Link
+										to='/auth/signup'
+										className='text-info'
+									>
+										Signup
+									</Link>
 								</Nav.Link>
 							</div>
 						)}

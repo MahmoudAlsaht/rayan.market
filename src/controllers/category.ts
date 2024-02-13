@@ -16,6 +16,20 @@ export const fetchCategories = createAsyncThunk(
 	},
 );
 
+export const fetchCategory = async (categoryId: string) => {
+	try {
+		const categories: TCategory | null =
+			await sendRequestToServer(
+				'GET',
+				`category/${categoryId}`,
+			);
+
+		return categories;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
+
 export const createCategory = createAsyncThunk(
 	'categories/postCategory',
 	async (name: string) => {

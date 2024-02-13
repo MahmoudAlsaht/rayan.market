@@ -4,7 +4,7 @@ import { TCart, TCartProduct } from '../../app/store/cart';
 import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../../components/CartProductCard';
 import { checkIfProductIsAvailable } from '../../controllers/order';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { checkEveryProductCounter } from '../../controllers/cart';
 
 function CartCheckout() {
@@ -41,8 +41,8 @@ function CartCheckout() {
 				/>
 			))}
 			<div className='totalPrice text-muted'>
-				<a
-					href={
+				<Link
+					to={
 						isCountersAboveZero && isAvailable
 							? '/checkout'
 							: '#'
@@ -60,7 +60,7 @@ function CartCheckout() {
 					}}
 				>
 					Add Your Info
-				</a>
+				</Link>
 			</div>
 
 			{!isAvailable && (

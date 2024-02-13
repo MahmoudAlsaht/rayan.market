@@ -78,7 +78,7 @@ function ProductCard({ product }: ProductCardProps) {
 						}
 					/>
 					<Card.Title className='ms-3 mt-1'>
-						{product?.name.substring(0, 45)}
+						{product?.name?.substring(0, 45)}
 					</Card.Title>
 				</Link>
 				<Card.Header>

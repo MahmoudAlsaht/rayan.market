@@ -1,4 +1,8 @@
-.navbar .nav-item .nav-link:hover {
+.navbar .nav-item a {
+	color: #3bd6eb;
+}
+
+.navbar .nav-item a:hover {
 	color: black;
 }
 

@@ -2,6 +2,7 @@ import '../assets/styles/LandingPage.css';
 import { Col, Image, Row } from 'react-bootstrap';
 import coverImg from '../mStoreCoverImg.jpeg';
 import { BsArrowRight } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 export default function LandingPage() {
 	return (
@@ -20,9 +21,9 @@ export default function LandingPage() {
 					quia quod laudantium praesentium nihil est
 					accusamus cupiditate hic?
 				</p>
-				<a href='/home'>
+				<Link to='/home'>
 					Take a look <BsArrowRight />
-				</a>
+				</Link>
 			</Col>
 			<Col className='logoSection d-flex flex-column align-items-center justify-content-center'>
 				<Image

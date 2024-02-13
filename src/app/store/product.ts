@@ -5,7 +5,6 @@ import {
 	createProduct,
 	updateProduct,
 	destroyProduct,
-	fetchCategoryProducts,
 } from '../../controllers/product';
 import { TImage } from '../auth/profile';
 import { TCategory } from './category';
@@ -62,13 +61,6 @@ export const ProductsSlice = createSlice({
 	extraReducers(builder) {
 		builder.addCase(
 			fetchProducts.fulfilled,
-			(state, action) => {
-				state = action.payload;
-				return state;
-			},
-		);
-		builder.addCase(
-			fetchCategoryProducts.fulfilled,
 			(state, action) => {
 				state = action.payload;
 				return state;

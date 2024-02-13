@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ChangeEvent, useState } from 'react';
 import PaymentButton from './PaymentButton';
 import { createAnOrder } from '../../controllers/order';
+import { Link } from 'react-router-dom';
 
 function Payment({
 	handleStep,
@@ -42,17 +43,17 @@ function Payment({
 	return (
 		<Container className='mt-5 d-flex flex-column align-items-center'>
 			<Breadcrumb>
-				<Breadcrumb.Item
-					className='text-info'
-					href='/cart'
-				>
-					Cart
+				<Breadcrumb.Item>
+					<Link to='/cart' className='text-dark'>
+						Cart
+					</Link>
 				</Breadcrumb.Item>
 				<Breadcrumb.Item
-					className='text-info'
 					onClick={() => handleStep('information')}
 				>
-					Contact &amp; shipping
+					<Link to='#' className='text-dark'>
+						Contact &amp; shipping
+					</Link>
 				</Breadcrumb.Item>
 				<Breadcrumb.Item
 					className='text-info'

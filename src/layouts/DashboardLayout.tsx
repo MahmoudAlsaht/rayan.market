@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Offcanvas, Nav } from 'react-bootstrap';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import '../assets/styles/DashboardStyles.css';
 import {
 	BsArrowLeftCircle,
@@ -74,8 +74,10 @@ export default function AuthLayout() {
 				<Offcanvas.Body>
 					<Nav className='flex-column arb-text'>
 						<Nav.Item>
-							<Nav.Link href='/home'>
-								Back To Store
+							<Nav.Link>
+								<Link to='/home'>
+									Back To Store
+								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<hr />
@@ -84,49 +86,66 @@ export default function AuthLayout() {
 						</h5>
 						{isDashboardHomePage && (
 							<Nav.Item>
-								<Nav.Link
-									href={`/dashboard/admin/${user?.profile}`}
-								>
-									Dashboard
+								<Nav.Link>
+									<Link
+										to={`/dashboard/admin/${user?.profile}`}
+									>
+										Dashboard
+									</Link>
 								</Nav.Link>
 							</Nav.Item>
 						)}
 						<Nav.Item>
-							<Nav.Link
-								href={`/account/profile/${user?.profile}/account-setting`}
-							>
-								Settings
+							<Nav.Link>
+								<Link
+									to={`/account/profile/${user?.profile}/account-setting`}
+								>
+									Settings
+								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/dashboard/settings/orders'>
-								Orders{' '}
-								{pendingOrders.length > 0 && (
-									<span>
-										({pendingOrders?.length})
-									</span>
-								)}
+							<Nav.Link>
+								<Link to='/dashboard/settings/orders'>
+									Orders{' '}
+									{pendingOrders.length >
+										0 && (
+										<span>
+											(
+											{
+												pendingOrders?.length
+											}
+											)
+										</span>
+									)}
+								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/dashboard/settings/categories'>
-								Categories
+							<Nav.Link>
+								<Link to='/dashboard/settings/categories'>
+									Categories
+								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/dashboard/settings/products'>
-								Products
+							<Nav.Link>
+								<Link to='/dashboard/settings/products'>
+									Products
+								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link href='/dashboard/settings/banners'>
-								Banners
+							<Nav.Link>
+								<Link to='/dashboard/settings/banners'>
+									Banners
+								</Link>
 							</Nav.Link>
 						</Nav.Item>
 						<hr />
 						<Nav.Item>
 							<Nav.Link onClick={handleLogout}>
-								logout
+								<Link to='#'>logout</Link>
 							</Nav.Link>
 						</Nav.Item>
 					</Nav>

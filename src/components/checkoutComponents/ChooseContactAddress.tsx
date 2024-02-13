@@ -6,6 +6,7 @@ import LoadingButton from '../LoadingButton';
 import { useAppDispatch } from '../../app/hooks';
 import { addUserAndContactToCart } from '../../app/store/cart';
 import { TContactInfo } from '../../controllers/contact';
+import { Link } from 'react-router-dom';
 
 type ChooseContactAddressProps = {
 	contacts: (TContactInfo | null)[];
@@ -77,11 +78,12 @@ function ChooseContactAddress({
 								/>
 							</Card.Body>
 							<Card.Footer>
-								<a
-									href={`/account/profile/${profile?._id}/contact-info/${contact?._id}`}
+								<Link
+									className='text-info'
+									to={`/account/profile/${profile?._id}/contact-info/${contact?._id}`}
 								>
 									Edit
-								</a>
+								</Link>
 							</Card.Footer>
 						</Card>
 					))}
@@ -89,8 +91,9 @@ function ChooseContactAddress({
 				<Col xs={12}>
 					<Card className='text-center'>
 						<Card.Body>
-							<a
-								href={`/account/profile/${profile?._id}/contact-info/new-contact`}
+							<Link
+								className='text-info'
+								to={`/account/profile/${profile?._id}/contact-info/new-contact`}
 							>
 								<BsPlus
 									style={{
@@ -98,7 +101,7 @@ function ChooseContactAddress({
 										cursor: 'pointer',
 									}}
 								/>
-							</a>
+							</Link>
 						</Card.Body>
 					</Card>
 				</Col>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-	Container,
 	Nav,
 	Navbar,
 	NavDropdown,
@@ -8,7 +7,7 @@ import {
 	Button,
 	Offcanvas,
 } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import defaultAvatar from '../default_avatar.png';
 import { BsJustify } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -62,91 +61,99 @@ function AccountNavbar() {
 				collapseOnSelect
 				expand='md'
 				className='shadow mb-3 d-none d-md-block'
-				sticky='top'
 				style={{ backgroundColor: '#334455' }}
 			>
-				<Container>
-					<Navbar.Toggle aria-controls='responsive-navbar-nav' />
-					<Navbar.Collapse id='responsive-navbar-nav'>
-						<Nav className='me-auto'>
-							<Nav.Link
+				<Navbar.Toggle aria-controls='responsive-navbar-nav' />
+				<Navbar.Collapse id='responsive-navbar-nav'>
+					<Nav className='me-auto'>
+						<Nav.Link>
+							<Link
+								to='/home'
 								className='text-white'
-								href='/home'
 							>
 								Store
-							</Nav.Link>
-						</Nav>
-						<Nav className='ms-auto'>
-							<NavDropdown
-								title={
-									<Image
-										className='rounded-circle'
-										width={30}
-										height={30}
-										src={
-											profile?.profileImage
-												?.path ||
-											defaultAvatar
-										}
-									/>
-								}
-								id='collapsible-nav-dropdown'
-							>
-								{!isAccountSettingPage && (
-									<NavDropdown.Item
-										href={`/account/profile/${user?.profile}/account-setting`}
+							</Link>
+						</Nav.Link>
+					</Nav>
+					<Nav className='ms-auto'>
+						<NavDropdown
+							title={
+								<Image
+									className='rounded-circle'
+									width={30}
+									height={30}
+									src={
+										profile?.profileImage
+											?.path ||
+										defaultAvatar
+									}
+								/>
+							}
+							id='collapsible-nav-dropdown'
+						>
+							{!isAccountSettingPage && (
+								<NavDropdown.Item>
+									<Link
+										to={`/account/profile/${user?.profile}/account-setting`}
 									>
 										Settings
-									</NavDropdown.Item>
-								)}
-								{!isOrdersPage && (
-									<NavDropdown.Item
-										href={`/account/profile/${user?.profile}/orders-history`}
+									</Link>
+								</NavDropdown.Item>
+							)}
+							{!isOrdersPage && (
+								<NavDropdown.Item>
+									<Link
+										to={`/account/profile/${user?.profile}/orders-history`}
 									>
 										Orders
-									</NavDropdown.Item>
-								)}
-								{(isAccountSettingPage ||
-									isOrdersPage) &&
-								user?.isAdmin ? (
-									<NavDropdown.Item
-										href={`/dashboard/admin/${user?.profile}`}
+									</Link>
+								</NavDropdown.Item>
+							)}
+							{(isAccountSettingPage ||
+								isOrdersPage) &&
+							user?.isAdmin ? (
+								<NavDropdown.Item>
+									<Link
+										to={`/dashboard/admin/${user?.profile}`}
 									>
 										Dashboard
-									</NavDropdown.Item>
-								) : (
-									(isAccountSettingPage ||
-										isOrdersPage) && (
-										<NavDropdown.Item
-											href={`/account/profile/${user?.profile}`}
+									</Link>
+								</NavDropdown.Item>
+							) : (
+								(isAccountSettingPage ||
+									isOrdersPage) && (
+									<NavDropdown.Item>
+										<Link
+											to={`/account/profile/${user?.profile}`}
 										>
 											Profile
-										</NavDropdown.Item>
-									)
-								)}
-								{!user?.isAdmin && (
-									<NavDropdown.Item
-										href={`/account/profile/${user?.profile}/contact-info`}
+										</Link>
+									</NavDropdown.Item>
+								)
+							)}
+							{!user?.isAdmin && (
+								<NavDropdown.Item>
+									<Link
+										to={`/account/profile/${user?.profile}/contact-info`}
 									>
 										Contact Info
-									</NavDropdown.Item>
-								)}
-								<NavDropdown.Divider />
-								<NavDropdown.Item
-									onClick={handleLogout}
-								>
-									Logout
+									</Link>
 								</NavDropdown.Item>
-							</NavDropdown>
-						</Nav>
-					</Navbar.Collapse>
-				</Container>
+							)}
+							<NavDropdown.Divider />
+							<NavDropdown.Item
+								onClick={handleLogout}
+							>
+								Logout
+							</NavDropdown.Item>
+						</NavDropdown>
+					</Nav>
+				</Navbar.Collapse>
 			</Navbar>
 
 			<Navbar
 				collapseOnSelect
 				className='bg-none mb-3 d-md-none'
-				sticky='top'
 			>
 				<Nav className='ms-auto'>
 					<Button
@@ -176,63 +183,72 @@ function AccountNavbar() {
 				<Offcanvas.Header closeButton />
 				<Offcanvas.Body>
 					<Nav className='flex-column justify-content-center'>
-						<Nav.Link
-							className='text-white'
-							href='/home'
-						>
-							Store
+						<Nav.Link>
+							<Link
+								to='/home'
+								className='text-white'
+							>
+								Store
+							</Link>
 						</Nav.Link>
 						<hr />
 
 						<div>
 							{!isAccountSettingPage && (
-								<Nav.Link
-									href={`/account/profile/${user?.profile}/account-setting`}
-									onClick={handleClick}
-									className='text-white'
-								>
-									Settings
+								<Nav.Link onClick={handleClick}>
+									<Link
+										className='text-white'
+										to={`/account/profile/${user?.profile}/account-setting`}
+									>
+										Settings
+									</Link>
 								</Nav.Link>
 							)}
 							{!isOrdersPage && (
-								<Nav.Link
-									href={`/account/profile/${user?.profile}/orders-history`}
-									onClick={handleClick}
-									className='text-white'
-								>
-									Orders
+								<Nav.Link onClick={handleClick}>
+									<Link
+										className='text-white'
+										to={`/account/profile/${user?.profile}/orders-history`}
+									>
+										Orders
+									</Link>
 								</Nav.Link>
 							)}
 							{(isAccountSettingPage ||
 								isOrdersPage) &&
 							user?.isAdmin ? (
-								<Nav.Link
-									href={`/dashboard/admin/${user?.profile}`}
-									onClick={handleClick}
-									className='text-white'
-								>
-									Dashboard
+								<Nav.Link onClick={handleClick}>
+									<Link
+										className='text-white'
+										to={`/dashboard/admin/${user?.profile}`}
+									>
+										Dashboard
+									</Link>
 								</Nav.Link>
 							) : (
 								(isAccountSettingPage ||
 									isOrdersPage) && (
 									<Nav.Link
-										href={`/account/profile/${user?.profile}`}
 										onClick={handleClick}
-										className='text-white'
 									>
-										Profile
+										<Link
+											className='text-white'
+											to={`/account/profile/${user?.profile}`}
+										>
+											Profile
+										</Link>
 									</Nav.Link>
 								)
 							)}
 
 							{!user?.isAdmin && (
-								<Nav.Link
-									href={`/account/profile/${user?.profile}/contact-info`}
-									onClick={handleClick}
-									className='text-white'
-								>
-									Contact Info
+								<Nav.Link onClick={handleClick}>
+									<Link
+										className='text-white'
+										to={`/account/profile/${user?.profile}/contact-info`}
+									>
+										Contact Info
+									</Link>
 								</Nav.Link>
 							)}
 							<Nav.Link
