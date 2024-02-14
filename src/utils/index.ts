@@ -2,7 +2,6 @@ import Cookies from 'universal-cookie';
 import { TCartProduct } from '../app/store/cart';
 import { TUser } from '../app/auth/auth';
 import axios from 'axios';
-import { TProduct } from '../app/store/product';
 
 const cookies = new Cookies();
 
@@ -40,10 +39,7 @@ export function escapeRegExp(str: string) {
 	return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
 }
 
-export const filterData = (
-	products: (TProduct | null)[],
-	query: string,
-) => {
+export const filterData = (products: any[], query: string) => {
 	return products?.filter((data) => {
 		return data?.name
 			.toLowerCase()
