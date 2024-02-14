@@ -3,6 +3,7 @@ import { Badge, Image } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { sumEachProductTotalPrice } from '../utils';
 import ProductCartActions from './ProductCartActions';
+import defaultProductImage from '../defaultProductImage.jpg';
 
 type CartProductCardProps = {
 	product: TCartProduct | null;
@@ -25,7 +26,10 @@ function CartProductCard({
 			<div className='cartContainer'>
 				<div>
 					<Image
-						src={product?.imageUrl}
+						src={
+							product?.imageUrl ||
+							defaultProductImage
+						}
 						className='imageProduct'
 					/>
 

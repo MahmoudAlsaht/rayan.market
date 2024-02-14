@@ -1,7 +1,6 @@
 import { useAppSelector } from '../../app/hooks';
 import { TCart } from '../../app/store/cart';
 import CartProductCard from '../CartProductCard';
-import { Container } from 'react-bootstrap';
 
 function CartSummary() {
 	const cart: TCart | null = useAppSelector(
@@ -9,7 +8,10 @@ function CartSummary() {
 	);
 
 	return (
-		<Container className='mt-5'>
+		<>
+			<div className='text-muted'>
+				Total : {cart.totalPrice} JOD
+			</div>
 			{cart?.products?.map((product) => (
 				<CartProductCard
 					type='cartSummary'
@@ -17,10 +19,7 @@ function CartSummary() {
 					product={product}
 				/>
 			))}
-			<div className='totalPrice text-muted'>
-				Total : {cart.totalPrice} JOD
-			</div>
-		</Container>
+		</>
 	);
 }
 

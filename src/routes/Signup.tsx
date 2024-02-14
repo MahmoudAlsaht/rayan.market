@@ -50,7 +50,7 @@ function Signup() {
 			if (form.checkValidity() === false) {
 				setError({
 					status: true,
-					message: 'invalid fields',
+					message: 'حقول غبر صالحة',
 				});
 			} else {
 				setIsLoading(true);
@@ -83,7 +83,7 @@ function Signup() {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرحاء إدخال جميع الحقول المطلوبة',
 			});
 		} else if (
 			passwordRef.current?.value !==
@@ -92,26 +92,25 @@ function Signup() {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'passwords do not match',
+				message: 'كلمتي المرور غير متطابقتين',
 			});
 		} else if (passwordRef.current!.value.length < 6) {
 			setValidated(false);
 			setError({
 				status: false,
-				message:
-					'password must be at least 6 characters',
+				message: 'كلمة المرور يجب أن لا تقل عن 6 خانات',
 			});
 		} else if (usernameRef.current?.value === 'anonymous') {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'you cannot pick this username',
+				message: ' يمكنك اختيار لمة المرور هذه!',
 			});
 		} else {
 			setValidated(true);
 			setError({
 				status: true,
-				message: 'looks good!',
+				message: 'ممتاز!',
 			});
 		}
 	};
@@ -124,7 +123,10 @@ function Signup() {
 						noValidate
 						validated={!validated}
 						onSubmit={handleSubmit}
-						style={{ width: '100%' }}
+						style={{
+							width: '100%',
+							height: '70dvh',
+						}}
 					>
 						<ErrorComponent error={error} />
 
@@ -132,8 +134,8 @@ function Signup() {
 							className='mb-3'
 							controlId='emailInput'
 						>
-							<Form.Label>
-								Email address
+							<Form.Label className='arb-text'>
+								البريد الإلكتروني
 							</Form.Label>
 							<Form.Control
 								onChange={handleChange}
@@ -148,7 +150,9 @@ function Signup() {
 							className='mb-3'
 							controlId='NameInput'
 						>
-							<Form.Label>Name</Form.Label>
+							<Form.Label className='arb-text'>
+								إسم المستخدم{' '}
+							</Form.Label>
 							<Form.Control
 								onChange={handleChange}
 								required
@@ -161,7 +165,9 @@ function Signup() {
 							className='mb-3'
 							controlId='passwordInput'
 						>
-							<Form.Label>Password</Form.Label>
+							<Form.Label className='arb-text'>
+								كلمة المرور{' '}
+							</Form.Label>
 							<Form.Control
 								onChange={handleChange}
 								required
@@ -174,8 +180,8 @@ function Signup() {
 							className='mb-3'
 							controlId='passwordConfirmationInput'
 						>
-							<Form.Label>
-								Confirm Password
+							<Form.Label className='arb-text'>
+								تأكيد كلمة المرور{' '}
 							</Form.Label>
 							<Form.Control
 								onChange={handleChange}
@@ -185,9 +191,9 @@ function Signup() {
 								ref={confirmPasswordRef}
 							/>
 						</Form.Group>
-						<Form.Group className='mb-3'>
+						<Form.Group className='mb-3 arb-text'>
 							<small className='text-info m-3'>
-								Already have an account?{' '}
+								لديك حساب بالفعل؟{' '}
 								<Link
 									to='/auth/signin'
 									className='text-primary'
@@ -196,7 +202,7 @@ function Signup() {
 											'underline',
 									}}
 								>
-									SIGNIN
+									سجل الدخول
 								</Link>
 							</small>
 							<LoadingButton

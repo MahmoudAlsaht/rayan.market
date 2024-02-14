@@ -10,7 +10,7 @@ import {
 import { TCart, emptyTheCart } from '../../app/store/cart';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ChangeEvent, useState } from 'react';
-import PaymentButton from './PaymentButton';
+// import PaymentButton from './PaymentButton';
 import { createAnOrder } from '../../controllers/order';
 import { Link } from 'react-router-dom';
 
@@ -70,7 +70,7 @@ function Payment({
 						<Card.Body>
 							<Form.Check
 								type='radio'
-								label='Cash on delivery'
+								label='الدفع عند الإستلام'
 								name='paymentMethod'
 								value='cashOnDelivery'
 								onChange={handleChange}
@@ -79,7 +79,7 @@ function Payment({
 					</Card>
 				</Col>
 
-				<Col xs={12}>
+				{/* <Col xs={12}>
 					<Card className='mb-2'>
 						<Card.Body>
 							<p>
@@ -101,7 +101,7 @@ function Payment({
 					{paymentMethod === 'payNow' && (
 						<PaymentButton />
 					)}
-				</Col>
+				</Col> */}
 
 				<Col xs={12}>
 					<Button
@@ -118,7 +118,7 @@ function Payment({
 							paymentMethod == null
 						}
 					>
-						Place The Order
+						تأكيد الطلب
 					</Button>
 				</Col>
 			</Row>

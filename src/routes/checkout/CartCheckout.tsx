@@ -6,6 +6,7 @@ import CartProductCard from '../../components/CartProductCard';
 import { checkIfProductIsAvailable } from '../../controllers/order';
 import { Link, useNavigate } from 'react-router-dom';
 import { checkEveryProductCounter } from '../../controllers/cart';
+import { Col, Row } from 'react-bootstrap';
 
 const CartCheckout = memo(() => {
 	const cart: TCart = useAppSelector((state) => state.cart);
@@ -33,14 +34,16 @@ const CartCheckout = memo(() => {
 	}, [cart?.products, checkIfCartIsEmpty, navigate]);
 
 	return (
-		<div className='m-5'>
+		<Row className=''>
 			{cart?.products?.map((product) => (
-				<CartProductCard
-					key={product?._id}
-					product={product}
-				/>
+				<Col xs={12} sm={6} md={4}>
+					<CartProductCard
+						key={product?._id}
+						product={product}
+					/>
+				</Col>
 			))}
-			<div className='totalPrice text-muted'>
+			<div className='totalPrice text-muted mb-5'>
 				<Link
 					to={
 						isCountersAboveZero && isAvailable
@@ -65,11 +68,11 @@ const CartCheckout = memo(() => {
 
 			{!isAvailable && (
 				<div className='text-danger'>
-					There are some products in cart not available
-					check the stock to proceed!
+					يرجى أن تقوم بتعديل سلتك هناك بعض المنتجات لم
+					تعد متوفرة
 				</div>
 			)}
-		</div>
+		</Row>
 	);
 });
 

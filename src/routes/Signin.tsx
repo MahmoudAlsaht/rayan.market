@@ -46,7 +46,7 @@ function SignIn() {
 			if (form.checkValidity() === false) {
 				setError({
 					status: true,
-					message: 'invalid fields',
+					message: 'حقول غبر صالحة',
 				});
 			} else {
 				setIsLoading(true);
@@ -76,20 +76,19 @@ function SignIn() {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرحاء إدخال جميع الحقول المطلوبة',
 			});
 		} else if (passwordRef.current!.value.length < 6) {
 			setValidated(false);
 			setError({
 				status: false,
-				message:
-					'password must be at least 6 characters',
+				message: 'كلمة المرور يجب أن لا تقل عن 6 خانات',
 			});
 		} else {
 			setValidated(true);
 			setError({
 				status: true,
-				message: 'looks good!',
+				message: 'ممتاز!',
 			});
 		}
 	};
@@ -111,8 +110,8 @@ function SignIn() {
 								className='mb-3'
 								controlId='emailInput'
 							>
-								<Form.Label>
-									Email address
+								<Form.Label className='arb-text'>
+									البريد الإلكتروني
 								</Form.Label>
 								<Form.Control
 									onChange={handleChange}
@@ -127,7 +126,9 @@ function SignIn() {
 								className='mb-3'
 								controlId='passwordInput'
 							>
-								<Form.Label>Password</Form.Label>
+								<Form.Label className='arb-text'>
+									كلمة المرور
+								</Form.Label>
 								<Form.Control
 									onChange={handleChange}
 									required
@@ -137,8 +138,8 @@ function SignIn() {
 								/>
 							</Form.Group>
 							<Form.Group className='mb-3'>
-								<small className='text-info m-2'>
-									Don't have an account?{' '}
+								<small className='text-info m-2 arb-text'>
+									لا تملك حساب بعد؟
 									<Link
 										to='/auth/signup'
 										className='text-primary'
@@ -147,28 +148,28 @@ function SignIn() {
 												'underline',
 										}}
 									>
-										SIGNUP
+										التسجيل
 									</Link>
 								</small>
 								<LoadingButton
 									type='submit'
-									body='Login'
+									body='تسجيل الدخول'
 									variant='primary'
 									disabled={!validated}
 									isLoading={isLoading}
 								/>
 
-								<small className='text-info m-2'>
-									Forgot password?{' '}
+								<small className='text-info m-2 arb-text'>
+									نسيت كلمة المرور
 									<Link
 										to='/auth/reset-password'
-										className='text-primary'
+										className='text-primary arb-text'
 										style={{
 											textDecoration:
 												'underline',
 										}}
 									>
-										RESET PASSWORD
+										إعادة ضبط كلمة المرور
 									</Link>
 								</small>
 							</Form.Group>

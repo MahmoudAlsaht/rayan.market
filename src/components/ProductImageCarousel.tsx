@@ -12,7 +12,7 @@ function ProductImageCarousel({
 }: ProductImagesProps) {
 	return (
 		<Carousel className='productImageCarousel'>
-			{productImages ? (
+			{productImages && productImages.length > 0 ? (
 				productImages?.map((productImage) => (
 					<Carousel.Item key={productImage?._id}>
 						<Image

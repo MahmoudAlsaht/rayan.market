@@ -49,7 +49,7 @@ function ContactInformation({
 					active
 					onClick={() => handleStep('information')}
 				>
-					Information
+					Contact &amp; shipping
 				</Breadcrumb.Item>
 			</Breadcrumb>
 			<hr />

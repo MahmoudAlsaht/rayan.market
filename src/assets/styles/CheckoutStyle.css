@@ -1,21 +1,21 @@
 .logo {
-    color: inherit;
-    outline-color: #0000;
-    font-weight: bolder;
+	color: inherit;
+	outline-color: #0000;
+	font-weight: bolder;
 }
 
-.checkoutInformation{
-    background-color: #F4F4F4;
-    padding: 1rem;
+.checkoutInformation {
+	background-color: #f4f4f4;
+	padding: 1rem;
 }
 
 .checkoutInformation small a {
-    text-decoration: underline;
-    color: skyblue;
+	text-decoration: underline;
+	color: skyblue;
 }
 
-
-.cartSummary{
-    background-color: #D2D2D2;
-    padding: 1rem;
+.cartSummary {
+	background-color: #d2d2d2;
+	padding: 1rem;
+	height: 100rem;
 }
