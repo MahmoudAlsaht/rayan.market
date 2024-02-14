@@ -2,6 +2,7 @@ import Cookies from 'universal-cookie';
 import { TCartProduct } from '../app/store/cart';
 import { TUser } from '../app/auth/auth';
 import axios from 'axios';
+import { TProduct } from '../app/store/product';
 
 const cookies = new Cookies();
 
@@ -31,7 +32,7 @@ export const removeCookies = (name: string) => {
 export const checkIfDocIsNew = (createdAt: number) => {
 	const todyDate = Date.now();
 	const diff = todyDate - createdAt;
-	const days = diff / (1000 * 60 * 60 * 24);
+	const days = diff / (1000 * 3600 * 24);
 	return days < 7;
 };
 
@@ -39,11 +40,14 @@ export function escapeRegExp(str: string) {
 	return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
 }
 
-export const filterData = (products: any[], query: string) => {
+export const filterData = (
+	products: (TProduct | null)[],
+	query: string,
+) => {
 	return products?.filter((data) => {
 		return data?.name
 			.toLowerCase()
-			.includes(escapeRegExp(query?.toLocaleLowerCase()));
+			.includes(escapeRegExp(query?.toLowerCase()));
 	});
 };
 

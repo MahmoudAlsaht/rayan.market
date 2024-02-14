@@ -85,8 +85,25 @@ const ShowProduct = memo(() => {
 					</h3>
 					<hr className='mb-5' />
 					<h4 className='text-muted arb-text'>
-						{product?.price} JOD
+						{product?.isOffer ? (
+							<span
+								style={{
+									textDecoration:
+										'line-through',
+								}}
+								className='text-muted'
+							>
+								{product?.price} JOD
+							</span>
+						) : (
+							`${product?.price} JOD`
+						)}
 					</h4>
+					{product?.isOffer && (
+						<h4 className='text-muted arb-text'>
+							{product?.newPrice} JOD
+						</h4>
+					)}
 					<h4
 						className={`arb-text ${
 							parseInt(

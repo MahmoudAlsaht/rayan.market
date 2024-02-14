@@ -38,6 +38,11 @@ function EditProductForm({
 	>(null);
 	const [selectedImages, setSelectedImages] =
 		useState<FileList | null>(null);
+	const [isOffer, setIsOffer] = useState(product?.isOffer);
+
+	const handleIsOffer = () => {
+		setIsOffer(!isOffer);
+	};
 
 	const [productImages, setProductImages] = useState<
 		(TProductImage | null)[]
@@ -94,6 +99,7 @@ function EditProductForm({
 	const productPriceRef = useRef<HTMLInputElement>(null);
 	const productNewPriceRef = useRef<HTMLInputElement>(null);
 	const productQuantityRef = useRef<HTMLInputElement>(null);
+	const offerExpiresDateRef = useRef<HTMLInputElement>(null);
 	const categoryRef = useRef<HTMLSelectElement>(null);
 
 	const handleChange = (e: ChangeEvent) => {
@@ -137,6 +143,8 @@ function EditProductForm({
 				const quantity =
 					productQuantityRef.current?.value;
 				const category = categoryRef.current?.value;
+				const offerExpiresDate =
+					offerExpiresDateRef.current?.value;
 				await dispatch(
 					updateProduct({
 						productId: product?._id,
@@ -147,6 +155,8 @@ function EditProductForm({
 							quantity,
 							category,
 							images: selectedImages,
+							isOffer,
+							offerExpiresDate,
 						},
 					}),
 				);
@@ -220,18 +230,21 @@ function EditProductForm({
 					validated={!validated}
 					onSubmit={handleSubmit}
 				>
-					<Modal.Body className='text-muted'>
+					<Modal.Body className='text-dark'>
 						<Modal.Header closeButton>
 							<Modal.Title>
 								Edit{' '}
-								<span className='text-warning'>
-									{product?.name}
+								<span className='text-secondary'>
+									{product && product?.name}
 								</span>
 							</Modal.Title>
 						</Modal.Header>
 						<ErrorComponent error={error} />
 
-						<Form.Group controlId='selectCategory'>
+						<Form.Group
+							className='mb-3 arb-text'
+							controlId='selectCategory'
+						>
 							<Form.Select
 								ref={categoryRef}
 								onChange={handleChange}
@@ -270,56 +283,32 @@ function EditProductForm({
 							</Form.Select>
 						</Form.Group>
 
-						<Form.Group controlId='productNameFormInput'>
-							<Form.Label>Name</Form.Label>
+						<Form.Group
+							className='mb-3'
+							controlId='productNameFormInput arb-text'
+						>
+							<Form.Label className=' arb-text'>
+								اسم المنتج
+							</Form.Label>
 							<Form.Control
 								onChange={handleChange}
 								type='text'
 								placeholder='Product Name'
 								ref={productNameRef}
 								defaultValue={product?.name}
+								className='arb-text'
 							/>
 						</Form.Group>
 
-						<Form.Group controlId='productPriceFormInput'>
-							<Form.Label>
-								{product?.isOffer
-									? 'Old Price'
-									: 'Price'}
+						<Form.Group
+							className='mb-3'
+							controlId='productQuantityFormInput'
+						>
+							<Form.Label className='arb-text'>
+								الكمية
 							</Form.Label>
 							<Form.Control
-								onChange={handleChange}
-								type='number'
-								placeholder={
-									product?.isOffer
-										? 'Old Price'
-										: 'Price'
-								}
-								ref={productPriceRef}
-								defaultValue={product?.price}
-							/>
-						</Form.Group>
-						{product?.isOffer && (
-							<Form.Group controlId='productPriceFormInput'>
-								<Form.Label>
-									New Price
-								</Form.Label>
-								<Form.Control
-									onChange={handleChange}
-									type='number'
-									placeholder='New Price'
-									ref={productNewPriceRef}
-									defaultValue={
-										product?.newPrice
-									}
-								/>
-							</Form.Group>
-						)}
-
-						<Form.Group controlId='productQuantityFormInput'>
-							<Form.Label>Quantity</Form.Label>
-							<Form.Control
-								className='mb-2'
+								className='arb-text mb-3'
 								onChange={handleChange}
 								type='number'
 								placeholder='Product Quantity'
@@ -328,7 +317,86 @@ function EditProductForm({
 							/>
 						</Form.Group>
 
-						<Form.Group controlId='productImagesFormInput'>
+						<Form.Group
+							className='mb-3'
+							controlId='productPriceFormInput'
+						>
+							<Form.Label className='arb-text'>
+								السعر
+							</Form.Label>
+							<Form.Control
+								className='arb-text'
+								onChange={handleChange}
+								type='text'
+								placeholder='السعر'
+								ref={productPriceRef}
+								defaultValue={product?.price}
+							/>
+						</Form.Group>
+
+						<Form.Group
+							className='arb-text mt-3 mb-3'
+							controlId='productNameFormInput'
+						>
+							<Form.Check
+								className='arb-text'
+								type='switch'
+								id='custom-switch'
+								checked={isOffer}
+								label={
+									isOffer
+										? 'الغاء العرض'
+										: 'تقديم عرض'
+								}
+								onChange={handleIsOffer}
+							/>
+						</Form.Group>
+						{isOffer && (
+							<div>
+								<Form.Group
+									className='mb-3 arb-text'
+									controlId='productPriceFormInput'
+								>
+									<Form.Label className='arb-text'>
+										السعر الجديد
+									</Form.Label>
+									<Form.Control
+										className='arb-text'
+										onChange={handleChange}
+										type='text'
+										placeholder='السعر الجديد'
+										ref={productNewPriceRef}
+										defaultValue={
+											product?.newPrice
+										}
+									/>
+								</Form.Group>
+
+								<Form.Group
+									className='mb-3 arb-text'
+									controlId='selectCategory'
+								>
+									<Form.Label>
+										مدة العرض{' '}
+									</Form.Label>
+
+									<Form.Control
+										onChange={handleChange}
+										type='number'
+										placeholder='مدة العرض'
+										required
+										ref={offerExpiresDateRef}
+										max={30}
+										min={1}
+									/>
+								</Form.Group>
+							</div>
+						)}
+
+						<Form.Group
+							className='mb-3'
+							controlId='productImagesFormInput'
+						>
 							<Form.Control
 								type='file'
 								multiple

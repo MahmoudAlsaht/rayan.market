@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { BsFilter } from 'react-icons/bs';
 import { Dropdown } from 'react-bootstrap';
 import {
@@ -12,7 +13,10 @@ import {
 	sortProductsBasedOnPrice,
 } from '../app/store/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchProducts } from '../controllers/product';
+import {
+	// fetchFilteredProducts,
+	fetchProducts,
+} from '../controllers/product';
 import { filterData } from '../utils';
 
 function FilterProducts() {
@@ -27,6 +31,10 @@ function FilterProducts() {
 		setQueryInput(e.currentTarget.value);
 	};
 
+	// const [products, setProducts] = useState<
+	// 	(TProduct | null)[]
+	// >([]);
+
 	const products: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
 	);
@@ -39,12 +47,20 @@ function FilterProducts() {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filterData(products, queryInput) as TProduct[];
+		return filterData(
+			products,
+			queryInput,
+		) as (TProduct | null)[];
 	}, [products, queryInput]);
 
 	useEffect(() => {
-		dispatch(fetchProducts());
-	}, [dispatch, queryInput]);
+		// const getProducts = async () => {
+		// 	const data = await fetchFilteredProducts();
+		// 	setProducts(data);
+		// };
+		// getProducts();
+		dispatch(fetchProducts);
+	}, [dispatch]);
 
 	return (
 		<div className='w-100 bg-white d-flex justify-content-center'>
@@ -62,26 +78,29 @@ function FilterProducts() {
 					/>
 				</Dropdown.Toggle>
 				<Dropdown.Menu className='w-100'>
-					{filteredProducts?.map((product) => (
-						<Dropdown.Item
-							href={`/store/products/${product?._id}`}
-							key={product?._id}
-						>
-							<img
-								width='50'
-								height='50'
-								src={
-									(product?.productImages &&
-										product?.productImages[0]
-											?.path) ||
-									''
-								}
-								alt={`${product?.name}'s image`}
-								className='mx-2'
-							/>
-							{product?.name}
-						</Dropdown.Item>
-					))}
+					{filteredProducts
+						? filteredProducts?.map((product) => (
+								<Dropdown.Item
+									href={`/store/products/${product?._id}`}
+									key={product?._id}
+								>
+									<img
+										width='50'
+										height='50'
+										src={
+											(product?.productImages &&
+												product
+													?.productImages[0]
+													?.path) ||
+											''
+										}
+										alt={`${product?.name}'s image`}
+										className='mx-2'
+									/>
+									{product?.name}
+								</Dropdown.Item>
+						  ))
+						: null}
 				</Dropdown.Menu>
 			</Dropdown>
 

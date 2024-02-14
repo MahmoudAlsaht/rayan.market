@@ -20,6 +20,20 @@ export const fetchProducts = createAsyncThunk(
 	},
 );
 
+export const fetchFilteredProducts = async () => {
+	try {
+		const products: (TProduct | null)[] =
+			await sendRequestToServer(
+				'GET',
+				`product/filter-products`,
+			);
+
+		return products;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
+
 export const fetchOffers = async () => {
 	try {
 		const fetchedProducts: (TProduct | null)[] =
@@ -58,6 +72,7 @@ export const createProduct = createAsyncThunk(
 		isOffer: boolean;
 		quantity: string;
 		images: FileList | null;
+		offerExpiresDate: string | null;
 	}) => {
 		if (!isAdmin())
 			throw new Error('You Are Not Authorized');
@@ -70,6 +85,7 @@ export const createProduct = createAsyncThunk(
 			images,
 			newPrice,
 			isOffer,
+			offerExpiresDate,
 		} = option;
 
 		try {
@@ -87,6 +103,7 @@ export const createProduct = createAsyncThunk(
 					quantity,
 					isOffer,
 					newPrice,
+					offerExpiresDate,
 				});
 
 			return product;
@@ -111,6 +128,8 @@ export const updateProduct = createAsyncThunk(
 				category,
 				images,
 				newPrice,
+				offerExpiresDate,
+				isOffer,
 			} = options.data;
 
 			const imagesUrls = await uploadProductImages(
@@ -129,6 +148,8 @@ export const updateProduct = createAsyncThunk(
 						quantity,
 						category,
 						imagesUrls,
+						offerExpiresDate,
+						isOffer,
 					},
 				);
 

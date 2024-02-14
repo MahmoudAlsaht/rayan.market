@@ -13,7 +13,6 @@ import { Table, Button, Container } from 'react-bootstrap';
 import ProductSettings from '../../components/dashboardComponents/ProductSettings';
 import { TProduct } from '../../app/store/product';
 import { filterData } from '../../utils';
-import { DocumentData } from 'firebase/firestore';
 
 const ProductsSettings = memo(() => {
 	const [showAddProductForm, setShowAddProductForm] =
@@ -36,10 +35,7 @@ const ProductsSettings = memo(() => {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filterData(
-			products as DocumentData[],
-			queryInput,
-		);
+		return filterData(products, queryInput);
 	}, [products, queryInput]);
 
 	useEffect(() => {

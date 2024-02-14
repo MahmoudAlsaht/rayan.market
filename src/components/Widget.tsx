@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { ReactNode } from 'react';
 import { Card } from 'react-bootstrap';
-import { BsArrowRight } from 'react-icons/bs';
+import { BsArrowLeft } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 type widgetProps = {
@@ -27,13 +27,13 @@ function Widget({
 		<>
 			<Link to={href}>
 				<Card
-					className={`widget ${className}`}
+					className={`widget arb-text${className}`}
 					style={{ height }}
 				>
-					<Card.Body>
+					<Card.Body className='arb-text'>
 						{isTitleAString ? (
 							<Card.Title>
-								{widgetTitle} {badge}
+								{badge} {widgetTitle}
 							</Card.Title>
 						) : (
 							<Card.Title
@@ -44,18 +44,18 @@ function Widget({
 							</Card.Title>
 						)}
 
-						{body}
-
 						<Card.Text>
 							{isTitleAString && (
 								<legend
 									className='card-link lead'
 									style={{ color: '#0055aa' }}
 								>
-									see more <BsArrowRight />
+									عرض المزيد <BsArrowLeft />
 								</legend>
 							)}
 						</Card.Text>
+
+						{body}
 					</Card.Body>
 				</Card>
 			</Link>

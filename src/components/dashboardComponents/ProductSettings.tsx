@@ -29,7 +29,9 @@ function ProductSettings({
 		<>
 			<tr>
 				<td>{index + 1}</td>
-				<td>{product?.name.substring(0, 45)}</td>
+				<td>
+					{product && product?.name.substring(0, 45)}
+				</td>
 
 				<td>
 					<EditProductForm

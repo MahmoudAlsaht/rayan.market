@@ -29,6 +29,7 @@ export type TProduct = {
 	quantity: string;
 	category: TCategory;
 	isOffer?: boolean;
+	remaining?: string;
 };
 
 const initialState: (TProduct | null)[] = [];
