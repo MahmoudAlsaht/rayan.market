@@ -384,8 +384,10 @@ function EditProductForm({
 										onChange={handleChange}
 										type='number'
 										placeholder='مدة العرض'
-										required
 										ref={offerExpiresDateRef}
+										defaultValue={
+											product?.offerExpiresDate
+										}
 										max={30}
 										min={1}
 									/>

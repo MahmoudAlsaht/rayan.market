@@ -30,6 +30,7 @@ export type TProduct = {
 	category: TCategory;
 	isOffer?: boolean;
 	remaining?: string;
+	offerExpiresDate?: string;
 };
 
 const initialState: (TProduct | null)[] = [];
