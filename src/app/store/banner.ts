@@ -6,11 +6,13 @@ import {
 	updateBanner,
 	updateBannersActivity,
 	destroyBanner,
+	updateImageLink,
 } from '../../controllers/banner';
 import { TImage } from './product';
 
 export type TBannerImage = TImage & {
 	banner: TBanner;
+	link: string;
 };
 
 export type TBanner = {
@@ -44,6 +46,17 @@ export const BannerSlice = createSlice({
 		);
 		builder.addCase(
 			updateBanner.fulfilled,
+			(state, action) => {
+				state = state.map((banner: TBanner | null) => {
+					return banner?._id === action.payload?._id
+						? action.payload
+						: banner;
+				});
+				return state;
+			},
+		);
+		builder.addCase(
+			updateImageLink.fulfilled,
 			(state, action) => {
 				state = state.map((banner: TBanner | null) => {
 					return banner?._id === action.payload?._id

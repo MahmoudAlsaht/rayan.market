@@ -3,6 +3,7 @@ import { TBanner, TBannerImage } from '../app/store/banner';
 import { fetchActiveBanner } from '../controllers/banner';
 import { fetchBannersImages } from '../controllers/bannerImages';
 import { Carousel } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function Banner() {
 	const [banner, setBanner] = useState<TBanner | null>(null);
@@ -50,10 +51,12 @@ function Banner() {
 								interval={2000}
 								key={image?._id}
 							>
-								<img
-									src={image?.path}
-									className='banner-image'
-								/>
+								<Link to={image?.link || '#'}>
+									<img
+										src={image?.path}
+										className='banner-image'
+									/>
+								</Link>
 							</Carousel.Item>
 						))}
 				</Carousel>

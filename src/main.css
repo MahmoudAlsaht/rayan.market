@@ -1,7 +1,5 @@
 body {
 	background-color: #f8f9fa;
-	margin: 0;
-	padding: 0;
 }
 
 a {
@@ -49,13 +47,4 @@ input[type='number'] {
 
 .dropdown-toggle::after {
 	display: none;
-}
-
-#installInstructions {
-	display: none;
-}
-@media (display-mode: browser) {
-	#installInstructions {
-		display: block;
-	}
 }

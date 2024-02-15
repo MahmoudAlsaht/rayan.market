@@ -117,6 +117,35 @@ export const updateBanner = createAsyncThunk(
 	},
 );
 
+export const updateImageLink = createAsyncThunk(
+	'banners/updateImageBannerLink',
+	async (options: {
+		bannerId: string;
+		imageId: string;
+		link: string;
+	}) => {
+		try {
+			if (!isAdmin())
+				throw new Error('You Are Not Authorized');
+
+			const { bannerId, imageId, link } = options;
+
+			console.log(link);
+
+			const banner: TBanner | null =
+				await sendRequestToServer(
+					'PUT',
+					`banner/${bannerId}/images/${imageId}`,
+					{ link },
+				);
+
+			return banner;
+		} catch (e: any) {
+			throw new Error(e.message);
+		}
+	},
+);
+
 export const destroyBanner = createAsyncThunk(
 	'banners/destroyBanner',
 	async (bannerId: string) => {
