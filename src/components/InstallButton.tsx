@@ -30,11 +30,14 @@ const InstallPWA = () => {
 		return null;
 	}
 	return (
-		<Alert dismissible variant='warning'>
+		<Alert
+			dismissible
+			variant='warning'
+			itemID='installInstructions'
+		>
 			<Navbar className='justify-content-start bg-none'>
 				<Button
 					variant='outline-success'
-					id='setup_button'
 					aria-label='Install app'
 					title='Install app'
 					onClick={onClick}
