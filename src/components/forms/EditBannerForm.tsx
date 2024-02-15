@@ -5,23 +5,22 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
-import {
-	updateBanner,
-	updateImageLink,
-} from '../../controllers/banner';
+import { updateBanner } from '../../controllers/banner';
 import { fetchBannersImages } from '../../controllers/bannerImages';
 import { useAppDispatch } from '../../app/hooks';
 import { TBanner, TBannerImage } from '../../app/store/banner';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import { TPreviewImage } from './EditProductForm';
+import AddImageLink from './AddImageLink';
 
 type EditBannerFormProps = {
 	show: boolean;
 	handleClose: () => void;
 	banner: TBanner;
+	isLoading: boolean;
 };
 
 function EditBannerForm({
@@ -70,9 +69,14 @@ function EditBannerForm({
 
 	const handleRemoveBannerImages = (id: string) => {
 		setBannerImages((prevBannerImages) => {
-			return prevBannerImages!.filter((image) => {
-				return image?._id !== id && image;
-			});
+			return prevBannerImages!.filter(
+				(image: TBannerImage | null) => {
+					return (
+						image?._id !== id &&
+						(image as TBannerImage | null)
+					);
+				},
+			);
 		});
 	};
 
@@ -83,7 +87,6 @@ function EditBannerForm({
 		message: '',
 	});
 	const bannerNameRef = useRef<HTMLInputElement>(null);
-	const [imageLink, setImageLink] = useState<string>('');
 
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
@@ -103,31 +106,6 @@ function EditBannerForm({
 				message: 'looks good!',
 			});
 		}
-	};
-
-	const handleAddALink = async (imageId: string) => {
-		try {
-			setIsLoading(true);
-			dispatch(
-				updateImageLink({
-					bannerId: banner?._id,
-					imageId,
-					link: imageLink,
-				}),
-			);
-
-			setIsLoading(false);
-		} catch (e: any) {
-			setIsLoading(false);
-			console.error(e);
-			throw new Error(e.message);
-		}
-	};
-
-	const handleLinkChange = (
-		e: ChangeEvent<HTMLInputElement>,
-	) => {
-		setImageLink(e.target.value);
 	};
 
 	const handleSubmit = async (e: FormEvent) => {
@@ -268,66 +246,17 @@ function EditBannerForm({
 							))}
 						<br />
 						{bannerImages &&
-							bannerImages?.map(
-								(image, i: number) => (
-									<Row key={image?._id}>
-										<Col xs={5} md={4}>
-											<PreviewImage
-												imageId={
-													image?._id
-												}
-												path={
-													image?.path as string
-												}
-												bannerId={
-													banner?._id
-												}
-												dataType='banner'
-												handleRemove={
-													handleRemoveBannerImages
-												}
-											/>
-										</Col>
-										<Col xs={5} md={6}>
-											<Form.Group
-												className='mt-3 mb-3'
-												controlId={`image${image?._id}'sLinkInput`}
-											>
-												<Form.Control
-													type='text'
-													placeholder={`image link ${
-														i + 1
-													}`}
-													onChange={
-														handleLinkChange
-													}
-												/>
-											</Form.Group>
-										</Col>
-										<Col xs={2}>
-											<Form.Group
-												className='mt-3 mb-3'
-												controlId={`image${image?._id}'sLinkInput`}
-											>
-												<Button
-													size='sm'
-													variant='outline-success'
-													disabled={
-														isLoading
-													}
-													onClick={() =>
-														handleAddALink(
-															image?._id as string,
-														)
-													}
-												>
-													Save
-												</Button>
-											</Form.Group>
-										</Col>
-									</Row>
-								),
-							)}
+							bannerImages?.map((image) => (
+								<AddImageLink
+									image={image}
+									bannerId={banner?._id}
+									setIsLoading={setIsLoading}
+									isLoading={isLoading}
+									handleRemoveBannerImages={
+										handleRemoveBannerImages
+									}
+								/>
+							))}
 					</Modal.Body>
 					<Modal.Footer>
 						<Button

@@ -34,11 +34,13 @@ function Banner() {
 		<div className='w-100 mb-5'>
 			{bannerImages && bannerImages!.length < 2 ? (
 				bannerImages?.map((image) => (
-					<img
-						key={image?._id}
-						src={image?.path}
-						className='banner-image'
-					/>
+					<Link to={image?.link || '#'}>
+						<img
+							key={image?._id}
+							src={image?.path}
+							className='banner-image'
+						/>
+					</Link>
 				))
 			) : (
 				<Carousel
