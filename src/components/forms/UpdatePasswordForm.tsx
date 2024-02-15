@@ -94,7 +94,7 @@ function UpdatePasswordForm({
 			setValidated(true);
 			setError({
 				status: true,
-				message: 'ممتاز!',
+				message: 'looks good!',
 			});
 		}
 	};
