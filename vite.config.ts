@@ -9,7 +9,9 @@ export default defineConfig({
 	plugins: [
 		react(),
 		VitePWA({
-			registerType: 'prompt',
+			mode: 'development',
+			registerType: 'autoUpdate',
+			injectRegister: 'auto',
 			includeAssets: [
 				'favicon.ico',
 				'apple-touch-icon.png',
@@ -39,6 +41,9 @@ export default defineConfig({
 						purpose: 'any maskable',
 					},
 				],
+			},
+			workbox: {
+				cleanupOutdatedCaches: false,
 			},
 		}),
 	],
