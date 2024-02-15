@@ -102,7 +102,7 @@ function FilterProducts() {
 			<Dropdown>
 				<Dropdown.Toggle
 					id='filterProducts'
-					variant='outline-danger'
+					variant='outline-secondary'
 					size='sm'
 					style={{ marginTop: '7px' }}
 				>
