@@ -1,7 +1,6 @@
 import { Navbar } from 'react-bootstrap';
 import Logo from '../mStoreLogo.png';
 import { Link } from 'react-router-dom';
-import InstallPWA from './InstallButton';
 
 function BrandNavbar() {
 	return (
@@ -16,10 +15,6 @@ function BrandNavbar() {
 						/>
 					</Navbar.Brand>
 				</Link>
-			</Navbar>
-
-			<Navbar className='justify-content-center'>
-				<InstallPWA />
 			</Navbar>
 		</>
 	);
