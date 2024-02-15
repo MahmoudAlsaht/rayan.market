@@ -8,7 +8,6 @@ import { useState } from 'react';
 import BrandNavbar from '../components/BrandNavbar';
 import { TCart } from '../app/store/cart';
 import { useAppSelector } from '../app/hooks';
-import InstallPWA from '../components/InstallButton';
 
 function RootLayout() {
 	const [show, setShow] = useState(false);
@@ -20,7 +19,6 @@ function RootLayout() {
 
 	return (
 		<>
-			<InstallPWA />
 			<BrandNavbar />
 			<MainNavbar />
 			<CategoryNavbar />
