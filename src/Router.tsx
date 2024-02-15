@@ -32,7 +32,6 @@ import Offers from './routes/store/Offers';
 import { Container } from 'react-bootstrap';
 import CheckoutLayout from './layouts/CheckoutLayout';
 import Category from './routes/store/Category';
-import InstallPWA from './components/InstallButton';
 
 export const Router = createBrowserRouter([
 	{
@@ -163,7 +162,6 @@ function Wrapper() {
 				fluid
 				style={{ maxWidth: '1478px', margin: '0' }}
 			>
-				<InstallPWA />
 				<Outlet />
 				<SpeedInsights />
 			</Container>

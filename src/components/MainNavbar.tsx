@@ -15,6 +15,7 @@ import { TUser } from '../app/auth/auth';
 import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import '../assets/styles/MainNavbar.css';
+import InstallPWA from './InstallButton';
 
 const MainNavbar = () => {
 	const [show, setShow] = useState(false);
@@ -46,6 +47,8 @@ const MainNavbar = () => {
 
 	return (
 		<>
+			<InstallPWA />
+
 			<Navbar
 				collapseOnSelect
 				expand='md'

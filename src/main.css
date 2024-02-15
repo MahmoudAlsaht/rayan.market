@@ -50,3 +50,12 @@ input[type='number'] {
 .dropdown-toggle::after {
 	display: none;
 }
+
+#installInstructions {
+	display: none;
+}
+@media (display-mode: browser) {
+	#installInstructions {
+		display: block;
+	}
+}
