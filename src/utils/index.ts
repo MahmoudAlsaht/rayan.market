@@ -10,14 +10,20 @@ export const setCookies = (
 	data: any,
 	expireDate: number = 1,
 ) => {
-	const date = new Date();
-	date.setTime(
-		date.getTime() + 1000 * 60 * 60 * 24 * expireDate,
-	);
-	cookies.set(name, data, {
-		path: '/',
-		expires: date,
-	});
+	if (expireDate > 0) {
+		const date = new Date();
+		date.setTime(
+			date.getTime() + 1000 * 60 * 60 * 24 * expireDate,
+		);
+		cookies.set(name, data, {
+			path: '/',
+			expires: date,
+		});
+	} else {
+		cookies.set(name, data, {
+			path: '/',
+		});
+	}
 };
 
 export const getCookies = (name: string) => {
