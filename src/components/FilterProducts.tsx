@@ -54,11 +54,6 @@ function FilterProducts() {
 	}, [products, queryInput]);
 
 	useEffect(() => {
-		// const getProducts = async () => {
-		// 	const data = await fetchFilteredProducts();
-		// 	setProducts(data);
-		// };
-		// getProducts();
 		dispatch(fetchProducts);
 	}, [dispatch]);
 
@@ -107,7 +102,7 @@ function FilterProducts() {
 			<Dropdown>
 				<Dropdown.Toggle
 					id='filterProducts'
-					variant='outline-secondary'
+					variant='outline-danger'
 					size='sm'
 					style={{ marginTop: '7px' }}
 				>
