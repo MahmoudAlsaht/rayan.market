@@ -34,6 +34,7 @@ const InstallPWA = () => {
 			dismissible
 			variant='warning'
 			itemID='installInstructions'
+			className='mb-0'
 		>
 			<Navbar className='justify-content-start bg-none'>
 				<Button
