@@ -20,7 +20,6 @@ type EditBannerFormProps = {
 	show: boolean;
 	handleClose: () => void;
 	banner: TBanner;
-	isLoading: boolean;
 };
 
 function EditBannerForm({
