@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 const InstallPWA = () => {
 	const [supportsPWA, setSupportsPWA] = useState(false);
@@ -30,18 +30,16 @@ const InstallPWA = () => {
 		return null;
 	}
 	return (
-		<Alert variant='dark' dismissible>
-			<button
-				itemID='installInstructions'
-				className='btn btn-outline-primary'
-				id='setup_button'
-				aria-label='Install app'
-				title='Install app'
-				onClick={onClick}
-			>
-				Install
-			</button>
-		</Alert>
+		<Button
+			variant='outline-primary'
+			size='sm'
+			id='setup_button'
+			aria-label='Install app'
+			title='Install app'
+			onClick={onClick}
+		>
+			Install
+		</Button>
 	);
 };
 
