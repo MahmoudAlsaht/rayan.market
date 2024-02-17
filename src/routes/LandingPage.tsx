@@ -1,6 +1,6 @@
 import '../assets/styles/LandingPage.css';
 import { Col, Image, Row } from 'react-bootstrap';
-import coverImg from '../mStoreCoverImg.jpeg';
+import coverImg from '../coverImg.jpg';
 import { BsArrowRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 

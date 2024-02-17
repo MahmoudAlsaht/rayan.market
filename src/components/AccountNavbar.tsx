@@ -13,6 +13,7 @@ import { BsJustify } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, logout } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
+import Logo from '../rayan.marketLogo.png';
 
 function AccountNavbar() {
 	const [show, setShow] = useState(false);
@@ -65,7 +66,11 @@ function AccountNavbar() {
 								className='text-white'
 								style={{ marginLeft: '3.5rem' }}
 							>
-								Store
+								<img
+									src={Logo}
+									alt='Al Rayyan International Markets'
+									width={90}
+								/>
 							</Link>
 						</Nav.Link>
 					</Nav>

@@ -117,10 +117,7 @@ function CategoryNavbar() {
 						{categories &&
 							categories?.length > 2 && (
 								<Dropdown>
-									<Dropdown.Toggle
-										className='text-info'
-										id='dropdown-basic'
-									>
+									<Dropdown.Toggle id='dropdown-basic'>
 										المزيد <BsArrowLeft />
 									</Dropdown.Toggle>
 									<Dropdown.Menu>

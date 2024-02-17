@@ -1,5 +1,5 @@
 .navbar .nav-item a {
-	color: #3bd6eb;
+	color: #07a180;
 }
 
 .navbar .nav-item a:hover {
@@ -9,5 +9,4 @@
 .navbar .dropdown .dropdown-toggle {
 	background: none;
 	border: none;
-	color: rgb(0, 166, 255);
 }

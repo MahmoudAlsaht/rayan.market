@@ -8,6 +8,7 @@ import {
 import AnonymousUserForm from '../forms/AnonymousUserForm';
 import ChooseContactAddress from './ChooseContactAddress';
 import { Link } from 'react-router-dom';
+import Logo from '../../rayan.marketLogo.png';
 
 function ContactInformation({
 	handleStep,
@@ -35,7 +36,11 @@ function ContactInformation({
 		<Col xs={12} md={6} className='checkoutInformation'>
 			<h1 className='logo mb-5'>
 				<Link to='/home' className='text-info'>
-					mStore
+					<img
+						src={Logo}
+						alt='Al Rayyan International Markets'
+						width={90}
+					/>
 				</Link>
 			</h1>
 			<Breadcrumb className='mb-5'>

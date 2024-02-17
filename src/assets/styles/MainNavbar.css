@@ -1,9 +1,9 @@
 .dropdown > a::after {
-	color: #fff;
+	color: #07a180;
 }
 
 #mainNavbar .navLink {
-	color: #5ab6e1;
+	color: #07a180;
 	padding: 0.7rem;
 	border-radius: 0.3rem;
 }

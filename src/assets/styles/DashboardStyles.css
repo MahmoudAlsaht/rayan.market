@@ -1,6 +1,6 @@
 .offcanvas {
 	background-color: #314146;
-	color: #f7f7f7;
+	color: #07a180;
 	transition: all 0.5s;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .nav .nav-item .nav-link a {
-	color: #67d1eb;
+	color: #07a180;
 	text-decoration: none;
 }
 
