@@ -32,6 +32,7 @@ import Offers from './routes/store/Offers';
 import CheckoutLayout from './layouts/CheckoutLayout';
 import Category from './routes/store/Category';
 import InstallPWA from './components/InstallButton';
+import AppFooter from './components/AppFooter';
 
 export const Router = createBrowserRouter([
 	{
@@ -161,6 +162,7 @@ function Wrapper() {
 			<div style={{ maxWidth: '1550px' }}>
 				<InstallPWA />
 				<Outlet />
+				<AppFooter />
 				<SpeedInsights />
 			</div>
 		</Provider>

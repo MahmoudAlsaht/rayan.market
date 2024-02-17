@@ -402,6 +402,7 @@ function EditProductForm({
 							<Form.Control
 								type='file'
 								multiple
+								accept='image/*'
 								onChange={handleFileChange}
 							/>
 						</Form.Group>
