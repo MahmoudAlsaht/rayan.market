@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import MainNavbar from '../components/MainNavbar';
 import BrandNavbar from '../components/BrandNavbar';
+import AppFooter from '../components/AppFooter';
 
 function CheckoutLayout() {
 	return (
@@ -8,6 +9,7 @@ function CheckoutLayout() {
 			<BrandNavbar />
 			<MainNavbar />
 			<Outlet />
+			<AppFooter />
 		</>
 	);
 }

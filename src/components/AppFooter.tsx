@@ -11,6 +11,7 @@ function AppFooter() {
 			className='text-center'
 			style={{
 				backgroundColor: 'rgba(0, 0, 0, 0.05)',
+				marginTop: '50dvh',
 			}}
 		>
 			<div className='container pt-4'>
