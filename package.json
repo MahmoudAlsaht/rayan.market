@@ -1,9 +1,9 @@
 {
-  "name": "msotre",
+  "name": "rayan.market",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://MahmoudAlsaht.github.io/mStore/",
+  "homepage": "https://MahmoudAlsaht.github.io/rayan.market/",
   "scripts": {
     "dev": "vite",
     "buildDebug": "vite build --debug",
