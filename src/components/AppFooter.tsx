@@ -50,10 +50,10 @@ function AppFooter() {
 
 			<div className='text-center p-3'>
 				© {currentYear} All Rights Reserved
-				<a href='#' style={{ fontWeight: 'bold' }}>
+				<span style={{ fontWeight: 'bold' }}>
 					{' '}
 					Al Rayyan Markets
-				</a>
+				</span>
 			</div>
 		</footer>
 	);
