@@ -1,5 +1,5 @@
 .welcomeSection {
-	background-color: #e4e4e4;
+	background-color: #f7f7f7;
 	color: #000;
 	height: 100dvh;
 }
@@ -14,7 +14,7 @@
 
 .welcomeSection a:hover {
 	background-color: #000;
-	color: #e4e4e4;
+	color: #f7f7f7;
 }
 
 .logoSection {

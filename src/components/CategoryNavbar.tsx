@@ -59,8 +59,10 @@ function CategoryNavbar() {
 							categories?.length > 5 && (
 								<Dropdown>
 									<Dropdown.Toggle
-										className='text-info'
 										id='dropdown-basic'
+										style={{
+											color: '#07a180',
+										}}
 									>
 										المزيد <BsArrowLeft />
 									</Dropdown.Toggle>
