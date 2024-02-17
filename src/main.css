@@ -47,7 +47,7 @@ input[type='number'] {
 
 @media (max-width: 575px) {
 	.banner-image {
-		height: 33dvh;
+		height: 30dvh;
 	}
 	.searchInput {
 		width: 200px;

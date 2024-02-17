@@ -35,7 +35,7 @@ function Cart({ show, handleClose }: CartProps) {
 
 	return (
 		<Modal show={show} fullscreen>
-			<Modal.Header closeButton>
+			<Modal.Header closeButton onHide={handleClose}>
 				<Modal.Title>Cart</Modal.Title>
 			</Modal.Header>
 			<ModalBody>
