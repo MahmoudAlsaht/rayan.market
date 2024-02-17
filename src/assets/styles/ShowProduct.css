@@ -1,5 +1,22 @@
+.productContainer {
+	width: 80%;
+	height: 90%;
+}
+
+.productImageCarousel {
+	width: 90%;
+	text-align: center;
+}
+
 .productImage {
-    height: 600px;
-    width: 100%;
-    border-radius: 2rem;
+	height: 500px;
+	border-radius: 2rem;
+}
+
+@media (max-width: 767px) {
+	.productImage {
+		width: 70%;
+		height: 250px;
+		border-radius: 2rem;
+	}
 }

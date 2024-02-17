@@ -64,9 +64,9 @@ const ShowProduct = memo(() => {
 	}, [cart, isProductInCart, productId, setIsProductInCart]);
 
 	return (
-		<Container fluid className='mt-5'>
+		<Container fluid className='mt-5 mb-5 productContainer'>
 			<Row>
-				<Col xs={12} md={6}>
+				<Col xs={12} md={5}>
 					<ProductImageCarousel
 						productImages={
 							product?.productImages as (TProductImage | null)[]
@@ -74,8 +74,7 @@ const ShowProduct = memo(() => {
 					/>
 				</Col>
 				<Col
-					xs={12}
-					md={6}
+					md={{ offset: 1 }}
 					className='d-flex flex-column mt-5 mt-md-0 '
 				>
 					<h3 className='text-muted arb-text'>
