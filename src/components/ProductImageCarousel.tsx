@@ -1,6 +1,5 @@
 import { Carousel, Image } from 'react-bootstrap';
 import { TProductImage } from '../app/store/product';
-
 import defaultProductImage from '../defaultProductImage.jpg';
 
 type ProductImagesProps = {

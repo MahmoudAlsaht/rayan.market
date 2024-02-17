@@ -3,20 +3,18 @@
 	height: 90%;
 }
 
-.productImageCarousel {
-	width: 90%;
-	text-align: center;
-}
-
 .productImage {
 	height: 500px;
 	border-radius: 2rem;
 }
 
 @media (max-width: 767px) {
+	.productImageCarousel {
+		text-align: center;
+	}
 	.productImage {
 		width: 70%;
-		height: 250px;
+		height: 300px;
 		border-radius: 2rem;
 	}
 }

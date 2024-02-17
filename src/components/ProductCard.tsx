@@ -134,9 +134,10 @@ function ProductCard({ product }: ProductCardProps) {
 					<Button
 						onClick={handleAddProduct}
 						variant={
-							product?.quantity === 0 ||
-							productInCart
+							product?.quantity === 0
 								? 'secondary'
+								: productInCart
+								? 'success'
 								: 'outline-secondary'
 						}
 						className='arb-text mb-2'
