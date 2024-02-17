@@ -46,7 +46,8 @@ function Cart({ show, handleClose }: CartProps) {
 					/>
 				))}
 				<div className='totalPrice text-muted me-5'>
-					المجموع الكلي: {cart?.totalPrice.ixed(2)} د.أ
+					المجموع الكلي: {cart?.totalPrice?.toFixed(2)}{' '}
+					د.أ
 				</div>
 			</ModalBody>
 			<Modal.Footer className='arb-text'>
