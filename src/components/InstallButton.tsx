@@ -1,49 +1,71 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Navbar } from 'react-bootstrap';
-import { getCookies, setCookies } from '../utils';
+import { BsDownload } from 'react-icons/bs';
 
 const InstallPWA = () => {
 	const [supportsPWA, setSupportsPWA] = useState(false);
 	const [promptInstall, setPromptInstall] =
 		useState<any>(null);
 
-	const [isInstalled, setIsInstalled] = useState(false);
+	const [isInstalled, setIsInstalled] = useState(
+		localStorage.getItem('pwaInstalled') === '1' || false,
+	);
 
 	useEffect(() => {
-		const handler = (e: any) => {
+		const installHandler = (e: any) => {
 			e.preventDefault();
-			console.log('we are being triggered :D');
+			localStorage.setItem('pwaInstalled', '0');
+			setIsInstalled(false);
+
 			setSupportsPWA(true);
 			setPromptInstall(e);
 		};
-		window.addEventListener('beforeinstallprompt', handler);
 
-		const installStatus = getCookies('isAppInstalled');
+		const afterInstalledHandler = () => {
+			localStorage.setItem('pwaInstalled', '1');
+			setIsInstalled(true);
+		};
 
-		setIsInstalled(installStatus != undefined);
+		if (
+			window.matchMedia('(display-mode: standalone)')
+				.matches ||
+			document.referrer.startsWith('android-app://')
+		) {
+			localStorage.setItem('pwaInstalled', '1');
+			setIsInstalled(true);
+		} else {
+			window.addEventListener(
+				'beforeinstallprompt',
+				installHandler,
+			);
+			window.addEventListener(
+				'onappinstalled',
+				afterInstalledHandler,
+			);
 
-		return () =>
-			window.removeEventListener('transitionend', handler);
+			return () =>
+				window.removeEventListener(
+					'transitionend',
+					installHandler,
+				);
+		}
 	}, []);
 
 	const onClick = (e: any) => {
 		e.preventDefault();
 		setIsInstalled(true);
-		setCookies('isAppInstalled', true);
 
 		if (!promptInstall) {
 			return;
 		}
 		promptInstall.prompt();
 	};
-	if (!supportsPWA) return null;
-
-	if (isInstalled) return null;
+	if (!supportsPWA || isInstalled) return null;
 
 	return (
 		<Alert
 			dismissible
-			variant='warning'
+			variant='success'
 			itemID='installInstructions'
 			className='mb-0'
 		>
@@ -54,7 +76,7 @@ const InstallPWA = () => {
 					title='Install app'
 					onClick={onClick}
 				>
-					Install
+					Install <BsDownload />
 				</Button>
 			</Navbar>
 		</Alert>
