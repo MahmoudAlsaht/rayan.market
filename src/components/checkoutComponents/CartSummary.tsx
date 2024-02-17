@@ -10,7 +10,7 @@ function CartSummary() {
 	return (
 		<>
 			<div className='text-muted'>
-				Total : {cart?.totalPrice.toFixed(2)} JOD
+				Total : {cart?.totalPrice?.toFixed(2)} JOD
 			</div>
 			{cart?.products?.map((product) => (
 				<CartProductCard
