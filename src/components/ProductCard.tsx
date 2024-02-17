@@ -52,11 +52,7 @@ function ProductCard({ product }: ProductCardProps) {
 					counter: 1,
 				}),
 			);
-			dispatch(
-				updateTotalPrice(
-					parseInt(product?.price as string),
-				),
-			);
+			dispatch(updateTotalPrice(product?.price as string));
 		}
 	};
 
@@ -79,7 +75,7 @@ function ProductCard({ product }: ProductCardProps) {
 		setTotalProductPrice(
 			sumEachProductTotalPrice(productCart!),
 		);
-	}, [cart, product?._id]);
+	}, [cart, product?._id, productCart]);
 
 	return (
 		<Container fluid>

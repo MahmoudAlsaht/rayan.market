@@ -59,9 +59,9 @@ export const sumTotalPrice = (products: TCartProduct[]) => {
 		if (product.counter > 1) {
 			totalPrice +=
 				product?.counter *
-				parseInt(product?.price as string);
+				parseFloat(product?.price as string);
 		} else if (product.counter === 1) {
-			totalPrice += parseInt(product?.price as string);
+			totalPrice += parseFloat(product?.price as string);
 		}
 	}
 	return totalPrice;
@@ -70,7 +70,9 @@ export const sumTotalPrice = (products: TCartProduct[]) => {
 export const sumEachProductTotalPrice = (
 	product: TCartProduct,
 ) => {
-	return product?.counter * parseInt(product?.price as string);
+	return (
+		product?.counter * parseFloat(product?.price as string)
+	);
 };
 
 export const isAuthenticated = () => {

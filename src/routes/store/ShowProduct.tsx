@@ -42,9 +42,7 @@ const ShowProduct = memo(() => {
 				}),
 			);
 
-		dispatch(
-			updateTotalPrice(parseInt(product?.price as string)),
-		);
+		dispatch(updateTotalPrice(product?.price as string));
 	};
 
 	useEffect(() => {

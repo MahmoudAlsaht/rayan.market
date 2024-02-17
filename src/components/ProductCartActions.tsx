@@ -28,22 +28,16 @@ function ProductCartActions({
 		dispatch(
 			addToCounter({
 				id: product?._id as string,
-				maxNum: parseInt(product?.price as string),
+				maxNum: parseInt(product?.quantity as string),
 			}),
 		);
-		dispatch(
-			updateTotalPrice(parseInt(product?.price as string)),
-		);
+		dispatch(updateTotalPrice(product?.price as string));
 	};
 
 	const handleRemoveProduct = () => {
 		if (product?.counter === 0) return;
 		dispatch(removeFromCounter(product?._id as string));
-		dispatch(
-			updateTotalPrice(
-				-parseInt(product?.price as string),
-			),
-		);
+		dispatch(updateTotalPrice(-(product?.price as string)));
 	};
 
 	const handleDestroyProduct = () => {

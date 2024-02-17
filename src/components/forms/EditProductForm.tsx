@@ -310,7 +310,7 @@ function EditProductForm({
 							<Form.Control
 								className='arb-text mb-3'
 								onChange={handleChange}
-								type='number'
+								type='text'
 								placeholder='Product Quantity'
 								ref={productQuantityRef}
 								defaultValue={product?.quantity}
@@ -382,7 +382,7 @@ function EditProductForm({
 
 									<Form.Control
 										onChange={handleChange}
-										type='number'
+										type='text'
 										placeholder='مدة العرض'
 										ref={offerExpiresDateRef}
 										defaultValue={

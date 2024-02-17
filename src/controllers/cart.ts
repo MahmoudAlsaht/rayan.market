@@ -46,9 +46,13 @@ const cartReducers = {
 	},
 	updateTotalPrice: (
 		state: TCart,
-		action: PayloadAction<number>,
+		action: PayloadAction<number | string>,
 	) => {
-		state.totalPrice += action.payload;
+		const price =
+			typeof action.payload === 'string'
+				? parseFloat(action.payload as string)
+				: action.payload;
+		state.totalPrice += price;
 		setCookies('cart', state, 30);
 	},
 	addAnonymousUserToCart: (

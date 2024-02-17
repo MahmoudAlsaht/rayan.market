@@ -238,7 +238,7 @@ function AddProductForm({
 							<Form.Control
 								required
 								onChange={handleChange}
-								type='number'
+								type='text'
 								placeholder='الكمية'
 								ref={productQuantityRef}
 							/>
@@ -252,7 +252,7 @@ function AddProductForm({
 							<Form.Control
 								required
 								onChange={handleChange}
-								type='number'
+								type='text'
 								placeholder='السعر'
 								ref={productPriceRef}
 							/>
@@ -288,7 +288,7 @@ function AddProductForm({
 
 									<Form.Control
 										onChange={handleChange}
-										type='number'
+										type='text'
 										placeholder='السعر الجدبد'
 										ref={productNewPriceRef}
 									/>
@@ -304,7 +304,7 @@ function AddProductForm({
 
 									<Form.Control
 										onChange={handleChange}
-										type='number'
+										type='text'
 										placeholder='مدة العرض'
 										required
 										ref={offerExpiresDateRef}

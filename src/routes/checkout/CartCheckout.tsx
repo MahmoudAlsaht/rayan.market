@@ -24,7 +24,7 @@ const CartCheckout = memo(() => {
 		);
 		if (!checkIfCartIsEmpty) {
 			location.pathname = '/';
-			navigate('/');
+			navigate('/home');
 		}
 		setIsCountersAboveZero(
 			checkEveryProductCounter(

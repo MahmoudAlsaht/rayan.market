@@ -58,7 +58,7 @@ function CartProductCard({
 					<span className='text-muted'>
 						المجموع:{' '}
 						<span className='text-dark'>
-							{totalProductPrice}
+							{totalProductPrice.toFixed(2)}
 						</span>
 					</span>{' '}
 					د.أ
