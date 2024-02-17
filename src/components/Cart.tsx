@@ -34,7 +34,7 @@ function Cart({ show, handleClose }: CartProps) {
 	}, [cart?.products]);
 
 	return (
-		<Modal show={show} className=''>
+		<Modal show={show} fullscreen>
 			<Modal.Header>
 				<Modal.Title>Cart</Modal.Title>
 			</Modal.Header>

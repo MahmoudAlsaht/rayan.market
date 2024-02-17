@@ -17,15 +17,15 @@ const Offers = memo(() => {
 		getProducts();
 	}, []);
 	return (
-		<div className='productContainer'>
+		<div>
 			<Banner />
 			<Row>
 				{products &&
 					products?.map((product) => (
 						<Col
 							key={product?._id}
-							xs={12}
-							sm={6}
+							xs={6}
+							sm={4}
 							md={3}
 							lg={2}
 						>

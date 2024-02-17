@@ -2,7 +2,14 @@
 	border: none;
 	border-radius: 7%;
 	background-color: inherit;
-	/* min-height: 500px; */
+}
+
+.footerButtons {
+	font-size: 22px;
+}
+
+.productCard .card-subtitle {
+	font-size: 22px;
 }
 
 .productCard img {
@@ -20,17 +27,37 @@
 .card .card-header {
 	background-color: inherit;
 	border: 0;
+	margin-top: 0;
 }
 
-@media (max-width: 550px) {
+.card .card-footer {
+	background: none;
+	border: none;
+}
+
+@media (max-width: 767px) {
 	.productCard {
-		width: 70%;
-		margin: 0 auto;
+		margin: 0;
+	}
+	.productCard .card-subtitle {
+		font-size: 18px;
+	}
+	.footerButtons {
+		font-size: 18px;
+	}
+
+	.productCard img {
+		width: 150px;
+		height: 130px;
 	}
 
 	.productCard img:hover {
-		height: 250px;
-		width: 100%;
+		width: 150px;
+		height: 130px;
 		margin-top: 0;
+	}
+
+	.card .card-footer button {
+		width: 100px;
 	}
 }

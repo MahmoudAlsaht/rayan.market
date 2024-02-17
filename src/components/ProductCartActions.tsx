@@ -13,11 +13,13 @@ import { useAppDispatch } from '../app/hooks';
 type ProductCartActionsProps = {
 	product: TCartProduct | null;
 	totalProductPrice: number;
+	className?: string;
 };
 
 function ProductCartActions({
 	product,
 	totalProductPrice,
+	className,
 }: ProductCartActionsProps) {
 	const dispatch = useAppDispatch();
 
@@ -50,7 +52,7 @@ function ProductCartActions({
 	};
 
 	return (
-		<Pagination>
+		<Pagination className={`${className}`}>
 			<Pagination.Item onClick={handleRemoveProduct}>
 				-
 			</Pagination.Item>

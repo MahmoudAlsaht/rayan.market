@@ -29,7 +29,7 @@ const Category = memo(() => {
 	return (
 		<>
 			{!isLoading ? (
-				<div className='productContainer'>
+				<div>
 					<Banner />
 					<h1 className='text-center mt-3'>
 						{category?.name}
@@ -39,8 +39,8 @@ const Category = memo(() => {
 						{category?.products?.map((product) => (
 							<Col
 								key={product?._id}
-								xs={12}
-								sm={6}
+								xs={6}
+								sm={4}
 								md={3}
 								lg={2}
 							>

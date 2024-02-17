@@ -18,17 +18,17 @@ const Home = memo(() => {
 	}, [dispatch]);
 
 	return (
-		<div className='productContainer'>
+		<div>
 			<Banner />
 			<Row className='mt-5'>
 				{products
 					? products?.map((product) => (
 							<Col
 								key={product?._id}
-								xs={12}
-								sm={6}
+								xs={6}
+								sm={4}
 								md={3}
-								xl={2}
+								lg={2}
 							>
 								<ProductCard
 									product={product as TProduct}

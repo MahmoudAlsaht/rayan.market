@@ -9,12 +9,18 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
 	TCart,
+	TCartProduct,
 	addToCart,
 	updateTotalPrice,
 } from '../app/store/cart';
 import { BsCartPlus, BsCheck } from 'react-icons/bs';
-import { checkIfProductInCart } from '../controllers/cart';
+import {
+	checkIfProductInCart,
+	findCartProduct,
+} from '../controllers/cart';
 import { TProductImage } from '../app/store/product';
+import ProductCartActions from './ProductCartActions';
+import { sumEachProductTotalPrice } from '../utils';
 
 type ProductCardProps = {
 	product: DocumentData | undefined;
@@ -25,6 +31,10 @@ function ProductCard({ product }: ProductCardProps) {
 		useState<(TProductImage | null)[]>();
 	const [productInCart, setProductInCart] = useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
+	const [totalProductPrice, setTotalProductPrice] =
+		useState(0);
+	const [productCart, setProductCart] =
+		useState<TCartProduct | null>();
 
 	const dispatch = useAppDispatch();
 
@@ -63,11 +73,17 @@ function ProductCard({ product }: ProductCardProps) {
 			product?._id as string,
 		) as boolean;
 		setProductInCart(gotProduct);
+		setProductCart(
+			findCartProduct(cart, product?._id) as TCartProduct,
+		);
+		setTotalProductPrice(
+			sumEachProductTotalPrice(productCart!),
+		);
 	}, [cart, product?._id]);
 
 	return (
 		<Container fluid>
-			<Card className='productCard mb-5'>
+			<Card className='productCard mb-5 text-center'>
 				<Link to={`/store/products/${product?._id}`}>
 					<Card.Img
 						variant='top'
@@ -77,14 +93,14 @@ function ProductCard({ product }: ProductCardProps) {
 							defaultProductImage
 						}
 					/>
-					<Card.Title className='arb-text ms-3 mt-1 text-muted'>
+					<Card.Title className='text-center mt-2 text-muted'>
 						{product?.name?.substring(0, 45)}
 					</Card.Title>
 				</Link>
 				<Card.Header>
 					{!product?.isOffer ? (
 						<Card.Subtitle className='text-muted arb-text'>
-							<small>{product?.price} د.أ</small>
+							{product?.price} د.أ
 						</Card.Subtitle>
 					) : (
 						<Card.Subtitle className='text-muted arb-text'>
@@ -95,21 +111,17 @@ function ProductCard({ product }: ProductCardProps) {
 										'line-through',
 								}}
 							>
-								<small className='ms-3'>
-									{product?.price} د.أ
-								</small>
+								{product?.price} د.أ
 							</span>
-							<span>
-								{product?.newPrice && (
-									<small>
-										{product?.newPrice} د.أ
-									</small>
-								)}{' '}
-							</span>
+							{product?.newPrice && (
+								<span className='me-3'>
+									{product?.newPrice} د.أ
+								</span>
+							)}
 						</Card.Subtitle>
 					)}
 				</Card.Header>
-				<Card.Body>
+				{/* <Card.Body>
 					<Card.Text>
 						<span
 							className={`arb-text ${
@@ -121,13 +133,8 @@ function ProductCard({ product }: ProductCardProps) {
 							{product?.quantity} في المخزون
 						</span>
 					</Card.Text>
-				</Card.Body>
-				<Card.Footer
-					style={{
-						background: 'none',
-						border: 'none',
-					}}
-				>
+				</Card.Body> */}
+				<Card.Footer className='d-flex flex-column align-items-center'>
 					<Button
 						onClick={handleAddProduct}
 						variant={
@@ -136,7 +143,7 @@ function ProductCard({ product }: ProductCardProps) {
 								? 'secondary'
 								: 'outline-secondary'
 						}
-						className='arb-text w-100'
+						className='arb-text mb-2'
 						disabled={
 							product?.quantity === 0 ||
 							productInCart
@@ -144,24 +151,22 @@ function ProductCard({ product }: ProductCardProps) {
 					>
 						{!productInCart ? (
 							<span>
-								أضف للعربة{' '}
-								<BsCartPlus
-									style={{
-										fontSize: '22px',
-									}}
-								/>{' '}
+								<BsCartPlus className='footerButtons' />{' '}
 							</span>
 						) : (
 							<span>
-								في العربة
-								<BsCheck
-									style={{
-										fontSize: '22px',
-									}}
-								/>
+								<BsCheck className='footerButtons' />
 							</span>
 						)}
 					</Button>
+
+					{productInCart && (
+						<ProductCartActions
+							product={productCart as TCartProduct}
+							totalProductPrice={totalProductPrice}
+							className='productAction'
+						/>
+					)}
 				</Card.Footer>
 			</Card>
 		</Container>

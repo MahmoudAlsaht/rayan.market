@@ -31,7 +31,7 @@ function Banner() {
 	}, [banner?._id]);
 
 	return (
-		<div className='w-100 mb-5'>
+		<div className='w-100 mb-3'>
 			{bannerImages && bannerImages!.length < 2 ? (
 				bannerImages?.map((image) => (
 					<Link to={image?.link || '#'}>

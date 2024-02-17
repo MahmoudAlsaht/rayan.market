@@ -15,11 +15,6 @@ a {
 	width: 100%;
 }
 
-.productContainer {
-	display: flex;
-	flex-direction: column;
-}
-
 .searchInput {
 	align-self: center;
 	width: 300px;
@@ -48,4 +43,13 @@ input[type='number'] {
 
 .dropdown-toggle::after {
 	display: none;
+}
+
+@media (max-width: 575px) {
+	.banner-image {
+		height: 33dvh;
+	}
+	.searchInput {
+		width: 200px;
+	}
 }
