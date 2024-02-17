@@ -90,7 +90,7 @@ function ProductCard({ product }: ProductCardProps) {
 						}
 					/>
 					<Card.Title className='text-center mt-2 text-muted'>
-						{product?.name?.substring(0, 45)}
+						{product?.name?.substring(0, 30)}
 					</Card.Title>
 				</Link>
 				<Card.Header>
