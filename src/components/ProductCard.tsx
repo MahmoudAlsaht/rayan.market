@@ -21,12 +21,14 @@ import {
 import { TProductImage } from '../app/store/product';
 import ProductCartActions from './ProductCartActions';
 import { sumEachProductTotalPrice } from '../utils';
+import Skeleton from 'react-loading-skeleton';
 
 type ProductCardProps = {
 	product: DocumentData | undefined;
 };
 
 function ProductCard({ product }: ProductCardProps) {
+	const [isLoading, setIsLoading] = useState(false);
 	const [productImages, setProductImages] =
 		useState<(TProductImage | null)[]>();
 	const [productInCart, setProductInCart] = useState(false);
@@ -57,6 +59,7 @@ function ProductCard({ product }: ProductCardProps) {
 	};
 
 	useEffect(() => {
+		setIsLoading(true);
 		const getImages = async () => {
 			const fetchedImages = await fetchProductsImages(
 				product?._id,
@@ -75,49 +78,51 @@ function ProductCard({ product }: ProductCardProps) {
 		setTotalProductPrice(
 			sumEachProductTotalPrice(productCart!),
 		);
+		setIsLoading(false);
 	}, [cart, product?._id, productCart]);
 
 	return (
 		<Container fluid>
-			<Card className='productCard mb-5 text-center'>
-				<Link to={`/store/products/${product?._id}`}>
-					<Card.Img
-						variant='top'
-						src={
-							(productImages &&
-								productImages[0]?.path) ||
-							defaultProductImage
-						}
-					/>
-					<Card.Title className='text-center mt-2 text-muted'>
-						{product?.name?.substring(0, 30)}
-					</Card.Title>
-				</Link>
-				<Card.Header>
-					{!product?.isOffer ? (
-						<Card.Subtitle className='text-muted arb-text'>
-							{product?.price} د.أ
-						</Card.Subtitle>
-					) : (
-						<Card.Subtitle className='text-muted arb-text'>
-							<span
-								style={{
-									textDecoration:
-										product?.newPrice &&
-										'line-through',
-								}}
-							>
+			{!isLoading ? (
+				<Card className='productCard mb-5 text-center'>
+					<Link to={`/store/products/${product?._id}`}>
+						<Card.Img
+							variant='top'
+							src={
+								(productImages &&
+									productImages[0]?.path) ||
+								defaultProductImage
+							}
+						/>
+						<Card.Title className='text-center mt-2 text-muted'>
+							{product?.name?.substring(0, 30)}
+						</Card.Title>
+					</Link>
+					<Card.Header>
+						{!product?.isOffer ? (
+							<Card.Subtitle className='text-muted arb-text'>
 								{product?.price} د.أ
-							</span>
-							{product?.newPrice && (
-								<span className='me-3'>
-									{product?.newPrice} د.أ
+							</Card.Subtitle>
+						) : (
+							<Card.Subtitle className='text-muted arb-text'>
+								<span
+									style={{
+										textDecoration:
+											product?.newPrice &&
+											'line-through',
+									}}
+								>
+									{product?.price} د.أ
 								</span>
-							)}
-						</Card.Subtitle>
-					)}
-				</Card.Header>
-				{/* <Card.Body>
+								{product?.newPrice && (
+									<span className='me-3'>
+										{product?.newPrice} د.أ
+									</span>
+								)}
+							</Card.Subtitle>
+						)}
+					</Card.Header>
+					{/* <Card.Body>
 					<Card.Text>
 						<span
 							className={`arb-text ${
@@ -130,42 +135,53 @@ function ProductCard({ product }: ProductCardProps) {
 						</span>
 					</Card.Text>
 				</Card.Body> */}
-				<Card.Footer className='d-flex flex-column align-items-center'>
-					<Button
-						onClick={handleAddProduct}
-						variant={
-							product?.quantity === 0
-								? 'secondary'
-								: productInCart
-								? 'success'
-								: 'outline-secondary'
-						}
-						className='arb-text mb-2'
-						disabled={
-							product?.quantity === 0 ||
-							productInCart
-						}
-					>
-						{!productInCart ? (
-							<span>
-								<BsCartPlus className='footerButtons' />{' '}
-							</span>
-						) : (
-							<span>
-								<BsCheck className='footerButtons' />
-							</span>
-						)}
-					</Button>
+					<Card.Footer className='d-flex flex-column align-items-center'>
+						<Button
+							onClick={handleAddProduct}
+							variant={
+								product?.quantity === 0
+									? 'secondary'
+									: productInCart
+									? 'success'
+									: 'outline-secondary'
+							}
+							className='arb-text mb-2'
+							disabled={
+								product?.quantity === 0 ||
+								productInCart
+							}
+						>
+							{!productInCart ? (
+								<span>
+									<BsCartPlus className='footerButtons' />{' '}
+								</span>
+							) : (
+								<span>
+									<BsCheck className='footerButtons' />
+								</span>
+							)}
+						</Button>
 
-					{productInCart && (
-						<ProductCartActions
-							product={productCart as TCartProduct}
-							totalProductPrice={totalProductPrice}
-							className='productAction'
-						/>
-					)}
-				</Card.Footer>
-			</Card>
+						{productInCart && (
+							<ProductCartActions
+								product={
+									productCart as TCartProduct
+								}
+								totalProductPrice={
+									totalProductPrice
+								}
+								className='productAction'
+							/>
+						)}
+					</Card.Footer>
+				</Card>
+			) : (
+				<Skeleton
+					height={200}
+					width={170}
+					style={{ marginTop: '1rem' }}
+				/>
+			)}
 		</Container>
 	);
 }

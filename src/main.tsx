@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Router } from './Router.tsx';
 import { RouterProvider } from 'react-router-dom';
 import './main.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 // import { registerSW } from 'virtual:pwa-register'
 
