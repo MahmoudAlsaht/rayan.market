@@ -88,7 +88,7 @@ function ContactInfoForm({
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرجاء قم بملئ جميع الحقول',
 			});
 		} else if (
 			contactNumberRef.current?.value.length !== 10
@@ -96,7 +96,7 @@ function ContactInfoForm({
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'phone number must be 10 characters',
+				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
 			});
 		} else {
 			setValidated(true);

@@ -132,7 +132,7 @@ function ShowOrderDetails() {
 							<span className='text-muted'>
 								Email:
 							</span>{' '}
-							{order?.user?.email}
+							{order?.user?.phoneNumber}
 						</h6>
 						<h6>
 							<span className='text-muted'>

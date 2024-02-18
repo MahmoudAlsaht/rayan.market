@@ -23,7 +23,7 @@ function Signup() {
 	});
 	const [isLoading, setIsLoading] = useState(false);
 
-	const emailRef = useRef<HTMLInputElement>(null);
+	const phoneRef = useRef<HTMLInputElement>(null);
 	const usernameRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement | null>(
@@ -55,7 +55,7 @@ function Signup() {
 			} else {
 				setIsLoading(true);
 				await signUp(
-					emailRef.current?.value,
+					phoneRef.current?.value,
 					passwordRef.current?.value,
 					usernameRef.current!.value,
 				);
@@ -74,7 +74,7 @@ function Signup() {
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
-			emailRef.current?.value === '' ||
+			phoneRef.current?.value === '' ||
 			passwordRef.current?.value === '' ||
 			usernameRef.current?.value === '' ||
 			confirmPasswordRef.current?.value === '' ||
@@ -100,11 +100,17 @@ function Signup() {
 				status: false,
 				message: 'كلمة المرور يجب أن لا تقل عن 6 خانات',
 			});
+		} else if (phoneRef.current?.value.length !== 10) {
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
+			});
 		} else if (usernameRef.current?.value === 'anonymous') {
 			setValidated(false);
 			setError({
 				status: false,
-				message: ' يمكنك اختيار لمة المرور هذه!',
+				message: ' لا يمكنك اختيار اسم المستخدم هذا!',
 			});
 		} else {
 			setValidated(true);
@@ -132,17 +138,17 @@ function Signup() {
 
 						<Form.Group
 							className='mb-3'
-							controlId='emailInput'
+							controlId='phoneInput'
 						>
 							<Form.Label className='arb-text'>
-								البريد الإلكتروني
+								رقم الهاتف
 							</Form.Label>
 							<Form.Control
 								onChange={handleChange}
 								required
-								type='email'
-								placeholder='name@example.com'
-								ref={emailRef}
+								type='text'
+								placeholder='07########'
+								ref={phoneRef}
 							/>
 						</Form.Group>
 

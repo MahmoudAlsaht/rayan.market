@@ -23,12 +23,10 @@ function AnonymousUserForm({
 	});
 	const dispatch = useAppDispatch();
 
-	const firstNameRef = useRef<HTMLInputElement>(null);
-	const lastNameRef = useRef<HTMLInputElement>(null);
-	const emailRef = useRef<HTMLInputElement>(null);
+	const nameRef = useRef<HTMLInputElement>(null);
+	const phoneRef = useRef<HTMLInputElement>(null);
 	const cityRef = useRef<HTMLInputElement>(null);
 	const streetRef = useRef<HTMLInputElement>(null);
-	const contactNumberRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -44,15 +42,10 @@ function AnonymousUserForm({
 				});
 			} else {
 				const data = {
-					firstName: firstNameRef.current
-						?.value as string,
-					lastName: lastNameRef.current
-						?.value as string,
-					email: emailRef.current?.value as string,
+					name: nameRef.current?.value as string,
+					phone: phoneRef.current?.value as string,
 					city: cityRef.current?.value as string,
 					street: streetRef.current?.value as string,
-					contactNumber: contactNumberRef.current
-						?.value as string,
 				};
 
 				const user: TAnonymousUser =
@@ -61,12 +54,10 @@ function AnonymousUserForm({
 				dispatch(addAnonymousUserToCart(user));
 
 				setIsLoading(false);
-				firstNameRef.current!.value = '';
-				lastNameRef.current!.value = '';
-				emailRef.current!.value = '';
+				nameRef.current!.value = '';
+				phoneRef.current!.value = '';
 				cityRef.current!.value = '';
 				streetRef.current!.value = '';
-				contactNumberRef.current!.value = '';
 				handleStep('payment');
 			}
 		} catch (e: any) {
@@ -83,25 +74,21 @@ function AnonymousUserForm({
 
 		if (
 			cityRef.current?.value === '' ||
-			firstNameRef.current?.value === '' ||
-			lastNameRef.current?.value === '' ||
-			emailRef.current?.value === '' ||
+			nameRef.current?.value === '' ||
+			phoneRef.current?.value === '' ||
 			streetRef.current?.value === '' ||
-			contactNumberRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرجاء قم بملئ جميع الحقول',
 			});
-		} else if (
-			contactNumberRef.current?.value.length !== 10
-		) {
+		} else if (phoneRef.current?.value.length !== 10) {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'phone number must be 10 characters',
+				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
 			});
 		} else {
 			setValidated(true);
@@ -129,42 +116,15 @@ function AnonymousUserForm({
 								onChange={handleChange}
 								type='text'
 								required
-								placeholder='First Name'
+								placeholder='Name'
 								defaultValue={
 									contact?.address.city
 								}
-								ref={firstNameRef}
-							/>
-						</Form.Group>
-					</Col>
-					<Col>
-						<Form.Group>
-							<Form.Control
-								className='mb-3'
-								onChange={handleChange}
-								type='text'
-								required
-								placeholder='Last Name'
-								defaultValue={
-									contact?.address.city
-								}
-								ref={lastNameRef}
+								ref={nameRef}
 							/>
 						</Form.Group>
 					</Col>
 				</Row>
-				<Form.Group>
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						className='mb-3'
-						onChange={handleChange}
-						type='email'
-						required
-						placeholder='Email Address'
-						defaultValue={contact?.address.city}
-						ref={emailRef}
-					/>
-				</Form.Group>
 				<Form.Group
 					className='mb-3'
 					controlId='cityInput'
@@ -205,8 +165,7 @@ function AnonymousUserForm({
 						onChange={handleChange}
 						type='number'
 						placeholder='Enter Your phone Number'
-						defaultValue={contact?.phoneNumber}
-						ref={contactNumberRef}
+						ref={phoneRef}
 					/>
 				</Form.Group>
 

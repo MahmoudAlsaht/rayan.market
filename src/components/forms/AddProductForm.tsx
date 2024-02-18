@@ -84,7 +84,7 @@ function AddProductForm({
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'please provide all the missing fields',
+				message: 'الرجاء قم بملئ جميع الحقول',
 			});
 		} else {
 			setValidated(true);

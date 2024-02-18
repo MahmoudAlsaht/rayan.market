@@ -77,7 +77,7 @@ export const updateOrderStatus = createAsyncThunk(
 			)
 				await sendEmailToCustomer(
 					order?.user?.username as string,
-					order?.user?.email as string,
+					order?.user?.phoneNumber as string,
 					order?.products as TCartProduct[],
 					updatedStatus,
 				);

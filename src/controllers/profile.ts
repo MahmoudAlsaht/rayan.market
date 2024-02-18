@@ -20,17 +20,17 @@ export const fetchProfile = createAsyncThunk(
 	},
 );
 
-export const updateUserEmailAndUsername = async (data: any) => {
+export const updateUserPhoneAndUsername = async (data: any) => {
 	try {
 		if (!isAuthenticated())
 			throw new Error('You Are Not Authorized');
 
-		const { email, username, password, profileId } = data;
+		const { phone, username, password, profileId } = data;
 
 		const res = await sendRequestToServer(
 			'POST',
-			`account/profile/${profileId}/updateUserEmailAndUsername`,
-			{ email, username, password },
+			`account/profile/${profileId}/updateUserPhoneAndUsername`,
+			{ phone, username, password },
 		);
 
 		setCookies('user', res, 0.3);
@@ -74,11 +74,10 @@ export const destroyUser = createAsyncThunk(
 			);
 			setCookies('user', {
 				username: 'anonymous',
-				email: '',
+				phone: '',
 				isAdmin: false,
 				profile: '',
 				id: '',
-				phoneNumber: '',
 			});
 			return null;
 		} catch (e: any) {

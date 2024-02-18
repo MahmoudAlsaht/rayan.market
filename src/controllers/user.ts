@@ -18,7 +18,7 @@ export const fetchUser = createAsyncThunk(
 );
 
 export const signUp = async (
-	email: any,
+	phone: any,
 	password: any,
 	displayName: string,
 ) => {
@@ -30,10 +30,9 @@ export const signUp = async (
 			'auth/signup',
 			{
 				username: displayName,
-				email,
+				phone,
 				password,
 				isAdmin: false,
-				phoneNumber: 'none',
 			},
 		);
 		setCookies('user', res, 0.3);
@@ -43,7 +42,7 @@ export const signUp = async (
 };
 
 export const signIn = async (
-	email: string,
+	phone: string,
 	password: string,
 ) => {
 	try {
@@ -51,7 +50,7 @@ export const signIn = async (
 			'post',
 			'auth/signin',
 			{
-				email,
+				phone,
 				password,
 			},
 		);
@@ -71,11 +70,10 @@ export const logout = createAsyncThunk(
 			removeCookies('user');
 			return {
 				username: 'anonymous',
-				email: '',
+				phone: '',
 				isAdmin: false,
 				profile: '',
 				_id: '',
-				phoneNumber: '',
 			};
 		} catch (e: any) {
 			throw new Error(
@@ -86,12 +84,10 @@ export const logout = createAsyncThunk(
 );
 
 export const createAnonymousUser = async (data: {
-	firstName: string;
-	lastName: string;
-	email: string;
+	name: string;
+	phone: string;
 	city: string;
 	street: string;
-	contactNumber: string;
 }) => {
 	try {
 		const anonymousUser = await sendRequestToServer(

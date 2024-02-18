@@ -7,9 +7,8 @@ import { TContactInfo } from '../../controllers/contact';
 export type TUser = {
 	_id: string;
 	username: string;
-	email: string;
 	isAdmin: boolean;
-	phoneNumber?: string;
+	phone: string;
 	profile: string;
 	orders?: string[];
 };
@@ -17,7 +16,7 @@ export type TUser = {
 export type TAnonymousUser = {
 	_id: string;
 	username: string;
-	email: string;
+	phone: string;
 	orders?: TOrder[];
 	contact?: TContactInfo;
 };
@@ -25,8 +24,7 @@ export type TAnonymousUser = {
 const initialState: TUser = {
 	_id: '',
 	username: 'anonymous',
-	email: '',
-	phoneNumber: '',
+	phone: '',
 	isAdmin: false,
 	profile: '',
 };

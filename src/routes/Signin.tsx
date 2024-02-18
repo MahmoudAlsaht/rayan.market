@@ -23,7 +23,7 @@ function SignIn() {
 	});
 	const [isLoading, setIsLoading] = useState(false);
 
-	const emailRef = useRef<HTMLInputElement>(null);
+	const phoneRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 
 	const navigate = useNavigate();
@@ -51,7 +51,7 @@ function SignIn() {
 			} else {
 				setIsLoading(true);
 				await signIn(
-					emailRef.current!.value,
+					phoneRef.current!.value,
 					passwordRef.current!.value,
 				);
 				setIsLoading(false);
@@ -69,7 +69,7 @@ function SignIn() {
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
-			emailRef.current?.value === '' ||
+			phoneRef.current?.value === '' ||
 			passwordRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
@@ -83,6 +83,12 @@ function SignIn() {
 			setError({
 				status: false,
 				message: 'كلمة المرور يجب أن لا تقل عن 6 خانات',
+			});
+		} else if (phoneRef.current?.value.length !== 10) {
+			setValidated(false);
+			setError({
+				status: false,
+				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
 			});
 		} else {
 			setValidated(true);
@@ -108,17 +114,17 @@ function SignIn() {
 
 							<Form.Group
 								className='mb-3'
-								controlId='emailInput'
+								controlId='phoneInput'
 							>
 								<Form.Label className='arb-text'>
-									البريد الإلكتروني
+									رقم الهاتف
 								</Form.Label>
 								<Form.Control
 									onChange={handleChange}
 									required
-									type='email'
-									placeholder='name@example.com'
-									ref={emailRef}
+									type='text'
+									placeholder='07########'
+									ref={phoneRef}
 								/>
 							</Form.Group>
 

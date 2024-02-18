@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { TUser } from '../../app/auth/auth';
-import { updateUserEmailAndUsername } from '../../controllers/profile';
+import { updateUserPhoneAndUsername } from '../../controllers/profile';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { useParams } from 'react-router-dom';
@@ -22,7 +22,7 @@ function UpdateUserInfoForm({
 		message: '',
 	});
 
-	const emailRef = useRef<HTMLInputElement>(null);
+	const phoneRef = useRef<HTMLInputElement>(null);
 	const usernameRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -41,11 +41,11 @@ function UpdateUserInfoForm({
 			} else {
 				const data = {
 					password: passwordRef.current?.value,
-					email: emailRef.current?.value,
+					phone: phoneRef.current?.value,
 					username: usernameRef.current?.value,
 					profileId,
 				};
-				await updateUserEmailAndUsername(data),
+				await updateUserPhoneAndUsername(data),
 					setIsLoading(false);
 
 				passwordRef.current!.value = '';
@@ -64,7 +64,7 @@ function UpdateUserInfoForm({
 		const form = e.currentTarget as HTMLFormElement;
 		if (
 			passwordRef.current?.value === '' ||
-			emailRef.current?.value === '' ||
+			phoneRef.current?.value === '' ||
 			usernameRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
@@ -93,15 +93,15 @@ function UpdateUserInfoForm({
 
 			<ErrorComponent error={error} />
 
-			<Form.Group className='mb-3' controlId='emailInput'>
-				<Form.Label>البريد الإلكتروني</Form.Label>
+			<Form.Group className='mb-3' controlId='phoneInput'>
+				<Form.Label> رقم الهاتف</Form.Label>
 				<Form.Control
 					onChange={handleChange}
-					type='email'
+					type='text'
 					required
 					placeholder='name@example.com'
-					defaultValue={user?.email as string}
-					ref={emailRef}
+					defaultValue={user?.phone as string}
+					ref={phoneRef}
 				/>
 			</Form.Group>
 
