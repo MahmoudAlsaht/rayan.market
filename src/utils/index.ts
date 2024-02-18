@@ -76,7 +76,7 @@ export const sumEachProductTotalPrice = (
 };
 
 export const isAuthenticated = () => {
-	const user: TUser | null = getCookies('user');
+	const user: TUser | null = getCookies('token');
 	return user && user?.username !== 'anonymous';
 };
 
@@ -98,22 +98,41 @@ export const isCustomer = async () => {
 		: user?.role === 'customer';
 };
 
+export const getUserByToken = async (token?: string) => {
+	try {
+		const res = await axios({
+			url: `${import.meta.env.VITE_API_URL}/auth/getUser`,
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return res?.data;
+	} catch (e: any) {
+		console.error(e);
+		throw new Error(e?.response?.data?.error);
+	}
+};
+
 export const sendRequestToServer = async (
 	method: string,
 	urlStr: string,
 	data?: any,
-	contentType: string = 'application/json',
 ) => {
 	try {
+		const token = getCookies('token');
+		console.log(token);
 		const url = `${import.meta.env.VITE_API_URL}/${urlStr}`;
 		const res = await axios({
 			url,
 			data,
 			method,
 			headers: {
-				Accept: contentType,
-				'Content-Type': contentType,
+				Accept: 'application/json',
 				'Access-Control-Allow-Origin': '*',
+				Authorization: `Bearer ${token}`,
 			},
 		});
 		return res?.data;

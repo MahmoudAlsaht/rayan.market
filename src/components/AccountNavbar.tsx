@@ -92,7 +92,9 @@ function AccountNavbar() {
 							{!isAccountSettingPage && (
 								<NavDropdown.Item>
 									<Link
-										to={`/account/profile/${user?.profile}/account-setting`}
+										to={`/account/profile/${
+											user && user?.profile
+										}/account-setting`}
 									>
 										اعدادات الحساب
 									</Link>
@@ -101,7 +103,9 @@ function AccountNavbar() {
 							{!isOrdersPage && (
 								<NavDropdown.Item>
 									<Link
-										to={`/account/profile/${user?.profile}/orders-history`}
+										to={`/account/profile/${
+											user && user?.profile
+										}/orders-history`}
 									>
 										طلباتي
 									</Link>
@@ -112,7 +116,9 @@ function AccountNavbar() {
 							user?.role !== 'customer' ? (
 								<NavDropdown.Item>
 									<Link
-										to={`/dashboard/admin/${user?.profile}`}
+										to={`/dashboard/admin/${
+											user && user?.profile
+										}`}
 									>
 										لوحة التحكم
 									</Link>
@@ -122,22 +128,29 @@ function AccountNavbar() {
 									isOrdersPage) && (
 									<NavDropdown.Item>
 										<Link
-											to={`/account/profile/${user?.profile}`}
+											to={`/account/profile/${
+												user &&
+												user?.profile
+											}`}
 										>
 											الصفحة الشخصية
 										</Link>
 									</NavDropdown.Item>
 								)
 							)}
-							{user?.role === 'customer' && (
-								<NavDropdown.Item>
-									<Link
-										to={`/account/profile/${user?.profile}/contact-info`}
-									>
-										معلومات الإتصال
-									</Link>
-								</NavDropdown.Item>
-							)}
+							{user &&
+								user?.role === 'customer' && (
+									<NavDropdown.Item>
+										<Link
+											to={`/account/profile/${
+												user &&
+												user?.profile
+											}/contact-info`}
+										>
+											معلومات الإتصال
+										</Link>
+									</NavDropdown.Item>
+								)}
 							<NavDropdown.Divider />
 							<NavDropdown.Item
 								onClick={handleLogout}
@@ -196,7 +209,9 @@ function AccountNavbar() {
 								<Nav.Link onClick={handleClick}>
 									<Link
 										className='text-white'
-										to={`/account/profile/${user?.profile}/account-setting`}
+										to={`/account/profile/${
+											user && user?.profile
+										}/account-setting`}
 									>
 										اعدادات الحساب
 									</Link>
@@ -206,7 +221,9 @@ function AccountNavbar() {
 								<Nav.Link onClick={handleClick}>
 									<Link
 										className='text-white'
-										to={`/account/profile/${user?.profile}/orders-history`}
+										to={`/account/profile/${
+											user && user?.profile
+										}/orders-history`}
 									>
 										طلباتي
 									</Link>
@@ -218,7 +235,9 @@ function AccountNavbar() {
 								<Nav.Link onClick={handleClick}>
 									<Link
 										className='text-white'
-										to={`/dashboard/admin/${user?.profile}`}
+										to={`/dashboard/admin/${
+											user && user?.profile
+										}`}
 									>
 										لوحة التحكم
 									</Link>
@@ -231,7 +250,10 @@ function AccountNavbar() {
 									>
 										<Link
 											className='text-white'
-											to={`/account/profile/${user?.profile}`}
+											to={`/account/profile/${
+												user &&
+												user?.profile
+											}`}
 										>
 											الصفحة الشخصية
 										</Link>
@@ -239,16 +261,22 @@ function AccountNavbar() {
 								)
 							)}
 
-							{user?.role === 'customer' && (
-								<Nav.Link onClick={handleClick}>
-									<Link
-										className='text-white'
-										to={`/account/profile/${user?.profile}/contact-info`}
+							{user &&
+								user?.role === 'customer' && (
+									<Nav.Link
+										onClick={handleClick}
 									>
-										معلومات الإتصال
-									</Link>
-								</Nav.Link>
-							)}
+										<Link
+											className='text-white'
+											to={`/account/profile/${
+												user &&
+												user?.profile
+											}/contact-info`}
+										>
+											معلومات الإتصال
+										</Link>
+									</Nav.Link>
+								)}
 							<Nav.Link
 								onClick={handleLogout}
 								className='text-white'

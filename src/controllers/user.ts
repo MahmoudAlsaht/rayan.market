@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
 	getCookies,
@@ -6,14 +7,24 @@ import {
 	sendRequestToServer,
 	setCookies,
 } from '../utils';
-import { TUser } from '../app/auth/auth';
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
-	() => {
-		const user: TUser | null = getCookies('user');
+	async () => {
+		try {
+			const token = getCookies('token');
 
-		return user as any;
+			if (token == undefined) return null;
+
+			const user = await sendRequestToServer(
+				'GET',
+				'auth',
+			);
+
+			return user;
+		} catch (e: any) {
+			console.error(e.message);
+		}
 	},
 );
 
@@ -34,7 +45,7 @@ export const signUp = async (
 				password,
 			},
 		);
-		setCookies('user', res, 0.3);
+		setCookies('token', res.token, 0.3);
 	} catch (e: any) {
 		throw new Error(e.message);
 	}
@@ -53,7 +64,7 @@ export const signIn = async (
 				password,
 			},
 		);
-		setCookies('user', res, 0.3);
+		setCookies('token', res.token, 0.3);
 	} catch (e: any) {
 		throw new Error(e.message);
 	}
@@ -66,12 +77,12 @@ export const logout = createAsyncThunk(
 			if (!isAuthenticated())
 				throw new Error('You Are Not Authorized');
 
-			removeCookies('user');
+			removeCookies('token');
 			return {
 				username: 'anonymous',
 				phone: '',
 				role: 'customer',
-				profile: '',
+				profile: null,
 				_id: '',
 			};
 		} catch (e: any) {

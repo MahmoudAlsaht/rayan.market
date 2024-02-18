@@ -3,13 +3,14 @@ import type { RootState } from '../store';
 import { fetchUser, logout } from '../../controllers/user';
 import { TOrder } from '../store/order';
 import { TContactInfo } from '../../controllers/contact';
+import { TProfile } from './profile';
 
 export type TUser = {
 	_id: string;
 	username: string;
 	role: string;
 	phone: string;
-	profile: string;
+	profile: TProfile | null;
 	orders?: string[];
 };
 
@@ -24,9 +25,9 @@ export type TAnonymousUser = {
 const initialState: TUser = {
 	_id: '',
 	username: 'anonymous',
-	phone: '',
 	role: 'customer',
-	profile: '',
+	phone: '',
+	profile: null,
 };
 
 export const UserSlice = createSlice({
@@ -35,7 +36,13 @@ export const UserSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchUser.fulfilled, (state, action) => {
-			state = action.payload;
+			state = action.payload || {
+				username: 'anonymous',
+				phone: '',
+				role: 'customer',
+				profile: null,
+				_id: '',
+			};
 			return state;
 		});
 		builder.addCase(logout.fulfilled, (state, action) => {

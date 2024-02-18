@@ -62,7 +62,9 @@ const Dashboard = memo(() => {
 							href={
 								widget.toLowerCase() ===
 								'settings'
-									? `/account/profile/${user?.profile}/account-setting`
+									? `/account/profile/${
+											user && user?.profile
+									  }/account-setting`
 									: `/dashboard/settings/${widget.toLowerCase()}`
 							}
 							badge={

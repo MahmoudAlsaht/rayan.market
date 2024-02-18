@@ -79,7 +79,7 @@ const MainNavbar = () => {
 						</Nav>
 
 						<Nav className='me-auto'>
-							{user.username !== 'anonymous' ? (
+							{user?.username !== 'anonymous' ? (
 								<NavDropdown
 									title={
 										<Image

@@ -91,7 +91,9 @@ export default function AuthLayout() {
 							<Nav.Item>
 								<Nav.Link>
 									<Link
-										to={`/dashboard/admin/${user?.profile}`}
+										to={`/dashboard/admin/${
+											user && user?.profile
+										}`}
 									>
 										لوحة التحكم
 									</Link>
@@ -101,7 +103,9 @@ export default function AuthLayout() {
 						<Nav.Item>
 							<Nav.Link>
 								<Link
-									to={`/account/profile/${user?.profile}/account-setting`}
+									to={`/account/profile/${
+										user && user?.profile
+									}/account-setting`}
 								>
 									معلومات الحساب
 								</Link>

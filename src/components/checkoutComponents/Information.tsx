@@ -32,7 +32,7 @@ function Information({
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchProfile(user?.profile));
+		dispatch(fetchProfile(user?.profile?._id as string));
 		if (profile) {
 			const getContacts = async () => {
 				const contactsArray = await getContactsData(
