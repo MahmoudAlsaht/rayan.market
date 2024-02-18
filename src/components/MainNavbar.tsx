@@ -91,7 +91,8 @@ const MainNavbar = () => {
 									}
 									id='collapsible-nav-dropdown'
 								>
-									{user?.isAdmin ? (
+									{user?.role !==
+									'customer' ? (
 										<NavDropdown.Item>
 											<Link
 												to={`/dashboard/admin/${user?.profile}`}
@@ -206,7 +207,7 @@ const MainNavbar = () => {
 
 						{user?.username !== 'anonymous' ? (
 							<div>
-								{user?.isAdmin ? (
+								{user?.role !== 'customer' ? (
 									<Nav.Link
 										onClick={handleClick}
 									>

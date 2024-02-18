@@ -80,10 +80,22 @@ export const isAuthenticated = () => {
 	return user && user?.username !== 'anonymous';
 };
 
-export const isAdmin = () => {
-	if (!isAuthenticated()) return false;
+export const isAdmin = async () => {
 	const user: TUser | null = getCookies('user');
-	return user?.isAdmin;
+	return !isAuthenticated() ? false : user?.role === 'admin';
+};
+
+export const isStaff = async () => {
+	const user: TUser | null = getCookies('user');
+
+	return !isAuthenticated() ? false : user?.role === 'staff';
+};
+
+export const isCustomer = async () => {
+	const user: TUser | null = getCookies('user');
+	return !isAuthenticated()
+		? false
+		: user?.role === 'customer';
 };
 
 export const sendRequestToServer = async (

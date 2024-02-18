@@ -1,10 +1,10 @@
 import { TCart, TCartProduct } from '../app/store/cart';
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TUser } from '../app/auth/auth';
 import {
 	getCookies,
 	isAdmin,
+	isStaff,
 	isAuthenticated,
 	sendRequestToServer,
 } from '../utils';
@@ -60,7 +60,7 @@ export const updateOrderStatus = createAsyncThunk(
 				updatedStatus in
 				['accepted', 'rejected', 'completed']
 			) {
-				if (!isAdmin())
+				if (!isAdmin() || !isStaff())
 					throw new Error('You Are Not Authorized');
 			} else if (updatedStatus === 'canceled') {
 				if (!isAuthenticated())
@@ -70,17 +70,6 @@ export const updateOrderStatus = createAsyncThunk(
 					'Unexpected status: ' + updatedStatus,
 				);
 			}
-
-			if (
-				updatedStatus === 'accepted' ||
-				updatedStatus === 'rejected'
-			)
-				await sendEmailToCustomer(
-					order?.user?.username as string,
-					order?.user?.phoneNumber as string,
-					order?.products as TCartProduct[],
-					updatedStatus,
-				);
 
 			return order;
 		} catch (e: any) {
@@ -124,37 +113,6 @@ export const fetchOrders = createAsyncThunk(
 		}
 	},
 );
-
-const sendEmailToCustomer = async (
-	username: string,
-	email: string,
-	products: TCartProduct[],
-	orderStatus: string,
-) => {
-	try {
-		const data = {
-			username,
-			email,
-			products,
-			orderStatus,
-		};
-
-		const res = await axios({
-			url: `${import.meta.env.VITE_API_URL}/send`,
-			data: data,
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*',
-			},
-		});
-		console.log(res);
-	} catch (e: any) {
-		console.error(e.message);
-	}
-};
-
 export const checkIfProductIsAvailable = (
 	products: TCartProduct[] | undefined,
 ) => {

@@ -32,7 +32,6 @@ export const signUp = async (
 				username: displayName,
 				phone,
 				password,
-				isAdmin: false,
 			},
 		);
 		setCookies('user', res, 0.3);
@@ -71,7 +70,7 @@ export const logout = createAsyncThunk(
 			return {
 				username: 'anonymous',
 				phone: '',
-				isAdmin: false,
+				role: 'customer',
 				profile: '',
 				_id: '',
 			};

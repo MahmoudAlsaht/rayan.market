@@ -75,7 +75,7 @@ export const destroyUser = createAsyncThunk(
 			setCookies('user', {
 				username: 'anonymous',
 				phone: '',
-				isAdmin: false,
+				role: 'customer',
 				profile: '',
 				id: '',
 			});

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { uploadBannerImages } from './bannerImages';
 import { TBanner } from '../app/store/banner';
-import { isAdmin, sendRequestToServer } from '../utils';
+import { isAdmin, isStaff, sendRequestToServer } from '../utils';
 import db from '../firebase/config';
 
 db();
@@ -38,7 +38,7 @@ export const createBanner = createAsyncThunk(
 		images: FileList | null;
 	}) => {
 		try {
-			if (!isAdmin())
+			if (!isAdmin() || !isStaff())
 				throw new Error('You Are Not Authorized');
 
 			const { name, images } = option;
@@ -64,7 +64,7 @@ export const updateBannersActivity = createAsyncThunk(
 	'Banners/updateBannerStatus',
 	async (option: { bannerId: string; active: boolean }) => {
 		try {
-			if (!isAdmin())
+			if (!isAdmin() || !isStaff())
 				throw new Error('You Are Not Authorized');
 
 			const { bannerId, active } = option;
@@ -91,7 +91,7 @@ export const updateBanner = createAsyncThunk(
 		currName: string;
 	}) => {
 		try {
-			if (!isAdmin())
+			if (!isAdmin() || !isStaff())
 				throw new Error('You Are Not Authorized');
 
 			const { bannerId } = options;
@@ -125,12 +125,10 @@ export const updateImageLink = createAsyncThunk(
 		link: string;
 	}) => {
 		try {
-			if (!isAdmin())
+			if (!isAdmin() || !isStaff())
 				throw new Error('You Are Not Authorized');
 
 			const { bannerId, imageId, link } = options;
-
-			console.log(link);
 
 			const banner: TBanner | null =
 				await sendRequestToServer(
@@ -150,7 +148,7 @@ export const destroyBanner = createAsyncThunk(
 	'banners/destroyBanner',
 	async (bannerId: string) => {
 		try {
-			if (!isAdmin())
+			if (!isAdmin() || !isStaff())
 				throw new Error('You Are Not Authorized');
 
 			await sendRequestToServer(

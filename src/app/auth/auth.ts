@@ -7,7 +7,7 @@ import { TContactInfo } from '../../controllers/contact';
 export type TUser = {
 	_id: string;
 	username: string;
-	isAdmin: boolean;
+	role: string;
 	phone: string;
 	profile: string;
 	orders?: string[];
@@ -25,7 +25,7 @@ const initialState: TUser = {
 	_id: '',
 	username: 'anonymous',
 	phone: '',
-	isAdmin: false,
+	role: 'customer',
 	profile: '',
 };
 

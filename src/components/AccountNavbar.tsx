@@ -94,7 +94,7 @@ function AccountNavbar() {
 									<Link
 										to={`/account/profile/${user?.profile}/account-setting`}
 									>
-										Settings
+										اعدادات الحساب
 									</Link>
 								</NavDropdown.Item>
 							)}
@@ -103,18 +103,18 @@ function AccountNavbar() {
 									<Link
 										to={`/account/profile/${user?.profile}/orders-history`}
 									>
-										Orders
+										طلباتي
 									</Link>
 								</NavDropdown.Item>
 							)}
 							{(isAccountSettingPage ||
 								isOrdersPage) &&
-							user?.isAdmin ? (
+							user?.role !== 'customer' ? (
 								<NavDropdown.Item>
 									<Link
 										to={`/dashboard/admin/${user?.profile}`}
 									>
-										Dashboard
+										لوحة التحكم
 									</Link>
 								</NavDropdown.Item>
 							) : (
@@ -124,17 +124,17 @@ function AccountNavbar() {
 										<Link
 											to={`/account/profile/${user?.profile}`}
 										>
-											Profile
+											الصفحة الشخصية
 										</Link>
 									</NavDropdown.Item>
 								)
 							)}
-							{!user?.isAdmin && (
+							{user?.role === 'customer' && (
 								<NavDropdown.Item>
 									<Link
 										to={`/account/profile/${user?.profile}/contact-info`}
 									>
-										Contact Info
+										معلومات الإتصال
 									</Link>
 								</NavDropdown.Item>
 							)}
@@ -142,7 +142,7 @@ function AccountNavbar() {
 							<NavDropdown.Item
 								onClick={handleLogout}
 							>
-								Logout
+								تسجيل الخروج
 							</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
@@ -186,7 +186,7 @@ function AccountNavbar() {
 								to='/home'
 								className='text-white'
 							>
-								Store
+								المتجر
 							</Link>
 						</Nav.Link>
 						<hr />
@@ -198,7 +198,7 @@ function AccountNavbar() {
 										className='text-white'
 										to={`/account/profile/${user?.profile}/account-setting`}
 									>
-										Settings
+										اعدادات الحساب
 									</Link>
 								</Nav.Link>
 							)}
@@ -208,19 +208,19 @@ function AccountNavbar() {
 										className='text-white'
 										to={`/account/profile/${user?.profile}/orders-history`}
 									>
-										Orders
+										طلباتي
 									</Link>
 								</Nav.Link>
 							)}
 							{(isAccountSettingPage ||
 								isOrdersPage) &&
-							user?.isAdmin ? (
+							user?.role !== 'customer' ? (
 								<Nav.Link onClick={handleClick}>
 									<Link
 										className='text-white'
 										to={`/dashboard/admin/${user?.profile}`}
 									>
-										Dashboard
+										لوحة التحكم
 									</Link>
 								</Nav.Link>
 							) : (
@@ -233,19 +233,19 @@ function AccountNavbar() {
 											className='text-white'
 											to={`/account/profile/${user?.profile}`}
 										>
-											Profile
+											الصفحة الشخصية
 										</Link>
 									</Nav.Link>
 								)
 							)}
 
-							{!user?.isAdmin && (
+							{user?.role === 'customer' && (
 								<Nav.Link onClick={handleClick}>
 									<Link
 										className='text-white'
 										to={`/account/profile/${user?.profile}/contact-info`}
 									>
-										Contact Info
+										معلومات الإتصال
 									</Link>
 								</Nav.Link>
 							)}
@@ -253,7 +253,7 @@ function AccountNavbar() {
 								onClick={handleLogout}
 								className='text-white'
 							>
-								Logout
+								تسجيل الخروج
 							</Nav.Link>
 						</div>
 					</Nav>
