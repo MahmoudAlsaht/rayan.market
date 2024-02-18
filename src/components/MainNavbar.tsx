@@ -15,6 +15,7 @@ import { TUser } from '../app/auth/auth';
 import { BsJustify } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import '../assets/styles/MainNavbar.css';
+import FilterProducts from './FilterProducts';
 
 const MainNavbar = () => {
 	const [show, setShow] = useState(false);
@@ -45,7 +46,7 @@ const MainNavbar = () => {
 	};
 
 	return (
-		<>
+		<div>
 			<Navbar
 				collapseOnSelect
 				expand='md'
@@ -74,15 +75,9 @@ const MainNavbar = () => {
 									العروض
 								</Link>
 							</Nav.Link>
-							<Nav.Link>
-								<Link
-									to='/about'
-									className='navLink'
-								>
-									حول
-								</Link>
-							</Nav.Link>
+							<FilterProducts />
 						</Nav>
+
 						<Nav className='me-auto'>
 							{user.username !== 'anonymous' ? (
 								<NavDropdown
@@ -154,6 +149,9 @@ const MainNavbar = () => {
 				collapseOnSelect
 				className='bg-white d-md-none'
 			>
+				<Nav className='arb-text'>
+					<FilterProducts />
+				</Nav>
 				<Nav className='ms-auto'>
 					<Button
 						variant='none'
@@ -262,7 +260,7 @@ const MainNavbar = () => {
 					</Nav>
 				</Offcanvas.Body>
 			</Offcanvas>
-		</>
+		</div>
 	);
 };
 

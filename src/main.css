@@ -45,6 +45,18 @@ input[type='number'] {
 	display: none;
 }
 
+#filterProducts {
+	color: #07a180;
+	margin-top: 7px;
+	margin-right: -0.5rem;
+	border: 1px solid #07a180;
+}
+
+#filterProducts:hover {
+	background-color: #07a180;
+	color: #fff;
+}
+
 @media (max-width: 575px) {
 	.banner-image {
 		height: 30dvh;

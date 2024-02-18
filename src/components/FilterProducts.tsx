@@ -57,16 +57,16 @@ function FilterProducts() {
 	}, []);
 
 	return (
-		<div className='w-100 bg-white d-flex justify-content-center'>
+		<div className='w-100 d-flex justify-content-center'>
 			<Dropdown show={showSearchResult}>
 				<Dropdown.Toggle
 					variant='none'
-					className='searchInputToggle border-0 '
+					className='searchInputToggle border-0'
 				>
 					<input
 						type='search'
 						className='searchInput'
-						placeholder='search products'
+						placeholder='البحث عن المنتجات'
 						value={queryInput}
 						onChange={handleChange}
 					/>
@@ -96,8 +96,8 @@ function FilterProducts() {
 							</Dropdown.Item>
 						))
 					) : (
-						<span className='arb-text'>
-							'لم يتم العثور على نتائج للبحث'
+						<span className='arb-text p-2'>
+							لم يتم العثور على {`"${queryInput}"`}
 						</span>
 					)}
 				</Dropdown.Menu>
@@ -108,7 +108,6 @@ function FilterProducts() {
 					id='filterProducts'
 					variant='outline-secondary'
 					size='sm'
-					style={{ marginTop: '7px' }}
 				>
 					<BsFilter />
 				</Dropdown.Toggle>

@@ -1,12 +1,33 @@
-.navbar .nav-item a {
+.categoryNavbar {
+	position: sticky;
+	top: -112px;
+}
+
+@media (max-width: 768px) {
+	.categoryNavbar {
+		top: -3px;
+	}
+}
+
+@media (max-width: 575px) {
+	.categoryNavbar {
+		top: -3px;
+	}
+}
+
+.categoryNavbar .nav-item a {
 	color: #07a180;
 }
 
-.navbar .nav-item a:hover {
+.categoryNavbar .nav-item a:hover {
 	color: black;
 }
 
-.navbar .dropdown .dropdown-toggle {
+.categoryNavbar .dropdown .dropdown-toggle {
 	background: none;
 	border: none;
+}
+
+.categoryNavbar .viewMore {
+	color: #07a180;
 }
