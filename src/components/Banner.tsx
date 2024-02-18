@@ -34,9 +34,11 @@ function Banner() {
 		<div className='w-100 mb-3'>
 			{bannerImages && bannerImages!.length < 2 ? (
 				bannerImages?.map((image) => (
-					<Link to={image?.link || '#'}>
+					<Link
+						to={image?.link || '#'}
+						key={image?._id}
+					>
 						<img
-							key={image?._id}
 							src={image?.path}
 							className='banner-image'
 						/>

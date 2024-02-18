@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAdmin, sendRequestToServer } from '../utils';
 import { TCategory } from '../app/store/category';
+import { TProduct } from '../app/store/product';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
@@ -15,6 +16,17 @@ export const fetchCategories = createAsyncThunk(
 		}
 	},
 );
+
+export const filterProductsBasedOnCategory = (
+	allProducts: (TProduct | null)[],
+	categoryId: string,
+) => {
+	const products = allProducts.filter(
+		(product) => product?.category?._id === categoryId,
+	);
+
+	return products;
+};
 
 export const fetchCategory = async (categoryId: string) => {
 	try {
@@ -72,33 +84,6 @@ export const updateCategory = createAsyncThunk(
 		}
 	},
 );
-
-// const destroyCategoryProductList = async (
-// 	products: string[],
-// ) => {
-// 	try {
-// 		if (!isAdmin())
-// 			throw new Error('You Are Not Authorized');
-
-// 		// loop through category's products
-// 		for (const product of products) {
-// 			const categoryProduct: DocumentData | undefined = (
-// 				await getData('products', 'id', product)
-// 			).data;
-
-// 			// delete every image in current product
-// 			if (categoryProduct?.images)
-// 				await deleteProductImageList(
-// 					categoryProduct.images,
-// 					categoryProduct as TProduct,
-// 				);
-
-// 			await destroyDoc('products', product);
-// 		}
-// 	} catch (e: any) {
-// 		throw new Error('Sorry, Something went wrong!!!');
-// 	}
-// };
 
 export const destroyCategory = createAsyncThunk(
 	'categories/destroyCategory',

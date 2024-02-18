@@ -46,20 +46,20 @@ export const ProductsSlice = createSlice({
 			if (action.payload === 'highest') {
 				return state?.sort(
 					(a, b) =>
-						parseInt(
+						parseFloat(
 							b?.newPrice || (b?.price as string),
 						) -
-						parseInt(
+						parseFloat(
 							a?.newPrice || (a?.price as string),
 						),
 				);
 			} else if (action.payload === 'lowest') {
 				return state?.sort(
 					(a, b) =>
-						parseInt(
+						parseFloat(
 							a?.newPrice || (a?.price as string),
 						) -
-						parseInt(
+						parseFloat(
 							b?.newPrice || (b?.price as string),
 						),
 				);

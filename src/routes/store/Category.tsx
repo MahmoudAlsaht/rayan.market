@@ -6,12 +6,19 @@ import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
 import Banner from '../../components/Banner';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { fetchProducts } from '../../controllers/product';
 
 const Category = memo(() => {
 	const { categoryId } = useParams();
+	const dispatch = useAppDispatch();
 	const [category, setCategory] = useState<TCategory | null>(
 		null,
 	);
+	const allProducts: (TProduct | null)[] = useAppSelector(
+		(state) => state.products,
+	);
+
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
@@ -23,8 +30,9 @@ const Category = memo(() => {
 			}
 		};
 		getCategory();
+		dispatch(fetchProducts());
 		setIsLoading(false);
-	}, [category?.products, categoryId]);
+	}, [categoryId, dispatch]);
 
 	return (
 		<>
@@ -36,19 +44,25 @@ const Category = memo(() => {
 					</h1>
 
 					<Row>
-						{category?.products?.map((product) => (
-							<Col
-								key={product?._id}
-								xs={6}
-								sm={4}
-								md={3}
-								lg={2}
-							>
-								<ProductCard
-									product={product as TProduct}
-								/>
-							</Col>
-						))}
+						{allProducts?.map(
+							(product) =>
+								product?.category?._id ===
+									categoryId && (
+									<Col
+										key={product?._id}
+										xs={6}
+										sm={4}
+										md={3}
+										lg={2}
+									>
+										<ProductCard
+											product={
+												product as TProduct
+											}
+										/>
+									</Col>
+								),
+						)}
 					</Row>
 				</div>
 			) : null}
