@@ -157,7 +157,9 @@ export const Router = createBrowserRouter([
 function Wrapper() {
 	return (
 		<Provider store={store}>
-			<div style={{ maxWidth: '1550px' }}>
+			<div
+				style={{ maxWidth: '1400px', margin: '0 auto' }}
+			>
 				<InstallPWA />
 				<Outlet />
 				<SpeedInsights />
