@@ -17,14 +17,18 @@ function ProductImageCarousel({
 						<Image
 							className='productImage'
 							src={productImage?.path}
+							width={450}
 						/>
 					</Carousel.Item>
 				))
 			) : (
-				<Image
-					className='productImage'
-					src={defaultProductImage}
-				/>
+				<Carousel.Item key='no image'>
+					<Image
+						className='productImage'
+						src={defaultProductImage}
+						width={450}
+					/>
+				</Carousel.Item>
 			)}
 		</Carousel>
 	);
