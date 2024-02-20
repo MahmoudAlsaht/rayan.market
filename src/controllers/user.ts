@@ -78,6 +78,7 @@ export const logout = createAsyncThunk(
 				throw new Error('You Are Not Authorized');
 
 			removeCookies('token');
+			removeCookies('cart');
 			return {
 				username: 'anonymous',
 				phone: '',

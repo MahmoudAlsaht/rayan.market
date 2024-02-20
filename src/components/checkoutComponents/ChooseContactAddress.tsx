@@ -1,5 +1,4 @@
 import { Card, Col, Form, Row } from 'react-bootstrap';
-import { TProfile } from '../../app/auth/profile';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { BsPlus } from 'react-icons/bs';
 import LoadingButton from '../LoadingButton';
@@ -7,16 +6,17 @@ import { useAppDispatch } from '../../app/hooks';
 import { addUserAndContactToCart } from '../../app/store/cart';
 import { TContactInfo } from '../../controllers/contact';
 import { Link } from 'react-router-dom';
+import { TUser } from '../../app/auth/auth';
 
 type ChooseContactAddressProps = {
 	contacts: (TContactInfo | null)[];
-	profile: TProfile | null;
+	user: TUser | null;
 	handleStep: (step: string) => void;
 };
 
 function ChooseContactAddress({
 	contacts,
-	profile,
+	user,
 	handleStep,
 }: ChooseContactAddressProps) {
 	const dispatch = useAppDispatch();
@@ -38,7 +38,7 @@ function ChooseContactAddress({
 			setIsLoading(true);
 			dispatch(
 				addUserAndContactToCart({
-					userId: profile?.user?._id as string,
+					userId: user?._id as string,
 					contactId: selectedAddress as string,
 				}),
 			);
@@ -78,12 +78,12 @@ function ChooseContactAddress({
 								/>
 							</Card.Body>
 							<Card.Footer>
-								<Link
+								<a
 									className='text-info'
-									to={`/account/profile/${profile?._id}/contact-info/${contact?._id}`}
+									href={`account/profile/${user?.profile}/contact-info/${contact?._id}`}
 								>
 									Edit
-								</Link>
+								</a>
 							</Card.Footer>
 						</Card>
 					))}
@@ -93,7 +93,7 @@ function ChooseContactAddress({
 						<Card.Body>
 							<Link
 								className='text-info'
-								to={`/account/profile/${profile?._id}/contact-info/new-contact`}
+								to={`/account/profile/${user?.profile}/contact-info/new-contact`}
 							>
 								<BsPlus
 									style={{

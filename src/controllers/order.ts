@@ -2,7 +2,6 @@ import { TCart, TCartProduct } from '../app/store/cart';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TUser } from '../app/auth/auth';
 import {
-	getCookies,
 	isAdmin,
 	isStaff,
 	isAuthenticated,
@@ -12,11 +11,21 @@ import { TOrder } from '../app/store/order';
 
 export const createAnOrder = createAsyncThunk(
 	'orders/createAnOrder',
-	async (cart: TCart) => {
+	async ({
+		cart,
+		user,
+	}: {
+		cart: TCart;
+		user: TUser | null;
+	}) => {
 		try {
-			const user: TUser | null = getCookies('user');
-			const isUserRegistered = user == null ? false : true;
-			const userId = cart?.anonymousUserId || user?._id;
+			const isUserRegistered =
+				user?.username === 'anonymous' ? false : true;
+			const userId = user?._id || cart?.anonymousUserId;
+			console.log(
+				`cart Anonymous User: ${cart?.anonymousUserId}`,
+			);
+			console.log(`User: ${user?._id}`);
 
 			const order = await sendRequestToServer(
 				'POST',
@@ -113,6 +122,7 @@ export const fetchOrders = createAsyncThunk(
 		}
 	},
 );
+
 export const checkIfProductIsAvailable = (
 	products: TCartProduct[] | undefined,
 ) => {

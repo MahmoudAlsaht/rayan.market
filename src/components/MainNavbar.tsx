@@ -33,7 +33,6 @@ const MainNavbar = () => {
 	useEffect(() => {
 		dispatch(fetchUser());
 	}, [dispatch]);
-
 	const handleLogout = async () => {
 		await dispatch(logout());
 		dispatch(fetchUser());
@@ -103,7 +102,7 @@ const MainNavbar = () => {
 									) : (
 										<NavDropdown.Item>
 											<Link
-												to={`/account/profile/${user?._id}`}
+												to={`/account/profile/${user?.profile}`}
 											>
 												الصفحة الشخصية
 											</Link>

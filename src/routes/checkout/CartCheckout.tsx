@@ -36,7 +36,7 @@ const CartCheckout = memo(() => {
 	return (
 		<Row className=''>
 			{cart?.products?.map((product) => (
-				<Col xs={12} sm={6} md={4}>
+				<Col xs={12} sm={6} md={4} key={product?._id}>
 					<CartProductCard
 						key={product?._id}
 						product={product}
@@ -62,7 +62,7 @@ const CartCheckout = memo(() => {
 								: 'unset',
 					}}
 				>
-					Add Your Info
+					ادخل بياناتك
 				</Link>
 			</div>
 

@@ -122,7 +122,7 @@ function SignIn() {
 								<Form.Control
 									onChange={handleChange}
 									required
-									type='text'
+									type='number'
 									placeholder='07########'
 									ref={phoneRef}
 								/>

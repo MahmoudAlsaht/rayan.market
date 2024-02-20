@@ -123,7 +123,6 @@ export const sendRequestToServer = async (
 ) => {
 	try {
 		const token = getCookies('token');
-		console.log(token);
 		const url = `${import.meta.env.VITE_API_URL}/${urlStr}`;
 		const res = await axios({
 			url,

@@ -9,10 +9,12 @@ import {
 } from 'react-bootstrap';
 import { TCart, emptyTheCart } from '../../app/store/cart';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 // import PaymentButton from './PaymentButton';
 import { createAnOrder } from '../../controllers/order';
 import { Link } from 'react-router-dom';
+import { TUser } from '../../app/auth/auth';
+import { fetchUser } from '../../controllers/user';
 
 function Payment({
 	handleStep,
@@ -22,6 +24,10 @@ function Payment({
 	const cart: TCart | null = useAppSelector(
 		(state) => state.cart,
 	);
+	const user: TUser | null = useAppSelector(
+		(state) => state.user,
+	);
+
 	const dispatch = useAppDispatch();
 
 	const [paymentMethod, setPaymentMethod] = useState<string>();
@@ -30,9 +36,13 @@ function Payment({
 		setPaymentMethod(e.target.value);
 	};
 
+	useEffect(() => {
+		dispatch(fetchUser());
+	}, [dispatch]);
+
 	const handleClick = async () => {
 		if (paymentMethod === 'cashOnDelivery') {
-			dispatch(createAnOrder(cart));
+			dispatch(createAnOrder({ cart, user }));
 			dispatch(emptyTheCart());
 			location.pathname = '/home';
 		} else {

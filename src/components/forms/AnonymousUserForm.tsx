@@ -111,12 +111,16 @@ function AnonymousUserForm({
 
 				<Row>
 					<Col>
-						<Form.Group className='mb-3'>
+						<Form.Group className='mb-3 arb-text'>
+							<label htmlFor='name'>
+								الاسم الكامل
+							</label>
 							<Form.Control
 								onChange={handleChange}
 								type='text'
 								required
-								placeholder='Name'
+								itemID='name'
+								placeholder='الاسم الكامل'
 								defaultValue={
 									contact?.address.city
 								}
@@ -126,45 +130,54 @@ function AnonymousUserForm({
 					</Col>
 				</Row>
 				<Form.Group
-					className='mb-3'
+					className='mb-3 arb-text'
 					controlId='cityInput'
 				>
-					<Form.Label>City</Form.Label>
+					<Form.Label htmlFor='area'>
+						المنطقة
+					</Form.Label>
 					<Form.Control
 						onChange={handleChange}
 						type='text'
+						itemID='area'
 						required
-						placeholder='Enter City'
+						placeholder='أدخل المنطقة'
 						defaultValue={contact?.address.city}
 						ref={cityRef}
 					/>
 				</Form.Group>
 
 				<Form.Group
-					className='mb-3'
+					className='mb-3 arb-text'
 					controlId='streetInput'
 				>
-					<Form.Label>Street</Form.Label>
+					<Form.Label htmlFor='street'>
+						اسم الشارع
+					</Form.Label>
 					<Form.Control
 						required
 						onChange={handleChange}
 						type='text'
-						placeholder='Enter Street'
+						itemID='street'
+						placeholder='ادخل اسم الشارع'
 						defaultValue={contact?.address.street}
 						ref={streetRef}
 					/>
 				</Form.Group>
 
 				<Form.Group
-					className='mb-3'
+					className='mb-3 arb-text'
 					controlId='phoneNumberInput'
 				>
-					<Form.Label>Phone Number</Form.Label>
+					<Form.Label htmlFor='phoneNumber'>
+						رقم التواصل
+					</Form.Label>
 					<Form.Control
 						required
+						itemID='phoneNumber'
 						onChange={handleChange}
 						type='number'
-						placeholder='Enter Your phone Number'
+						placeholder='رقم التواصل'
 						ref={phoneRef}
 					/>
 				</Form.Group>
@@ -172,7 +185,7 @@ function AnonymousUserForm({
 				<Form.Group className='mb-3'>
 					<LoadingButton
 						type='submit'
-						body='Proceed to Payment'
+						body='أكمل للدفع'
 						variant='primary'
 						isLoading={isLoading}
 						disabled={!validated}

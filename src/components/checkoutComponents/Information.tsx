@@ -1,9 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
-import { TProfile } from '../../app/auth/profile';
 import { useEffect, useState } from 'react';
 import { fetchUser } from '../../controllers/user';
-import { fetchProfile } from '../../controllers/profile';
 import { Breadcrumb } from 'react-bootstrap';
 import AnonymousUserForm from '../forms/AnonymousUserForm';
 import ChooseContactAddress from './ChooseContactAddress';
@@ -20,11 +18,9 @@ function Information({
 	handleStep: (step: string) => void;
 }) {
 	const dispatch = useAppDispatch();
+
 	const user: TUser | null = useAppSelector(
 		(state) => state.user,
-	);
-	const profile: TProfile | null = useAppSelector(
-		(state) => state.profile,
 	);
 
 	const [contacts, setContacts] =
@@ -32,17 +28,16 @@ function Information({
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchProfile(user?.profile?._id as string));
-		if (profile) {
+		if (user?.profile) {
 			const getContacts = async () => {
 				const contactsArray = await getContactsData(
-					profile?._id as string,
+					user?.profile as string,
 				);
 				setContacts(contactsArray);
 			};
 			getContacts();
 		}
-	}, [dispatch, profile, user?.profile]);
+	}, [dispatch, user?.profile]);
 
 	return (
 		<>
@@ -71,7 +66,7 @@ function Information({
 			</Breadcrumb>
 			<hr />
 
-			{profile?._id === '' ? (
+			{user.username === 'anonymous' ? (
 				<div>
 					<small>
 						Do You want to sign in?{' '}
@@ -86,7 +81,7 @@ function Information({
 			) : (
 				<ChooseContactAddress
 					contacts={contacts!}
-					profile={profile}
+					user={user}
 					handleStep={handleStep}
 				/>
 			)}

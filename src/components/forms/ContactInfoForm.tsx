@@ -1,14 +1,14 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Container, Form } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import {
 	TContactInfo,
 	createNewContactInfo,
-	deleteContact,
 	updateUserContactInfo,
 } from '../../controllers/contact';
 import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { useParams, useNavigate } from 'react-router-dom';
+import { BsArrowLeft } from 'react-icons/bs';
 
 function ContactInfoForm({
 	contact,
@@ -17,8 +17,6 @@ function ContactInfoForm({
 }) {
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isDeleteLoading, setIsDeleteLoading] =
-		useState(false);
 
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -70,7 +68,7 @@ function ContactInfoForm({
 			}
 		} catch (e: any) {
 			setError({
-				status: true,
+				status: false,
 				message: e.message,
 			});
 			setIsLoading(false);
@@ -107,20 +105,6 @@ function ContactInfoForm({
 		}
 	};
 
-	const handleDelete = async () => {
-		try {
-			setIsDeleteLoading(true);
-			await deleteContact(
-				profileId as string,
-				contact?._id as string,
-			);
-			setIsDeleteLoading(false);
-			navigate(-1);
-		} catch (e) {
-			setIsDeleteLoading(false);
-		}
-	};
-
 	return (
 		<Container>
 			<Form
@@ -129,52 +113,58 @@ function ContactInfoForm({
 				onSubmit={handleSubmit}
 				style={{ width: '100%' }}
 			>
+				<Button
+					variant='outline-secondary'
+					onClick={() => navigate(-1)}
+				>
+					<BsArrowLeft /> العودة
+				</Button>
 				<h3 className='text-muted text-center mb-3'>
-					Contact Info
+					أضف عنوانا
 				</h3>
 
 				<ErrorComponent error={error} />
 
 				<Form.Group
-					className='mb-3'
+					className='mb-3 arb-text'
 					controlId='cityInput'
 				>
-					<Form.Label>City</Form.Label>
+					<Form.Label>المنطقة</Form.Label>
 					<Form.Control
 						onChange={handleChange}
 						type='text'
 						required
-						placeholder='Enter City'
+						placeholder='أدخل اسم المنطقة'
 						defaultValue={contact?.address.city}
 						ref={cityRef}
 					/>
 				</Form.Group>
 
 				<Form.Group
-					className='mb-3'
+					className='mb-3 arb-text'
 					controlId='streetInput'
 				>
-					<Form.Label>Street</Form.Label>
+					<Form.Label>اسم الشارع</Form.Label>
 					<Form.Control
 						required
 						onChange={handleChange}
 						type='text'
-						placeholder='Enter Street'
+						placeholder='اسم الشارع'
 						defaultValue={contact?.address.street}
 						ref={streetRef}
 					/>
 				</Form.Group>
 
 				<Form.Group
-					className='mb-3'
+					className='mb-3 arb-text'
 					controlId='contactNumberInput'
 				>
-					<Form.Label>Phone Number</Form.Label>
+					<Form.Label>رقم التواصل</Form.Label>
 					<Form.Control
 						required
 						onChange={handleChange}
 						type='number'
-						placeholder='Enter Your phone Number'
+						placeholder='أدخل رقم للتواصل'
 						defaultValue={contact?.contactNumber}
 						ref={contactNumberRef}
 					/>
@@ -182,16 +172,8 @@ function ContactInfoForm({
 
 				<Form.Group className='mb-3'>
 					<LoadingButton
-						type='button'
-						body='Delete Contact'
-						variant='danger'
-						className='mb-2'
-						isLoading={isDeleteLoading}
-						handleClick={handleDelete}
-					/>
-					<LoadingButton
 						type='submit'
-						body='Update'
+						body='حفظ'
 						variant='primary'
 						isLoading={isLoading}
 						disabled={!validated}

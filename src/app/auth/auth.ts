@@ -3,14 +3,13 @@ import type { RootState } from '../store';
 import { fetchUser, logout } from '../../controllers/user';
 import { TOrder } from '../store/order';
 import { TContactInfo } from '../../controllers/contact';
-import { TProfile } from './profile';
 
 export type TUser = {
 	_id: string;
 	username: string;
 	role: string;
 	phone: string;
-	profile: TProfile | null;
+	profile: string | null;
 	orders?: string[];
 };
 

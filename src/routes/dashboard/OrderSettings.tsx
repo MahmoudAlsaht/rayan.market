@@ -51,8 +51,8 @@ const OrderSettings = memo(() => {
 				: filteredOrdersByStatus;
 
 		return data?.filter((order) => {
-			return order.orderId
-				.toLowerCase()
+			return order?.orderId
+				?.toLowerCase()
 				.includes(
 					escapeRegExp(
 						queryInput?.toLocaleLowerCase(),
