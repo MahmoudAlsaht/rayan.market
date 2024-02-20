@@ -194,14 +194,6 @@ const MainNavbar = () => {
 								العروض
 							</Link>
 						</Nav.Link>
-						<Nav.Link onClick={handleClick}>
-							<Link
-								className='text-info'
-								to='/about'
-							>
-								حول
-							</Link>
-						</Nav.Link>
 						<hr />
 
 						{user?.username !== 'anonymous' ? (
