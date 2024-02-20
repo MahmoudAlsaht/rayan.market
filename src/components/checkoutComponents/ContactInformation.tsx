@@ -9,6 +9,9 @@ import AnonymousUserForm from '../forms/AnonymousUserForm';
 import ChooseContactAddress from './ChooseContactAddress';
 import { Link } from 'react-router-dom';
 import Logo from '../../rayan.marketLogo.png';
+import { TUser } from '../../app/auth/auth';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { fetchUser } from '../../controllers/user';
 
 function ContactInformation({
 	handleStep,
@@ -19,8 +22,13 @@ function ContactInformation({
 }) {
 	const [contacts, setContacts] =
 		useState<(TContactInfo | null)[]>();
+	const user: TUser | null = useAppSelector(
+		(state) => state.user,
+	);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		dispatch(fetchUser());
 		if (profile) {
 			const getContacts = async () => {
 				const contactsArray = await getContactsData(
@@ -73,8 +81,8 @@ function ContactInformation({
 				</div>
 			) : (
 				<ChooseContactAddress
+					user={user}
 					contacts={contacts!}
-					profile={profile}
 					handleStep={handleStep}
 				/>
 			)}
