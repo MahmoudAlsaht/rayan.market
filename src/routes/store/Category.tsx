@@ -50,9 +50,8 @@ const Category = memo(() => {
 									categoryId && (
 									<Col
 										key={product?._id}
-										xs={6}
-										sm={4}
-										md={3}
+										xs={4}
+										sm={3}
 										lg={2}
 									>
 										<ProductCard

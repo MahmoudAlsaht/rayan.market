@@ -118,6 +118,7 @@ function ProductCard({ product }: ProductCardProps) {
 							>
 								{product?.price} د.أ
 							</span>
+							<br />
 							{product?.newPrice && (
 								<span className='me-3'>
 									{product?.newPrice} د.أ
@@ -126,19 +127,6 @@ function ProductCard({ product }: ProductCardProps) {
 						</Card.Subtitle>
 					)}
 				</Card.Header>
-				{/* <Card.Body>
-					<Card.Text>
-						<span
-							className={`arb-text ${
-								product?.quantity === 0
-									? 'text-danger'
-									: 'text-success'
-							}`}
-						>
-							{product?.quantity} في المخزون
-						</span>
-					</Card.Text>
-				</Card.Body> */}
 				<Card.Footer className='d-flex flex-column align-items-center'>
 					<Button
 						onClick={handleAddProduct}
