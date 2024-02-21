@@ -1,5 +1,4 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { DocumentData } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { Button, Card, Container } from 'react-bootstrap';
 import { fetchProductsImages } from '../controllers/productImages';
@@ -18,13 +17,13 @@ import {
 	checkIfProductInCart,
 	findCartProduct,
 } from '../controllers/cart';
-import { TProductImage } from '../app/store/product';
+import { TProduct, TProductImage } from '../app/store/product';
 import ProductCartActions from './ProductCartActions';
 import { sumEachProductTotalPrice } from '../utils';
 import Skeleton from 'react-loading-skeleton';
 
 type ProductCardProps = {
-	product: DocumentData | undefined;
+	product: TProduct | null;
 };
 
 function ProductCard({ product }: ProductCardProps) {
@@ -60,7 +59,7 @@ function ProductCard({ product }: ProductCardProps) {
 	useEffect(() => {
 		const getImages = async () => {
 			const fetchedImages = await fetchProductsImages(
-				product?._id,
+				product?._id as string,
 			);
 			setProductImages(fetchedImages);
 		};
@@ -71,7 +70,10 @@ function ProductCard({ product }: ProductCardProps) {
 		) as boolean;
 		setProductInCart(gotProduct);
 		setProductCart(
-			findCartProduct(cart, product?._id) as TCartProduct,
+			findCartProduct(
+				cart,
+				product?._id as string,
+			) as TCartProduct,
 		);
 		setTotalProductPrice(
 			sumEachProductTotalPrice(productCart!),
@@ -79,8 +81,8 @@ function ProductCard({ product }: ProductCardProps) {
 	}, [cart, product?._id, productCart]);
 
 	return (
-		<Container fluid>
-			<Card className='productCard mb-5 text-center'>
+		<Container className='productCardContainer'>
+			<Card className='productCard mb-5 text-center w-75'>
 				<Link to={`/store/products/${product?._id}`}>
 					{productImages ? (
 						<Card.Img
@@ -141,7 +143,9 @@ function ProductCard({ product }: ProductCardProps) {
 					<Button
 						onClick={handleAddProduct}
 						variant={
-							product?.quantity === 0
+							parseInt(
+								product?.quantity as string,
+							) === 0
 								? 'secondary'
 								: productInCart
 								? 'success'
@@ -149,8 +153,9 @@ function ProductCard({ product }: ProductCardProps) {
 						}
 						className='arb-text mb-2'
 						disabled={
-							product?.quantity === 0 ||
-							productInCart
+							parseInt(
+								product?.quantity as string,
+							) === 0 || productInCart
 						}
 					>
 						{!productInCart ? (

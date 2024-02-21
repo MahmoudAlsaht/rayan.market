@@ -21,21 +21,19 @@ const Home = memo(() => {
 		<div>
 			<Banner />
 			<Row className='mt-5'>
-				{products
-					? products?.map((product) => (
-							<Col
-								key={product?._id}
-								xs={6}
-								sm={4}
-								md={3}
-								lg={2}
-							>
-								<ProductCard
-									product={product as TProduct}
-								/>
-							</Col>
-					  ))
-					: null}
+				{products &&
+					products?.map((product) => (
+						<Col
+							key={product?._id}
+							xs={4}
+							sm={3}
+							lg={2}
+						>
+							<ProductCard
+								product={product as TProduct}
+							/>
+						</Col>
+					))}
 			</Row>
 		</div>
 	);
