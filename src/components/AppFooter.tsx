@@ -1,62 +1,72 @@
 import {
-	BsFacebook,
-	BsTwitter,
-	BsInstagram,
-} from 'react-icons/bs';
+	createTheme,
+	ThemeProvider,
+} from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
+import {
+	Facebook,
+	Twitter,
+	Instagram,
+} from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
-function AppFooter() {
-	const currentYear = new Date().getFullYear();
+function Copyright() {
 	return (
-		<footer
-			className='text-center'
-			style={{
-				backgroundColor: 'rgba(0, 0, 0, 0.05)',
-				marginTop: '50dvh',
-			}}
-		>
-			<div className='container pt-4'>
-				<section className='mb-4'>
-					<a
-						data-mdb-ripple-init
-						className='btn btn-link btn-floating btn-lg text-body m-1'
-						href='#!'
-						role='button'
-						data-mdb-ripple-color='dark'
-					>
-						<BsFacebook />
-					</a>
-
-					<a
-						data-mdb-ripple-init
-						className='btn btn-link btn-floating btn-lg text-body m-1'
-						href='#!'
-						role='button'
-						data-mdb-ripple-color='dark'
-					>
-						<BsInstagram />
-					</a>
-
-					<a
-						data-mdb-ripple-init
-						className='btn btn-link btn-floating btn-lg text-body m-1'
-						href='#!'
-						role='button'
-						data-mdb-ripple-color='dark'
-					>
-						<BsTwitter />
-					</a>
-				</section>
-			</div>
-
-			<div className='text-center p-3'>
-				© {currentYear} All Rights Reserved
-				<span style={{ fontWeight: 'bold' }}>
-					{' '}
-					Al Rayyan Markets
-				</span>
-			</div>
-		</footer>
+		<Typography variant='body2' color='text.secondary'>
+			{'Copyright © '}
+			<Link color='inherit' href='#'>
+				Alrayan Markets
+			</Link>{' '}
+			{new Date().getFullYear()}
+			{'.'}
+		</Typography>
 	);
 }
 
-export default AppFooter;
+// TODO remove, this demo shouldn't need to reset the theme.
+const defaultTheme = createTheme();
+
+export default function StickyFooter() {
+	return (
+		<ThemeProvider theme={defaultTheme}>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					minHeight: '100vh',
+				}}
+			>
+				<Box
+					component='footer'
+					sx={{
+						py: 3,
+						px: 2,
+						mt: 'auto',
+						backgroundColor: (theme) =>
+							theme.palette.mode === 'light'
+								? theme.palette.grey[200]
+								: theme.palette.grey[800],
+					}}
+				>
+					<Container maxWidth='sm'>
+						<Typography variant='body1'>
+							<IconButton>
+								<Facebook />
+							</IconButton>
+							<IconButton>
+								<Twitter />
+							</IconButton>
+							<IconButton>
+								<Instagram />
+							</IconButton>
+						</Typography>
+						<Copyright />
+					</Container>
+				</Box>
+			</Box>
+		</ThemeProvider>
+	);
+}

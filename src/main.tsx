@@ -5,6 +5,10 @@ import { Router } from './Router.tsx';
 import { RouterProvider } from 'react-router-dom';
 import './main.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 // import { registerSW } from 'virtual:pwa-register'
 
