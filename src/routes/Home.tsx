@@ -5,7 +5,6 @@ import { fetchProducts } from '../controllers/product';
 import ProductCard from '../components/ProductCard';
 import { Col, Row } from 'react-bootstrap';
 import { TProduct } from '../app/store/product';
-import Banner from '../components/Banner';
 
 const Home = memo(() => {
 	const dispatch = useAppDispatch();
@@ -19,7 +18,6 @@ const Home = memo(() => {
 
 	return (
 		<div>
-			<Banner />
 			<Row className='mt-5'>
 				{products &&
 					products?.map((product) => (
