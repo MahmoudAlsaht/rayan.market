@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { TBanner, TBannerImage } from '../app/store/banner';
 import { fetchActiveBanner } from '../controllers/banner';
 import { fetchBannersImages } from '../controllers/bannerImages';
-import { Carousel } from 'react-bootstrap';
+import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
+import { Paper } from '@mui/material';
 
 function Banner() {
 	const [banner, setBanner] = useState<TBanner | null>(null);
@@ -27,7 +28,7 @@ function Banner() {
 				);
 				setBannerImages(images);
 			} catch (e: any) {
-				console.log(e);
+				return;
 			}
 		};
 		updateImages();
@@ -39,54 +40,68 @@ function Banner() {
 			{bannerImages.length !== 0 && (
 				<div>
 					{!isLoading ? (
-						<div className='w-100 mb-3'>
+						<Paper className=' mb-3'>
 							{bannerImages!.length < 2 ? (
 								bannerImages?.map((image) => (
 									<Link
 										to={image?.link || '#'}
 										key={image?._id}
 									>
-										<img
-											src={image?.path}
-											className='banner-image'
-										/>
+										<div
+											style={{
+												backgroundColor:
+													'#07a180',
+												width: '100%',
+												height: '300px',
+											}}
+										>
+											<img
+												src={image?.path}
+												className='banner-image'
+												style={{
+													width: '100%',
+													height: '300px',
+													opacity:
+														'.9',
+												}}
+											/>
+										</div>
 									</Link>
 								))
 							) : (
 								<Carousel
-									className='banner-carousel'
-									controls={false}
+									indicators={false}
+									swipe
+									fullHeightHover
+									animation='slide'
 								>
 									{bannerImages &&
 										bannerImages!.map(
 											(image) => (
-												<Carousel.Item
-													interval={
-														2000
-													}
+												<Link
 													key={
 														image?._id
 													}
+													to={
+														image?.link ||
+														'#'
+													}
 												>
-													<Link
-														to={
-															image?.link ||
-															'#'
+													<img
+														src={
+															image?.path
 														}
-													>
-														<img
-															src={
-																image?.path
-															}
-															className='banner-image'
-														/>
-													</Link>
-												</Carousel.Item>
+														style={{
+															width: '1200px',
+															height: '300px',
+														}}
+													/>
+												</Link>
 											),
 										)}
 								</Carousel>
 							)}
-						</div>
+						</Paper>
 					) : (
 						<Skeleton
 							height={311}
