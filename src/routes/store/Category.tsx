@@ -5,7 +5,6 @@ import { fetchCategory } from '../../controllers/category';
 import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
-import Banner from '../../components/Banner';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
 
@@ -38,7 +37,6 @@ const Category = memo(() => {
 		<>
 			{!isLoading ? (
 				<div>
-					<Banner />
 					<h1 className='text-center mt-3'>
 						{category?.name}
 					</h1>
