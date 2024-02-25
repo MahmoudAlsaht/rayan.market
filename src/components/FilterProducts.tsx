@@ -1,24 +1,32 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { BsFilter } from 'react-icons/bs';
-import { Dropdown } from 'react-bootstrap';
+
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+
 import {
+	useState,
 	ChangeEvent,
 	FormEvent,
-	useEffect,
 	useMemo,
-	useState,
+	useEffect,
 } from 'react';
-import {
-	TProduct,
-	sortProductsBasedOnPrice,
-} from '../app/store/product';
-import { useAppDispatch } from '../app/hooks';
-import { fetchFilteredProducts } from '../controllers/product';
+import { TProduct } from '../app/store/product';
 import { filterData } from '../utils';
+import { fetchFilteredProducts } from '../controllers/product';
+import SearchDialog from './SearchDialog';
+import FilterMenu from './FilterMenu';
 
-function FilterProducts() {
-	const [showSearchResult, setShowSearchResult] =
-		useState(false);
+export default function FilterProducts() {
+	const [openSearch, setOpenSearch] = useState(false);
+
+	const handleClickOpenSearch = () => {
+		setOpenSearch(true);
+	};
+
+	const handleCloseSearch = () => {
+		setOpenSearch(false);
+	};
 
 	const [queryInput, setQueryInput] = useState('');
 
@@ -32,7 +40,8 @@ function FilterProducts() {
 		(TProduct | null)[]
 	>([]);
 
-	const dispatch = useAppDispatch();
+	const [showSearchResult, setShowSearchResult] =
+		useState(false);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setShowSearchResult(e.target.value !== '');
@@ -57,89 +66,29 @@ function FilterProducts() {
 	}, []);
 
 	return (
-		<div className='w-100 d-flex justify-content-center'>
-			<Dropdown show={showSearchResult}>
-				<Dropdown.Toggle
-					variant='none'
-					className='searchInputToggle border-0'
-				>
-					<input
-						type='search'
-						className='searchInput'
-						placeholder='البحث عن المنتجات'
-						value={queryInput}
-						onChange={handleChange}
-					/>
-				</Dropdown.Toggle>
-				<Dropdown.Menu className='w-100'>
-					{filteredProducts &&
-					filteredProducts.length > 0 ? (
-						filteredProducts?.map((product) => (
-							<Dropdown.Item
-								href={`/store/products/${product?._id}`}
-								key={product?._id}
-							>
-								<img
-									width='50'
-									height='50'
-									src={
-										(product?.productImages &&
-											product
-												?.productImages[0]
-												?.path) ||
-										''
-									}
-									alt={`${product?.name}'s image`}
-									className='mx-2'
-								/>
-								{product?.name.substring(0, 30)}
-							</Dropdown.Item>
-						))
-					) : (
-						<span className='arb-text p-2'>
-							لم يتم العثور على {`"${queryInput}"`}
-						</span>
-					)}
-				</Dropdown.Menu>
-			</Dropdown>
+		<Paper
+			component='form'
+			sx={{
+				p: '2px 4px',
+				display: 'flex',
+				alignItems: 'center',
+				border: 'none',
+				bgcolor: 'inherit',
+			}}
+		>
+			<IconButton onClick={handleClickOpenSearch}>
+				<SearchIcon />
+			</IconButton>
 
-			<Dropdown>
-				<Dropdown.Toggle
-					id='filterProducts'
-					variant='outline-secondary'
-					size='sm'
-				>
-					<BsFilter />
-				</Dropdown.Toggle>
-				<Dropdown.Menu>
-					<Dropdown.Item
-						key='highest'
-						onClick={() =>
-							dispatch(
-								sortProductsBasedOnPrice(
-									'highest',
-								),
-							)
-						}
-					>
-						Highest
-					</Dropdown.Item>
-					<Dropdown.Item
-						key='lowest'
-						onClick={() =>
-							dispatch(
-								sortProductsBasedOnPrice(
-									'lowest',
-								),
-							)
-						}
-					>
-						Lowest
-					</Dropdown.Item>
-				</Dropdown.Menu>
-			</Dropdown>
-		</div>
+			<FilterMenu />
+
+			<SearchDialog
+				products={filteredProducts}
+				openSearch={openSearch}
+				queryInput={queryInput}
+				handleChange={handleChange}
+				handleCloseSearch={handleCloseSearch}
+			/>
+		</Paper>
 	);
 }
-
-export default FilterProducts;
