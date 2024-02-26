@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom';
 import MainNavbar from '../components/MainNavbar';
 import CartFloatingButton from '../components/CartFloatingButton';
 import { BsCart } from 'react-icons/bs';
-import CategoryNavbar from '../components/CategoryNavbar';
 import Cart from '../components/Cart';
 import { useState } from 'react';
 import { TCart } from '../app/store/cart';
@@ -20,7 +19,7 @@ function RootLayout() {
 	return (
 		<>
 			<MainNavbar />
-			<CategoryNavbar />
+
 			<Outlet />
 
 			<AppFooter />

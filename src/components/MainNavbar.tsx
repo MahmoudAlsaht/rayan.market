@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,10 +18,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { TUser } from '../app/auth/auth';
 import { fetchUser, logout } from '../controllers/user';
-import Banner from './Banner';
 import ScrollToColor01 from './ScrollToColor';
 
-const pages = ['المنتجات', 'الرئيسية'];
+const pages = ['العروض', 'المنتجات', 'الرئيسية'];
 
 export default function MainNavbar() {
 	const [anchorElNav, setAnchorElNav] =
@@ -134,9 +134,20 @@ export default function MainNavbar() {
 									{pages.map((page) => (
 										<MenuItem
 											key={page}
-											onClick={
-												handleCloseNavMenu
-											}
+											onClick={() => {
+												handleCloseNavMenu();
+												navigate(
+													page ===
+														'الرئيسية'
+														? '/home'
+														: `/${
+																page ===
+																'المنتجات'
+																	? 'products'
+																	: 'offers'
+														  }`,
+												);
+											}}
 										>
 											<Typography
 												textAlign='center'
@@ -163,9 +174,20 @@ export default function MainNavbar() {
 								{pages.map((page) => (
 									<Button
 										key={page}
-										onClick={
-											handleCloseNavMenu
-										}
+										onClick={() => {
+											handleCloseNavMenu();
+											navigate(
+												page ===
+													'الرئيسية'
+													? '/home'
+													: `/${
+															page ===
+															'المنتجات'
+																? 'products'
+																: 'offers'
+													  }`,
+											);
+										}}
 										sx={{
 											my: 2,
 											color: 'black',
@@ -283,7 +305,6 @@ export default function MainNavbar() {
 					</Container>
 				</AppBar>
 			</ScrollToColor01>
-			<Banner />
 		</>
 	);
 }

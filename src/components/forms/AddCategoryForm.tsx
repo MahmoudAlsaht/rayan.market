@@ -4,6 +4,8 @@ import ErrorComponent, { IError } from '../Error';
 import LoadingButton from '../LoadingButton';
 import { createCategory } from '../../controllers/category';
 import { useAppDispatch } from '../../app/hooks';
+import { TPreviewImage } from './EditProductForm';
+import PreviewImage from '../dashboardComponents/PreviewImage';
 
 type AddCategoryFormProps = {
 	show: boolean;
@@ -15,6 +17,11 @@ function AddCategoryForm({
 	handleClose,
 }: AddCategoryFormProps) {
 	const dispatch = useAppDispatch();
+
+	const [previewImage, setPreviewImage] =
+		useState<TPreviewImage | null>(null);
+	const [selectedImage, setSelectedImage] =
+		useState<File | null>(null);
 
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +51,27 @@ function AddCategoryForm({
 		}
 	};
 
+	const handleRemovePreviewImage = async () => {
+		setPreviewImage(null);
+
+		setSelectedImage(null);
+	};
+
+	const handleFileChange = async (
+		e: ChangeEvent<HTMLInputElement>,
+	) => {
+		setPreviewImage(null);
+		setSelectedImage(null);
+
+		await setSelectedImage(e.target.files![0]);
+		const file = e.target.files![0];
+		const image: TPreviewImage = {
+			url: URL.createObjectURL(file),
+			name: file?.name,
+		};
+		await setPreviewImage(image);
+	};
+
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
@@ -56,9 +84,11 @@ function AddCategoryForm({
 				});
 			} else {
 				await dispatch(
-					createCategory(
-						categoryNameRef.current?.value as string,
-					),
+					createCategory({
+						name: categoryNameRef.current
+							?.value as string,
+						file: selectedImage,
+					}),
 				);
 				setIsLoading(false);
 				handleClose();
@@ -101,6 +131,30 @@ function AddCategoryForm({
 								ref={categoryNameRef}
 							/>
 						</Form.Group>
+
+						<Form.Group
+							controlId='productImagesFormInput'
+							className='mt-2 mb-3'
+						>
+							<Form.Control
+								type='file'
+								multiple
+								accept='image/*'
+								onChange={handleFileChange}
+							/>
+						</Form.Group>
+						{previewImage && (
+							<PreviewImage
+								type='previewImage'
+								key={previewImage.name}
+								path={previewImage.url}
+								imageId={previewImage.name}
+								handleRemove={
+									handleRemovePreviewImage
+								}
+								className='m-2'
+							/>
+						)}
 					</Modal.Body>
 					<Modal.Footer>
 						<Button

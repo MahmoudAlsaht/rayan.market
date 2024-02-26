@@ -6,13 +6,14 @@ import {
 	updateCategory,
 	destroyCategory,
 } from '../../controllers/category';
-import { TProduct } from './product';
+import { TImage, TProduct } from './product';
 
 export type TCategory = {
 	_id: string;
 	name: string;
 	products: (TProduct | null)[];
 	createdAt: Date;
+	image: TImage;
 };
 
 const initialState: (TCategory | null)[] = [];

@@ -32,6 +32,7 @@ import Offers from './routes/store/Offers';
 import CheckoutLayout from './layouts/CheckoutLayout';
 import Category from './routes/store/Category';
 import InstallPWA from './components/InstallButton';
+import Products from './routes/store/Products';
 
 export const Router = createBrowserRouter([
 	{
@@ -47,6 +48,7 @@ export const Router = createBrowserRouter([
 						path: 'categories/:categoryId',
 						element: <Category />,
 					},
+					{ path: 'products', element: <Products /> },
 					{ path: 'offers', element: <Offers /> },
 				],
 			},
@@ -158,7 +160,7 @@ function Wrapper() {
 	return (
 		<Provider store={store}>
 			<div
-				style={{ maxWidth: '1400px', margin: '0 auto' }}
+				style={{ maxWidth: '1411px', margin: '0 auto' }}
 			>
 				<InstallPWA />
 				<Outlet />

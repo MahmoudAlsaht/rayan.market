@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAdmin, sendRequestToServer } from '../utils';
 import { TCategory } from '../app/store/category';
 import { TProduct } from '../app/store/product';
+import { uploadImage } from '../firebase/firestore/uploadFile';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
@@ -44,14 +45,30 @@ export const fetchCategory = async (categoryId: string) => {
 
 export const createCategory = createAsyncThunk(
 	'categories/postCategory',
-	async (name: string) => {
+	async ({
+		name,
+		file,
+	}: {
+		name: string;
+		file: File | null;
+	}) => {
 		try {
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
 
+			const imageUrl = {
+				url: await uploadImage(
+					file,
+					`${file?.name}`,
+					`categories/${name}`,
+				),
+				fileName: file?.name,
+			};
+
 			const category: TCategory | null =
 				await sendRequestToServer('POST', `category`, {
 					name,
+					imageUrl,
 				});
 
 			return category;
@@ -63,11 +80,24 @@ export const createCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
 	'categories/putCategory',
-	async (options: { categoryId: string; name: string }) => {
+	async (options: {
+		categoryId: string;
+		name: string;
+		file: File | null;
+	}) => {
 		try {
-			const { categoryId, name } = options;
+			const { categoryId, name, file } = options;
 			if (!isAdmin())
 				throw new Error('You Are Not Authorized');
+
+			const imageUrl = {
+				url: await uploadImage(
+					file,
+					`${file?.name}`,
+					`categories/${name}`,
+				),
+				fileName: file?.name,
+			};
 
 			const category: TCategory | null =
 				await sendRequestToServer(
@@ -75,6 +105,7 @@ export const updateCategory = createAsyncThunk(
 					`category/${categoryId}`,
 					{
 						name,
+						imageUrl,
 					},
 				);
 

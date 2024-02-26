@@ -8,14 +8,24 @@ import { getAuth } from 'firebase/auth';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
+// const firebaseConfig = {
+// 	apiKey: import.meta.env.VITE_APIKEY,
+// 	authDomain: import.meta.env.VITE_AUTHDOMAIN,
+// 	projectId: import.meta.env.VITE_PROJECTID,
+// 	storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+// 	messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+// 	appId: import.meta.env.VITE_APPID,
+// 	measurementId: import.meta.env.VITE_MEASUREMENTID,
+// };
+
 const firebaseConfig = {
-	apiKey: import.meta.env.VITE_APIKEY,
-	authDomain: import.meta.env.VITE_AUTHDOMAIN,
-	projectId: import.meta.env.VITE_PROJECTID,
-	storageBucket: import.meta.env.VITE_STORAGEBUCKET,
-	messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
-	appId: import.meta.env.VITE_APPID,
-	measurementId: import.meta.env.VITE_MEASUREMENTID,
+	apiKey: 'AIzaSyCVL9W1UNttUwTEj5DEHEM85d3W9dn3n0g',
+	authDomain: 'mstore-e4ba8.firebaseapp.com',
+	projectId: 'mstore-e4ba8',
+	storageBucket: 'mstore-e4ba8.appspot.com',
+	messagingSenderId: '465441869515',
+	appId: '1:465441869515:web:c399aaf3a5af41806b154e',
+	measurementId: 'G-8BEMVJZ024',
 };
 
 // Initialize Firebase

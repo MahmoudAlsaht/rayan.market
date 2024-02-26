@@ -66,6 +66,7 @@ const CategoriesSettings = memo(() => {
 						<tr>
 							<th scope='col'></th>
 							<th scope='col'>Name</th>
+							<th scope='col'>Image</th>
 							<th scope='col'></th>
 						</tr>
 					</thead>
@@ -74,9 +75,8 @@ const CategoriesSettings = memo(() => {
 							(category, index) => (
 								<CategorySettings
 									key={category?._id}
-									categoryId={category?._id}
+									category={category}
 									index={index}
-									categoryName={category?.name}
 								/>
 							),
 						)}

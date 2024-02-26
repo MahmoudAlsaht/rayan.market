@@ -3,6 +3,7 @@ import { TProduct } from '../../app/store/product';
 import { fetchOffers } from '../../controllers/product';
 import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
+import CategoryNavbar from '../../components/CategoryNavbar';
 
 const Offers = memo(() => {
 	const [products, setProducts] =
@@ -17,6 +18,7 @@ const Offers = memo(() => {
 	}, []);
 	return (
 		<div>
+			<CategoryNavbar />
 			<Row>
 				{products &&
 					products?.map((product) => (

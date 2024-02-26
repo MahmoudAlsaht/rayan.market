@@ -15,24 +15,25 @@ function Banner() {
 	>([]);
 
 	useEffect(() => {
-		setIsLoading(true);
 		const getBanner = async () => {
 			const fetchedBanner = await fetchActiveBanner();
 			setBanner(fetchedBanner);
 		};
 		getBanner();
 		const updateImages = async () => {
+			setIsLoading(true);
 			try {
 				const images = await fetchBannersImages(
 					banner?._id as string,
 				);
 				setBannerImages(images);
+				setIsLoading(false);
 			} catch (e: any) {
+				setIsLoading(false);
 				return;
 			}
 		};
 		updateImages();
-		setIsLoading(false);
 	}, [banner?._id]);
 
 	return (
@@ -50,7 +51,9 @@ function Banner() {
 										<div
 											style={{
 												backgroundColor:
-													'#07a180',
+													!image?.path
+														? 'none'
+														: '#07a180',
 												width: '100%',
 												height: '300px',
 											}}
@@ -62,7 +65,7 @@ function Banner() {
 													width: '100%',
 													height: '300px',
 													opacity:
-														'.9',
+														'.85',
 												}}
 											/>
 										</div>
@@ -87,15 +90,26 @@ function Banner() {
 														'#'
 													}
 												>
-													<img
-														src={
-															image?.path
-														}
+													<div
 														style={{
-															width: '1200px',
+															backgroundColor:
+																isLoading
+																	? 'none'
+																	: '#07a180',
+															width: '100%',
 															height: '300px',
 														}}
-													/>
+													>
+														<img
+															src={
+																image?.path
+															}
+															style={{
+																width: '1200px',
+																height: '300px',
+															}}
+														/>
+													</div>
 												</Link>
 											),
 										)}
