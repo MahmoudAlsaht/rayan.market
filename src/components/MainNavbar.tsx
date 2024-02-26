@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { TUser } from '../app/auth/auth';
 import { fetchUser, logout } from '../controllers/user';
 import ScrollToColor01 from './ScrollToColor';
+import CategoryNavbar from './CategoryNavbar';
 
 const pages = ['العروض', 'المنتجات', 'الرئيسية'];
 
@@ -32,6 +33,8 @@ export default function MainNavbar() {
 	const user: TUser | null = useAppSelector(
 		(state) => state.user,
 	);
+
+	const isHomePage = window.location.href.search('home');
 
 	const navigate = useNavigate();
 
@@ -74,7 +77,7 @@ export default function MainNavbar() {
 								variant='h6'
 								noWrap
 								component='a'
-								href='#app-bar-with-responsive-menu'
+								href='/home'
 								sx={{
 									mr: 2,
 									display: {
@@ -303,6 +306,7 @@ export default function MainNavbar() {
 							</Box>
 						</Toolbar>
 					</Container>
+					{isHomePage === -1 && <CategoryNavbar />}
 				</AppBar>
 			</ScrollToColor01>
 		</>

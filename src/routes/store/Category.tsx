@@ -7,7 +7,6 @@ import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
-import CategoryNavbar from '../../components/CategoryNavbar';
 
 const Category = memo(() => {
 	const { categoryId } = useParams();
@@ -36,7 +35,6 @@ const Category = memo(() => {
 
 	return (
 		<>
-			<CategoryNavbar />
 			{!isLoading ? (
 				<div>
 					<h1 className='text-center mt-3'>

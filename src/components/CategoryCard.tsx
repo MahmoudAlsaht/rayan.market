@@ -51,7 +51,7 @@ export default function CategoryCard({
 									'transform .5s ease-in-out',
 								'&:hover': {
 									transform:
-										'scale(1.1) rotate(2.5deg)',
+										'scale(1.2) rotate(-1.5deg)',
 								},
 							}}
 							src={category.image.path}
