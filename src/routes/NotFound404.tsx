@@ -22,7 +22,7 @@ function NotFound404() {
 						<Button
 							variant='outline-primary'
 							className='text-white'
-							onClick={() => navigate('/')}
+							onClick={() => navigate('/home')}
 						>
 							<MdChevronLeft /> Home Page
 						</Button>

@@ -33,6 +33,7 @@ import CheckoutLayout from './layouts/CheckoutLayout';
 import Category from './routes/store/Category';
 import InstallPWA from './components/InstallButton';
 import Products from './routes/store/Products';
+import Categories from './routes/store/Categories';
 
 export const Router = createBrowserRouter([
 	{
@@ -49,17 +50,11 @@ export const Router = createBrowserRouter([
 						element: <Category />,
 					},
 					{ path: 'products', element: <Products /> },
-					{ path: 'offers', element: <Offers /> },
-				],
-			},
-			{
-				element: <CheckoutLayout />,
-				children: [
-					{ path: 'cart', element: <CartCheckout /> },
 					{
-						path: 'checkout',
-						element: <Checkout />,
+						path: 'categories',
+						element: <Categories />,
 					},
+					{ path: 'offers', element: <Offers /> },
 				],
 			},
 			{
@@ -69,6 +64,16 @@ export const Router = createBrowserRouter([
 					{
 						path: 'products/:productId',
 						element: <ShowProduct />,
+					},
+				],
+			},
+			{
+				element: <CheckoutLayout />,
+				children: [
+					{ path: 'cart', element: <CartCheckout /> },
+					{
+						path: 'checkout',
+						element: <Checkout />,
 					},
 				],
 			},

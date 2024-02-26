@@ -1,14 +1,21 @@
 import { Box, Container, Typography } from '@mui/material';
 import { TCategory } from '../app/store/category';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { fetchCategories } from '../controllers/category';
 import CategoryCard from './CategoryCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 
-export default function CategoryList() {
+export default function CategoryList({
+	listLength = 0,
+}: {
+	listLength?: number;
+}) {
 	const dispatch = useAppDispatch();
+	const catLength = useRef(listLength);
+	const navigate = useNavigate();
 
 	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
@@ -16,7 +23,9 @@ export default function CategoryList() {
 
 	useEffect(() => {
 		dispatch(fetchCategories());
-	}, [dispatch]);
+		if (catLength.current === 0)
+			catLength.current = categories?.length;
+	}, [categories?.length, dispatch]);
 
 	return (
 		<Container>
@@ -46,6 +55,7 @@ export default function CategoryList() {
 								backgroundColor: '#07a180',
 							},
 						}}
+						onClick={() => navigate('/categories')}
 					>
 						<Typography
 							sx={{ fontSize: 30 }}
@@ -58,7 +68,7 @@ export default function CategoryList() {
 
 				{categories.map(
 					(category, index) =>
-						index < 5 && (
+						index < catLength.current && (
 							<CategoryCard
 								category={category}
 								key={category?._id}
