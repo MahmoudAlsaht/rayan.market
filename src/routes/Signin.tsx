@@ -1,21 +1,27 @@
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import {
-	useRef,
+	ChangeEvent,
 	FormEvent,
 	useEffect,
+	useRef,
 	useState,
-	ChangeEvent,
 } from 'react';
-import { signIn } from '../controllers/user';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser } from '../controllers/user';
-import { TUser } from '../app/auth/auth';
 import ErrorComponent, { IError } from '../components/Error';
-import LoadingButton from '../components/LoadingButton';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { TUser } from '../app/auth/auth';
+import { fetchUser, signIn } from '../controllers/user';
+import { LoadingButton } from '@mui/lab';
 
-function SignIn() {
+export default function SignIn() {
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -36,7 +42,7 @@ function SignIn() {
 		dispatch(fetchUser());
 	}, [dispatch]);
 
-	if (user?.username !== 'anonymous') navigate(-1);
+	if (user?.username !== 'anonymous') navigate('/home');
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -100,91 +106,85 @@ function SignIn() {
 	};
 
 	return (
-		<>
-			<Row className='d-flex justify-content-center'>
-				<Col xs={10} sm={8} md={6} lg={5} xl={4}>
-					<Container className='bg-white mt-5 p-5 border rounded shadow'>
-						<Form
-							noValidate
-							validated={!validated}
-							onSubmit={handleSubmit}
-							style={{ width: '100%' }}
-						>
-							<ErrorComponent error={error} />
+		<Container component='main' maxWidth='xs'>
+			<CssBaseline />
+			<Box
+				sx={{
+					marginTop: 8,
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+					<LockOutlinedIcon />
+				</Avatar>
+				<Typography component='h1' variant='h5'>
+					Sign in
+				</Typography>
+				<Box
+					component='form'
+					onSubmit={handleSubmit}
+					noValidate
+					sx={{ mt: 1 }}
+				>
+					<ErrorComponent error={error} />
 
-							<Form.Group
-								className='mb-3'
-								controlId='phoneInput'
+					<TextField
+						margin='normal'
+						required
+						fullWidth
+						id='phone'
+						label='Phone Number'
+						name='phone'
+						autoComplete='phone number'
+						type='number'
+						autoFocus
+						inputRef={phoneRef}
+						onChange={handleChange}
+					/>
+					<TextField
+						margin='normal'
+						required
+						fullWidth
+						name='password'
+						label='Password'
+						type='password'
+						id='password'
+						autoComplete='current-password'
+						inputRef={passwordRef}
+						onChange={handleChange}
+					/>
+
+					<LoadingButton
+						type='submit'
+						fullWidth
+						variant='outlined'
+						startIcon='Signin'
+						loading={isLoading}
+						disabled={!validated}
+						sx={{ mt: 3, mb: 2 }}
+					/>
+
+					<Grid container>
+						<Grid item xs>
+							<Link href='#' variant='body2'>
+								Forgot password?
+							</Link>
+						</Grid>
+						<Grid item>
+							<Link
+								href='/auth/signup'
+								variant='body2'
 							>
-								<Form.Label className='arb-text'>
-									رقم الهاتف
-								</Form.Label>
-								<Form.Control
-									onChange={handleChange}
-									required
-									type='number'
-									placeholder='07########'
-									ref={phoneRef}
-								/>
-							</Form.Group>
-
-							<Form.Group
-								className='mb-3'
-								controlId='passwordInput'
-							>
-								<Form.Label className='arb-text'>
-									كلمة المرور
-								</Form.Label>
-								<Form.Control
-									onChange={handleChange}
-									required
-									type='password'
-									placeholder='at least 6 char'
-									ref={passwordRef}
-								/>
-							</Form.Group>
-							<Form.Group className='mb-3'>
-								<small className='text-info m-2 arb-text'>
-									لا تملك حساب بعد؟
-									<Link
-										to='/auth/signup'
-										className='text-primary'
-										style={{
-											textDecoration:
-												'underline',
-										}}
-									>
-										التسجيل
-									</Link>
-								</small>
-								<LoadingButton
-									type='submit'
-									body='تسجيل الدخول'
-									variant='primary'
-									disabled={!validated}
-									isLoading={isLoading}
-								/>
-
-								<small className='text-info m-2 arb-text'>
-									نسيت كلمة المرور
-									<Link
-										to='/auth/reset-password'
-										className='text-primary arb-text'
-										style={{
-											textDecoration:
-												'underline',
-										}}
-									>
-										إعادة ضبط كلمة المرور
-									</Link>
-								</small>
-							</Form.Group>
-						</Form>
-					</Container>
-				</Col>
-			</Row>
-		</>
+								{
+									"Don't have an account? Sign Up"
+								}
+							</Link>
+						</Grid>
+					</Grid>
+				</Box>
+			</Box>
+		</Container>
 	);
 }
-
-export default SignIn;

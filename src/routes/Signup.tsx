@@ -1,21 +1,27 @@
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import {
-	useRef,
+	ChangeEvent,
 	FormEvent,
 	useEffect,
+	useRef,
 	useState,
-	ChangeEvent,
 } from 'react';
-import { signUp } from '../controllers/user';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser } from '../controllers/user';
 import { TUser } from '../app/auth/auth';
+import { fetchUser, signUp } from '../controllers/user';
 import ErrorComponent, { IError } from '../components/Error';
-import LoadingButton from '../components/LoadingButton';
+import { LoadingButton } from '@mui/lab';
 
-function Signup() {
+export default function SignUp() {
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -40,7 +46,7 @@ function Signup() {
 		dispatch(fetchUser());
 	}, [dispatch]);
 
-	if (user?.username !== 'anonymous') navigate(-1);
+	if (user?.username !== 'anonymous') navigate('/home');
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -122,108 +128,118 @@ function Signup() {
 	};
 
 	return (
-		<Row className='d-flex justify-content-center'>
-			<Col xs={10} sm={8} md={6} lg={5} xl={4}>
-				<Container className='bg-white mt-5 p-5 border rounded shadow'>
-					<Form
-						noValidate
-						validated={!validated}
-						onSubmit={handleSubmit}
-						style={{
-							width: '100%',
-							height: '70dvh',
-						}}
-					>
-						<ErrorComponent error={error} />
+		<Container component='main' maxWidth='xs'>
+			<CssBaseline />
+			<Box
+				sx={{
+					marginTop: 8,
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+					<LockOutlinedIcon />
+				</Avatar>
+				<Typography component='h1' variant='h5'>
+					Sign up
+				</Typography>
+				<Box
+					component='form'
+					noValidate
+					onSubmit={handleSubmit}
+					sx={{ mt: 3 }}
+				>
+					<ErrorComponent error={error} />
 
-						<Form.Group
-							className='mb-3'
-							controlId='phoneInput'
-						>
-							<Form.Label className='arb-text'>
-								رقم الهاتف
-							</Form.Label>
-							<Form.Control
-								onChange={handleChange}
+					<Grid container spacing={2}>
+						<Grid item xs={12}>
+							<TextField
+								autoComplete='given-name'
+								name='username'
 								required
+								fullWidth
+								id='username'
+								label='Username'
+								autoFocus
+								inputRef={usernameRef}
+								onChange={handleChange}
+							/>
+						</Grid>
+
+						<Grid item xs={12}>
+							<TextField
+								required
+								fullWidth
+								id='phone'
+								label='Phone Number'
+								name='phone'
 								type='number'
-								placeholder='07########'
-								ref={phoneRef}
+								autoComplete='phone Number'
+								inputRef={phoneRef}
+								onChange={handleChange}
 							/>
-						</Form.Group>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								required
+								fullWidth
+								name='password'
+								label='Password'
+								type='password'
+								id='password'
+								autoComplete='new-password'
+								inputRef={passwordRef}
+								onChange={handleChange}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								required
+								fullWidth
+								name='passwordConfirmation'
+								label='Confirm Password'
+								type='password'
+								id='passwordConfirmation'
+								autoComplete='new-password'
+								inputRef={confirmPasswordRef}
+								onChange={handleChange}
+							/>
+						</Grid>
 
-						<Form.Group
-							className='mb-3'
-							controlId='NameInput'
-						>
-							<Form.Label className='arb-text'>
-								إسم المستخدم{' '}
-							</Form.Label>
-							<Form.Control
-								onChange={handleChange}
-								required
-								type='text'
-								placeholder='your name'
-								ref={usernameRef}
-							/>
-						</Form.Group>
-						<Form.Group
-							className='mb-3'
-							controlId='passwordInput'
-						>
-							<Form.Label className='arb-text'>
-								كلمة المرور{' '}
-							</Form.Label>
-							<Form.Control
-								onChange={handleChange}
-								required
-								type='password'
-								placeholder='at least 6 char'
-								ref={passwordRef}
-							/>
-						</Form.Group>
-						<Form.Group
-							className='mb-3'
-							controlId='passwordConfirmationInput'
-						>
-							<Form.Label className='arb-text'>
-								تأكيد كلمة المرور{' '}
-							</Form.Label>
-							<Form.Control
-								onChange={handleChange}
-								required
-								type='password'
-								placeholder='at least 6 char'
-								ref={confirmPasswordRef}
-							/>
-						</Form.Group>
-						<Form.Group className='mb-3 arb-text'>
-							<small className='text-info m-3'>
-								لديك حساب بالفعل؟{' '}
-								<Link
-									to='/auth/signin'
-									className='text-primary'
-									style={{
-										textDecoration:
-											'underline',
-									}}
-								>
-									سجل الدخول
-								</Link>
-							</small>
-							<LoadingButton
-								type='submit'
-								body='Register'
-								variant='primary'
-								disabled={!validated}
-								isLoading={isLoading}
-							/>
-						</Form.Group>
-					</Form>
-				</Container>
-			</Col>
-		</Row>
+						{/* <Grid item xs={12}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											value='allowExtraEmails'
+											color='primary'
+										/>
+									}
+									label='I want to receive inspiration, marketing promotions and updates via email.'
+								/>
+							</Grid> */}
+					</Grid>
+					<LoadingButton
+						type='submit'
+						fullWidth
+						variant='outlined'
+						startIcon='Signup'
+						sx={{ mt: 3, mb: 2 }}
+						disabled={!validated}
+						loading={isLoading}
+					/>
+					<Grid container justifyContent='flex-end'>
+						<Grid item>
+							<Link
+								href='/auth/signin'
+								variant='body2'
+							>
+								Already have an account? Sign in
+							</Link>
+						</Grid>
+					</Grid>
+				</Box>
+			</Box>
+		</Container>
 	);
 }
-
-export default Signup;
