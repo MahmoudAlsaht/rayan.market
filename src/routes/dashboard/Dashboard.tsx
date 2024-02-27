@@ -33,6 +33,7 @@ const Dashboard = memo(() => {
 		'Settings',
 		'Orders',
 		'Categories',
+		'Brands',
 		'Products',
 		'Banners',
 	];
@@ -53,6 +54,9 @@ const Dashboard = memo(() => {
 									: widget.toLowerCase() ===
 									  'categories'
 									? 'الأقسام'
+									: widget.toLowerCase() ===
+									  'brands'
+									? 'العلامات التجارية'
 									: widget.toLowerCase() ===
 									  'products'
 									? 'المنتجات'

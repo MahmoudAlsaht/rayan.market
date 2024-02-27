@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import UserReducer from './auth/auth';
 import ProfileReducer from './auth/profile';
 import CategoriesReducer from './store/category';
+import BrandsReducer from './store/brand';
 import ProductsReducer from './store/product';
 import CartReducer from './store/cart';
 import OrderReducer from './store/order';
@@ -16,6 +17,7 @@ export const store = configureStore({
 		cart: CartReducer,
 		orders: OrderReducer,
 		banners: BannerReducer,
+		brands: BrandsReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }),

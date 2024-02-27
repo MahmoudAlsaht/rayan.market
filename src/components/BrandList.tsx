@@ -1,14 +1,14 @@
 import { Box, Container, Typography } from '@mui/material';
-import { TCategory } from '../app/store/category';
+import { TBrand } from '../app/store/brand';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useEffect, useRef } from 'react';
-import { fetchCategories } from '../controllers/category';
-import CategoryCard from './CategoryCard';
+import { fetchBrands } from '../controllers/brand';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
+import BrandCard from './BrandCard';
 
-export default function CategoryList({
+export default function BrandList({
 	listLength = 0,
 }: {
 	listLength?: number;
@@ -19,15 +19,15 @@ export default function CategoryList({
 
 	const isHomePage = window.location.href.search('home');
 
-	const categories: (TCategory | null)[] = useAppSelector(
-		(state) => state.categories,
+	const brands: (TBrand | null)[] = useAppSelector(
+		(state) => state.brands,
 	);
 
 	useEffect(() => {
-		dispatch(fetchCategories());
+		dispatch(fetchBrands());
 		if (catLength.current === 0)
-			catLength.current = categories?.length;
-	}, [categories?.length, dispatch]);
+			catLength.current = brands?.length;
+	}, [brands?.length, dispatch]);
 
 	return (
 		<Container sx={{ mt: 12 }}>
@@ -53,9 +53,7 @@ export default function CategoryList({
 									backgroundColor: '#07a180',
 								},
 							}}
-							onClick={() =>
-								navigate('/categories')
-							}
+							onClick={() => navigate('/brands')}
 						>
 							<Typography
 								sx={{ fontSize: 30 }}
@@ -67,12 +65,12 @@ export default function CategoryList({
 					</Grid>
 				)}
 
-				{categories.map(
-					(category, index) =>
+				{brands.map(
+					(brand, index) =>
 						index < catLength.current && (
-							<CategoryCard
-								category={category}
-								key={category?._id}
+							<BrandCard
+								brand={brand}
+								key={brand?._id}
 							/>
 						),
 				)}

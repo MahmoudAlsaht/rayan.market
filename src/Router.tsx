@@ -34,6 +34,9 @@ import Category from './routes/store/Category';
 import InstallPWA from './components/InstallButton';
 import Products from './routes/store/Products';
 import Categories from './routes/store/Categories';
+import Brands from './routes/store/Brands';
+import ShowBrand from './routes/store/ShowBrand';
+import BrandsActions from './routes/dashboard/BrandsActions';
 
 export const Router = createBrowserRouter([
 	{
@@ -46,14 +49,22 @@ export const Router = createBrowserRouter([
 				children: [
 					{ path: 'home', element: <Home /> },
 					{
-						path: 'categories/:categoryId',
-						element: <Category />,
-					},
-					{ path: 'products', element: <Products /> },
-					{
 						path: 'categories',
 						element: <Categories />,
 					},
+					{
+						path: 'categories/:categoryId',
+						element: <Category />,
+					},
+					{
+						path: 'brands',
+						element: <Brands />,
+					},
+					{
+						path: 'brands/:brandId',
+						element: <ShowBrand />,
+					},
+					{ path: 'products', element: <Products /> },
 					{ path: 'offers', element: <Offers /> },
 				],
 			},
@@ -134,6 +145,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/categories',
 						element: <CategoriesSettings />,
+					},
+					{
+						path: 'settings/brands',
+						element: <BrandsActions />,
 					},
 					{
 						path: 'settings/products',

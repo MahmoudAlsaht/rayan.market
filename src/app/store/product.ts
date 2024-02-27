@@ -7,6 +7,7 @@ import {
 	destroyProduct,
 } from '../../controllers/product';
 import { TCategory } from './category';
+import { TBrand } from './brand';
 
 export type TImage = {
 	_id: string;
@@ -28,6 +29,7 @@ export type TProduct = {
 	newPrice?: string;
 	quantity: string;
 	category: TCategory;
+	brand: TBrand;
 	isOffer?: boolean;
 	remaining?: string;
 	offerExpiresDate?: string;

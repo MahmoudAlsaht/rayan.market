@@ -137,6 +137,13 @@ export default function AuthLayout() {
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link>
+								<Link to='/dashboard/settings/brands'>
+									العلامات التجارية
+								</Link>
+							</Nav.Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link>
 								<Link to='/dashboard/settings/products'>
 									المنتجات
 								</Link>

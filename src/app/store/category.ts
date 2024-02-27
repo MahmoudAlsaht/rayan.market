@@ -68,6 +68,6 @@ export const CategoriesSlice = createSlice({
 	},
 });
 
-export const selectProfile = (state: RootState) => state;
+export const selectCategory = (state: RootState) => state;
 
 export default CategoriesSlice.reducer;
