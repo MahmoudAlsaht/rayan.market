@@ -37,6 +37,8 @@ import Categories from './routes/store/Categories';
 import Brands from './routes/store/Brands';
 import ShowBrand from './routes/store/ShowBrand';
 import BrandsActions from './routes/dashboard/BrandsActions';
+import { ThemeProvider } from '@mui/material';
+import { theme } from './assets/jsStyles';
 
 export const Router = createBrowserRouter([
 	{
@@ -179,13 +181,18 @@ export const Router = createBrowserRouter([
 function Wrapper() {
 	return (
 		<Provider store={store}>
-			<div
-				style={{ maxWidth: '1411px', margin: '0 auto' }}
-			>
-				<InstallPWA />
-				<Outlet />
-				<SpeedInsights />
-			</div>
+			<ThemeProvider theme={theme}>
+				<div
+					style={{
+						maxWidth: '1411px',
+						margin: '0 auto',
+					}}
+				>
+					<InstallPWA />
+					<Outlet />
+					<SpeedInsights />
+				</div>
+			</ThemeProvider>
 		</Provider>
 	);
 }

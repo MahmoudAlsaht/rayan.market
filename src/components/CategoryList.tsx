@@ -44,13 +44,14 @@ export default function CategoryList({
 								flexDirection: 'column',
 								alignItems: 'center',
 								justifyContent: 'center',
-								color: '#07a180',
+								color: 'primary.main',
 								cursor: 'pointer',
 								transition:
 									'all 200ms ease-in-out',
 								'&:hover': {
 									color: '#fff',
-									backgroundColor: '#07a180',
+									backgroundColor:
+										'primary.main',
 								},
 							}}
 							onClick={() =>

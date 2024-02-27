@@ -30,7 +30,7 @@ export default function CategoryCard({
 							transition: 'all 200ms ease-in-out',
 							'&:hover': {
 								color: '#fff',
-								backgroundColor: '#07a180',
+								backgroundColor: 'primary.main',
 							},
 						}}
 					/>
@@ -50,8 +50,7 @@ export default function CategoryCard({
 								transition:
 									'transform .5s ease-in-out',
 								'&:hover': {
-									transform:
-										'scale(1.2) rotate(-1.5deg)',
+									transform: 'scale(1.2)',
 								},
 							}}
 							src={category.image.path}
@@ -61,7 +60,7 @@ export default function CategoryCard({
 				<Typography
 					sx={{
 						fontSize: 30,
-						color: '#07a180',
+						color: 'primary.main',
 						mx: 3,
 						// textAlign: 'center',
 						// width: '50%',
