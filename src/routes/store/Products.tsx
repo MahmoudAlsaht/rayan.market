@@ -23,8 +23,9 @@ const Products = memo(() => {
 					products?.map((product) => (
 						<Col
 							key={product?._id}
-							xs={4}
-							sm={3}
+							xs={6}
+							sm={4}
+							md={3}
 							lg={2}
 						>
 							<ProductCard

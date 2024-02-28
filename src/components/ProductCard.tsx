@@ -1,42 +1,97 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
-import { useState, useEffect } from 'react';
-import { Button, Card, Container } from 'react-bootstrap';
-import { fetchProductsImages } from '../controllers/productImages';
-import defaultProductImage from '../defaultProductImage.jpg';
-import '../assets/styles/ProductCard.css';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import IconButton, {
+	IconButtonProps,
+} from '@mui/material/IconButton';
+
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
+import { TProduct, TProductImage } from '../app/store/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
 	TCart,
 	TCartProduct,
 	addToCart,
+	addToCounter,
+	removeFromCounter,
 	updateTotalPrice,
 } from '../app/store/cart';
-import { BsCartPlus, BsCheck } from 'react-icons/bs';
+import { fetchProductsImages } from '../controllers/productImages';
 import {
 	checkIfProductInCart,
 	findCartProduct,
 } from '../controllers/cart';
-import { TProduct, TProductImage } from '../app/store/product';
-import ProductCartActions from './ProductCartActions';
-import { sumEachProductTotalPrice } from '../utils';
-import Skeleton from 'react-loading-skeleton';
+import { Skeleton, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+interface ExpandMoreProps extends IconButtonProps {
+	expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { expand, ...other } = props;
+	return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+	transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+	marginLeft: 'auto',
+	transition: theme.transitions.create('transform', {
+		duration: theme.transitions.duration.shortest,
+	}),
+}));
 
 type ProductCardProps = {
 	product: TProduct | null;
 };
 
-function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({
+	product,
+}: ProductCardProps) {
+	const navigate = useNavigate();
+	const [expanded, setExpanded] = useState(false);
+
+	const handleExpandClick = () => {
+		setExpanded(!expanded);
+	};
+
 	const [productImages, setProductImages] =
 		useState<(TProductImage | null)[]>();
 	const [productInCart, setProductInCart] = useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
-	const [totalProductPrice, setTotalProductPrice] =
-		useState(0);
 	const [productCart, setProductCart] =
 		useState<TCartProduct | null>();
 
 	const dispatch = useAppDispatch();
+
+	const handleAddToCounter = () => {
+		if (productCart?.counter == productCart?.quantity)
+			return;
+		dispatch(
+			addToCounter({
+				id: productCart?._id as string,
+				maxNum: parseInt(
+					productCart?.quantity as string,
+				),
+			}),
+		);
+		dispatch(updateTotalPrice(productCart?.price as string));
+	};
+
+	const handleRemoveProduct = () => {
+		if (productCart?.counter === 0) return;
+		dispatch(removeFromCounter(productCart?._id as string));
+		dispatch(
+			updateTotalPrice(-(productCart?.price as string)),
+		);
+	};
 
 	const handleAddProduct = () => {
 		if (product && !productInCart) {
@@ -75,105 +130,106 @@ function ProductCard({ product }: ProductCardProps) {
 				product?._id as string,
 			) as TCartProduct,
 		);
-		setTotalProductPrice(
-			sumEachProductTotalPrice(productCart!),
-		);
-	}, [cart, product?._id, productCart]);
+	}, [cart, product?._id]);
 
 	return (
-		<Container className='productCardContainer'>
-			<Card className='productCard mb-5 text-center w-75'>
-				<main dir='rtl'>
-					<Link to={`/store/products/${product?._id}`}>
-						{productImages ? (
-							<Card.Img
-								variant='top'
-								src={
-									productImages[0]?.path ||
-									defaultProductImage
-								}
-							/>
-						) : (
-							<Skeleton
-								height={200}
-								style={{ margin: '.5rem' }}
-							/>
-						)}
-						<Card.Title className='text-center mt-2 text-muted'>
-							{product?.name?.substring(0, 30)}
-						</Card.Title>
-					</Link>
-					<Card.Header>
-						{!product?.isOffer ? (
-							<Card.Subtitle className='text-muted '>
-								{product?.price} د.أ
-							</Card.Subtitle>
-						) : (
-							<Card.Subtitle className='text-muted '>
-								<span
-									style={{
-										textDecoration:
-											product?.newPrice &&
-											'line-through',
-									}}
-								>
-									{product?.price} د.أ
-								</span>
-								<br />
-								{product?.newPrice && (
-									<span className='me-3'>
-										{product?.newPrice} د.أ
+		<main dir='rtl'>
+			<Card
+				sx={{
+					maxWidth: 345,
+					mb: 2,
+				}}
+			>
+				{productImages ? (
+					<CardMedia
+						component='img'
+						height='194'
+						image={productImages[0]?.path}
+						alt={`${product?.name}'s image`}
+						sx={{ cursor: 'pointer' }}
+						onClick={() =>
+							navigate(
+								`/store/products/${product?._id}`,
+							)
+						}
+					/>
+				) : (
+					<Skeleton height={300} />
+				)}
+				<CardHeader
+					action={
+						<Typography sx={{ color: 'gray' }}>
+							{product?.quantity}
+						</Typography>
+					}
+					title={product?.name}
+					subheader={
+						<legend>
+							{product?.newPrice ? (
+								<p>
+									<span
+										style={{
+											textDecoration:
+												'line-through',
+											color: 'gray',
+											fontSize: 15,
+										}}
+									>
+										{product?.price}JOD
 									</span>
-								)}
-							</Card.Subtitle>
-						)}
-					</Card.Header>
-					<Card.Footer className='d-flex flex-column align-items-center'>
-						<Button
-							onClick={handleAddProduct}
-							variant={
-								parseInt(
-									product?.quantity as string,
-								) === 0
-									? 'secondary'
-									: productInCart
-									? 'success'
-									: 'outline-secondary'
-							}
-							className=' mb-2'
-							disabled={
-								parseInt(
-									product?.quantity as string,
-								) === 0 || productInCart
-							}
-						>
-							{!productInCart ? (
-								<span>
-									<BsCartPlus className='footerButtons' />{' '}
-								</span>
+									{product?.newPrice}JOD
+								</p>
 							) : (
-								<span>
-									<BsCheck className='footerButtons' />
-								</span>
+								<p>{product?.price}JOD</p>
 							)}
-						</Button>
+						</legend>
+					}
+				/>
 
-						{productInCart && (
-							<ProductCartActions
-								product={
-									productCart as TCartProduct
-								}
-								totalProductPrice={
-									totalProductPrice
-								}
-								className='productAction'
-							/>
-						)}
-					</Card.Footer>
-				</main>
+				<CardActions disableSpacing>
+					<ExpandMore
+						expand={expanded}
+						onClick={handleExpandClick}
+						aria-expanded={expanded}
+						aria-label='show more'
+					>
+						<ExpandMoreIcon />
+					</ExpandMore>
+				</CardActions>
+
+				<Collapse
+					in={expanded}
+					timeout='auto'
+					unmountOnExit
+				>
+					{productInCart ? (
+						<legend>
+							<IconButton
+								aria-label='add to product counter'
+								onClick={handleAddToCounter}
+							>
+								<AddCircleIcon />
+							</IconButton>
+							<IconButton aria-label='product quantity in cart'>
+								{productCart?.counter}
+							</IconButton>
+							<IconButton
+								aria-label='remove product from counter'
+								onClick={handleRemoveProduct}
+							>
+								<RemoveCircleIcon />
+							</IconButton>
+						</legend>
+					) : (
+						<IconButton
+							aria-label='add to cart'
+							onClick={handleAddProduct}
+						>
+							<AddShoppingCartIcon />
+						</IconButton>
+					)}
+				</Collapse>
 			</Card>
-		</Container>
+		</main>
 	);
 }
-
-export default ProductCard;

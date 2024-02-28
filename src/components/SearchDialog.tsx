@@ -51,6 +51,7 @@ export default function SearchDialog({
 			open={openSearch}
 			onClose={handleCloseSearch}
 			TransitionComponent={Transition}
+			dir='rtl'
 		>
 			<main dir='rtl'>
 				<AppBar

@@ -1,8 +1,8 @@
 import { memo, useEffect, useState } from 'react';
 import { TProduct } from '../../app/store/product';
 import { fetchOffers } from '../../controllers/product';
-import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 const Offers = memo(() => {
 	const [products, setProducts] =
@@ -17,21 +17,16 @@ const Offers = memo(() => {
 	}, []);
 	return (
 		<div>
-			<Row>
+			<Grid container xs={12}>
 				{products &&
 					products?.map((product) => (
-						<Col
-							key={product?._id}
-							xs={4}
-							sm={3}
-							lg={2}
-						>
+						<Grid key={product?._id} sm={12} lg={2}>
 							<ProductCard
 								product={product as TProduct}
 							/>
-						</Col>
+						</Grid>
 					))}
-			</Row>
+			</Grid>
 		</div>
 	);
 });
