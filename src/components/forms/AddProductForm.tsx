@@ -178,7 +178,7 @@ function AddProductForm({
 		dispatch(fetchCategories());
 	}, [dispatch]);
 	return (
-		<>
+		<div dir='rtl'>
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton className='border-0'>
 					<Modal.Title className='text-muted'>
@@ -195,7 +195,7 @@ function AddProductForm({
 						<ErrorComponent error={error} />
 
 						<Form.Group
-							className='mb-3 arb-text'
+							className='mb-3 '
 							controlId='selectCategory'
 						>
 							<Form.Select
@@ -217,7 +217,7 @@ function AddProductForm({
 						</Form.Group>
 
 						<Form.Group
-							className='arb-text mt-3 mb-3'
+							className=' mt-3 mb-3'
 							controlId='productNameFormInput'
 						>
 							<Form.Label>اسم المنتج</Form.Label>
@@ -231,7 +231,7 @@ function AddProductForm({
 						</Form.Group>
 
 						<Form.Group
-							className='arb-text mb-3'
+							className=' mb-3'
 							controlId='productQuantityFormInput'
 						>
 							<Form.Label>الكمية</Form.Label>
@@ -245,7 +245,7 @@ function AddProductForm({
 						</Form.Group>
 
 						<Form.Group
-							className='arb-text mb-3'
+							className=' mb-3'
 							controlId='productPriceFormInput'
 						>
 							<Form.Label>السعر</Form.Label>
@@ -259,11 +259,11 @@ function AddProductForm({
 						</Form.Group>
 
 						<Form.Group
-							className='arb-text mb-3'
+							className=' mb-3'
 							controlId='productNameFormInput'
 						>
 							<Form.Check
-								className='arb-text'
+								className=''
 								type='switch'
 								id='custom-switch'
 								checked={isOffer}
@@ -279,7 +279,7 @@ function AddProductForm({
 						{isOffer && (
 							<div>
 								<Form.Group
-									className='arb-text  mb-3'
+									className='  mb-3'
 									controlId='productPriceFormInput'
 								>
 									<Form.Label>
@@ -295,7 +295,7 @@ function AddProductForm({
 								</Form.Group>
 
 								<Form.Group
-									className='mb-3 arb-text'
+									className='mb-3 '
 									controlId='selectCategory'
 								>
 									<Form.Label>
@@ -362,7 +362,7 @@ function AddProductForm({
 					</Modal.Footer>
 				</Form>
 			</Modal>
-		</>
+		</div>
 	);
 }
 

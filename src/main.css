@@ -8,12 +8,12 @@ a {
 	color: #5d5d57;
 }
 
-.arb-text {
+/* .arb-text {
 	direction: rtl;
 	float: right;
 	margin-right: '25px';
 	width: 100%;
-}
+} */
 
 .searchInput {
 	align-self: center;

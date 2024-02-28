@@ -107,79 +107,83 @@ function ContactInfoForm({
 
 	return (
 		<Container>
-			<Form
-				noValidate
-				validated={!validated}
-				onSubmit={handleSubmit}
-				style={{ width: '100%' }}
-			>
-				<Button
-					variant='outline-secondary'
-					onClick={() => navigate(-1)}
+			<main dir='rtl'>
+				<Form
+					noValidate
+					validated={!validated}
+					onSubmit={handleSubmit}
+					style={{ width: '100%' }}
 				>
-					<BsArrowLeft /> العودة
-				</Button>
-				<h3 className='text-muted text-center mb-3'>
-					أضف عنوانا
-				</h3>
+					<Button
+						variant='outline-secondary'
+						onClick={() => navigate(-1)}
+					>
+						<BsArrowLeft /> العودة
+					</Button>
+					<h3 className='text-muted text-center mb-3'>
+						أضف عنوانا
+					</h3>
 
-				<ErrorComponent error={error} />
+					<ErrorComponent error={error} />
 
-				<Form.Group
-					className='mb-3 arb-text'
-					controlId='cityInput'
-				>
-					<Form.Label>المنطقة</Form.Label>
-					<Form.Control
-						onChange={handleChange}
-						type='text'
-						required
-						placeholder='أدخل اسم المنطقة'
-						defaultValue={contact?.address.city}
-						ref={cityRef}
-					/>
-				</Form.Group>
+					<Form.Group
+						className='mb-3 '
+						controlId='cityInput'
+					>
+						<Form.Label>المنطقة</Form.Label>
+						<Form.Control
+							onChange={handleChange}
+							type='text'
+							required
+							placeholder='أدخل اسم المنطقة'
+							defaultValue={contact?.address.city}
+							ref={cityRef}
+						/>
+					</Form.Group>
 
-				<Form.Group
-					className='mb-3 arb-text'
-					controlId='streetInput'
-				>
-					<Form.Label>اسم الشارع</Form.Label>
-					<Form.Control
-						required
-						onChange={handleChange}
-						type='text'
-						placeholder='اسم الشارع'
-						defaultValue={contact?.address.street}
-						ref={streetRef}
-					/>
-				</Form.Group>
+					<Form.Group
+						className='mb-3 '
+						controlId='streetInput'
+					>
+						<Form.Label>اسم الشارع</Form.Label>
+						<Form.Control
+							required
+							onChange={handleChange}
+							type='text'
+							placeholder='اسم الشارع'
+							defaultValue={
+								contact?.address.street
+							}
+							ref={streetRef}
+						/>
+					</Form.Group>
 
-				<Form.Group
-					className='mb-3 arb-text'
-					controlId='contactNumberInput'
-				>
-					<Form.Label>رقم التواصل</Form.Label>
-					<Form.Control
-						required
-						onChange={handleChange}
-						type='number'
-						placeholder='أدخل رقم للتواصل'
-						defaultValue={contact?.contactNumber}
-						ref={contactNumberRef}
-					/>
-				</Form.Group>
+					<Form.Group
+						className='mb-3 '
+						controlId='contactNumberInput'
+					>
+						<Form.Label>رقم التواصل</Form.Label>
+						<Form.Control
+							required
+							onChange={handleChange}
+							type='number'
+							placeholder='أدخل رقم للتواصل'
+							defaultValue={contact?.contactNumber}
+							ref={contactNumberRef}
+						/>
+					</Form.Group>
 
-				<Form.Group className='mb-3'>
-					<LoadingButton
-						type='submit'
-						body='حفظ'
-						variant='primary'
-						isLoading={isLoading}
-						disabled={!validated}
-					/>
-				</Form.Group>
-			</Form>
+					<Form.Group className='mb-3'>
+						<LoadingButton
+							type='submit'
+							body='حفظ'
+							variant='primary'
+							isLoading={isLoading}
+							disabled={!validated}
+						/>
+					</Form.Group>
+				</Form>
+			</main>
 		</Container>
 	);
 }

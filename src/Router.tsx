@@ -1,4 +1,5 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { CacheProvider } from '@emotion/react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import Home from './routes/Home';
 import RootLayout from './layouts/RootLayout';
@@ -38,7 +39,7 @@ import Brands from './routes/store/Brands';
 import ShowBrand from './routes/store/ShowBrand';
 import BrandsActions from './routes/dashboard/BrandsActions';
 import { ThemeProvider } from '@mui/material';
-import { theme } from './assets/jsStyles';
+import { cacheRtl, theme } from './assets/jsStyles';
 
 export const Router = createBrowserRouter([
 	{
@@ -181,18 +182,20 @@ export const Router = createBrowserRouter([
 function Wrapper() {
 	return (
 		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				<div
-					style={{
-						maxWidth: '1411px',
-						margin: '0 auto',
-					}}
-				>
-					<InstallPWA />
-					<Outlet />
-					<SpeedInsights />
-				</div>
-			</ThemeProvider>
+			<CacheProvider value={cacheRtl}>
+				<ThemeProvider theme={theme}>
+					<div
+						style={{
+							maxWidth: '1411px',
+							margin: '0 auto',
+						}}
+					>
+						<InstallPWA />
+						<Outlet />
+						<SpeedInsights />
+					</div>
+				</ThemeProvider>
+			</CacheProvider>
 		</Provider>
 	);
 }

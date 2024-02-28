@@ -218,7 +218,7 @@ function EditProductForm({
 	};
 
 	return (
-		<>
+		<div dir='rtl'>
 			<Modal
 				show={show}
 				onHide={handleClose}
@@ -242,7 +242,7 @@ function EditProductForm({
 						<ErrorComponent error={error} />
 
 						<Form.Group
-							className='mb-3 arb-text'
+							className='mb-3 '
 							controlId='selectCategory'
 						>
 							<Form.Select
@@ -285,9 +285,9 @@ function EditProductForm({
 
 						<Form.Group
 							className='mb-3'
-							controlId='productNameFormInput arb-text'
+							controlId='productNameFormInput '
 						>
-							<Form.Label className=' arb-text'>
+							<Form.Label className=' '>
 								اسم المنتج
 							</Form.Label>
 							<Form.Control
@@ -296,7 +296,7 @@ function EditProductForm({
 								placeholder='Product Name'
 								ref={productNameRef}
 								defaultValue={product?.name}
-								className='arb-text'
+								className=''
 							/>
 						</Form.Group>
 
@@ -304,11 +304,11 @@ function EditProductForm({
 							className='mb-3'
 							controlId='productQuantityFormInput'
 						>
-							<Form.Label className='arb-text'>
+							<Form.Label className=''>
 								الكمية
 							</Form.Label>
 							<Form.Control
-								className='arb-text mb-3'
+								className=' mb-3'
 								onChange={handleChange}
 								type='text'
 								placeholder='Product Quantity'
@@ -321,11 +321,11 @@ function EditProductForm({
 							className='mb-3'
 							controlId='productPriceFormInput'
 						>
-							<Form.Label className='arb-text'>
+							<Form.Label className=''>
 								السعر
 							</Form.Label>
 							<Form.Control
-								className='arb-text'
+								className=''
 								onChange={handleChange}
 								type='text'
 								placeholder='السعر'
@@ -335,11 +335,11 @@ function EditProductForm({
 						</Form.Group>
 
 						<Form.Group
-							className='arb-text mt-3 mb-3'
+							className=' mt-3 mb-3'
 							controlId='productNameFormInput'
 						>
 							<Form.Check
-								className='arb-text'
+								className=''
 								type='switch'
 								id='custom-switch'
 								checked={isOffer}
@@ -354,14 +354,14 @@ function EditProductForm({
 						{isOffer && (
 							<div>
 								<Form.Group
-									className='mb-3 arb-text'
+									className='mb-3 '
 									controlId='productPriceFormInput'
 								>
-									<Form.Label className='arb-text'>
+									<Form.Label className=''>
 										السعر الجديد
 									</Form.Label>
 									<Form.Control
-										className='arb-text'
+										className=''
 										onChange={handleChange}
 										type='text'
 										placeholder='السعر الجديد'
@@ -373,7 +373,7 @@ function EditProductForm({
 								</Form.Group>
 
 								<Form.Group
-									className='mb-3 arb-text'
+									className='mb-3 '
 									controlId='selectCategory'
 								>
 									<Form.Label>
@@ -455,7 +455,7 @@ function EditProductForm({
 					</Modal.Footer>
 				</Form>
 			</Modal>
-		</>
+		</div>
 	);
 }
 

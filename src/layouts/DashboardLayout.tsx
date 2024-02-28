@@ -48,15 +48,13 @@ export default function AuthLayout() {
 	};
 
 	return (
-		<>
+		<legend dir='rtl'>
 			<Offcanvas
 				show={true}
 				scroll={true}
 				backdrop={false}
 				placement='end'
-				className={`arb-text ${
-					!show && 'resizeOffcanvas'
-				}`}
+				className={` ${!show && 'resizeOffcanvas'}`}
 			>
 				<Offcanvas.Header>
 					<Offcanvas.Title>
@@ -75,7 +73,7 @@ export default function AuthLayout() {
 				</Offcanvas.Header>
 				<hr />
 				<Offcanvas.Body>
-					<Nav className='flex-column arb-text'>
+					<Nav className='flex-column '>
 						<Nav.Item>
 							<Nav.Link>
 								<Link to='/home'>
@@ -167,6 +165,6 @@ export default function AuthLayout() {
 			</Offcanvas>
 			<Outlet />
 			<AppFooter />
-		</>
+		</legend>
 	);
 }

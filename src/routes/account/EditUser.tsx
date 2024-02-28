@@ -30,52 +30,54 @@ function EditUser() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Container className='arb-text bg-white mt-2 p-5 border rounded shadow'>
-			<Nav
-				variant='tabs'
-				defaultActiveKey={pageName!}
-				className='mb-5'
-				onSelect={handleSelect}
-			>
-				<Nav.Item>
-					<Nav.Link eventKey='personalInfo'>
-						معلومات الحساب
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link eventKey='updatePassword'>
-						كلمة المرور
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link eventKey='deleteAccount'>
-						حذف الحساب
-					</Nav.Link>
-				</Nav.Item>
-			</Nav>
+		<Container className='bg-white mt-2 p-5 border rounded shadow'>
+			<div dir='rtl'>
+				<Nav
+					variant='tabs'
+					defaultActiveKey={pageName!}
+					className='mb-5'
+					onSelect={handleSelect}
+				>
+					<Nav.Item>
+						<Nav.Link eventKey='personalInfo'>
+							معلومات الحساب
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link eventKey='updatePassword'>
+							كلمة المرور
+						</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link eventKey='deleteAccount'>
+							حذف الحساب
+						</Nav.Link>
+					</Nav.Item>
+				</Nav>
 
-			{pageName === 'personalInfo' && (
-				<UpdateUserInfoForm
-					user={profile?.user}
-					isLoading={isLoading}
-					setIsLoading={setIsLoading}
-				/>
-			)}
+				{pageName === 'personalInfo' && (
+					<UpdateUserInfoForm
+						user={profile?.user}
+						isLoading={isLoading}
+						setIsLoading={setIsLoading}
+					/>
+				)}
 
-			{pageName === 'updatePassword' && (
-				<UpdatePasswordForm
-					isLoading={isLoading}
-					setIsLoading={setIsLoading}
-				/>
-			)}
+				{pageName === 'updatePassword' && (
+					<UpdatePasswordForm
+						isLoading={isLoading}
+						setIsLoading={setIsLoading}
+					/>
+				)}
 
-			{pageName === 'deleteAccount' && (
-				<DeleteUser
-					profileId={profileId as string}
-					isLoading={isLoading}
-					setIsLoading={setIsLoading}
-				/>
-			)}
+				{pageName === 'deleteAccount' && (
+					<DeleteUser
+						profileId={profileId as string}
+						isLoading={isLoading}
+						setIsLoading={setIsLoading}
+					/>
+				)}
+			</div>
 		</Container>
 	);
 }

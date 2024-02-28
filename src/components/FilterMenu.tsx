@@ -43,7 +43,6 @@ export default function FilterMenu() {
 				anchorEl={filterAnchorEl}
 				open={filterOpen}
 				onClose={handleFilterClose}
-				className='arb-text'
 				slotProps={{
 					paper: {
 						style: {
@@ -53,28 +52,34 @@ export default function FilterMenu() {
 					},
 				}}
 			>
-				<MenuItem
-					// selected={option === 'Pyxis'}
-					onClick={() => {
-						dispatch(
-							sortProductsBasedOnPrice('highest'),
-						);
-						handleFilterClose();
-					}}
-				>
-					الأعلى سعرا
-				</MenuItem>
-				<MenuItem
-					// selected={option === 'Pyxis'}
-					onClick={() => {
-						dispatch(
-							sortProductsBasedOnPrice('lowest'),
-						);
-						handleFilterClose();
-					}}
-				>
-					الأقل سعرا
-				</MenuItem>
+				<legend dir='rtl'>
+					<MenuItem
+						// selected={option === 'Pyxis'}
+						onClick={() => {
+							dispatch(
+								sortProductsBasedOnPrice(
+									'highest',
+								),
+							);
+							handleFilterClose();
+						}}
+					>
+						الأعلى سعرا
+					</MenuItem>
+					<MenuItem
+						// selected={option === 'Pyxis'}
+						onClick={() => {
+							dispatch(
+								sortProductsBasedOnPrice(
+									'lowest',
+								),
+							);
+							handleFilterClose();
+						}}
+					>
+						الأقل سعرا
+					</MenuItem>
+				</legend>
 			</Menu>
 		</>
 	);

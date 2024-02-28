@@ -27,36 +27,41 @@ function Widget({
 		<>
 			<Link to={href}>
 				<Card
-					className={`widget arb-text${className}`}
+					className={`widget ${className}`}
 					style={{ height }}
 				>
-					<Card.Body className='arb-text'>
-						{isTitleAString ? (
-							<Card.Title>
-								{badge} {widgetTitle}
-							</Card.Title>
-						) : (
-							<Card.Title
-								className='text-center'
-								style={{ fontSize: '50px' }}
-							>
-								{widgetTitle}
-							</Card.Title>
-						)}
-
-						<Card.Text>
-							{isTitleAString && (
-								<legend
-									className='card-link lead'
-									style={{ color: '#0055aa' }}
+					<main dir='rtl'>
+						<Card.Body>
+							{isTitleAString ? (
+								<Card.Title>
+									{badge} {widgetTitle}
+								</Card.Title>
+							) : (
+								<Card.Title
+									className='text-center'
+									style={{ fontSize: '50px' }}
 								>
-									عرض المزيد <BsArrowLeft />
-								</legend>
+									{widgetTitle}
+								</Card.Title>
 							)}
-						</Card.Text>
 
-						{body}
-					</Card.Body>
+							<Card.Text>
+								{isTitleAString && (
+									<legend
+										className='card-link lead'
+										style={{
+											color: '#0055aa',
+										}}
+									>
+										عرض المزيد{' '}
+										<BsArrowLeft />
+									</legend>
+								)}
+							</Card.Text>
+
+							{body}
+						</Card.Body>
+					</main>
 				</Card>
 			</Link>
 		</>

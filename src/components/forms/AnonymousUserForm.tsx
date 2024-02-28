@@ -101,97 +101,101 @@ function AnonymousUserForm({
 
 	return (
 		<Container>
-			<Form
-				noValidate
-				validated={!validated}
-				onSubmit={handleSubmit}
-				style={{ width: '100%' }}
-			>
-				<ErrorComponent error={error} />
-
-				<Row>
-					<Col>
-						<Form.Group className='mb-3 arb-text'>
-							<label htmlFor='name'>
-								الاسم الكامل
-							</label>
-							<Form.Control
-								onChange={handleChange}
-								type='text'
-								required
-								itemID='name'
-								placeholder='الاسم الكامل'
-								defaultValue={
-									contact?.address.city
-								}
-								ref={nameRef}
-							/>
-						</Form.Group>
-					</Col>
-				</Row>
-				<Form.Group
-					className='mb-3 arb-text'
-					controlId='cityInput'
+			<main dir='rtl'>
+				<Form
+					noValidate
+					validated={!validated}
+					onSubmit={handleSubmit}
+					style={{ width: '100%' }}
 				>
-					<Form.Label htmlFor='area'>
-						المنطقة
-					</Form.Label>
-					<Form.Control
-						onChange={handleChange}
-						type='text'
-						itemID='area'
-						required
-						placeholder='أدخل المنطقة'
-						defaultValue={contact?.address.city}
-						ref={cityRef}
-					/>
-				</Form.Group>
+					<ErrorComponent error={error} />
 
-				<Form.Group
-					className='mb-3 arb-text'
-					controlId='streetInput'
-				>
-					<Form.Label htmlFor='street'>
-						اسم الشارع
-					</Form.Label>
-					<Form.Control
-						required
-						onChange={handleChange}
-						type='text'
-						itemID='street'
-						placeholder='ادخل اسم الشارع'
-						defaultValue={contact?.address.street}
-						ref={streetRef}
-					/>
-				</Form.Group>
+					<Row>
+						<Col>
+							<Form.Group className='mb-3 '>
+								<label htmlFor='name'>
+									الاسم الكامل
+								</label>
+								<Form.Control
+									onChange={handleChange}
+									type='text'
+									required
+									itemID='name'
+									placeholder='الاسم الكامل'
+									defaultValue={
+										contact?.address.city
+									}
+									ref={nameRef}
+								/>
+							</Form.Group>
+						</Col>
+					</Row>
+					<Form.Group
+						className='mb-3 '
+						controlId='cityInput'
+					>
+						<Form.Label htmlFor='area'>
+							المنطقة
+						</Form.Label>
+						<Form.Control
+							onChange={handleChange}
+							type='text'
+							itemID='area'
+							required
+							placeholder='أدخل المنطقة'
+							defaultValue={contact?.address.city}
+							ref={cityRef}
+						/>
+					</Form.Group>
 
-				<Form.Group
-					className='mb-3 arb-text'
-					controlId='phoneNumberInput'
-				>
-					<Form.Label htmlFor='phoneNumber'>
-						رقم التواصل
-					</Form.Label>
-					<Form.Control
-						required
-						itemID='phoneNumber'
-						onChange={handleChange}
-						type='number'
-						placeholder='رقم التواصل'
-						ref={phoneRef}
-					/>
-				</Form.Group>
+					<Form.Group
+						className='mb-3 '
+						controlId='streetInput'
+					>
+						<Form.Label htmlFor='street'>
+							اسم الشارع
+						</Form.Label>
+						<Form.Control
+							required
+							onChange={handleChange}
+							type='text'
+							itemID='street'
+							placeholder='ادخل اسم الشارع'
+							defaultValue={
+								contact?.address.street
+							}
+							ref={streetRef}
+						/>
+					</Form.Group>
 
-				<Form.Group className='mb-3'>
-					<LoadingButton
-						type='submit'
-						body='أكمل للدفع'
-						variant='primary'
-						isLoading={isLoading}
-						disabled={!validated}
-					/>
-				</Form.Group>
-			</Form>
+					<Form.Group
+						className='mb-3 '
+						controlId='phoneNumberInput'
+					>
+						<Form.Label htmlFor='phoneNumber'>
+							رقم التواصل
+						</Form.Label>
+						<Form.Control
+							required
+							itemID='phoneNumber'
+							onChange={handleChange}
+							type='number'
+							placeholder='رقم التواصل'
+							ref={phoneRef}
+						/>
+					</Form.Group>
+
+					<Form.Group className='mb-3'>
+						<LoadingButton
+							type='submit'
+							body='أكمل للدفع'
+							variant='primary'
+							isLoading={isLoading}
+							disabled={!validated}
+						/>
+					</Form.Group>
+				</Form>
+			</main>
 		</Container>
 	);
 }

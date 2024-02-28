@@ -233,75 +233,74 @@ export default function MainNavbar() {
 									open={Boolean(anchorElUser)}
 									onClose={handleCloseUserMenu}
 								>
-									{user?.username ===
-									'anonymous' ? (
-										[
-											'التسجيل',
-											'تسجيل الدخول',
-										].map((setting) => (
-											<MenuItem
-												className='arb-text'
-												key={setting}
-												onClick={() =>
-													navigate(
-														`/auth/${
-															setting ===
-															'التسجيل'
-																? 'signup'
-																: 'signin'
-														}`,
-													)
-												}
-											>
-												<Typography textAlign='center'>
-													{setting}
-												</Typography>
-											</MenuItem>
-										))
-									) : (
-										<legend>
-											{user?.role !==
-											'customer' ? (
+									<legend dir='rtl'>
+										{user?.username ===
+										'anonymous' ? (
+											[
+												'التسجيل',
+												'تسجيل الدخول',
+											].map((setting) => (
 												<MenuItem
-													className='arb-text'
+													key={setting}
 													onClick={() =>
 														navigate(
-															`/dashboard/admin/${user?._id}`,
+															`/auth/${
+																setting ===
+																'التسجيل'
+																	? 'signup'
+																	: 'signin'
+															}`,
 														)
 													}
 												>
 													<Typography textAlign='center'>
-														لوحة
-														التحكم
+														{setting}
 													</Typography>
 												</MenuItem>
-											) : (
+											))
+										) : (
+											<legend>
+												{user?.role !==
+												'customer' ? (
+													<MenuItem
+														onClick={() =>
+															navigate(
+																`/dashboard/admin/${user?._id}`,
+															)
+														}
+													>
+														<Typography textAlign='center'>
+															لوحة
+															التحكم
+														</Typography>
+													</MenuItem>
+												) : (
+													<MenuItem
+														onClick={() =>
+															navigate(
+																`/account/profile/${user?._id}`,
+															)
+														}
+													>
+														<Typography textAlign='center'>
+															الصفحة
+															الشخصية
+														</Typography>
+													</MenuItem>
+												)}
 												<MenuItem
-													className='arb-text'
-													onClick={() =>
-														navigate(
-															`/account/profile/${user?._id}`,
-														)
+													onClick={
+														handleLogout
 													}
 												>
 													<Typography textAlign='center'>
-														الصفحة
-														الشخصية
+														تسجيل
+														الخروج
 													</Typography>
 												</MenuItem>
-											)}
-											<MenuItem
-												className='arb-text'
-												onClick={
-													handleLogout
-												}
-											>
-												<Typography textAlign='center'>
-													تسجيل الخروج
-												</Typography>
-											</MenuItem>
-										</legend>
-									)}
+											</legend>
+										)}
+									</legend>
 								</Menu>
 							</Box>
 						</Toolbar>

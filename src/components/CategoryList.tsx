@@ -36,8 +36,9 @@ export default function CategoryList({
 					<Grid xs={6} md={2}>
 						<Box
 							sx={{
-								width: 150,
-								height: 150,
+								mt: 5,
+								width: 100,
+								height: 100,
 								borderRadius: '50%',
 								border: '1px solid #07a180',
 								display: 'flex',
@@ -62,7 +63,7 @@ export default function CategoryList({
 								sx={{ fontSize: 30 }}
 								gutterBottom
 							>
-								<ArrowBackIcon /> المزيد
+								<ArrowBackIcon />
 							</Typography>
 						</Box>
 					</Grid>

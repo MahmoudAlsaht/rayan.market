@@ -49,25 +49,27 @@ function ContactInfo() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Container className='arb-text'>
-			<Row>
-				{contactInfo &&
-					contactInfo?.map((contact, index) => (
-						<ContactInfoCard
-							key={index}
-							index={index}
-							profileId={profile?._id}
-							contact={contact}
-							handleDelete={handleDelete}
+		<Container>
+			<main dir='rtl'>
+				<Row>
+					{contactInfo &&
+						contactInfo?.map((contact, index) => (
+							<ContactInfoCard
+								key={index}
+								index={index}
+								profileId={profile?._id}
+								contact={contact}
+								handleDelete={handleDelete}
+							/>
+						))}
+					<Col xs={12} sm={6} lg={3} xl={2}>
+						<Widget
+							widgetTitle={<BsPlus />}
+							href={`/account/profile/${profileId}/contact-info/new-contact`}
 						/>
-					))}
-				<Col xs={12} sm={6} lg={3} xl={2}>
-					<Widget
-						widgetTitle={<BsPlus />}
-						href={`/account/profile/${profileId}/contact-info/new-contact`}
-					/>
-				</Col>
-			</Row>
+					</Col>
+				</Row>
+			</main>
 		</Container>
 	);
 }

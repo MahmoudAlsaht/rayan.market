@@ -83,88 +83,94 @@ function ProductCard({ product }: ProductCardProps) {
 	return (
 		<Container className='productCardContainer'>
 			<Card className='productCard mb-5 text-center w-75'>
-				<Link to={`/store/products/${product?._id}`}>
-					{productImages ? (
-						<Card.Img
-							variant='top'
-							src={
-								productImages[0]?.path ||
-								defaultProductImage
-							}
-						/>
-					) : (
-						<Skeleton
-							height={200}
-							style={{ margin: '.5rem' }}
-						/>
-					)}
-					<Card.Title className='text-center mt-2 text-muted'>
-						{product?.name?.substring(0, 30)}
-					</Card.Title>
-				</Link>
-				<Card.Header>
-					{!product?.isOffer ? (
-						<Card.Subtitle className='text-muted arb-text'>
-							{product?.price} د.أ
-						</Card.Subtitle>
-					) : (
-						<Card.Subtitle className='text-muted arb-text'>
-							<span
-								style={{
-									textDecoration:
-										product?.newPrice &&
-										'line-through',
-								}}
-							>
+				<main dir='rtl'>
+					<Link to={`/store/products/${product?._id}`}>
+						{productImages ? (
+							<Card.Img
+								variant='top'
+								src={
+									productImages[0]?.path ||
+									defaultProductImage
+								}
+							/>
+						) : (
+							<Skeleton
+								height={200}
+								style={{ margin: '.5rem' }}
+							/>
+						)}
+						<Card.Title className='text-center mt-2 text-muted'>
+							{product?.name?.substring(0, 30)}
+						</Card.Title>
+					</Link>
+					<Card.Header>
+						{!product?.isOffer ? (
+							<Card.Subtitle className='text-muted '>
 								{product?.price} د.أ
-							</span>
-							<br />
-							{product?.newPrice && (
-								<span className='me-3'>
-									{product?.newPrice} د.أ
+							</Card.Subtitle>
+						) : (
+							<Card.Subtitle className='text-muted '>
+								<span
+									style={{
+										textDecoration:
+											product?.newPrice &&
+											'line-through',
+									}}
+								>
+									{product?.price} د.أ
+								</span>
+								<br />
+								{product?.newPrice && (
+									<span className='me-3'>
+										{product?.newPrice} د.أ
+									</span>
+								)}
+							</Card.Subtitle>
+						)}
+					</Card.Header>
+					<Card.Footer className='d-flex flex-column align-items-center'>
+						<Button
+							onClick={handleAddProduct}
+							variant={
+								parseInt(
+									product?.quantity as string,
+								) === 0
+									? 'secondary'
+									: productInCart
+									? 'success'
+									: 'outline-secondary'
+							}
+							className=' mb-2'
+							disabled={
+								parseInt(
+									product?.quantity as string,
+								) === 0 || productInCart
+							}
+						>
+							{!productInCart ? (
+								<span>
+									<BsCartPlus className='footerButtons' />{' '}
+								</span>
+							) : (
+								<span>
+									<BsCheck className='footerButtons' />
 								</span>
 							)}
-						</Card.Subtitle>
-					)}
-				</Card.Header>
-				<Card.Footer className='d-flex flex-column align-items-center'>
-					<Button
-						onClick={handleAddProduct}
-						variant={
-							parseInt(
-								product?.quantity as string,
-							) === 0
-								? 'secondary'
-								: productInCart
-								? 'success'
-								: 'outline-secondary'
-						}
-						className='arb-text mb-2'
-						disabled={
-							parseInt(
-								product?.quantity as string,
-							) === 0 || productInCart
-						}
-					>
-						{!productInCart ? (
-							<span>
-								<BsCartPlus className='footerButtons' />{' '}
-							</span>
-						) : (
-							<span>
-								<BsCheck className='footerButtons' />
-							</span>
-						)}
-					</Button>
+						</Button>
 
-					{productInCart && (
-						<ProductCartActions
-							product={productCart as TCartProduct}
-							totalProductPrice={totalProductPrice}
-							className='productAction'
-						/>
-					)}
-				</Card.Footer>
+						{productInCart && (
+							<ProductCartActions
+								product={
+									productCart as TCartProduct
+								}
+								totalProductPrice={
+									totalProductPrice
+								}
+								className='productAction'
+							/>
+						)}
+					</Card.Footer>
+				</main>
 			</Card>
 		</Container>
 	);

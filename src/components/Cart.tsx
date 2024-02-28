@@ -50,22 +50,24 @@ function Cart({ show, handleClose }: CartProps) {
 					د.أ
 				</div>
 			</ModalBody>
-			<Modal.Footer className='arb-text'>
-				<Button
-					onClick={handleCheckout}
-					disabled={
-						!checkIfCartIsEmpty ||
-						!isCountersAboveZero
-					}
-				>
-					الدفع
-				</Button>
-				<Button
-					onClick={handleClose}
-					variant='outline-secondary'
-				>
-					الغاء
-				</Button>
+			<Modal.Footer>
+				<legend dir='rtl'>
+					<Button
+						onClick={handleCheckout}
+						disabled={
+							!checkIfCartIsEmpty ||
+							!isCountersAboveZero
+						}
+					>
+						الدفع
+					</Button>
+					<Button
+						onClick={handleClose}
+						variant='outline-secondary'
+					>
+						الغاء
+					</Button>
+				</legend>
 			</Modal.Footer>
 		</Modal>
 	);

@@ -111,150 +111,156 @@ const ShowProduct = memo(() => {
 
 	return (
 		<Container fluid className='mt-5 mb-5 productContainer'>
-			{product !== undefined ? (
-				<Row>
-					<Col xs={12} lg={6}>
-						<ProductImageCarousel
-							productImages={
-								product?.productImages as (TProductImage | null)[]
-							}
-						/>
-					</Col>
-					<Col
-						xs={12}
-						lg={6}
-						className='d-flex flex-column mt-5 mt-md-0 '
-					>
-						<h3 className='text-muted arb-text'>
-							{product?.name}
-						</h3>
-						<hr className='mb-5' />
-						<h4 className='text-muted arb-text'>
-							{product?.isOffer ? (
-								<span
-									style={{
-										textDecoration:
-											'line-through',
-									}}
-									className='text-muted'
-								>
-									{product?.price} JOD
-								</span>
-							) : (
-								`${product?.price} JOD`
-							)}
-						</h4>
-						{product?.isOffer && (
-							<h4 className='text-muted arb-text'>
-								{product?.newPrice} JOD
-							</h4>
-						)}
-						<h4
-							className={`arb-text ${
-								parseInt(
-									product?.quantity as string,
-								) === 0
-									? 'text-danger'
-									: 'text-muted'
-							}`}
+			<main dir='rtl'>
+				{product !== undefined ? (
+					<Row>
+						<Col xs={12} lg={6}>
+							<ProductImageCarousel
+								productImages={
+									product?.productImages as (TProductImage | null)[]
+								}
+							/>
+						</Col>
+						<Col
+							xs={12}
+							lg={6}
+							className='d-flex flex-column mt-5 mt-md-0 '
 						>
-							{product?.quantity} متوافر
-						</h4>
-						<hr className='mb-5' />
-
-						<div className='d-flex flex-column flex-md-row align-items-center'>
-							<Button
-								size='lg'
-								variant={
-									isProductInCart ||
-									parseInt(
-										product?.quantity as string,
-									) === 0
-										? 'success'
-										: 'outline-success'
-								}
-								style={{ margin: '0 auto' }}
-								className='arb-text w-75'
-								onClick={handleAddToCart}
-								disabled={
-									isProductInCart ||
-									parseInt(
-										product?.quantity as string,
-									) === 0
-								}
-							>
-								{!isProductInCart ? (
-									<span>
-										أضف للعربة
-										<BsCart
-											className='me-2'
-											style={{
-												fontSize: '25px',
-											}}
-										/>
+							<h3 className='text-muted '>
+								{product?.name}
+							</h3>
+							<hr className='mb-5' />
+							<h4 className='text-muted '>
+								{product?.isOffer ? (
+									<span
+										style={{
+											textDecoration:
+												'line-through',
+										}}
+										className='text-muted'
+									>
+										{product?.price} JOD
 									</span>
 								) : (
-									<span>
-										في العربة
-										<BsCheck
-											className='me-2'
-											style={{
-												fontSize: '25px',
-											}}
-										/>
-									</span>
+									`${product?.price} JOD`
 								)}
-							</Button>
-
-							{isProductInCart && (
-								<div className='d-flex justify-content-around order-first order-md-last'>
-									<Button
-										size='lg'
-										className='m-1'
-										onClick={
-											handleRemoveProduct
-										}
-										variant='outline-warning'
-									>
-										-
-									</Button>
-									<Button
-										size='lg'
-										className='m-1'
-										disabled
-										variant='default'
-									>
-										{productCart?.counter}
-									</Button>
-									<Button
-										size='lg'
-										className='m-1'
-										onClick={
-											handleAddProduct
-										}
-										variant='outline-success'
-									>
-										+
-									</Button>
-								</div>
+							</h4>
+							{product?.isOffer && (
+								<h4 className='text-muted '>
+									{product?.newPrice} JOD
+								</h4>
 							)}
-						</div>
-					</Col>
-				</Row>
-			) : (
-				<Row className='mt-5'>
-					<Col xs={12} lg={6}>
-						<Skeleton height={470} />
-					</Col>
-					<Col xs={12} lg={6}>
-						<Skeleton
-							count={4}
-							height={60}
-							style={{ margin: '.5rem' }}
-						/>
-					</Col>
-				</Row>
-			)}
+							<h4
+								className={` ${
+									parseInt(
+										product?.quantity as string,
+									) === 0
+										? 'text-danger'
+										: 'text-muted'
+								}`}
+							>
+								{product?.quantity} متوافر
+							</h4>
+							<hr className='mb-5' />
+
+							<div className='d-flex flex-column flex-md-row align-items-center'>
+								<Button
+									size='lg'
+									variant={
+										isProductInCart ||
+										parseInt(
+											product?.quantity as string,
+										) === 0
+											? 'success'
+											: 'outline-success'
+									}
+									style={{ margin: '0 auto' }}
+									className=' w-75'
+									onClick={handleAddToCart}
+									disabled={
+										isProductInCart ||
+										parseInt(
+											product?.quantity as string,
+										) === 0
+									}
+								>
+									{!isProductInCart ? (
+										<span>
+											أضف للعربة
+											<BsCart
+												className='me-2'
+												style={{
+													fontSize:
+														'25px',
+												}}
+											/>
+										</span>
+									) : (
+										<span>
+											في العربة
+											<BsCheck
+												className='me-2'
+												style={{
+													fontSize:
+														'25px',
+												}}
+											/>
+										</span>
+									)}
+								</Button>
+
+								{isProductInCart && (
+									<div className='d-flex justify-content-around order-first order-md-last'>
+										<Button
+											size='lg'
+											className='m-1'
+											onClick={
+												handleRemoveProduct
+											}
+											variant='outline-warning'
+										>
+											-
+										</Button>
+										<Button
+											size='lg'
+											className='m-1'
+											disabled
+											variant='default'
+										>
+											{
+												productCart?.counter
+											}
+										</Button>
+										<Button
+											size='lg'
+											className='m-1'
+											onClick={
+												handleAddProduct
+											}
+											variant='outline-success'
+										>
+											+
+										</Button>
+									</div>
+								)}
+							</div>
+						</Col>
+					</Row>
+				) : (
+					<Row className='mt-5'>
+						<Col xs={12} lg={6}>
+							<Skeleton height={470} />
+						</Col>
+						<Col xs={12} lg={6}>
+							<Skeleton
+								count={4}
+								height={60}
+								style={{ margin: '.5rem' }}
+							/>
+						</Col>
+					</Row>
+				)}
+			</main>
 		</Container>
 	);
 });
