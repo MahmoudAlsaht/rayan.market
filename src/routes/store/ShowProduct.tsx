@@ -124,8 +124,8 @@ const ShowProduct = memo(() => {
 		<Container sx={{ my: 5 }}>
 			<main dir='rtl'>
 				{product !== undefined ? (
-					<Grid container>
-						<Grid xs={12} lg={6}>
+					<Grid spacing={2} container>
+						<Grid xs={12} lg={5}>
 							<ProductImageCarousel
 								productImages={
 									product?.productImages as (TProductImage | null)[]
@@ -228,7 +228,7 @@ const ShowProduct = memo(() => {
 											}
 										</IconButton>
 										<IconButton
-											aria-label='remove product from counter'
+											aria-label='take one product from cart'
 											onClick={
 												handleRemoveProduct
 											}

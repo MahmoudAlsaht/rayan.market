@@ -1,19 +1,16 @@
 import { TCartProduct } from '../app/store/cart';
-import { Badge, Image } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { sumEachProductTotalPrice } from '../utils';
 import ProductCartActions from './ProductCartActions';
 import defaultProductImage from '../defaultProductImage.jpg';
+import { Badge, Skeleton, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 type CartProductCardProps = {
 	product: TCartProduct | null;
-	type?: string;
 };
 
-function CartProductCard({
-	product,
-	type,
-}: CartProductCardProps) {
+function CartProductCard({ product }: CartProductCardProps) {
 	const [totalProductPrice, setTotalProductPrice] =
 		useState(0);
 
@@ -22,50 +19,53 @@ function CartProductCard({
 	}, [product]);
 
 	return (
-		<>
-			<div className='cartContainer'>
-				<div>
-					<Image
-						src={
-							product?.imageUrl ||
-							defaultProductImage
-						}
-						className='imageProduct'
-					/>
-
-					<Badge className='imageBadge'>
-						{product?.counter}
+		<div dir='rtl' style={{ marginBottom: '10rem' }}>
+			<Grid spacing={2} container sx={{ mt: 5 }}>
+				<Grid>
+					<Badge
+						badgeContent={product?.counter}
+						color='error'
+					>
+						{product?.imageUrl ? (
+							<img
+								src={product?.imageUrl}
+								width={200}
+								height={200}
+							/>
+						) : (
+							<Skeleton width={200} height={200} />
+						)}
 					</Badge>
-				</div>
+				</Grid>
 
-				<div className='productInfo'>
-					<h6>{product?.name?.substring(0, 45)}</h6>
-					<h6>{product?.price} د.أ</h6>
-					{type !== 'cartSummary' && (
-						<h6>
-							{product?.quantity}{' '}
-							<span className='text-muted'>
-								في المخزون
-							</span>
-						</h6>
-					)}
-					{type !== 'cartSummary' && (
-						<ProductCartActions
-							totalProductPrice={totalProductPrice}
-							product={product}
-						/>
-					)}
-					<span className='text-muted'>
+				<Grid>
+					<Typography variant='h5'>
+						{product?.name?.substring(0, 45)}
+					</Typography>
+					<Typography variant='h6'>
+						{product?.price} د.أ
+					</Typography>
+					<Typography variant='h6'>
+						{product?.quantity}{' '}
+						<span style={{ color: 'gray' }}>
+							في المخزون
+						</span>
+					</Typography>
+					<ProductCartActions
+						totalProductPrice={totalProductPrice}
+						product={product}
+					/>
+					<span style={{ color: 'gray' }}>
 						المجموع:{' '}
-						<span className='text-dark'>
+						<span>
 							{totalProductPrice &&
 								totalProductPrice?.toFixed(2)}
 						</span>
 					</span>{' '}
 					د.أ
-				</div>
-			</div>
-		</>
+				</Grid>
+			</Grid>
+		</div>
 	);
 }
 

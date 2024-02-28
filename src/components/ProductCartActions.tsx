@@ -1,6 +1,6 @@
-import { Pagination } from 'react-bootstrap';
-import { BsTrash } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {
 	TCartProduct,
 	addToCounter,
@@ -9,17 +9,16 @@ import {
 	updateTotalPrice,
 } from '../app/store/cart';
 import { useAppDispatch } from '../app/hooks';
+import { IconButton } from '@mui/material';
 
 type ProductCartActionsProps = {
 	product: TCartProduct | null;
 	totalProductPrice: number;
-	className?: string;
 };
 
 function ProductCartActions({
 	product,
 	totalProductPrice,
-	className,
 }: ProductCartActionsProps) {
 	const dispatch = useAppDispatch();
 
@@ -46,22 +45,29 @@ function ProductCartActions({
 	};
 
 	return (
-		<Pagination className={`${className}`}>
-			<Pagination.Item onClick={handleRemoveProduct}>
-				-
-			</Pagination.Item>
-			<Pagination.Item>{product?.counter}</Pagination.Item>
-			<Pagination.Item onClick={handleAddProduct}>
-				+
-			</Pagination.Item>
-			<Link
-				to='#'
-				className='border p-1'
+		<legend>
+			<IconButton
+				aria-label='add to product counter'
+				onClick={handleAddProduct}
+			>
+				<AddCircleIcon />
+			</IconButton>
+			<IconButton aria-label='product quantity in cart'>
+				{product?.counter}
+			</IconButton>
+			<IconButton
+				aria-label='take one product from cart'
+				onClick={handleRemoveProduct}
+			>
+				<RemoveCircleIcon />
+			</IconButton>
+			<IconButton
+				aria-label='remove product from cart'
 				onClick={handleDestroyProduct}
 			>
-				<BsTrash className='text-danger' />
-			</Link>
-		</Pagination>
+				<DeleteIcon sx={{ color: 'error.main' }} />
+			</IconButton>
+		</legend>
 	);
 }
 
