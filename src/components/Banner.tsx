@@ -4,8 +4,7 @@ import { fetchActiveBanner } from '../controllers/banner';
 import { fetchBannersImages } from '../controllers/bannerImages';
 import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
-import Skeleton from 'react-loading-skeleton';
-import { Paper } from '@mui/material';
+import { Paper, Skeleton } from '@mui/material';
 
 function Banner() {
 	const [banner, setBanner] = useState<TBanner | null>(null);
@@ -41,7 +40,7 @@ function Banner() {
 			{bannerImages.length !== 0 && (
 				<div>
 					{!isLoading ? (
-						<Paper className=' mb-3'>
+						<Paper sx={{ mb: 3 }}>
 							{bannerImages!.length < 2 ? (
 								bannerImages?.map((image) => (
 									<Link
@@ -60,7 +59,6 @@ function Banner() {
 										>
 											<img
 												src={image?.path}
-												className='banner-image'
 												style={{
 													width: '100%',
 													height: '300px',
@@ -117,10 +115,7 @@ function Banner() {
 							)}
 						</Paper>
 					) : (
-						<Skeleton
-							height={311}
-							className='mb-3'
-						/>
+						<Skeleton height={311} sx={{ mb: 3 }} />
 					)}
 				</div>
 			)}

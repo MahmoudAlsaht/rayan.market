@@ -62,8 +62,6 @@ export default function CategoryCard({
 						fontSize: 30,
 						color: 'primary.main',
 						mx: 3,
-						// textAlign: 'center',
-						// width: '50%',
 					}}
 				>
 					{category?.name}

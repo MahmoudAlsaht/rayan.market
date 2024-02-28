@@ -17,10 +17,16 @@ const Offers = memo(() => {
 	}, []);
 	return (
 		<div>
-			<Grid container xs={12}>
+			<Grid container spacing={1} sx={{ mt: 2 }}>
 				{products &&
 					products?.map((product) => (
-						<Grid key={product?._id} sm={12} lg={2}>
+						<Grid
+							key={product?._id}
+							xs={6}
+							sm={4}
+							md={3}
+							lg={2}
+						>
 							<ProductCard
 								product={product as TProduct}
 							/>

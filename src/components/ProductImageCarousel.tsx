@@ -1,4 +1,4 @@
-import { Carousel, Image } from 'react-bootstrap';
+import Carousel from 'react-material-ui-carousel';
 import { TProductImage } from '../app/store/product';
 import defaultProductImage from '../defaultProductImage.jpg';
 
@@ -10,25 +10,25 @@ function ProductImageCarousel({
 	productImages,
 }: ProductImagesProps) {
 	return (
-		<Carousel className='productImageCarousel'>
+		<Carousel
+			indicators={false}
+			swipe
+			fullHeightHover
+			animation='slide'
+		>
 			{productImages && productImages.length > 0 ? (
 				productImages?.map((productImage) => (
-					<Carousel.Item key={productImage?._id}>
-						<Image
-							className='productImage'
+					<div key={productImage?._id}>
+						<img
 							src={productImage?.path}
 							width={450}
 						/>
-					</Carousel.Item>
+					</div>
 				))
 			) : (
-				<Carousel.Item key='no image'>
-					<Image
-						className='productImage'
-						src={defaultProductImage}
-						width={450}
-					/>
-				</Carousel.Item>
+				<div key='no image'>
+					<img src={defaultProductImage} width={450} />
+				</div>
 			)}
 		</Carousel>
 	);

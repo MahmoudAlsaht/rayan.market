@@ -5,16 +5,15 @@ import { fetchCategories } from '../controllers/category';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useEffect, useState, MouseEvent } from 'react';
 import { TCategory } from '../app/store/category';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Menu, MenuItem } from '@mui/material';
+import { Link, Menu, MenuItem } from '@mui/material';
 
 const ITEM_HEIGHT = 48;
 
 export default function CategoryNavbar() {
 	const dispatch = useAppDispatch();
 	const { categoryId } = useParams();
-	const navigate = useNavigate();
 	const [anchorElNav, setAnchorElNav] =
 		useState<null | HTMLElement>(null);
 	const navMenuOpen = Boolean(anchorElNav);
@@ -49,29 +48,29 @@ export default function CategoryNavbar() {
 					{categories?.map(
 						(category, index) =>
 							index < 9 && (
-								<Tab
-									sx={{
-										fontSize: '17px',
-										color:
-											category?._id ===
-											categoryId
-												? '#07a180'
-												: '#064869',
-										backgroundColor:
-											category?._id ===
-											categoryId
-												? '#07a1801f'
-												: 'unset',
-										borderRadius: '.7rem',
-									}}
+								<Link
 									key={category?._id}
-									label={category?.name}
-									onClick={() =>
-										navigate(
-											`categories/${category?._id}`,
-										)
-									}
-								/>
+									href={`/categories/${category?._id}`}
+								>
+									<Tab
+										sx={{
+											fontSize: '17px',
+											color:
+												category?._id ===
+												categoryId
+													? '#07a180'
+													: '#064869',
+											backgroundColor:
+												category?._id ===
+												categoryId
+													? '#07a1801f'
+													: 'unset',
+											borderRadius:
+												'.7rem',
+										}}
+										label={category?.name}
+									/>
+								</Link>
 							),
 					)}
 
@@ -105,17 +104,20 @@ export default function CategoryNavbar() {
 							{categories?.map(
 								(category, index) =>
 									index > 8 && (
-										<MenuItem
-											key={category?._id}
-											onClick={() => {
-												navigate(
-													`/categories/${category?._id}`,
-												);
-												handleCloseNavMenu();
-											}}
+										<Link
+											href={`/categories/${category?._id}`}
 										>
-											{category?.name}
-										</MenuItem>
+											<MenuItem
+												key={
+													category?._id
+												}
+												onClick={
+													handleCloseNavMenu
+												}
+											>
+												{category?.name}
+											</MenuItem>
+										</Link>
 									),
 							)}
 						</div>

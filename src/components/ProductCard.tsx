@@ -11,8 +11,8 @@ import IconButton, {
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { TProduct, TProductImage } from '../app/store/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -136,7 +136,7 @@ export default function ProductCard({
 		<main dir='rtl'>
 			<Card
 				sx={{
-					maxWidth: 345,
+					maxWidth: 340,
 					mb: 2,
 				}}
 			>

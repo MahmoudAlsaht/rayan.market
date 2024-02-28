@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { Button, Col, Container, Row } from 'react-bootstrap';
 import { memo, useEffect, useState } from 'react';
 import {
 	TProduct,
@@ -8,7 +7,10 @@ import {
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchProduct } from '../../controllers/product';
 import '../../assets/styles/ShowProduct.css';
-import { BsCart, BsCheck } from 'react-icons/bs';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CheckIcon from '@mui/icons-material/Check';
 import ProductImageCarousel from '../../components/ProductImageCarousel';
 import {
 	TCart,
@@ -22,7 +24,16 @@ import {
 	checkIfProductInCart,
 	findCartProduct,
 } from '../../controllers/cart';
-import Skeleton from 'react-loading-skeleton';
+import {
+	Button,
+	Container,
+	Divider,
+	IconButton,
+	Skeleton,
+	Stack,
+	Typography,
+} from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
@@ -110,72 +121,76 @@ const ShowProduct = memo(() => {
 	]);
 
 	return (
-		<Container fluid className='mt-5 mb-5 productContainer'>
+		<Container sx={{ my: 5 }}>
 			<main dir='rtl'>
 				{product !== undefined ? (
-					<Row>
-						<Col xs={12} lg={6}>
+					<Grid container>
+						<Grid xs={12} lg={6}>
 							<ProductImageCarousel
 								productImages={
 									product?.productImages as (TProductImage | null)[]
 								}
 							/>
-						</Col>
-						<Col
-							xs={12}
-							lg={6}
-							className='d-flex flex-column mt-5 mt-md-0 '
-						>
-							<h3 className='text-muted '>
-								{product?.name}
-							</h3>
-							<hr className='mb-5' />
-							<h4 className='text-muted '>
+						</Grid>
+						<Grid xs={12} lg={6}>
+							<h3>{product?.name}</h3>
+							<Divider
+								sx={{
+									mb: 3,
+								}}
+							/>
+							<Typography
+								variant='h4'
+								style={{
+									color: 'gray',
+								}}
+							>
 								{product?.isOffer ? (
 									<span
 										style={{
 											textDecoration:
 												'line-through',
 										}}
-										className='text-muted'
 									>
 										{product?.price} JOD
 									</span>
 								) : (
 									`${product?.price} JOD`
 								)}
-							</h4>
+							</Typography>
 							{product?.isOffer && (
-								<h4 className='text-muted '>
+								<Typography
+									variant='h4'
+									sx={{
+										color: 'gray',
+									}}
+								>
 									{product?.newPrice} JOD
-								</h4>
+								</Typography>
 							)}
-							<h4
-								className={` ${
-									parseInt(
-										product?.quantity as string,
-									) === 0
-										? 'text-danger'
-										: 'text-muted'
-								}`}
-							>
-								{product?.quantity} متوافر
-							</h4>
-							<hr className='mb-5' />
-
-							<div className='d-flex flex-column flex-md-row align-items-center'>
-								<Button
-									size='lg'
-									variant={
-										isProductInCart ||
+							<Typography
+								variant='h4'
+								sx={{
+									color:
 										parseInt(
 											product?.quantity as string,
-										) === 0
-											? 'success'
-											: 'outline-success'
-									}
-									style={{ margin: '0 auto' }}
-									className=' w-75'
+										) !== 0
+											? 'gray'
+											: 'error.main',
+								}}
+							>
+								{product?.quantity} متوافر
+							</Typography>
+							<Divider
+								sx={{
+									mb: 3,
+								}}
+							/>
+
+							<Stack direction='row'>
+								<Button
+									variant='outlined'
+									fullWidth
 									onClick={handleAddToCart}
 									disabled={
 										isProductInCart ||
@@ -187,78 +202,53 @@ const ShowProduct = memo(() => {
 									{!isProductInCart ? (
 										<span>
 											أضف للعربة
-											<BsCart
-												className='me-2'
-												style={{
-													fontSize:
-														'25px',
-												}}
-											/>
+											<AddShoppingCartIcon />
 										</span>
 									) : (
 										<span>
 											في العربة
-											<BsCheck
-												className='me-2'
-												style={{
-													fontSize:
-														'25px',
-												}}
-											/>
+											<CheckIcon />
 										</span>
 									)}
 								</Button>
 
 								{isProductInCart && (
-									<div className='d-flex justify-content-around order-first order-md-last'>
-										<Button
-											size='lg'
-											className='m-1'
-											onClick={
-												handleRemoveProduct
-											}
-											variant='outline-warning'
-										>
-											-
-										</Button>
-										<Button
-											size='lg'
-											className='m-1'
-											disabled
-											variant='default'
-										>
-											{
-												productCart?.counter
-											}
-										</Button>
-										<Button
-											size='lg'
-											className='m-1'
+									<legend>
+										<IconButton
+											aria-label='add to product counter'
 											onClick={
 												handleAddProduct
 											}
-											variant='outline-success'
 										>
-											+
-										</Button>
-									</div>
+											<AddCircleIcon />
+										</IconButton>
+										<IconButton aria-label='product quantity in cart'>
+											{
+												productCart?.counter
+											}
+										</IconButton>
+										<IconButton
+											aria-label='remove product from counter'
+											onClick={
+												handleRemoveProduct
+											}
+										>
+											<RemoveCircleIcon />
+										</IconButton>
+									</legend>
 								)}
-							</div>
-						</Col>
-					</Row>
+							</Stack>
+						</Grid>
+					</Grid>
 				) : (
-					<Row className='mt-5'>
-						<Col xs={12} lg={6}>
+					<Grid container>
+						<Grid xs={12} lg={6}>
 							<Skeleton height={470} />
-						</Col>
-						<Col xs={12} lg={6}>
-							<Skeleton
-								count={4}
-								height={60}
-								style={{ margin: '.5rem' }}
-							/>
-						</Col>
-					</Row>
+						</Grid>
+						<Grid xs={12} lg={6}>
+							<Skeleton height={60} />
+						</Grid>
+					</Grid>
 				)}
 			</main>
 		</Container>
