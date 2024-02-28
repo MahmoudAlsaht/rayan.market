@@ -2,7 +2,6 @@ import { TCartProduct } from '../app/store/cart';
 import { useEffect, useState } from 'react';
 import { sumEachProductTotalPrice } from '../utils';
 import ProductCartActions from './ProductCartActions';
-import defaultProductImage from '../defaultProductImage.jpg';
 import { Badge, Skeleton, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 

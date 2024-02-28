@@ -8,7 +8,6 @@ import Collapse from '@mui/material/Collapse';
 import IconButton, {
 	IconButtonProps,
 } from '@mui/material/IconButton';
-
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
