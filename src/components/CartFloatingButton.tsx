@@ -1,32 +1,34 @@
-import { Badge, Button } from 'react-bootstrap';
-import { ReactNode } from 'react';
-import '../assets/styles/floatingButton.css';
+import Badge from '@mui/material/Badge';
+import { Fab } from '@mui/material';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 type CartFloatingButtonProps = {
-	icon: ReactNode;
 	handleClickFn: () => void;
 	cartLength: number | undefined;
 };
 
 function CartFloatingButton({
-	icon,
 	handleClickFn,
 	cartLength,
 }: CartFloatingButtonProps) {
 	return (
 		<>
-			<Button
-				variant='none'
-				className='floatingButton rounded'
+			<Fab
+				variant='extended'
 				onClick={handleClickFn}
+				sx={{
+					position: 'fixed',
+					bottom: 5,
+					left: 250,
+					width: '60%',
+					height: '60px',
+					backgroundColor: 'primary.light',
+				}}
 			>
-				{icon}
-				<small>
-					<Badge pill bg='danger'>
-						{cartLength}
-					</Badge>
-				</small>
-			</Button>
+				<Badge badgeContent={cartLength} color='error'>
+					<ShoppingBasketIcon sx={{ mr: 1 }} />
+				</Badge>
+			</Fab>
 		</>
 	);
 }

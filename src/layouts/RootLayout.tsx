@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import MainNavbar from '../components/MainNavbar';
 import CartFloatingButton from '../components/CartFloatingButton';
-import { BsCart } from 'react-icons/bs';
 import Cart from '../components/Cart';
 import { useState } from 'react';
 import { TCart } from '../app/store/cart';
@@ -27,9 +26,6 @@ function RootLayout() {
 			<div>
 				{cart.products && cart?.products?.length > 0 && (
 					<CartFloatingButton
-						icon={
-							<BsCart className='floatingButtonIcon text-white' />
-						}
 						handleClickFn={handleClickCart}
 						cartLength={cart?.products?.length}
 					/>
