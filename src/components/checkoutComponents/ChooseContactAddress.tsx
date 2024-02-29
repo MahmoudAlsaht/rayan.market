@@ -1,23 +1,33 @@
-import { Card, Col, Form, Row } from 'react-bootstrap';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { BsPlus } from 'react-icons/bs';
-import LoadingButton from '../LoadingButton';
-import { useAppDispatch } from '../../app/hooks';
-import { addUserAndContactToCart } from '../../app/store/cart';
+import {
+	TCart,
+	addUserAndContactToCart,
+	emptyTheCart,
+} from '../../app/store/cart';
 import { TContactInfo } from '../../controllers/contact';
-import { Link } from 'react-router-dom';
 import { TUser } from '../../app/auth/auth';
+import {
+	FormControl,
+	FormControlLabel,
+	Radio,
+	RadioGroup,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { createAnOrder } from '../../controllers/order';
 
 type ChooseContactAddressProps = {
 	contacts: (TContactInfo | null)[];
 	user: TUser | null;
-	handleStep: (step: string) => void;
 };
 
-function ChooseContactAddress({
+export default function ChooseContactAddress({
 	contacts,
 	user,
-	handleStep,
 }: ChooseContactAddressProps) {
 	const dispatch = useAppDispatch();
 	const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +38,10 @@ function ChooseContactAddress({
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSelectedAddress(e.target.value);
 	};
+
+	const cart: TCart | null = useAppSelector(
+		(state) => state.cart,
+	);
 
 	const checkSelectedAddress = () =>
 		selectedAddress != undefined && selectedAddress !== '';
@@ -42,7 +56,9 @@ function ChooseContactAddress({
 					contactId: selectedAddress as string,
 				}),
 			);
-			handleStep('payment');
+			dispatch(createAnOrder({ cart, user }));
+			dispatch(emptyTheCart());
+			location.pathname = '/home';
 			setIsLoading(false);
 		} catch (e: any) {
 			console.log(e.message);
@@ -50,73 +66,94 @@ function ChooseContactAddress({
 	};
 
 	return (
-		<Row>
-			<Form>
-				<h3 className='m-3'>Choose An Address</h3>
-				<Col xs={12}>
+		<>
+			<FormControl>
+				<RadioGroup
+					row
+					aria-labelledby='demo-radio-buttons-group-label'
+					name='radio-buttons-group'
+				>
 					{contacts?.map((contact, index) => (
-						<Card
-							className='mb-2'
-							key={contact?._id}
-						>
-							<Card.Header>
-								<Card.Title>
-									{contact?.address?.city ||
-										`Address - ${index + 1}`}
-								</Card.Title>
-							</Card.Header>
-							<Card.Body>
-								<Form.Check
-									type='radio'
-									label={
-										`${contact?.address?.street} - ${contact?.contactNumber}` ||
-										`Address - ${index + 1}`
-									}
-									name='defaultAddress'
-									value={contact?._id}
-									onChange={handleChange}
-								/>
-							</Card.Body>
-							<Card.Footer>
-								<a
-									className='text-info'
-									href={`account/profile/${user?.profile}/contact-info/${contact?._id}`}
-								>
-									Edit
-								</a>
-							</Card.Footer>
-						</Card>
-					))}
-				</Col>
-				<Col xs={12}>
-					<Card className='text-center'>
-						<Card.Body>
-							<Link
-								className='text-info'
-								to={`/account/profile/${user?.profile}/contact-info/new-contact`}
-							>
-								<BsPlus
-									style={{
-										fontSize: '100px',
-										cursor: 'pointer',
+						<FormControlLabel
+							label={null}
+							value={contact?._id}
+							control={
+								<Card
+									sx={{
+										display: 'flex',
+										mb: 2,
 									}}
-								/>
-							</Link>
-						</Card.Body>
-					</Card>
-				</Col>
-				<LoadingButton
-					className='mt-2'
-					type='submit'
-					body='Proceed to Payment'
-					variant='primary'
-					isLoading={isLoading}
-					handleClick={handleSubmit}
-					disabled={!checkSelectedAddress()}
-				/>
-			</Form>
-		</Row>
+									key={contact?._id}
+								>
+									<Box
+										sx={{
+											display: 'flex',
+											alignItems: 'center',
+											pl: 1,
+											pb: 1,
+										}}
+									>
+										<Radio
+											name='defaultAddress'
+											value={contact?._id}
+											onChange={
+												handleChange
+											}
+										/>
+									</Box>
+									<Box
+										sx={{
+											display: 'flex',
+											flexDirection:
+												'column',
+										}}
+									>
+										<CardContent
+											sx={{
+												flex: '1 0 auto',
+											}}
+										>
+											<Typography
+												component='div'
+												variant='h5'
+											>
+												{
+													contact
+														?.address
+														.city
+												}
+												-{index}
+											</Typography>
+											<Typography
+												variant='subtitle1'
+												color='text.secondary'
+												component='div'
+											>
+												{
+													contact
+														?.address
+														.street
+												}
+												<br />
+												{
+													contact?.contactNumber
+												}
+											</Typography>
+										</CardContent>
+									</Box>
+								</Card>
+							}
+						/>
+					))}
+				</RadioGroup>
+			</FormControl>
+			<LoadingButton
+				startIcon='أكمل الطلب'
+				loading={isLoading}
+				onClick={handleSubmit}
+				variant='outlined'
+				disabled={!checkSelectedAddress()}
+			/>
+		</>
 	);
 }
-
-export default ChooseContactAddress;

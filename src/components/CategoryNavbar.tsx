@@ -40,90 +40,97 @@ export default function CategoryNavbar() {
 		<Box
 			sx={{
 				maxWidth: { sm: '100%' },
-				bgcolor: '##07a18033',
 			}}
 		>
-			<div dir='rtl'>
-				<Tabs>
-					{categories?.map(
-						(category, index) =>
-							index < 9 && (
-								<Link
-									key={category?._id}
-									href={`/categories/${category?._id}`}
-								>
-									<Tab
-										sx={{
-											fontSize: '17px',
-											color:
-												category?._id ===
-												categoryId
-													? '#07a180'
-													: '#064869',
-											backgroundColor:
-												category?._id ===
-												categoryId
-													? '#07a1801f'
-													: 'unset',
-											borderRadius:
-												'.7rem',
-										}}
-										label={category?.name}
-									/>
-								</Link>
-							),
-					)}
+			{categories.length !== 0 && (
+				<div dir='rtl'>
+					<Tabs>
+						{categories?.map(
+							(category, index) =>
+								index < 9 && (
+									<Link
+										key={category?._id}
+										href={`/categories/${category?._id}`}
+									>
+										<Tab
+											sx={{
+												fontSize: '17px',
+												color:
+													category?._id ===
+													categoryId
+														? '#07a180'
+														: '#064869',
+												backgroundColor:
+													category?._id ===
+													categoryId
+														? '#07a1801f'
+														: 'unset',
+												borderRadius:
+													'.7rem',
+											}}
+											label={
+												category?.name
+											}
+										/>
+									</Link>
+								),
+						)}
 
-					<Tab
-						sx={{
-							fontSize: '17px',
-							color: '#064869',
-						}}
-						label={<ArrowBackIcon />}
-						onClick={handleOpenNavMenu}
-					/>
+						<Tab
+							sx={{
+								fontSize: '17px',
+								color: '#064869',
+							}}
+							label={<ArrowBackIcon />}
+							onClick={handleOpenNavMenu}
+						/>
 
-					<Menu
-						id='filterMenu'
-						MenuListProps={{
-							'aria-labelledby': 'filterButton',
-						}}
-						anchorEl={anchorElNav}
-						open={navMenuOpen}
-						onClose={handleCloseNavMenu}
-						slotProps={{
-							paper: {
-								style: {
-									maxHeight: ITEM_HEIGHT * 4.5,
-									width: '20ch',
+						<Menu
+							id='filterMenu'
+							MenuListProps={{
+								'aria-labelledby':
+									'filterButton',
+							}}
+							anchorEl={anchorElNav}
+							open={navMenuOpen}
+							onClose={handleCloseNavMenu}
+							slotProps={{
+								paper: {
+									style: {
+										maxHeight:
+											ITEM_HEIGHT * 4.5,
+										width: '20ch',
+									},
 								},
-							},
-						}}
-					>
-						<div dir='rtl'>
-							{categories?.map(
-								(category, index) =>
-									index > 8 && (
-										<Link
-											href={`/categories/${category?._id}`}
-										>
-											<MenuItem
-												key={
-													category?._id
-												}
-												onClick={
-													handleCloseNavMenu
-												}
+							}}
+						>
+							<div dir='rtl'>
+								{categories?.map(
+									(category, index) =>
+										index > 8 && (
+											<Link
+												href={`/categories/${category?._id}`}
 											>
-												{category?.name}
-											</MenuItem>
-										</Link>
-									),
-							)}
-						</div>
-					</Menu>
-				</Tabs>
-			</div>
+												<MenuItem
+													key={
+														category?._id
+													}
+													onClick={
+														handleCloseNavMenu
+													}
+												>
+													{
+														category?.name
+													}
+												</MenuItem>
+											</Link>
+										),
+								)}
+							</div>
+						</Menu>
+					</Tabs>
+				</div>
+			)}
 		</Box>
 	);
 }

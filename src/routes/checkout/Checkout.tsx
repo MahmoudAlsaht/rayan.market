@@ -1,21 +1,16 @@
 import { memo, useState } from 'react';
-import { Container } from 'react-bootstrap';
 import Information from '../../components/checkoutComponents/Information';
-import Payment from '../../components/checkoutComponents/Payment';
 import '../../assets/styles/CheckoutStyle.css';
+import { Container } from '@mui/material';
 
 const Checkout = memo(() => {
 	const [checkoutStep, setCheckoutStep] =
 		useState('information');
 
 	return (
-		<Container fluid>
-			{checkoutStep === 'information' ? (
+		<Container>
+			{checkoutStep === 'information' && (
 				<Information handleStep={setCheckoutStep} />
-			) : (
-				checkoutStep === 'payment' && (
-					<Payment handleStep={setCheckoutStep} />
-				)
 			)}
 		</Container>
 	);

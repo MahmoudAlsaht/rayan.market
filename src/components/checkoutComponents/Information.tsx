@@ -2,15 +2,16 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
 import { useEffect, useState } from 'react';
 import { fetchUser } from '../../controllers/user';
-import { Breadcrumb } from 'react-bootstrap';
 import AnonymousUserForm from '../forms/AnonymousUserForm';
 import ChooseContactAddress from './ChooseContactAddress';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Link } from 'react-router-dom';
-import Logo from '../../rayan.marketLogo.png';
 import {
 	TContactInfo,
 	getContactsData,
 } from '../../controllers/contact';
+import { Divider, Typography } from '@mui/material';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 function Information({
 	handleStep,
@@ -40,52 +41,47 @@ function Information({
 	}, [dispatch, user?.profile]);
 
 	return (
-		<>
-			<h1 className='logo mb-5'>
-				<Link to='/home' className='text-info'>
-					<img
-						src={Logo}
-						alt='Al Rayyan International Markets'
-						width={90}
-					/>
-				</Link>
-			</h1>
-			<Breadcrumb className='mb-5'>
-				<Breadcrumb.Item>
-					<Link to='/cart' className='text-dark'>
-						Cart
-					</Link>
-				</Breadcrumb.Item>
-				<Breadcrumb.Item
-					className='text-info'
-					active
+		<div dir='rtl'>
+			<Breadcrumbs
+				separator={
+					<NavigateBeforeIcon fontSize='small' />
+				}
+				sx={{ my: 5 }}
+			>
+				<Typography>
+					<Link to='/cart'>السلة</Link>
+				</Typography>
+				<Typography
+					sx={{ color: 'primary.main' }}
 					onClick={() => handleStep('information')}
 				>
-					Contact &amp; shipping
-				</Breadcrumb.Item>
-			</Breadcrumb>
-			<hr />
+					معلومات الاتصال
+				</Typography>
+			</Breadcrumbs>
+
+			<Divider sx={{ mb: 5 }} />
 
 			{user.username === 'anonymous' ? (
 				<div>
-					<small>
-						Do You want to sign in?{' '}
-						<Link to='/auth/signin'>Signin</Link>
-					</small>
-					<h3 className='m-3'>Contact</h3>
-					<AnonymousUserForm
-						contact={undefined}
-						handleStep={handleStep}
-					/>
+					<Typography sx={{ mb: 5 }}>
+						هل ترغب تسجيل الدخول؟{' '}
+						<Link
+							to='/auth/signin'
+							style={{ color: 'skyblue' }}
+						>
+							تسجيل الدخول
+						</Link>
+					</Typography>
+
+					<AnonymousUserForm handleStep={handleStep} />
 				</div>
 			) : (
 				<ChooseContactAddress
 					contacts={contacts!}
 					user={user}
-					handleStep={handleStep}
 				/>
 			)}
-		</>
+		</div>
 	);
 }
 

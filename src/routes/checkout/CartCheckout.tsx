@@ -4,9 +4,9 @@ import { TCart, TCartProduct } from '../../app/store/cart';
 import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../../components/CartProductCard';
 import { checkIfProductIsAvailable } from '../../controllers/order';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { checkEveryProductCounter } from '../../controllers/cart';
-import { Col, Row } from 'react-bootstrap';
+import { Button, Typography } from '@mui/material';
 
 const CartCheckout = memo(() => {
 	const cart: TCart = useAppSelector((state) => state.cart);
@@ -34,45 +34,42 @@ const CartCheckout = memo(() => {
 	}, [cart?.products, checkIfCartIsEmpty, navigate]);
 
 	return (
-		<Row className=''>
+		<main dir='rtl'>
 			{cart?.products?.map((product) => (
-				<Col xs={12} sm={6} md={4} key={product?._id}>
-					<CartProductCard
-						key={product?._id}
-						product={product}
-					/>
-				</Col>
+				<CartProductCard
+					key={product?._id}
+					product={product}
+				/>
 			))}
-			<div className='totalPrice text-muted mb-5'>
-				<Link
-					to={
-						isCountersAboveZero && isAvailable
-							? '/checkout'
-							: '#'
-					}
-					className={`float-end btn ${
-						isCountersAboveZero && isAvailable
-							? 'btn-outline-primary'
-							: 'btn-secondary'
-					}`}
-					style={{
-						cursor:
+			<div dir='rtl'>
+				<Button
+					variant='outlined'
+					onClick={() =>
+						navigate(
 							isCountersAboveZero && isAvailable
-								? 'pointer'
-								: 'unset',
+								? '/checkout'
+								: '#',
+						)
+					}
+					sx={{
+						color: 'primary.main',
+						ml: 10,
 					}}
+					disabled={
+						!isCountersAboveZero || !isAvailable
+					}
 				>
 					ادخل بياناتك
-				</Link>
+				</Button>
 			</div>
 
 			{!isAvailable && (
-				<div className='text-danger'>
+				<Typography sx={{ color: 'error.main' }}>
 					يرجى أن تقوم بتعديل سلتك هناك بعض المنتجات لم
 					تعد متوفرة
-				</div>
+				</Typography>
 			)}
-		</Row>
+		</main>
 	);
 });
 

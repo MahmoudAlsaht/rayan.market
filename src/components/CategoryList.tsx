@@ -31,54 +31,56 @@ export default function CategoryList({
 
 	return (
 		<Container sx={{ mt: 12 }}>
-			<Grid xs={12} container spacing={0.5}>
-				{isHomePage !== -1 && (
-					<Grid xs={6} md={2}>
-						<Box
-							sx={{
-								mt: 5,
-								width: 100,
-								height: 100,
-								borderRadius: '50%',
-								border: '1px solid #07a180',
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-								justifyContent: 'center',
-								color: 'primary.main',
-								cursor: 'pointer',
-								transition:
-									'all 200ms ease-in-out',
-								'&:hover': {
-									color: '#fff',
-									backgroundColor:
-										'primary.main',
-								},
-							}}
-							onClick={() =>
-								navigate('/categories')
-							}
-						>
-							<Typography
-								sx={{ fontSize: 30 }}
-								gutterBottom
+			{categories.length !== 0 && (
+				<Grid xs={12} container spacing={0.5}>
+					{isHomePage !== -1 && (
+						<Grid xs={6} md={2}>
+							<Box
+								sx={{
+									mt: 5,
+									width: 100,
+									height: 100,
+									borderRadius: '50%',
+									border: '1px solid #07a180',
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									justifyContent: 'center',
+									color: 'primary.main',
+									cursor: 'pointer',
+									transition:
+										'all 200ms ease-in-out',
+									'&:hover': {
+										color: '#fff',
+										backgroundColor:
+											'primary.main',
+									},
+								}}
+								onClick={() =>
+									navigate('/categories')
+								}
 							>
-								<ArrowBackIcon />
-							</Typography>
-						</Box>
-					</Grid>
-				)}
+								<Typography
+									sx={{ fontSize: 30 }}
+									gutterBottom
+								>
+									<ArrowBackIcon />
+								</Typography>
+							</Box>
+						</Grid>
+					)}
 
-				{categories.map(
-					(category, index) =>
-						index < catLength.current && (
-							<CategoryCard
-								category={category}
-								key={category?._id}
-							/>
-						),
-				)}
-			</Grid>
+					{categories.map(
+						(category, index) =>
+							index < catLength.current && (
+								<CategoryCard
+									category={category}
+									key={category?._id}
+								/>
+							),
+					)}
+				</Grid>
+			)}
 		</Container>
 	);
 }
