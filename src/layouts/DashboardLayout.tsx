@@ -1,21 +1,122 @@
-import { useEffect, useState } from 'react';
-import { Offcanvas, Nav } from 'react-bootstrap';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import '../assets/styles/DashboardStyles.css';
-import {
-	BsArrowLeftCircle,
-	BsArrowRightCircle,
-} from 'react-icons/bs';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchUser, logout } from '../controllers/user';
-import { TUser } from '../app/auth/auth';
-import { fetchOrders } from '../controllers/order';
-import { TOrder } from '../app/store/order';
-import { isAdmin } from '../utils';
-import AppFooter from '../components/AppFooter';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar, {
+	AppBarProps as MuiAppBarProps,
+} from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
-export default function AuthLayout() {
-	const [show, setShow] = useState(false);
+import HomeIcon from '@mui/icons-material/Home';
+import CategoryIcon from '@mui/icons-material/Category';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+
+import Logo from '../rayan.marketLogo.png';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { TUser } from '../app/auth/auth';
+import { TOrder } from '../app/store/order';
+import { fetchUser, logout } from '../controllers/user';
+import { fetchOrders } from '../controllers/order';
+import { isAdmin } from '../utils';
+import { Badge } from '@mui/material';
+import { useEffect, useState } from 'react';
+
+const drawerWidth = 240;
+
+const openedMixin = (theme: Theme): CSSObject => ({
+	width: drawerWidth,
+	transition: theme.transitions.create('width', {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.enteringScreen,
+	}),
+	overflowX: 'hidden',
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+	transition: theme.transitions.create('width', {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+	}),
+	overflowX: 'hidden',
+	width: `calc(${theme.spacing(7)} + 1px)`,
+	[theme.breakpoints.up('sm')]: {
+		width: `calc(${theme.spacing(8)} + 1px)`,
+	},
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'flex-end',
+	padding: theme.spacing(0, 1),
+	// necessary for content to be below app bar
+	...theme.mixins.toolbar,
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+	open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+	shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+	zIndex: theme.zIndex.drawer + 1,
+	transition: theme.transitions.create(['width', 'margin'], {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+	}),
+	...(open && {
+		marginLeft: drawerWidth,
+		width: `calc(100% - ${drawerWidth}px)`,
+		transition: theme.transitions.create(
+			['width', 'margin'],
+			{
+				easing: theme.transitions.easing.sharp,
+				duration:
+					theme.transitions.duration.enteringScreen,
+			},
+		),
+	}),
+}));
+
+const Drawer = styled(MuiDrawer, {
+	shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+	width: drawerWidth,
+	flexShrink: 0,
+	whiteSpace: 'nowrap',
+	boxSizing: 'border-box',
+	...(open && {
+		...openedMixin(theme),
+		'& .MuiDrawer-paper': openedMixin(theme),
+	}),
+	...(!open && {
+		...closedMixin(theme),
+		'& .MuiDrawer-paper': closedMixin(theme),
+	}),
+}));
+
+export default function DashBoardLayout() {
+	const [open, setOpen] = useState(false);
+
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -40,131 +141,412 @@ export default function AuthLayout() {
 		return order.status === 'pending';
 	});
 
-	const handleResize = () => setShow(!show);
 	const handleLogout = async () => {
 		await dispatch(logout());
 		dispatch(fetchUser());
 		navigate('/home');
 	};
 
+	const handleDrawerOpen = () => {
+		setOpen(true);
+	};
+
+	const handleDrawerClose = () => {
+		setOpen(false);
+	};
+
 	return (
-		<legend dir='rtl'>
-			<Offcanvas
-				show={true}
-				scroll={true}
-				backdrop={false}
-				placement='end'
-				className={` ${!show && 'resizeOffcanvas'}`}
+		<Box sx={{ display: 'flex' }}>
+			<CssBaseline />
+			<AppBar
+				dir='rtl'
+				open={open}
+				sx={{ bgcolor: 'white', color: 'primary.main' }}
 			>
-				<Offcanvas.Header>
-					<Offcanvas.Title>
-						{show ? (
-							<BsArrowRightCircle
-								className='arrowIcon d-inline'
-								onClick={handleResize}
-							/>
-						) : (
-							<BsArrowLeftCircle
-								className='arrowIcon d-inline'
-								onClick={handleResize}
-							/>
-						)}
-					</Offcanvas.Title>
-				</Offcanvas.Header>
-				<hr />
-				<Offcanvas.Body>
-					<Nav className='flex-column '>
-						<Nav.Item>
-							<Nav.Link>
-								<Link to='/home'>
-									العودة للمتجر
-								</Link>
-							</Nav.Link>
-						</Nav.Item>
-						<hr />
-						<h5 className='text-center mb-3'>
-							معلومات الحساب
-						</h5>
-						{isDashboardHomePage && (
-							<Nav.Item>
-								<Nav.Link>
-									<Link
-										to={`/dashboard/admin/${
-											user && user?.profile
-										}`}
-									>
-										لوحة التحكم
-									</Link>
-								</Nav.Link>
-							</Nav.Item>
-						)}
-						<Nav.Item>
-							<Nav.Link>
-								<Link
-									to={`/account/profile/${
-										user && user?.profile
-									}/account-setting`}
+				<Toolbar>
+					<IconButton
+						color='inherit'
+						aria-label='open drawer'
+						onClick={handleDrawerOpen}
+						edge='start'
+						sx={{
+							marginRight: 5,
+							...(open && { display: 'none' }),
+						}}
+					>
+						<MenuIcon />
+					</IconButton>
+					<Typography
+						variant='h6'
+						noWrap
+						component='div'
+					>
+						<img width={100} src={Logo} />
+					</Typography>
+				</Toolbar>
+			</AppBar>
+			<Drawer variant='permanent' open={open}>
+				<DrawerHeader>
+					<IconButton onClick={handleDrawerClose}>
+						<ChevronRightIcon />
+					</IconButton>
+				</DrawerHeader>
+				<Divider />
+				<List>
+					<Link to={`/home`}>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
 								>
-									معلومات الحساب
-								</Link>
-							</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link>
-								<Link to='/dashboard/settings/orders'>
-									الطلبات{' '}
-									{pendingOrders.length >
-										0 && (
-										<span>
-											(
-											{
-												pendingOrders?.length
+									<HomeIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='الرئيسية'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					{isDashboardHomePage && (
+						<Link
+							to={`/dashboard/admin/${
+								user && user?.profile
+							}`}
+						>
+							<ListItem
+								disablePadding
+								sx={{
+									display: 'block',
+									color: 'primary.main',
+								}}
+							>
+								<ListItemButton
+									sx={{
+										minHeight: 48,
+										justifyContent: open
+											? 'initial'
+											: 'center',
+										px: 2.5,
+									}}
+								>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open
+												? 3
+												: 'auto',
+											justifyContent:
+												'center',
+										}}
+									>
+										<DashboardIcon />
+									</ListItemIcon>
+									<ListItemText
+										primary='لوحة التحكم'
+										sx={{
+											opacity: open
+												? 1
+												: 0,
+										}}
+									/>
+								</ListItemButton>
+							</ListItem>
+						</Link>
+					)}
+
+					<Link
+						to={`/account/profile/${
+							user && user?.profile
+						}/account-setting`}
+					>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<SettingsIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='إعدادات الحساب'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/categories'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<CategoryIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='الأقسام'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/brands'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<BrandingWatermarkIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='العلامات التجارية'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/products'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<Inventory2Icon />
+								</ListItemIcon>
+								<ListItemText
+									primary='المنتجات'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/banners'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<ViewCarouselIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='اللافتات'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/orders'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<LocalShippingIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary={
+										<Badge
+											badgeContent={
+												pendingOrders?.length ||
+												0
 											}
-											)
-										</span>
-									)}
-								</Link>
-							</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link>
-								<Link to='/dashboard/settings/categories'>
-									الأقسام
-								</Link>
-							</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link>
-								<Link to='/dashboard/settings/brands'>
-									العلامات التجارية
-								</Link>
-							</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link>
-								<Link to='/dashboard/settings/products'>
-									المنتجات
-								</Link>
-							</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link>
-								<Link to='/dashboard/settings/banners'>
-									اللافتات
-								</Link>
-							</Nav.Link>
-						</Nav.Item>
-						<hr />
-						<Nav.Item>
-							<Nav.Link onClick={handleLogout}>
-								<Link to='#'>تسجيل الخروج</Link>
-							</Nav.Link>
-						</Nav.Item>
-					</Nav>
-				</Offcanvas.Body>
-			</Offcanvas>
-			<Outlet />
-			<AppFooter />
-		</legend>
+											color='primary'
+										>
+											الطلبات
+										</Badge>
+									}
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<ListItem
+						disablePadding
+						sx={{
+							display: 'block',
+							color: 'primary.main',
+						}}
+					>
+						<ListItemButton
+							sx={{
+								minHeight: 48,
+								justifyContent: open
+									? 'initial'
+									: 'center',
+								px: 2.5,
+							}}
+							onClick={handleLogout}
+						>
+							<ListItemIcon
+								sx={{
+									minWidth: 0,
+									mr: open ? 3 : 'auto',
+									justifyContent: 'center',
+								}}
+							>
+								<LogoutIcon />
+							</ListItemIcon>
+							<ListItemText
+								primary='تسجيل الخروج'
+								sx={{
+									opacity: open ? 1 : 0,
+								}}
+							/>
+						</ListItemButton>
+					</ListItem>
+				</List>
+				<Divider />
+			</Drawer>
+			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+				<DrawerHeader />
+				<Outlet />
+			</Box>
+		</Box>
 	);
 }
