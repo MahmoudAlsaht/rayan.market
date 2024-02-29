@@ -1,66 +1,42 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 import { ReactNode } from 'react';
-import { Card } from 'react-bootstrap';
-import { BsArrowLeft } from 'react-icons/bs';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 type widgetProps = {
 	widgetTitle: string | ReactNode;
-	badge?: ReactNode;
 	body?: ReactNode;
-	className?: string;
 	height?: string;
 	href: string;
 };
 
 function Widget({
 	widgetTitle,
-	className,
 	href,
-	body,
-	badge,
-	height = '100px',
+	height = '120px',
 }: widgetProps) {
-	const isTitleAString = typeof widgetTitle === 'string';
-
 	return (
 		<>
 			<Link to={href}>
-				<Card
-					className={`widget ${className}`}
-					style={{ height }}
-				>
+				<Card sx={{ height, m: 3 }}>
 					<main dir='rtl'>
-						<Card.Body>
-							{isTitleAString ? (
-								<Card.Title>
-									{badge} {widgetTitle}
-								</Card.Title>
-							) : (
-								<Card.Title
-									className='text-center'
-									style={{ fontSize: '50px' }}
-								>
-									{widgetTitle}
-								</Card.Title>
-							)}
-
-							<Card.Text>
-								{isTitleAString && (
-									<legend
-										className='card-link lead'
-										style={{
-											color: '#0055aa',
-										}}
-									>
-										عرض المزيد{' '}
-										<BsArrowLeft />
-									</legend>
-								)}
-							</Card.Text>
-
-							{body}
-						</Card.Body>
+						<CardContent>
+							<Typography variant='h6'>
+								{widgetTitle}
+							</Typography>
+						</CardContent>
+						<CardActions>
+							<legend
+								style={{
+									color: '#0055aa',
+								}}
+							>
+								عرض المزيد <ArrowBackIcon />
+							</legend>
+						</CardActions>
 					</main>
 				</Card>
 			</Link>

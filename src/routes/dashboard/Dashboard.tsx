@@ -1,6 +1,4 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Badge, Col, Container, Row } from 'react-bootstrap';
-import '../../assets/styles/Dashboard.css';
 import Widget from '../../components/Widget';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
@@ -8,6 +6,8 @@ import { memo, useEffect } from 'react';
 import { fetchUser } from '../../controllers/user';
 import { TOrder } from '../../app/store/order';
 import { fetchOrders } from '../../controllers/order';
+import { Badge, Container } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 const Dashboard = memo(() => {
 	const dispatch = useAppDispatch();
@@ -39,28 +39,37 @@ const Dashboard = memo(() => {
 	];
 
 	return (
-		<Container className='mt-5'>
-			<Row xs={1}>
+		<Container sx={{ mt: 5 }}>
+			<Grid container>
 				{adminWidgets.map((widget, index) => (
-					<Col md={6} key={index}>
+					<Grid md={6} key={index}>
 						<Widget
 							widgetTitle={
 								widget.toLowerCase() ===
-								'settings'
-									? 'معلومات الحساب'
-									: widget.toLowerCase() ===
-									  'orders'
-									? 'الطلبات'
-									: widget.toLowerCase() ===
-									  'categories'
-									? 'الأقسام'
-									: widget.toLowerCase() ===
-									  'brands'
-									? 'العلامات التجارية'
-									: widget.toLowerCase() ===
-									  'products'
-									? 'المنتجات'
-									: 'اللافتات'
+								'settings' ? (
+									'معلومات الحساب'
+								) : widget.toLowerCase() ===
+								  'orders' ? (
+									<Badge
+										badgeContent={
+											pendingOrders?.length
+										}
+										color='primary'
+									>
+										الطلبات
+									</Badge>
+								) : widget.toLowerCase() ===
+								  'categories' ? (
+									'الأقسام'
+								) : widget.toLowerCase() ===
+								  'brands' ? (
+									'العلامات التجارية'
+								) : widget.toLowerCase() ===
+								  'products' ? (
+									'المنتجات'
+								) : (
+									'اللافتات'
+								)
 							}
 							key={widget}
 							href={
@@ -71,18 +80,10 @@ const Dashboard = memo(() => {
 									  }/account-setting`
 									: `/dashboard/settings/${widget.toLowerCase()}`
 							}
-							badge={
-								pendingOrders.length > 0 &&
-								widget === 'Orders' && (
-									<Badge pill bg='danger'>
-										{pendingOrders?.length}
-									</Badge>
-								)
-							}
 						/>
-					</Col>
+					</Grid>
 				))}
-			</Row>
+			</Grid>
 		</Container>
 	);
 });
