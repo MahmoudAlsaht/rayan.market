@@ -22,11 +22,8 @@ export const createAnOrder = createAsyncThunk(
 			const isUserRegistered =
 				user?.username === 'anonymous' ? false : true;
 			const userId = user?._id || cart?.anonymousUserId;
-			console.log(
-				`cart Anonymous User: ${cart?.anonymousUserId}`,
-			);
-			console.log(`User: ${user?._id}`);
 
+			console.log(cart.contactId);
 			const order = await sendRequestToServer(
 				'POST',
 				'order/new',
