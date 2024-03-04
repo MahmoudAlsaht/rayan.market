@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 
 type widgetProps = {
 	widgetTitle: string | ReactNode;
-	body?: ReactNode;
 	height?: string;
 	href: string;
 };

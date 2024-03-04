@@ -8,8 +8,9 @@ import {
 
 function ShowContactInfo() {
 	const { profileId, contactId } = useParams();
-	const [contact, setContact] =
-		useState<TContactInfo | null>();
+	const [contact, setContact] = useState<TContactInfo | null>(
+		null,
+	);
 
 	useEffect(() => {
 		const getContact = async () => {
@@ -17,14 +18,14 @@ function ShowContactInfo() {
 				profileId as string,
 				contactId as string,
 			);
-			await setContact(contactData);
+			await setContact(contactData as TContactInfo);
 		};
 		getContact();
 	}, [contactId, profileId]);
 
 	return (
 		<div>
-			<ContactInfoForm contact={contact!} />
+			<ContactInfoForm contact={contact} />
 		</div>
 	);
 }

@@ -75,25 +75,23 @@ export const sumEachProductTotalPrice = (
 	);
 };
 
-export const isAuthenticated = () => {
-	const user: TUser | null = getCookies('token');
+export const isAuthenticated = (user: TUser | null) => {
 	return user && user?.username !== 'anonymous';
 };
 
-export const isAdmin = async () => {
-	const user: TUser | null = getCookies('user');
-	return !isAuthenticated() ? false : user?.role === 'admin';
+export const isAdmin = async (user: TUser | null) => {
+	return !isAuthenticated(user)
+		? false
+		: user?.role === 'admin';
 };
 
-export const isStaff = async () => {
-	const user: TUser | null = getCookies('user');
-
-	return !isAuthenticated() ? false : user?.role === 'staff';
+export const isStaff = async (user: TUser | null) => {
+	return !isAuthenticated(user)
+		? false
+		: user?.role === 'staff';
 };
-
-export const isCustomer = async () => {
-	const user: TUser | null = getCookies('user');
-	return !isAuthenticated()
+export const isCustomer = async (user: TUser | null) => {
+	return !isAuthenticated(user)
 		? false
 		: user?.role === 'customer';
 };

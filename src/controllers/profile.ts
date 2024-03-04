@@ -1,9 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {
-	isAuthenticated,
-	sendRequestToServer,
-	setCookies,
-} from '../utils';
+import { sendRequestToServer, setCookies } from '../utils';
 
 export const fetchProfile = createAsyncThunk(
 	'profile/fetchProfile',
@@ -22,15 +18,12 @@ export const fetchProfile = createAsyncThunk(
 
 export const updateUserPhoneAndUsername = async (data: any) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
-		const { phone, username, password, profileId } = data;
+		const { phone, username, profileId } = data;
 
 		const res = await sendRequestToServer(
 			'POST',
 			`account/profile/${profileId}/updateUserPhoneAndUsername`,
-			{ phone, username, password },
+			{ phone, username },
 		);
 
 		setCookies('user', res, 0.3);
@@ -42,9 +35,6 @@ export const updateUserPhoneAndUsername = async (data: any) => {
 
 export const updateUserPassword = async (data: any) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
 		const { newPassword, currentPassword, profileId } = data;
 
 		if (!newPassword) return;
@@ -64,22 +54,20 @@ export const destroyUser = createAsyncThunk(
 	async (options: { password: string; profileId: string }) => {
 		const { password, profileId } = options;
 		try {
-			if (!isAuthenticated())
-				throw new Error('You Are Not Authorized');
-
 			await sendRequestToServer(
 				'DELETE',
 				`account/profile/${profileId}/delete-account`,
 				{ password },
 			);
-			setCookies('user', {
+			setCookies('token', null);
+
+			return {
 				username: 'anonymous',
 				phone: '',
 				role: 'customer',
 				profile: '',
 				id: '',
-			});
-			return null;
+			};
 		} catch (e: any) {
 			throw new Error(e.message);
 		}

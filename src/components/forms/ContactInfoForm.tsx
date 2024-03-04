@@ -1,14 +1,21 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
 import {
 	TContactInfo,
 	createNewContactInfo,
 	updateUserContactInfo,
 } from '../../controllers/contact';
 import ErrorComponent, { IError } from '../Error';
-import LoadingButton from '../LoadingButton';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BsArrowLeft } from 'react-icons/bs';
+import {
+	Box,
+	Button,
+	Container,
+	FormGroup,
+	TextField,
+	Typography,
+} from '@mui/material';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { LoadingButton } from '@mui/lab';
 
 function ContactInfoForm({
 	contact,
@@ -17,6 +24,7 @@ function ContactInfoForm({
 }) {
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
 
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -61,6 +69,7 @@ function ContactInfoForm({
 					);
 				}
 				setIsLoading(false);
+				setIsEditing(false);
 				cityRef.current!.value = '';
 				streetRef.current!.value = '';
 				contactNumberRef.current!.value = '';
@@ -72,6 +81,7 @@ function ContactInfoForm({
 				message: e.message,
 			});
 			setIsLoading(false);
+			setIsEditing(false);
 		}
 	};
 
@@ -106,19 +116,15 @@ function ContactInfoForm({
 	};
 
 	return (
-		<Container>
+		<Container sx={{ m: 3 }}>
 			<main dir='rtl'>
-				<Form
-					noValidate
-					validated={!validated}
-					onSubmit={handleSubmit}
-					style={{ width: '100%' }}
-				>
+				<Box component='form' noValidate>
 					<Button
-						variant='outline-secondary'
+						variant='outlined'
+						color='secondary'
 						onClick={() => navigate(-1)}
 					>
-						<BsArrowLeft /> العودة
+						<ArrowRightAltIcon />
 					</Button>
 					<h3 className='text-muted text-center mb-3'>
 						أضف عنوانا
@@ -126,63 +132,91 @@ function ContactInfoForm({
 
 					<ErrorComponent error={error} />
 
-					<Form.Group
-						className='mb-3 '
-						controlId='cityInput'
-					>
-						<Form.Label>المنطقة</Form.Label>
-						<Form.Control
-							onChange={handleChange}
-							type='text'
-							required
-							placeholder='أدخل اسم المنطقة'
-							defaultValue={contact?.address.city}
-							ref={cityRef}
-						/>
-					</Form.Group>
+					{isEditing ? (
+						<Box>
+							<FormGroup sx={{ m: 3 }}>
+								<TextField
+									autoFocus
+									onChange={handleChange}
+									type='text'
+									required
+									label='أدخل اسم المنطقة'
+									inputRef={cityRef}
+								/>
+							</FormGroup>
 
-					<Form.Group
-						className='mb-3 '
-						controlId='streetInput'
-					>
-						<Form.Label>اسم الشارع</Form.Label>
-						<Form.Control
-							required
-							onChange={handleChange}
-							type='text'
-							placeholder='اسم الشارع'
-							defaultValue={
-								contact?.address.street
-							}
-							ref={streetRef}
-						/>
-					</Form.Group>
+							<FormGroup sx={{ m: 3 }}>
+								<TextField
+									required
+									onChange={handleChange}
+									type='text'
+									label='اسم الشارع'
+									inputRef={streetRef}
+								/>
+							</FormGroup>
 
-					<Form.Group
-						className='mb-3 '
-						controlId='contactNumberInput'
-					>
-						<Form.Label>رقم التواصل</Form.Label>
-						<Form.Control
-							required
-							onChange={handleChange}
-							type='number'
-							placeholder='أدخل رقم للتواصل'
-							defaultValue={contact?.contactNumber}
-							ref={contactNumberRef}
-						/>
-					</Form.Group>
+							<FormGroup sx={{ m: 3 }}>
+								<TextField
+									required
+									onChange={handleChange}
+									type='number'
+									label='أدخل رقم للتواصل'
+									inputRef={contactNumberRef}
+								/>
+							</FormGroup>
 
-					<Form.Group className='mb-3'>
-						<LoadingButton
-							type='submit'
-							body='حفظ'
-							variant='primary'
-							isLoading={isLoading}
-							disabled={!validated}
-						/>
-					</Form.Group>
-				</Form>
+							<FormGroup sx={{ m: 3 }}>
+								<Button
+									variant='outlined'
+									color='info'
+									onClick={() =>
+										setIsEditing(false)
+									}
+								>
+									الغاء
+								</Button>
+							</FormGroup>
+
+							<FormGroup sx={{ m: 3 }}>
+								<LoadingButton
+									startIcon='حفظ'
+									variant='outlined'
+									onClick={handleSubmit}
+									loading={isLoading}
+									disabled={!validated}
+								/>
+							</FormGroup>
+						</Box>
+					) : (
+						<Box sx={{ m: 3 }}>
+							<Typography variant='h4'>
+								المنطقة :{' '}
+								{contact?.address?.city}
+							</Typography>
+							<Typography variant='h4'>
+								الشارع:{' '}
+								{contact?.address?.street}
+							</Typography>
+							<Typography variant='h4'>
+								رقم التواصل:{' '}
+								{contact?.contactNumber}
+							</Typography>
+							<Typography
+								variant='h4'
+								sx={{
+									m: 5,
+									color: 'warning.main',
+									cursor: 'pointer',
+								}}
+								onClick={() =>
+									setIsEditing(true)
+								}
+							>
+								تعديل
+							</Typography>
+						</Box>
+					)}
+				</Box>
 			</main>
 		</Container>
 	);

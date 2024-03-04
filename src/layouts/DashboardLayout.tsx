@@ -7,7 +7,6 @@ import MuiAppBar, {
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
 import HomeIcon from '@mui/icons-material/Home';
@@ -28,7 +27,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
-import Logo from '../rayan.marketLogo.png';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { TUser } from '../app/auth/auth';
@@ -128,14 +126,14 @@ export default function DashBoardLayout() {
 		(state) => state.orders,
 	);
 
-	const isDashboardHomePage =
+	const ifNotDashboardHomePage =
 		window.location.pathname.includes('settings');
 
 	useEffect(() => {
 		dispatch(fetchUser());
 		dispatch(fetchOrders(''));
-		if (!isAdmin()) navigate('/home');
-	}, [dispatch, navigate]);
+		if (!isAdmin(user)) navigate('/home');
+	}, [dispatch, navigate, user]);
 
 	const pendingOrders: TOrder[] = orders?.filter((order) => {
 		return order.status === 'pending';
@@ -176,13 +174,6 @@ export default function DashBoardLayout() {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography
-						variant='h6'
-						noWrap
-						component='div'
-					>
-						<img width={100} src={Logo} />
-					</Typography>
 				</Toolbar>
 			</AppBar>
 			<Drawer variant='permanent' open={open}>
@@ -229,7 +220,7 @@ export default function DashBoardLayout() {
 						</ListItem>
 					</Link>
 
-					{isDashboardHomePage && (
+					{ifNotDashboardHomePage && (
 						<Link
 							to={`/dashboard/admin/${
 								user && user?.profile
@@ -545,7 +536,9 @@ export default function DashBoardLayout() {
 			</Drawer>
 			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
 				<DrawerHeader />
-				<Outlet />
+				<main dir='rtl'>
+					<Outlet />
+				</main>
 			</Box>
 		</Box>
 	);

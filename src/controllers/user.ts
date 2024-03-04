@@ -2,7 +2,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
 	getCookies,
-	isAuthenticated,
 	removeCookies,
 	sendRequestToServer,
 	setCookies,
@@ -74,9 +73,6 @@ export const logout = createAsyncThunk(
 	'user/logout',
 	async () => {
 		try {
-			if (!isAuthenticated())
-				throw new Error('You Are Not Authorized');
-
 			removeCookies('token');
 			removeCookies('cart');
 			return {

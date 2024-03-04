@@ -6,15 +6,17 @@ import { fetchOrders } from '../../controllers/order';
 import { TUser } from '../../app/auth/auth';
 import { fetchUser } from '../../controllers/user';
 import Widget from '../../components/Widget';
-import { Card, Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
 
 const OrderHistoryList = memo(() => {
 	const { profileId } = useParams();
 	const orders: TOrder[] = useAppSelector(
 		(state) => state.orders,
 	);
-	const user: TUser = useAppSelector((state) => state.user);
+	const user: TUser | null = useAppSelector(
+		(state) => state.user,
+	);
 
 	const dispatch = useAppDispatch();
 
@@ -24,32 +26,34 @@ const OrderHistoryList = memo(() => {
 	}, [dispatch, user?._id]);
 
 	return (
-		<Container>
+		<Container sx={{ m: 3 }}>
 			{orders?.map((order) => (
 				<Widget
 					href={`/account/profile/${profileId}/orders-history/${order?._id}`}
-					widgetTitle={order?.orderId}
-					key={order?._id}
-					body={
-						<Card.Text className='text-muted'>
-							Status:{' '}
-							<span
-								className={
+					widgetTitle={
+						<Box>
+							<Typography variant='h6'>
+								{order?.orderId}
+							</Typography>
+							<Typography
+								variant='subtitle1'
+								color={
 									order?.status === 'pending'
-										? 'text-info'
+										? 'info.main'
 										: order?.status ===
 										  'accepted'
-										? 'text-warning'
+										? 'warning.main'
 										: order?.status ===
 										  'completed'
-										? 'text-success'
-										: 'text-danger'
+										? 'primary.main'
+										: 'error'
 								}
 							>
 								{order?.status}
-							</span>
-						</Card.Text>
+							</Typography>
+						</Box>
 					}
+					key={order?._id}
 					height='150px'
 				/>
 			))}

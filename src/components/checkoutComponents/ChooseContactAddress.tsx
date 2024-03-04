@@ -130,7 +130,7 @@ export default function ChooseContactAddress({
 															?.address
 															.city
 													}
-													-{index}
+													-{index + 1}
 												</Typography>
 												<Typography
 													variant='subtitle1'

@@ -1,6 +1,7 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TProfile } from '../../app/auth/profile';
+import AddIcon from '@mui/icons-material/Add';
 import {
 	TContactInfo,
 	deleteContact,
@@ -8,10 +9,13 @@ import {
 } from '../../controllers/contact';
 import { useEffect, useState } from 'react';
 import { fetchProfile } from '../../controllers/profile';
-import Widget from '../../components/Widget';
-import { Col, Container, Row } from 'react-bootstrap';
-import { BsPlus } from 'react-icons/bs';
 import ContactInfoCard from '../../components/ContactInfoCard';
+import {
+	Card,
+	CardContent,
+	Container,
+	Grid,
+} from '@mui/material';
 
 function ContactInfo() {
 	const { profileId } = useParams();
@@ -19,6 +23,8 @@ function ContactInfo() {
 	const profile: TProfile | null = useAppSelector(
 		(state) => state.profile,
 	);
+	const navigate = useNavigate();
+
 	const [contactInfo, setContactInfo] = useState<
 		(TContactInfo | null)[]
 	>([]);
@@ -49,9 +55,9 @@ function ContactInfo() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Container>
+		<Container sx={{ mx: 5 }}>
 			<main dir='rtl'>
-				<Row>
+				<Grid container spacing={2}>
 					{contactInfo &&
 						contactInfo?.map((contact, index) => (
 							<ContactInfoCard
@@ -62,13 +68,34 @@ function ContactInfo() {
 								handleDelete={handleDelete}
 							/>
 						))}
-					<Col xs={12} sm={6} lg={3} xl={2}>
-						<Widget
-							widgetTitle={<BsPlus />}
-							href={`/account/profile/${profileId}/contact-info/new-contact`}
-						/>
-					</Col>
-				</Row>
+					<Grid xs={12} sm={6} lg={3} xl={2}>
+						<Card
+							sx={{
+								mt: 2,
+								width: 130,
+								height: 130,
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}
+							onClick={() =>
+								navigate(
+									`/account/profile/${profileId}/contact-info/new-contact`,
+								)
+							}
+						>
+							<CardContent>
+								<AddIcon
+									sx={{
+										fontSize: 60,
+										cursor: 'pointer',
+									}}
+								/>
+							</CardContent>
+						</Card>
+					</Grid>
+				</Grid>
 			</main>
 		</Container>
 	);

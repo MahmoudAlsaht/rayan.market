@@ -1,5 +1,5 @@
 import { TProfile } from '../app/auth/profile';
-import { isAuthenticated, sendRequestToServer } from '../utils';
+import { sendRequestToServer } from '../utils';
 
 export type TContactInfo = {
 	_id: string;
@@ -13,9 +13,6 @@ export type TContactInfo = {
 
 export const getContactsData = async (profileId: string) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
 		const contacts: (TContactInfo | null)[] =
 			await sendRequestToServer(
 				'GET',
@@ -34,15 +31,12 @@ export const getContactData = async (
 	contactId: string,
 ) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
 		const contact: TContactInfo | null =
 			await sendRequestToServer(
 				`GET`,
 				`account/${profileId}/contacts/${contactId}`,
 			);
-		return contact;
+		return contact as TContactInfo;
 	} catch (e) {
 		console.error(e);
 	}
@@ -57,9 +51,6 @@ export const createNewContactInfo = async (
 	}: { city: string; street: string; contactNumber: string },
 ) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
 		const contact: TContactInfo | null =
 			await sendRequestToServer(
 				'POST',
@@ -87,9 +78,6 @@ export const updateUserContactInfo = async ({
 	profileId: string;
 }) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
 		const { city, street, contactNumber } = data;
 
 		const contact: TContactInfo | null =
@@ -110,9 +98,6 @@ export const deleteContact = async (
 	contactId: string,
 ) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
 		await sendRequestToServer(
 			'DELETE',
 			`account/${profileId}/contacts/${contactId}`,

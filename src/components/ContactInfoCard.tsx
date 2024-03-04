@@ -1,4 +1,4 @@
-import { Button, Col } from 'react-bootstrap';
+import { Button, Grid } from '@mui/material';
 import { TContactInfo } from '../controllers/contact';
 import Widget from './Widget';
 
@@ -24,19 +24,20 @@ function ContactInfoCard({
 	};
 
 	return (
-		<Col xs={12} sm={6} lg={4} xl={3}>
+		<Grid xs={12} sm={6} lg={4} xl={3}>
 			<Widget
-				widgetTitle={`Address - ${index + 1}`}
+				widgetTitle={`العنوان - ${index + 1}`}
 				href={`/account/profile/${profileId}/contact-info/${contact?._id}`}
-				className='mb-0'
 			/>
 			<Button
 				onClick={handleClick}
-				variant='outline-danger'
+				variant='outlined'
+				color='error'
+				sx={{ ml: 3 }}
 			>
 				Delete
 			</Button>
-		</Col>
+		</Grid>
 	);
 }
 

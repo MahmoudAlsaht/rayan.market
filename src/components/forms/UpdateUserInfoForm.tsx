@@ -1,10 +1,16 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { FormEvent, useRef, useState } from 'react';
 import { TUser } from '../../app/auth/auth';
 import { updateUserPhoneAndUsername } from '../../controllers/profile';
 import ErrorComponent, { IError } from '../Error';
-import LoadingButton from '../LoadingButton';
 import { useParams } from 'react-router-dom';
+import {
+	Box,
+	Container,
+	FormGroup,
+	TextField,
+	Typography,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 function UpdateUserInfoForm({
 	user,
@@ -24,7 +30,6 @@ function UpdateUserInfoForm({
 
 	const phoneRef = useRef<HTMLInputElement>(null);
 	const usernameRef = useRef<HTMLInputElement>(null);
-	const passwordRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -40,15 +45,12 @@ function UpdateUserInfoForm({
 				});
 			} else {
 				const data = {
-					password: passwordRef.current?.value,
 					phone: phoneRef.current?.value,
 					username: usernameRef.current?.value,
 					profileId,
 				};
 				await updateUserPhoneAndUsername(data),
 					setIsLoading(false);
-
-				passwordRef.current!.value = '';
 			}
 		} catch (e: any) {
 			setValidated(false);
@@ -60,18 +62,15 @@ function UpdateUserInfoForm({
 		}
 	};
 
-	const handleChange = (e: ChangeEvent) => {
-		const form = e.currentTarget as HTMLFormElement;
+	const handleChange = () => {
 		if (
-			passwordRef.current?.value === '' ||
-			phoneRef.current?.value === '' ||
-			usernameRef.current?.value === '' ||
-			form.checkValidity() === false
+			phoneRef.current?.value !== '' &&
+			phoneRef.current?.value.length !== 10
 		) {
 			setValidated(false);
 			setError({
 				status: false,
-				message: 'الرجاء قم بإدخال جميع الحقول المطلوبة',
+				message: 'يجب أن يتكون رقم الهاتف من 10 خانات',
 			});
 		} else {
 			setValidated(true);
@@ -83,62 +82,47 @@ function UpdateUserInfoForm({
 	};
 
 	return (
-		<Form
-			noValidate
-			validated={!validated}
-			onSubmit={handleSubmit}
-			style={{ width: '100%' }}
-		>
-			<h3 className='text-muted mb-3'>معلومات الحساب</h3>
+		<Container sx={{ m: 5 }}>
+			<Box noValidate component='form'>
+				<Typography variant='h3'>
+					معلومات الحساب
+				</Typography>
 
-			<ErrorComponent error={error} />
+				<ErrorComponent error={error} />
 
-			<Form.Group className='mb-3' controlId='phoneInput'>
-				<Form.Label> رقم الهاتف</Form.Label>
-				<Form.Control
-					onChange={handleChange}
-					type='text'
-					required
-					placeholder='name@example.com'
-					defaultValue={user?.phone as string}
-					ref={phoneRef}
-				/>
-			</Form.Group>
+				<FormGroup sx={{ mb: 5 }}>
+					<TextField
+						type='text'
+						required
+						onChange={handleChange}
+						label='رقم الهاتف'
+						defaultValue={user?.phone as string}
+						inputRef={phoneRef}
+					/>
+				</FormGroup>
 
-			<Form.Group className='mb-3' controlId='NameInput'>
-				<Form.Label>اسم المستخدم</Form.Label>
-				<Form.Control
-					required
-					onChange={handleChange}
-					type='text'
-					placeholder='your name'
-					defaultValue={user?.username as string}
-					ref={usernameRef}
-				/>
-			</Form.Group>
-			<Form.Group
-				className='mb-3'
-				controlId='passwordUserInfoFormInput'
-			>
-				<Form.Label>كلمة المرور</Form.Label>
-				<Form.Control
-					required
-					onChange={handleChange}
-					type='password'
-					placeholder='at least 6 char'
-					ref={passwordRef}
-				/>
-			</Form.Group>
-			<Form.Group className='mb-3'>
-				<LoadingButton
-					type='submit'
-					body='حفظ'
-					variant='primary'
-					isLoading={isLoading}
-					disabled={!validated}
-				/>
-			</Form.Group>
-		</Form>
+				<FormGroup sx={{ mb: 5 }}>
+					<TextField
+						required
+						onChange={handleChange}
+						type='text'
+						label='اسم المستخدم'
+						defaultValue={user?.username as string}
+						inputRef={usernameRef}
+					/>
+				</FormGroup>
+
+				<FormGroup>
+					<LoadingButton
+						startIcon='حفظ'
+						variant='outlined'
+						loading={isLoading}
+						disabled={!validated}
+						onClick={handleSubmit}
+					/>
+				</FormGroup>
+			</Box>
+		</Container>
 	);
 }
 

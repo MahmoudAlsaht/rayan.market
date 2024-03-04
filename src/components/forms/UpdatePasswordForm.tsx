@@ -1,9 +1,14 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Form } from 'react-bootstrap';
 import { updateUserPassword } from '../../controllers/profile';
 import ErrorComponent, { IError } from '../Error';
-import LoadingButton from '../LoadingButton';
 import { useParams } from 'react-router-dom';
+import {
+	Box,
+	FormGroup,
+	TextField,
+	Typography,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 function UpdatePasswordForm({
 	isLoading,
@@ -100,68 +105,57 @@ function UpdatePasswordForm({
 	};
 
 	return (
-		<Form
+		<Box
+			component='form'
 			noValidate
-			validated={!validated}
 			onSubmit={handleSubmit}
-			style={{ width: '100%' }}
-			className='mt-5'
+			sx={{ m: 3 }}
 		>
-			<h3 className='text-muted mb-3'>
+			<Typography variant='h3'>
 				تحديث كلمة المرور
-			</h3>
+			</Typography>
 
 			<ErrorComponent error={error} />
 
-			<Form.Group
-				className='mb-3'
-				controlId='CurrentPasswordInput'
-			>
-				<Form.Label>كلمة المرور الحالية</Form.Label>
-				<Form.Control
+			<FormGroup sx={{ mt: 3 }}>
+				<TextField
 					onChange={handleChange}
 					required
 					type='password'
-					placeholder='at least 6 char'
-					ref={passwordRef}
+					label='كلمة المرور الحالية'
+					inputRef={passwordRef}
 				/>
-			</Form.Group>
-			<Form.Group
-				className='mb-3'
-				controlId='NewPasswordInput'
-			>
-				<Form.Label>كلمة المرور الجديدة</Form.Label>
-				<Form.Control
+			</FormGroup>
+			<FormGroup sx={{ mt: 3 }}>
+				<TextField
 					required
 					onChange={handleChange}
 					type='password'
-					placeholder='at least 6 char'
-					ref={newPasswordRef}
+					label='كلمة المرور الجديدة'
+					inputRef={newPasswordRef}
 				/>
-			</Form.Group>
-			<Form.Group
-				className='mb-3'
-				controlId='passwordConfirmationInput'
-			>
-				<Form.Label>تأكيد كلمة المرور</Form.Label>
-				<Form.Control
+			</FormGroup>
+
+			<FormGroup sx={{ mt: 3 }}>
+				<TextField
 					required
 					onChange={handleChange}
 					type='password'
-					placeholder='at least 6 char'
-					ref={confirmPasswordRef}
+					label='تأكيد كلمة المرور'
+					inputRef={confirmPasswordRef}
 				/>
-			</Form.Group>
-			<Form.Group className='mb-3'>
+			</FormGroup>
+
+			<FormGroup sx={{ mt: 3 }}>
 				<LoadingButton
-					type='submit'
-					body='Save'
-					variant='primary'
-					isLoading={isLoading}
+					startIcon='حفظ'
+					variant='outlined'
+					loading={isLoading}
 					disabled={!validated}
+					onClick={handleSubmit}
 				/>
-			</Form.Group>
-		</Form>
+			</FormGroup>
+		</Box>
 	);
 }
 

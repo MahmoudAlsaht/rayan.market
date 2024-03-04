@@ -1,12 +1,7 @@
 import { TCart, TCartProduct } from '../app/store/cart';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TUser } from '../app/auth/auth';
-import {
-	isAdmin,
-	isStaff,
-	isAuthenticated,
-	sendRequestToServer,
-} from '../utils';
+import { sendRequestToServer } from '../utils';
 import { TOrder } from '../app/store/order';
 
 export const createAnOrder = createAsyncThunk(
@@ -62,21 +57,6 @@ export const updateOrderStatus = createAsyncThunk(
 					{ updatedStatus, userId },
 				);
 
-			if (
-				updatedStatus in
-				['accepted', 'rejected', 'completed']
-			) {
-				if (!isAdmin() || !isStaff())
-					throw new Error('You Are Not Authorized');
-			} else if (updatedStatus === 'canceled') {
-				if (!isAuthenticated())
-					throw new Error('You Are Not Authorized');
-			} else {
-				throw new Error(
-					'Unexpected status: ' + updatedStatus,
-				);
-			}
-
 			return order;
 		} catch (e: any) {
 			console.error(e.message);
@@ -87,9 +67,6 @@ export const updateOrderStatus = createAsyncThunk(
 
 export const fetchOrder = async (orderId: string) => {
 	try {
-		if (!isAuthenticated())
-			throw new Error('You Are Not Authorized');
-
 		const order: TOrder | null = await sendRequestToServer(
 			'GET',
 			`order/${orderId}`,
@@ -105,9 +82,6 @@ export const fetchOrders = createAsyncThunk(
 	'orders/fetchOrders',
 	async (userId: string) => {
 		try {
-			if (!isAuthenticated())
-				throw new Error('You Are Not Authorized');
-
 			const orders: TOrder[] | null =
 				await sendRequestToServer('POST', 'order', {
 					userId,

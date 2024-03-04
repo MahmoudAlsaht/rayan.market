@@ -1,34 +1,34 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
 	fetchOrder,
 	updateOrderStatus,
 } from '../../controllers/order';
 import { TOrder } from '../../app/store/order';
-import { Button, Card, Container } from 'react-bootstrap';
-import { BsArrowLeft } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { fetchUser } from '../../controllers/user';
 import { TUser } from '../../app/auth/auth';
+import { fetchUser } from '../../controllers/user';
+import {
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	CardHeader,
+	Container,
+	Link,
+	Typography,
+} from '@mui/material';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
-function ShowOrderDetails() {
+const ShowOrderDetails = memo(() => {
 	const { orderId } = useParams();
 	const navigate = useNavigate();
-	const [order, setOrder] = useState<TOrder | null>(null);
 	const dispatch = useAppDispatch();
 	const user: TUser | null = useAppSelector(
 		(state) => state.user,
 	);
-
-	const openProductPage = (productId: string) => {
-		window.open(
-			`${
-				import.meta.env.VITE_PRODUCT_REDIRECT_URL
-			}${productId}`,
-			'_blank',
-		);
-	};
+	const [order, setOrder] = useState<TOrder | null>(null);
 
 	const handleClick = async () => {
 		try {
@@ -63,117 +63,135 @@ function ShowOrderDetails() {
 	}, [orderId, dispatch]);
 
 	return (
-		<>
-			<Container className='mt-5'>
+		<main dir='rtl'>
+			<Container sx={{ mx: 5 }}>
 				<Button
-					variant='outline-secondary'
+					size='large'
+					variant='outlined'
+					sx={{
+						color: 'secondary.main',
+						borderColor: 'secondary.main',
+					}}
 					onClick={() => navigate(-1)}
 				>
-					<BsArrowLeft /> Go Back
+					<ArrowRightAltIcon /> العودة
 				</Button>
 			</Container>
-			<Container className='mt-5 d-flex flex-column align-items-center'>
-				<Card className='w-50'>
-					<Card.Header>
-						<Card.Title>
-							Order-Id: {order?.orderId}
-						</Card.Title>
-						<Card.Subtitle>
-							Total Order Price:{' '}
-							{order?.totalPrice}
-						</Card.Subtitle>
-						<Card.Subtitle className='mt-2 text-muted'>
-							Order Status:{' '}
-							<span
-								className={
-									order?.status === 'pending'
-										? 'text-primary'
-										: order?.status ===
-										  'accepted'
-										? 'text-warning'
-										: order?.status ===
-										  'completed'
-										? 'text-success'
-										: 'text-danger'
-								}
+
+			<Container sx={{ mx: 5 }}>
+				<Card>
+					<CardHeader>
+						<Typography>
+							Order-Id:{' '}
+							<span style={{ color: 'gray' }}>
+								{order?.orderId}
+							</span>
+						</Typography>
+						<Typography>
+							المبلغ الإجمالي:{' '}
+							<span style={{ color: 'gray' }}>
+								{order?.totalPrice}
+							</span>
+						</Typography>
+						<Typography>
+							حالة الطلب:{' '}
+							<Typography
+								sx={{
+									color:
+										order?.status ===
+										'pending'
+											? 'info.main'
+											: order?.status ===
+											  'accepted'
+											? 'warning.main'
+											: order?.status ===
+											  'completed'
+											? 'primary.main'
+											: 'error.main',
+								}}
 							>
 								{order?.status}
-							</span>
-						</Card.Subtitle>
-					</Card.Header>
-					<Card.Body>
-						<h3>Cart Items: </h3>
+							</Typography>
+						</Typography>
+					</CardHeader>
+					<CardContent>
+						<Typography variant='h3'>
+							المنتجات
+						</Typography>
 						{order?.products?.map((product) => (
-							<p
-								className='text-info'
-								key={product?._id}
-								style={{ cursor: 'pointer' }}
-								onClick={() =>
-									openProductPage(
-										product?._id as string,
-									)
-								}
-							>
-								{product?.name?.substring(0, 50)}{' '}
-								<small className='text-dark'>
+							<Typography key={product?._id}>
+								<Link
+									sx={{
+										color: 'info.main',
+										cursor: 'pointer',
+									}}
+									href={`${
+										import.meta.env
+											.VITE_PRODUCT_REDIRECT_URL
+									}${product?._id}`}
+									target='_blank'
+								>
+									{product?.name?.substring(
+										0,
+										50,
+									)}
+								</Link>{' '}
+								<small>
 									X {product?.counter}
 								</small>
-							</p>
+							</Typography>
 						))}
-						<hr />
-						<h3>Your Information:</h3>
-						<h6>
-							<span className='text-muted'>
-								Username:
-							</span>{' '}
+						<Typography variant='h4'>
+							معلومات المشتري
+						</Typography>
+						<Typography variant='h6'>
+							<Typography
+								sx={{ color: 'secondary' }}
+							>
+								اسم المستخدم:{' '}
+							</Typography>{' '}
 							{order?.user?.username}{' '}
-						</h6>
-						<h6>
-							<span className='text-muted'>
-								Email:
-							</span>{' '}
-							{order?.user?.phone}
-						</h6>
-						<h6>
-							<span className='text-muted'>
-								Address:
-							</span>{' '}
+						</Typography>
+						<Typography variant='h6'>
+							<Typography
+								sx={{ color: 'secondary' }}
+							>
+								العنوان:{' '}
+							</Typography>{' '}
 							{order?.contact?.address?.street},{' '}
 							{order?.contact?.address?.city}
-						</h6>
-						<h6>
-							<span className='text-muted'>
-								PhoneNumber:
-							</span>{' '}
+						</Typography>
+						<Typography variant='h6'>
+							<Typography
+								sx={{ color: 'secondary' }}
+							>
+								رقم التواصل:{' '}
+							</Typography>{' '}
 							{order?.contact?.contactNumber}
-						</h6>
-					</Card.Body>
-					<Card.Footer>
+						</Typography>
+					</CardContent>
+					<CardActions>
 						{order?.status === 'pending' ? (
 							<Button
-								variant='primary'
-								className='me-2 w-100'
+								variant='outlined'
 								onClick={handleClick}
+								color='error'
+								sx={{ mx: 1 }}
 							>
-								Cancel Order
+								إالغاء الطلب
 							</Button>
 						) : (
-							<Button
-								variant='secondary'
-								className='me-2 w-100'
-								onClick={handleClick}
-								disabled
-							>
-								This order has been
-								{order?.status} there are no
+							<Button disabled sx={{ mx: 1 }}>
+								This order has been{' '}
+								{order?.status}, There are no
 								actions to be performed.
 							</Button>
 						)}
-					</Card.Footer>
+					</CardActions>
 				</Card>
 			</Container>
-		</>
+		</main>
 	);
-}
+});
 
 export default ShowOrderDetails;

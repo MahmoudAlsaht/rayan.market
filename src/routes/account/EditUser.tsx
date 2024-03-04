@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Container, Nav } from 'react-bootstrap';
 import UpdatePasswordForm from '../../components/forms/UpdatePasswordForm';
 import UpdateUserInfoForm from '../../components/forms/UpdateUserInfoForm';
 import DeleteUser from '../../components/forms/DeleteUser';
 import { fetchProfile } from '../../controllers/profile';
 import { TProfile } from '../../app/auth/profile';
+import { Box, Container, Tab, Tabs } from '@mui/material';
 
 function EditUser() {
 	const profile: TProfile | null = useAppSelector(
@@ -14,15 +14,16 @@ function EditUser() {
 	);
 
 	const [isLoading, setIsLoading] = useState(false);
-	const [pageName, setPageName] = useState<string | null>(
-		'personalInfo',
-	);
+	const [pageName, setPageName] = useState('personalInfo');
 
 	const { profileId } = useParams();
 	const dispatch = useAppDispatch();
 
-	const handleSelect = (selectedKey: string | null) => {
-		setPageName(selectedKey);
+	const handleChange = (
+		event: SyntheticEvent,
+		newValue: string,
+	) => {
+		setPageName(newValue);
 	};
 
 	useEffect(() => {
@@ -30,30 +31,38 @@ function EditUser() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Container className='bg-white mt-2 p-5 border rounded shadow'>
+		<Container sx={{ m: 5 }}>
 			<div dir='rtl'>
-				<Nav
-					variant='tabs'
-					defaultActiveKey={pageName!}
-					className='mb-5'
-					onSelect={handleSelect}
+				<Box
+					sx={{
+						borderBottom: 1,
+						borderColor: 'divider',
+					}}
 				>
-					<Nav.Item>
-						<Nav.Link eventKey='personalInfo'>
-							معلومات الحساب
-						</Nav.Link>
-					</Nav.Item>
-					<Nav.Item>
-						<Nav.Link eventKey='updatePassword'>
-							كلمة المرور
-						</Nav.Link>
-					</Nav.Item>
-					<Nav.Item>
-						<Nav.Link eventKey='deleteAccount'>
-							حذف الحساب
-						</Nav.Link>
-					</Nav.Item>
-				</Nav>
+					<Tabs
+						value={pageName}
+						onChange={handleChange}
+						variant='scrollable'
+						scrollButtons='auto'
+						aria-label='scrollable auto tabs example'
+						sx={{ my: 5 }}
+					>
+						<Tab
+							label='معلومات الحساب'
+							value='personalInfo'
+						/>
+
+						<Tab
+							label='كلمة المرور'
+							value='updatePassword'
+						/>
+
+						<Tab
+							label='حذف الحساب'
+							value='deleteAccount'
+						/>
+					</Tabs>
+				</Box>
 
 				{pageName === 'personalInfo' && (
 					<UpdateUserInfoForm

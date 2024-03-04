@@ -1,8 +1,8 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Col, Container, Row } from 'react-bootstrap';
 import Widget from '../../components/Widget';
+import { Container, Grid } from '@mui/material';
 
 const Profile = memo(() => {
 	const { profileId } = useParams();
@@ -10,10 +10,10 @@ const Profile = memo(() => {
 	const userWidgets = ['Settings', 'Orders', 'Contacts'];
 
 	return (
-		<Container className='mt-5'>
-			<Row xs={1}>
+		<Container>
+			<Grid container spacing={1}>
 				{userWidgets.map((widget, index) => (
-					<Col md={6} key={index}>
+					<Grid md={6} key={index}>
 						<Widget
 							widgetTitle={
 								widget.toLowerCase() ===
@@ -35,9 +35,9 @@ const Profile = memo(() => {
 									: `/account/profile/${profileId}/contact-info`
 							}
 						/>
-					</Col>
+					</Grid>
 				))}
-			</Row>
+			</Grid>
 		</Container>
 	);
 });
