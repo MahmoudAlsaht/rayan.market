@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import LoadingButton from '../LoadingButton';
 import { destroyBrand } from '../../controllers/brand';
 import { useAppDispatch } from '../../app/hooks';
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Typography,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 type DeleteBrandFormProps = {
 	show: boolean;
@@ -35,34 +42,35 @@ function DeleteBrandForm({
 	};
 
 	return (
-		<>
-			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title className='text-danger'>
-						Delete Brand
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className='text-danger'>
-					Delete {brandName}?
-				</Modal.Body>
-				<Modal.Footer>
+		<main dir='rtl'>
+			<Dialog open={show} onClose={handleClose}>
+				<DialogTitle>
+					<Typography variant='h4'>
+						حذف القسم؟
+					</Typography>
+				</DialogTitle>
+				<DialogContent className='text-danger'>
+					هل أنت متأكد من حذف ({brandName})؟
+				</DialogContent>
+				<DialogActions>
 					<Button
-						variant='secondary'
+						variant='outlined'
 						onClick={handleClose}
+						sx={{ ml: 3 }}
 					>
-						Close
+						إالغاء
 					</Button>
 					<LoadingButton
 						type='submit'
-						body='Delete'
-						variant={'danger'}
-						className={'w-50'}
-						isLoading={isLoading}
-						handleClick={handleDeletion}
+						startIcon='تأكيد'
+						loading={isLoading}
+						color='error'
+						variant='outlined'
+						onClick={handleDeletion}
 					/>
-				</Modal.Footer>
-			</Modal>
-		</>
+				</DialogActions>
+			</Dialog>
+		</main>
 	);
 }
 

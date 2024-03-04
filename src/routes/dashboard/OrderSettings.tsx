@@ -1,6 +1,7 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import {
-	FormEvent,
+	ChangeEvent,
+	SyntheticEvent,
 	memo,
 	useEffect,
 	useMemo,
@@ -9,9 +10,15 @@ import {
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchOrders } from '../../controllers/order';
 import { TOrder } from '../../app/store/order';
-import { Badge, Container, Nav } from 'react-bootstrap';
 import Widget from '../../components/Widget';
 import { escapeRegExp } from '../../utils';
+import {
+	Badge,
+	Container,
+	Tab,
+	Tabs,
+	TextField,
+} from '@mui/material';
 
 const OrderSettings = memo(() => {
 	const orders: TOrder[] = useAppSelector(
@@ -24,12 +31,8 @@ const OrderSettings = memo(() => {
 
 	const dispatch = useAppDispatch();
 
-	const handleSelect = (selectedKey: string | null) => {
-		setOrderStatus(selectedKey);
-	};
-
 	const handleQueryChange = (
-		e: FormEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement>,
 	) => {
 		setQueryInput(e.currentTarget.value);
 	};
@@ -70,68 +73,70 @@ const OrderSettings = memo(() => {
 		dispatch(fetchOrders(''));
 	}, [dispatch]);
 
+	const handleChange = (
+		event: SyntheticEvent,
+		newValue: string,
+	) => {
+		setOrderStatus(newValue);
+	};
+
 	return (
-		<Container className='m-5'>
-			<Nav
-				variant='tabs'
-				defaultActiveKey={orderStatus!}
-				className='mb-5'
-				onSelect={handleSelect}
-			>
-				<Nav.Item>
-					<Nav.Link eventKey='all'>
-						All Orders
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link eventKey='pending'>
-						Pending{' '}
-						{pendingOrders?.length > 0 && (
-							<Badge pill bg='danger'>
-								{pendingOrders.length}
-							</Badge>
-						)}
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link eventKey='accepted'>
-						Accepted
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link eventKey='completed'>
-						Completed
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link eventKey='rejected'>
-						Rejected
-					</Nav.Link>
-				</Nav.Item>
+		<main dir='rtl'>
+			<Container sx={{ ml: 10 }}>
+				<Tabs
+					value={orderStatus}
+					onChange={handleChange}
+					variant='scrollable'
+					scrollButtons='auto'
+					aria-label='scrollable auto tabs example'
+					sx={{ my: 5 }}
+				>
+					<Tab label='الكل' value='all' />
+					<Tab
+						label={
+							pendingOrders.length > 0 ? (
+								<Badge
+									badgeContent={
+										pendingOrders.length
+									}
+									color='primary'
+								>
+									<span
+										style={{
+											marginLeft: '.65rem',
+										}}
+									>
+										في انتظار الموافقة
+									</span>
+								</Badge>
+							) : (
+								'في انتظار الموافقة'
+							)
+						}
+						value='pending'
+					/>
+					<Tab label='قبلت' value='accepted' />
+					<Tab label='اكتملت' value='completed' />
+					<Tab label='رفضت' value='rejected' />
+					<Tab label='ألغيت' value='canceled' />
+				</Tabs>
 
-				<Nav.Item>
-					<Nav.Link eventKey='canceled'>
-						Canceled
-					</Nav.Link>
-				</Nav.Item>
-			</Nav>
-
-			<input
-				type='search'
-				className='searchInput'
-				placeholder='search products'
-				value={queryInput}
-				onChange={handleQueryChange}
-			/>
-
-			{filteredOrders?.map((order) => (
-				<Widget
-					key={order?._id}
-					widgetTitle={order?.orderId}
-					href={`/dashboard/settings/orders/${order?._id}`}
+				<TextField
+					type='search'
+					label='ابحث عن طلب'
+					value={queryInput}
+					onChange={handleQueryChange}
 				/>
-			))}
-		</Container>
+
+				{filteredOrders?.map((order) => (
+					<Widget
+						key={order?._id}
+						widgetTitle={order?.orderId}
+						href={`/dashboard/settings/orders/${order?._id}`}
+					/>
+				))}
+			</Container>
+		</main>
 	);
 });
 export default OrderSettings;

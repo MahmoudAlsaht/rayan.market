@@ -1,5 +1,5 @@
 import {
-	FormEvent,
+	ChangeEvent,
 	memo,
 	useEffect,
 	useMemo,
@@ -8,15 +8,25 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TCategory } from '../../app/store/category';
 import { fetchCategories } from '../../controllers/category';
-import { BsPlusLg } from 'react-icons/bs';
-import AddCategoryForm from '../../components/forms/AddCategoryForm';
-import { Table, Button, Container } from 'react-bootstrap';
-import CategorySettings from '../../components/dashboardComponents/CategorySettings';
+import AddIcon from '@mui/icons-material/Add';
+import CategoryForm from '../../components/forms/AddCategoryForm';
+import CategorySetting from '../../components/dashboardComponents/CategorySettings';
 import { filterData } from '../../utils';
+import {
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	TextField,
+	Typography,
+} from '@mui/material';
 
-const CategoriesSettings = memo(() => {
-	const [showAddCategoryForm, setShowAddCategoryForm] =
-		useState(false);
+const CategoriesActions = memo(() => {
+	const [showCategory, setShowCategory] = useState(false);
 
 	const [queryInput, setQueryInput] = useState('');
 
@@ -26,11 +36,11 @@ const CategoriesSettings = memo(() => {
 	);
 
 	const handleClickAddCat = () => {
-		setShowAddCategoryForm(!showAddCategoryForm);
+		setShowCategory(!showCategory);
 	};
 
 	const handleQueryChange = (
-		e: FormEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement>,
 	) => {
 		setQueryInput(e.currentTarget.value);
 	};
@@ -45,58 +55,65 @@ const CategoriesSettings = memo(() => {
 
 	return (
 		<>
-			<Container>
-				<h1 className='ms-5 mt-5'>Categories</h1>
-				<input
-					className='searchInput'
-					type='search'
-					placeholder='search categories'
-					value={queryInput}
-					onChange={handleQueryChange}
-				/>
-				<Button
-					className='ms-2'
-					onClick={handleClickAddCat}
-					variant='outline-primary'
+			<main dir='rtl'>
+				<TableContainer
+					component={Paper}
+					sx={{ ml: 10 }}
 				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
-				<Table>
-					<thead>
-						<tr>
-							<th scope='col'></th>
-							<th scope='col'>Name</th>
-							<th scope='col'>Image</th>
-							<th scope='col'></th>
-						</tr>
-					</thead>
-					<tbody>
-						{filteredCategories?.map(
-							(category, index) => (
-								<CategorySettings
-									key={category?._id}
-									category={category}
-									index={index}
-								/>
-							),
-						)}
-					</tbody>
-				</Table>
-				<Button
-					variant='outline-primary'
-					onClick={handleClickAddCat}
-					className='mb-5'
-				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
-			</Container>
+					<Typography variant='h3' sx={{ ml: 3 }}>
+						الأقسام
+					</Typography>
+					<TextField
+						type='search'
+						label='ابحث عن قسم'
+						value={queryInput}
+						onChange={handleQueryChange}
+						sx={{ ml: 3 }}
+					/>
+					<IconButton onClick={handleClickAddCat}>
+						<AddIcon />
+					</IconButton>
+					<Table sx={{ minWidth: 650 }}>
+						<TableHead>
+							<TableRow>
+								<TableCell align='right'>
+									#
+								</TableCell>
+								<TableCell align='right'>
+									Name
+								</TableCell>
+								<TableCell align='right'>
+									Image
+								</TableCell>
+								<TableCell align='right'>
+									Actions
+								</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{filteredCategories?.map(
+								(category, index) => (
+									<CategorySetting
+										key={category?._id}
+										category={category}
+										index={index}
+									/>
+								),
+							)}
+						</TableBody>
+					</Table>
+					<IconButton onClick={handleClickAddCat}>
+						<AddIcon />
+					</IconButton>
+				</TableContainer>
+			</main>
 
-			<AddCategoryForm
-				show={showAddCategoryForm}
+			<CategoryForm
+				show={showCategory}
 				handleClose={handleClickAddCat}
 			/>
 		</>
 	);
 });
 
-export default CategoriesSettings;
+export default CategoriesActions;

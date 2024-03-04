@@ -5,9 +5,7 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
-import LoadingButton from '../LoadingButton';
 import { updateBanner } from '../../controllers/banner';
 import { fetchBannersImages } from '../../controllers/bannerImages';
 import { useAppDispatch } from '../../app/hooks';
@@ -15,6 +13,20 @@ import { TBanner, TBannerImage } from '../../app/store/banner';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import { TPreviewImage } from './EditProductForm';
 import AddImageLink from './AddImageLink';
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	FormGroup,
+	TextField,
+	Typography,
+} from '@mui/material';
+import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { LoadingButton } from '@mui/lab';
 
 type EditBannerFormProps = {
 	show: boolean;
@@ -184,54 +196,43 @@ function EditBannerForm({
 	};
 
 	return (
-		<>
-			<Modal
-				show={show}
-				onHide={handleClose}
-				className='productEditForm'
-			>
-				<Form
-					noValidate
-					validated={!validated}
-					onSubmit={handleSubmit}
-					style={{ width: '100%' }}
-				>
-					<Modal.Body className='text-muted'>
-						<Modal.Header closeButton>
-							<Modal.Title>
-								Edit{' '}
-								<span className='text-warning'>
-									{banner?.name}
-								</span>
-							</Modal.Title>
-						</Modal.Header>
+		<main dir='rtl'>
+			<Dialog open={show} onClose={handleClose}>
+				<DialogTitle>
+					<Typography variant='h3'>
+						تعديل {banner?.name}
+					</Typography>
+				</DialogTitle>
+				<DialogContent>
+					<Box component='form' noValidate>
 						<ErrorComponent error={error} />
-
-						<Form.Group
-							className='mt-3 mb-3'
-							controlId='productNameFormInput'
-						>
-							<Form.Control
+						<FormGroup sx={{ m: 5 }}>
+							<TextField
 								onChange={handleChange}
 								type='text'
-								placeholder='Product Name'
-								ref={bannerNameRef}
+								label='الاسم'
+								inputRef={bannerNameRef}
 								defaultValue={banner?.name}
 							/>
-						</Form.Group>
+						</FormGroup>
 
-						<Form.Group
-							controlId='productImagesFormInput'
-							className='mt-2 mb-3'
-						>
-							<Form.Control
-								type='file'
-								multiple
-								accept='image/*'
-								onChange={handleFileChange}
-							/>
-						</Form.Group>
-
+						<FormGroup sx={{ m: 5 }}>
+							<Button
+								component='label'
+								role={undefined}
+								variant='contained'
+								tabIndex={-1}
+								startIcon={<CloudUploadIcon />}
+							>
+								Upload file
+								<VisuallyHiddenInput
+									type='file'
+									onChange={handleFileChange}
+									accept='image/*'
+								/>
+							</Button>
+						</FormGroup>
+						<br />
 						{previewImages &&
 							previewImages?.map((image) => (
 								<PreviewImage
@@ -244,10 +245,10 @@ function EditBannerForm({
 									}
 								/>
 							))}
-						<br />
 						{bannerImages &&
 							bannerImages?.map((image) => (
 								<AddImageLink
+									key={image?._id}
 									image={image}
 									bannerId={banner?._id}
 									setIsLoading={setIsLoading}
@@ -257,30 +258,29 @@ function EditBannerForm({
 									}
 								/>
 							))}
-					</Modal.Body>
-					<Modal.Footer>
-						<Button
-							variant='secondary'
-							onClick={handleClose}
-						>
-							Close
-						</Button>
-						<LoadingButton
-							type='submit'
-							body='Update'
-							variant={
-								!validated
-									? 'secondary'
-									: 'primary'
-							}
-							className={'w-50'}
-							isLoading={isLoading}
-							disabled={!validated}
-						/>
-					</Modal.Footer>
-				</Form>
-			</Modal>
-		</>
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						variant='outlined'
+						onClick={handleClose}
+						sx={{ ml: 2 }}
+						color='error'
+					>
+						الغاء
+					</Button>
+
+					<LoadingButton
+						variant='outlined'
+						color='primary'
+						startIcon='حفظ'
+						loading={isLoading}
+						disabled={!validated}
+						onClick={handleSubmit}
+					/>
+				</DialogActions>
+			</Dialog>
+		</main>
 	);
 }
 

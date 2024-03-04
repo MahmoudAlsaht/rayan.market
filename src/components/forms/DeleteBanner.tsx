@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import LoadingButton from '../LoadingButton';
 import { destroyBanner } from '../../controllers/banner';
 import { useAppDispatch } from '../../app/hooks';
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Typography,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 type DeleteBannerFormProps = {
 	show: boolean;
@@ -28,40 +35,43 @@ function DeleteBannerForm({
 			setIsLoading(false);
 			handleClose();
 		} catch (e: any) {
-			console.log(e);
 			setIsLoading(false);
 		}
 	};
 
 	return (
-		<>
-			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title className='text-danger'>
-						Delete Banner
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className='text-danger'>
-					Delete {bannerName}?
-				</Modal.Body>
-				<Modal.Footer>
+		<main dir='rtl'>
+			<Dialog open={show} onClose={handleClose}>
+				<DialogTitle>
+					<Typography variant='h3'>
+						حذف اللافتة
+					</Typography>
+				</DialogTitle>
+
+				<DialogContent>
+					تأكيد حذف {bannerName}؟
+				</DialogContent>
+
+				<DialogActions>
 					<Button
-						variant='secondary'
+						variant='outlined'
+						color='primary'
+						sx={{ ml: 2 }}
 						onClick={handleClose}
 					>
-						Close
+						الغاء
 					</Button>
+
 					<LoadingButton
-						type='submit'
-						body='Delete'
-						variant={'danger'}
-						className={'w-50'}
-						isLoading={isLoading}
-						handleClick={handleDeletion}
+						startIcon='حذف'
+						variant='outlined'
+						color='error'
+						loading={isLoading}
+						onClick={handleDeletion}
 					/>
-				</Modal.Footer>
-			</Modal>
-		</>
+				</DialogActions>
+			</Dialog>
+		</main>
 	);
 }
 

@@ -2,25 +2,18 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { updateCategory } from '../../controllers/category';
 import DeleteCategoryForm from '../forms/DeleteCategoryForm';
-import { BsPen } from 'react-icons/bs';
-import { BsTrash } from 'react-icons/bs';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { TCategory } from '../../app/store/category';
-import { Button } from '@mui/material';
+import {
+	Button,
+	TableCell,
+	TableRow,
+	TextField,
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
-
-const VisuallyHiddenInput = styled('input')({
-	clip: 'rect(0 0 0 0)',
-	clipPath: 'inset(50%)',
-	height: 1,
-	overflow: 'hidden',
-	position: 'absolute',
-	bottom: 0,
-	left: 0,
-	whiteSpace: 'nowrap',
-	width: 1,
-});
+import { VisuallyHiddenInput } from '../../assets/jsStyles';
 
 type CategorySettingsProps = {
 	category: TCategory | null;
@@ -69,93 +62,92 @@ function CategorySettings({
 	const handleCategoryDeletion = async () => setShow(!show);
 
 	return (
-		<>
-			<tr>
-				<td>{index + 1}</td>
-				{!isEditing ? (
-					<td>{category?.name}</td>
-				) : (
-					<td>
-						<input
-							type='text'
-							defaultValue={category?.name}
-							ref={nameRef}
+		<TableRow>
+			<TableCell align='right'>{index + 1}</TableCell>
+			{!isEditing ? (
+				<TableCell align='right'>
+					{category?.name}
+				</TableCell>
+			) : (
+				<TableCell align='right'>
+					<TextField
+						label='الاسم'
+						type='text'
+						defaultValue={category?.name}
+						ref={nameRef}
+					/>
+				</TableCell>
+			)}
+			{!isEditing ? (
+				<TableCell align='right'>
+					{category?.image?.path && (
+						<img
+							src={category?.image?.path}
+							width={50}
+							height={50}
+							alt={`${category?.name}'s image`}
 						/>
-					</td>
-				)}
-				{!isEditing ? (
-					<td>
-						{category?.image?.path && (
-							<img
-								src={category?.image?.path}
-								width={50}
-								height={50}
-								alt={`${category?.name}'s image`}
-							/>
-						)}
-					</td>
-				) : (
-					<td>
-						<Button
-							component='label'
-							role={undefined}
-							variant='contained'
-							tabIndex={-1}
-							startIcon={<CloudUploadIcon />}
-						>
-							Upload file
-							<VisuallyHiddenInput
-								type='file'
-								onChange={handleFileChange}
-								accept='image/*'
-							/>
-						</Button>
-					</td>
-				)}
-				<td>
-					{!isEditing ? (
-						<legend>
-							<Button onClick={handleIsEditing}>
-								<BsPen />
-							</Button>
-
-							<Button
-								onClick={handleCategoryDeletion}
-								className='ms-1'
-							>
-								<BsTrash />
-							</Button>
-							<DeleteCategoryForm
-								categoryId={
-									category?._id as string
-								}
-								show={show}
-								handleClose={
-									handleCategoryDeletion
-								}
-								categoryName={
-									category?.name as string
-								}
-							/>
-						</legend>
-					) : (
-						<legend>
-							<Button onClick={handleIsEditing}>
-								Cancel
-							</Button>
-
-							<LoadingButton
-								onClick={handleCategoryUpdate}
-								loading={isLoading}
-								loadingPosition='center'
-								variant='outlined'
-								startIcon='Save'
-							/>
-						</legend>
 					)}
-				</td>
-			</tr>
-		</>
+				</TableCell>
+			) : (
+				<TableCell align='right'>
+					<Button
+						component='label'
+						role={undefined}
+						variant='contained'
+						tabIndex={-1}
+						startIcon={<CloudUploadIcon />}
+					>
+						Upload file
+						<VisuallyHiddenInput
+							type='file'
+							onChange={handleFileChange}
+							accept='image/*'
+						/>
+					</Button>
+				</TableCell>
+			)}
+			<TableCell align='right'>
+				{!isEditing ? (
+					<legend>
+						<Button onClick={handleIsEditing}>
+							<EditNoteIcon color='warning' />
+						</Button>
+
+						<Button onClick={handleCategoryDeletion}>
+							<DeleteIcon color='error' />
+						</Button>
+						<DeleteCategoryForm
+							categoryId={category?._id as string}
+							show={show}
+							handleClose={handleCategoryDeletion}
+							categoryName={
+								category?.name as string
+							}
+						/>
+					</legend>
+				) : (
+					<legend>
+						<Button
+							variant='outlined'
+							color='error'
+							sx={{ mr: 1 }}
+							onClick={handleIsEditing}
+						>
+							الغاء
+						</Button>
+
+						<LoadingButton
+							onClick={handleCategoryUpdate}
+							loading={isLoading}
+							loadingPosition='center'
+							variant='outlined'
+							startIcon='حفظ'
+						/>
+					</legend>
+				)}
+			</TableCell>
+		</TableRow>
 	);
 }
 

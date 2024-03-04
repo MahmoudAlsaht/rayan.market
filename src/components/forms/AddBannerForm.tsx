@@ -1,11 +1,23 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
-import LoadingButton from '../LoadingButton';
 import { createBanner } from '../../controllers/banner';
 import { useAppDispatch } from '../../app/hooks';
 import { TPreviewImage } from './EditProductForm';
 import PreviewImage from '../dashboardComponents/PreviewImage';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	FormGroup,
+	TextField,
+	Typography,
+} from '@mui/material';
+import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { LoadingButton } from '@mui/lab';
 
 type AddBannerFormProps = {
 	show: boolean;
@@ -132,45 +144,42 @@ function AddBannerForm({
 	};
 
 	return (
-		<>
-			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title className='text-muted'>
-						Add A New Banner
-					</Modal.Title>
-				</Modal.Header>
-				<Form
-					noValidate
-					validated={!validated}
-					onSubmit={handleSubmit}
-					style={{ width: '100%' }}
-				>
-					<Modal.Body className='text-muted'>
+		<main dir='rtl'>
+			<Dialog open={show} onClose={handleClose}>
+				<DialogTitle>
+					<Typography variant='h3'>
+						أضف لافتة جديدة
+					</Typography>
+				</DialogTitle>
+				<DialogContent>
+					<Box component='form' noValidate>
 						<ErrorComponent error={error} />
-						<Form.Group
-							className='mt-3 mb-3'
-							controlId='productNameFormInput'
-						>
-							<Form.Control
+						<FormGroup sx={{ m: 5 }}>
+							<TextField
 								required
 								onChange={handleChange}
 								type='text'
-								placeholder='Product Name'
-								ref={bannerNameRef}
+								label='الاسم'
+								inputRef={bannerNameRef}
 							/>
-						</Form.Group>
+						</FormGroup>
 
-						<Form.Group
-							controlId='productImagesFormInput'
-							className='mt-2 mb-3'
-						>
-							<Form.Control
-								type='file'
-								multiple
-								accept='image/*'
-								onChange={handleFileChange}
-							/>
-						</Form.Group>
+						<FormGroup sx={{ m: 5 }}>
+							<Button
+								component='label'
+								role={undefined}
+								variant='contained'
+								tabIndex={-1}
+								startIcon={<CloudUploadIcon />}
+							>
+								Upload file
+								<VisuallyHiddenInput
+									type='file'
+									onChange={handleFileChange}
+									accept='image/*'
+								/>
+							</Button>
+						</FormGroup>
 						{previewImages &&
 							previewImages?.map((image) => (
 								<PreviewImage
@@ -181,33 +190,31 @@ function AddBannerForm({
 									handleRemove={
 										handleRemovePreviewImages
 									}
-									className='m-2'
 								/>
 							))}
-					</Modal.Body>
-					<Modal.Footer>
-						<Button
-							variant='secondary'
-							onClick={handleClose}
-						>
-							Close
-						</Button>
-						<LoadingButton
-							type='submit'
-							body='Add'
-							variant={
-								!validated
-									? 'secondary'
-									: 'primary'
-							}
-							className={'w-50'}
-							isLoading={isLoading}
-							disabled={!validated}
-						/>
-					</Modal.Footer>
-				</Form>
-			</Modal>
-		</>
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						onClick={handleClose}
+						color='error'
+						variant='outlined'
+						sx={{ ml: 2 }}
+					>
+						الغاء
+					</Button>
+					<LoadingButton
+						type='submit'
+						startIcon='حفظ'
+						variant='outlined'
+						loading={isLoading}
+						disabled={!validated}
+						color='primary'
+						onClick={handleSubmit}
+					/>
+				</DialogActions>
+			</Dialog>
+		</main>
 	);
 }
 

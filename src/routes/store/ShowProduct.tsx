@@ -133,7 +133,12 @@ const ShowProduct = memo(() => {
 							/>
 						</Grid>
 						<Grid xs={12} lg={6}>
-							<h3>{product?.name}</h3>
+							<Typography
+								variant='h3'
+								sx={{ color: 'primary.main' }}
+							>
+								{product?.name}
+							</Typography>
 							<Divider
 								sx={{
 									mb: 3,

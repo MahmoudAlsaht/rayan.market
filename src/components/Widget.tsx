@@ -29,13 +29,13 @@ function Widget({
 							</Typography>
 						</CardContent>
 						<CardActions>
-							<legend
-								style={{
-									color: '#0055aa',
+							<Typography
+								sx={{
+									color: 'primary.main',
 								}}
 							>
 								عرض المزيد <ArrowBackIcon />
-							</legend>
+							</Typography>
 						</CardActions>
 					</main>
 				</Card>

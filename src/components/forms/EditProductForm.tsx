@@ -5,9 +5,7 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
-import LoadingButton from '../LoadingButton';
 import { updateProduct } from '../../controllers/product';
 import { fetchProductsImages } from '../../controllers/productImages';
 import { fetchCategories } from '../../controllers/category';
@@ -18,6 +16,28 @@ import {
 	TProductImage,
 } from '../../app/store/product';
 import PreviewImage from '../dashboardComponents/PreviewImage';
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	FormControl,
+	FormControlLabel,
+	FormGroup,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	Switch,
+	TextField,
+	Typography,
+} from '@mui/material';
+import { TBrand } from '../../app/store/brand';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { fetchBrands } from '../../controllers/brand';
+import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { LoadingButton } from '@mui/lab';
 
 type EditProductFormProps = {
 	show: boolean;
@@ -51,9 +71,14 @@ function EditProductForm({
 	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
 	);
+	const brands: (TBrand | null)[] = useAppSelector(
+		(state) => state.brands,
+	);
 
 	useEffect(() => {
 		dispatch(fetchCategories());
+		dispatch(fetchBrands());
+
 		const updateImages = async () => {
 			try {
 				const images = await fetchProductsImages(
@@ -100,30 +125,8 @@ function EditProductForm({
 	const productNewPriceRef = useRef<HTMLInputElement>(null);
 	const productQuantityRef = useRef<HTMLInputElement>(null);
 	const offerExpiresDateRef = useRef<HTMLInputElement>(null);
-	const categoryRef = useRef<HTMLSelectElement>(null);
-
-	const handleChange = (e: ChangeEvent) => {
-		const form = e.currentTarget as HTMLFormElement;
-		if (
-			productNameRef.current?.value === '' ||
-			categoryRef.current?.value === 'defaultOption' ||
-			productPriceRef.current?.value === '' ||
-			productQuantityRef.current?.value === '' ||
-			form.checkValidity() === false
-		) {
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'الرجاء قم بملئ جميع الحقول',
-			});
-		} else {
-			setValidated(true);
-			setError({
-				status: true,
-				message: 'looks good!',
-			});
-		}
-	};
+	const [categoryValue, setCategoryValue] = useState('');
+	const [brandValue, setBrandValue] = useState('');
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -142,7 +145,8 @@ function EditProductForm({
 					productNewPriceRef.current?.value;
 				const quantity =
 					productQuantityRef.current?.value;
-				const category = categoryRef.current?.value;
+				const category = categoryValue;
+				const brand = brandValue;
 				const offerExpiresDate =
 					offerExpiresDateRef.current?.value;
 				await dispatch(
@@ -154,6 +158,7 @@ function EditProductForm({
 							newPrice,
 							quantity,
 							category,
+							brand,
 							images: selectedImages,
 							isOffer,
 							offerExpiresDate,
@@ -163,7 +168,8 @@ function EditProductForm({
 				setIsLoading(false);
 				handleClose();
 				productNameRef.current!.value = '';
-				categoryRef.current!.value = 'defaultOption';
+				setCategoryValue('');
+				setBrandValue('');
 				productPriceRef.current!.value = '';
 				productQuantityRef.current!.value = '';
 				setSelectedImages(null);
@@ -219,242 +225,249 @@ function EditProductForm({
 
 	return (
 		<div dir='rtl'>
-			<Modal
-				show={show}
-				onHide={handleClose}
-				className='productEditForm'
-				style={{ height: '100%' }}
+			<Dialog
+				open={show}
+				onClose={handleClose}
+				dir='rtl'
+				sx={{ height: '100%' }}
 			>
-				<Form
-					noValidate
-					validated={!validated}
-					onSubmit={handleSubmit}
-				>
-					<Modal.Body className='text-dark'>
-						<Modal.Header closeButton>
-							<Modal.Title>
-								Edit{' '}
-								<span className='text-secondary'>
-									{product && product?.name}
-								</span>
-							</Modal.Title>
-						</Modal.Header>
+				<DialogContent>
+					<Box component='form' noValidate>
+						<Typography variant='h3'>
+							تعديل {product?.name}
+						</Typography>
 						<ErrorComponent error={error} />
 
-						<Form.Group
-							className='mb-3 '
-							controlId='selectCategory'
+						<FormControl
+							sx={{ mx: 5, minWidth: 120 }}
 						>
-							<Form.Select
-								ref={categoryRef}
-								onChange={handleChange}
-							>
-								<option
-									value={
-										product?.category?._id
-									}
-								>
-									{categories?.map(
-										(category) =>
-											category?._id ===
-												product?.category
-													?._id &&
-											category?.name,
-									)}
-								</option>
-								{categories?.map((category) => {
-									return (
-										category?._id !==
+							<InputLabel id='selectCategory'>
+								{categories?.map(
+									(category) =>
+										category?._id ===
 											product?.category
-												?._id && (
-											<option
-												value={
-													category?._id
-												}
-												key={
-													category?._id
-												}
-											>
-												{category?.name}
-											</option>
-										)
-									);
-								})}
-							</Form.Select>
-						</Form.Group>
+												?._id &&
+										category?.name,
+								)}
+							</InputLabel>
 
-						<Form.Group
-							className='mb-3'
-							controlId='productNameFormInput '
+							<Select
+								labelId='selectCategory'
+								id='category-select'
+								value={categoryValue}
+								onChange={(
+									e: SelectChangeEvent,
+								) =>
+									setCategoryValue(
+										e.target.value as string,
+									)
+								}
+								label='اختر القسم'
+							>
+								<MenuItem value=''>
+									<em>اختر القسم</em>
+								</MenuItem>
+								{categories?.map((category) => (
+									<MenuItem
+										value={category?._id}
+										key={category?._id}
+									>
+										{category?.name}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+
+						<FormControl
+							sx={{ mx: 5, minWidth: 120 }}
 						>
-							<Form.Label className=' '>
-								اسم المنتج
-							</Form.Label>
-							<Form.Control
-								onChange={handleChange}
+							<InputLabel id='selectBrand'>
+								{brands?.map(
+									(brand) =>
+										brand?._id ===
+											product?.brand
+												?._id &&
+										brand?.name,
+								)}
+							</InputLabel>
+							<Select
+								labelId='selectBrand'
+								id='brand-select'
+								value={brandValue}
+								onChange={(
+									e: SelectChangeEvent,
+								) =>
+									setBrandValue(
+										e.target.value as string,
+									)
+								}
+								label='اختر علامة تجارية'
+							>
+								<MenuItem value=''>
+									<em>اختر علامة تجارية</em>
+								</MenuItem>
+								{brands?.map((brand) => (
+									<MenuItem
+										value={brand?._id}
+										key={brand?._id}
+									>
+										{brand?.name}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+
+						<FormGroup sx={{ m: 5 }}>
+							<TextField
 								type='text'
-								placeholder='Product Name'
-								ref={productNameRef}
+								label='اسم المنتج'
+								inputRef={productNameRef}
 								defaultValue={product?.name}
-								className=''
 							/>
-						</Form.Group>
+						</FormGroup>
 
-						<Form.Group
-							className='mb-3'
-							controlId='productQuantityFormInput'
-						>
-							<Form.Label className=''>
-								الكمية
-							</Form.Label>
-							<Form.Control
-								className=' mb-3'
-								onChange={handleChange}
+						<FormGroup sx={{ m: 5 }}>
+							<TextField
 								type='text'
-								placeholder='Product Quantity'
-								ref={productQuantityRef}
+								label='الكمية'
+								inputRef={productQuantityRef}
 								defaultValue={product?.quantity}
 							/>
-						</Form.Group>
+						</FormGroup>
 
-						<Form.Group
-							className='mb-3'
-							controlId='productPriceFormInput'
-						>
-							<Form.Label className=''>
-								السعر
-							</Form.Label>
-							<Form.Control
-								className=''
-								onChange={handleChange}
+						<FormGroup sx={{ m: 5 }}>
+							<TextField
 								type='text'
-								placeholder='السعر'
-								ref={productPriceRef}
+								label='السعر'
+								inputRef={productPriceRef}
 								defaultValue={product?.price}
 							/>
-						</Form.Group>
+						</FormGroup>
 
-						<Form.Group
-							className=' mt-3 mb-3'
-							controlId='productNameFormInput'
-						>
-							<Form.Check
-								className=''
-								type='switch'
-								id='custom-switch'
-								checked={isOffer}
+						<FormGroup sx={{ m: 5 }}>
+							<FormControlLabel
+								control={
+									<Switch
+										type='switch'
+										id='custom-switch'
+										checked={isOffer}
+										onClick={handleIsOffer}
+									/>
+								}
 								label={
 									isOffer
 										? 'الغاء العرض'
 										: 'تقديم عرض'
 								}
-								onChange={handleIsOffer}
 							/>
-						</Form.Group>
+						</FormGroup>
+
 						{isOffer && (
 							<div>
-								<Form.Group
-									className='mb-3 '
-									controlId='productPriceFormInput'
-								>
-									<Form.Label className=''>
-										السعر الجديد
-									</Form.Label>
-									<Form.Control
-										className=''
-										onChange={handleChange}
+								<FormGroup sx={{ m: 5 }}>
+									<TextField
 										type='text'
-										placeholder='السعر الجديد'
-										ref={productNewPriceRef}
+										label='السعر الجديد'
+										inputRef={
+											productNewPriceRef
+										}
 										defaultValue={
 											product?.newPrice
 										}
 									/>
-								</Form.Group>
+								</FormGroup>
 
-								<Form.Group
-									className='mb-3 '
-									controlId='selectCategory'
-								>
-									<Form.Label>
-										مدة العرض{' '}
-									</Form.Label>
-
-									<Form.Control
-										onChange={handleChange}
+								<FormGroup sx={{ m: 5 }}>
+									<TextField
 										type='text'
-										placeholder='مدة العرض'
-										ref={offerExpiresDateRef}
+										label='مدة العرض'
+										inputRef={
+											offerExpiresDateRef
+										}
 										defaultValue={
 											product?.offerExpiresDate
 										}
-										max={30}
-										min={1}
+										inputProps={{
+											min: '1',
+											max: '30',
+										}}
 									/>
-								</Form.Group>
+								</FormGroup>
 							</div>
 						)}
 
-						<Form.Group
-							className='mb-3'
-							controlId='productImagesFormInput'
-						>
-							<Form.Control
-								type='file'
-								multiple
-								accept='image/*'
-								onChange={handleFileChange}
-							/>
-						</Form.Group>
-						{previewImages &&
-							previewImages?.map((image) => (
-								<PreviewImage
-									type='PreviewImage'
-									key={image?.name}
-									path={image?.url}
-									imageId={image?.name}
-									handleRemove={
-										handleRemovePreviewImages
-									}
-								/>
-							))}
-						<br />
-						{productImages &&
-							productImages?.map((image) => (
-								<PreviewImage
-									key={image?._id}
-									imageId={image?._id}
-									path={image?.path as string}
-									dataType='product'
-									handleRemove={
-										handleRemoveProductImages
-									}
-									productId={product?._id}
-								/>
-							))}
-					</Modal.Body>
-					<Modal.Footer>
 						<Button
-							variant='secondary'
-							onClick={handleClose}
+							component='label'
+							variant='contained'
+							tabIndex={-1}
+							startIcon={<CloudUploadIcon />}
+							sx={{ mx: 5 }}
 						>
-							Close
+							Upload file
+							<VisuallyHiddenInput
+								type='file'
+								onChange={handleFileChange}
+								accept='image/*'
+								multiple
+							/>
 						</Button>
-						<LoadingButton
-							type='submit'
-							body='Update'
-							variant={
-								!validated
-									? 'secondary'
-									: 'primary'
-							}
-							className={'w-50'}
-							isLoading={isLoading}
-							disabled={!validated}
-						/>
-					</Modal.Footer>
-				</Form>
-			</Modal>
+
+						<div
+							style={{
+								width: '110%',
+								margin: '30px 0',
+							}}
+						>
+							{previewImages &&
+								previewImages?.map((image) => (
+									<PreviewImage
+										type='PreviewImage'
+										key={image?.name}
+										path={image?.url}
+										imageId={image?.name}
+										handleRemove={
+											handleRemovePreviewImages
+										}
+									/>
+								))}
+							<br />
+							{productImages &&
+								productImages?.map((image) => (
+									<PreviewImage
+										key={image?._id}
+										imageId={image?._id}
+										path={
+											image?.path as string
+										}
+										dataType='product'
+										handleRemove={
+											handleRemoveProductImages
+										}
+										productId={product?._id}
+									/>
+								))}
+						</div>
+					</Box>
+				</DialogContent>
+
+				<DialogActions>
+					<Button
+						variant='outlined'
+						onClick={handleClose}
+						color='error'
+					>
+						إلغاء
+					</Button>
+					<LoadingButton
+						startIcon='حفظ'
+						loading={isLoading}
+						disabled={!validated}
+						color='primary'
+						variant='outlined'
+						onClick={handleSubmit}
+					/>
+				</DialogActions>
+			</Dialog>
 		</div>
 	);
 }

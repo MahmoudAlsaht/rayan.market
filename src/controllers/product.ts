@@ -67,6 +67,7 @@ export const createProduct = createAsyncThunk(
 	async (option: {
 		name: string;
 		categoryId: string;
+		brandId: string;
 		price: string;
 		newPrice: string | null;
 		isOffer: boolean;
@@ -80,6 +81,7 @@ export const createProduct = createAsyncThunk(
 		const {
 			name,
 			categoryId,
+			brandId,
 			price,
 			quantity,
 			images,
@@ -99,10 +101,11 @@ export const createProduct = createAsyncThunk(
 					imagesUrls,
 					name,
 					categoryId,
-					price,
+					brandId,
+					price: parseFloat(price),
 					quantity,
 					isOffer,
-					newPrice,
+					newPrice: parseFloat(newPrice as string),
 					offerExpiresDate,
 				});
 
@@ -126,6 +129,7 @@ export const updateProduct = createAsyncThunk(
 				price,
 				quantity,
 				category,
+				brand,
 				images,
 				newPrice,
 				offerExpiresDate,
@@ -150,6 +154,7 @@ export const updateProduct = createAsyncThunk(
 						imagesUrls,
 						offerExpiresDate,
 						isOffer,
+						brand,
 					},
 				);
 

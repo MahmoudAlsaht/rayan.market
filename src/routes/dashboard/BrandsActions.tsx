@@ -1,5 +1,5 @@
 import {
-	FormEvent,
+	ChangeEvent,
 	memo,
 	useEffect,
 	useMemo,
@@ -8,11 +8,22 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TBrand } from '../../app/store/brand';
 import { fetchBrands } from '../../controllers/brand';
-import { BsPlusLg } from 'react-icons/bs';
+import AddIcon from '@mui/icons-material/Add';
 import BrandForm from '../../components/forms/AddBrandForm';
-import { Table, Button, Container } from 'react-bootstrap';
 import BrandSettings from '../../components/dashboardComponents/BrandSettings';
 import { filterData } from '../../utils';
+import {
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	TextField,
+	Typography,
+} from '@mui/material';
 
 const BrandsActions = memo(() => {
 	const [showBrandForm, setShowBrandForm] = useState(false);
@@ -29,7 +40,7 @@ const BrandsActions = memo(() => {
 	};
 
 	const handleQueryChange = (
-		e: FormEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement>,
 	) => {
 		setQueryInput(e.currentTarget.value);
 	};
@@ -44,49 +55,58 @@ const BrandsActions = memo(() => {
 
 	return (
 		<>
-			<Container>
-				<h1 className='ms-5 mt-5'>Brands</h1>
-				<input
-					className='searchInput'
-					type='search'
-					placeholder='search brands'
-					value={queryInput}
-					onChange={handleQueryChange}
-				/>
-				<Button
-					className='ms-2'
-					onClick={handleClickAddBrand}
-					variant='outline-primary'
+			<main dir='rtl'>
+				<TableContainer
+					component={Paper}
+					sx={{ ml: 10 }}
 				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
-				<Table>
-					<thead>
-						<tr>
-							<th scope='col'></th>
-							<th scope='col'>Name</th>
-							<th scope='col'>Image</th>
-							<th scope='col'></th>
-						</tr>
-					</thead>
-					<tbody>
-						{filteredBrands?.map((brand, index) => (
-							<BrandSettings
-								key={brand?._id}
-								brand={brand}
-								index={index}
-							/>
-						))}
-					</tbody>
-				</Table>
-				<Button
-					variant='outline-primary'
-					onClick={handleClickAddBrand}
-					className='mb-5'
-				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
-			</Container>
+					<Typography variant='h3' sx={{ ml: 3 }}>
+						العلامات التجارية
+					</Typography>
+					<TextField
+						type='search'
+						label='ابحث عن علامة تجارية'
+						value={queryInput}
+						onChange={handleQueryChange}
+						sx={{ ml: 3 }}
+					/>
+					<IconButton onClick={handleClickAddBrand}>
+						<AddIcon />
+					</IconButton>
+					<Table sx={{ minWidth: 650 }}>
+						<TableHead>
+							<TableRow>
+								<TableCell align='right'>
+									#
+								</TableCell>
+								<TableCell align='right'>
+									Name
+								</TableCell>
+								<TableCell align='right'>
+									Image
+								</TableCell>
+								<TableCell align='right'>
+									Actions
+								</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{filteredBrands?.map(
+								(brand, index) => (
+									<BrandSettings
+										key={brand?._id}
+										brand={brand}
+										index={index}
+									/>
+								),
+							)}
+						</TableBody>
+					</Table>
+					<IconButton onClick={handleClickAddBrand}>
+						<AddIcon />
+					</IconButton>
+				</TableContainer>
+			</main>
 
 			<BrandForm
 				show={showBrandForm}

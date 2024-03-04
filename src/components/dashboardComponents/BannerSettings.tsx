@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
 import DeleteBannerForm from '../forms/DeleteBanner';
 import EditBannerForm from '../forms/EditBannerForm';
-import { BsPen } from 'react-icons/bs';
-import { BsTrash } from 'react-icons/bs';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { TBanner } from '../../app/store/banner';
 import { updateBannersActivity } from '../../controllers/banner';
 import { useAppDispatch } from '../../app/hooks';
+import {
+	IconButton,
+	Switch,
+	TableCell,
+	TableRow,
+} from '@mui/material';
 
 type BannerSettingsProps = {
 	banner: TBanner;
@@ -39,66 +44,50 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 	};
 
 	return (
-		<>
-			<tr>
-				<td>{index + 1}</td>
-				<td>{banner?.name.substring(0, 45)}</td>
-				<td
-					className={
-						!banner?.active
-							? 'text-danger'
-							: 'text-success'
-					}
-				>
-					<Form.Group
-						className='mt-3 mb-3'
-						controlId='productNameFormInput'
-					>
-						<Form.Check
-							type='switch'
-							id='custom-switch'
-							label={
-								banner?.active
-									? 'Activated'
-									: 'Deactivated'
-							}
-							checked={banner?.active}
-							onChange={handleClick}
-						/>
-					</Form.Group>
-				</td>
+		<TableRow>
+			<TableCell align='right'>{index + 1}</TableCell>
+			<TableCell align='right'>
+				{banner?.name.substring(0, 45)}
+			</TableCell>
 
-				<td>
-					<EditBannerForm
-						banner={banner}
-						show={showEditBannerForm}
-						handleClose={handleClickEditBanner}
-					/>
-					<Button
-						variant='outline-warning'
-						onClick={handleClickEditBanner}
-						className='me-2'
-					>
-						<BsPen />
-					</Button>
+			<TableCell
+				align='right'
+				sx={{
+					color: !banner?.active
+						? 'error.main'
+						: 'primary.main',
+				}}
+			>
+				<Switch
+					type='switch'
+					checked={banner?.active}
+					onClick={handleClick}
+				/>
+				{banner?.active ? 'Activated' : 'Deactivated'}
+			</TableCell>
 
-					<Button
-						variant='outline-danger'
-						onClick={handleBannerDeletion}
-						className='ms-1'
-					>
-						<BsTrash />
-					</Button>
+			<TableCell align='right'>
+				<EditBannerForm
+					banner={banner}
+					show={showEditBannerForm}
+					handleClose={handleClickEditBanner}
+				/>
+				<IconButton onClick={handleClickEditBanner}>
+					<EditNoteIcon />
+				</IconButton>
 
-					<DeleteBannerForm
-						bannerId={banner?._id}
-						show={show}
-						handleClose={handleBannerDeletion}
-						bannerName={banner?.name}
-					/>
-				</td>
-			</tr>
-		</>
+				<IconButton onClick={handleBannerDeletion}>
+					<DeleteIcon />
+				</IconButton>
+
+				<DeleteBannerForm
+					bannerId={banner?._id}
+					show={show}
+					handleClose={handleBannerDeletion}
+					bannerName={banner?.name}
+				/>
+			</TableCell>
+		</TableRow>
 	);
 }
 

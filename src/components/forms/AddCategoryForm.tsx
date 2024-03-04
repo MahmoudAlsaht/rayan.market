@@ -1,11 +1,23 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
 import ErrorComponent, { IError } from '../Error';
-import LoadingButton from '../LoadingButton';
 import { createCategory } from '../../controllers/category';
 import { useAppDispatch } from '../../app/hooks';
 import { TPreviewImage } from './EditProductForm';
 import PreviewImage from '../dashboardComponents/PreviewImage';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+
+import {
+	Button,
+	DialogActions,
+	DialogContent,
+	List,
+	ListItem,
+	TextField,
+} from '@mui/material';
+import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { LoadingButton } from '@mui/lab';
 
 type AddCategoryFormProps = {
 	show: boolean;
@@ -53,7 +65,6 @@ function AddCategoryForm({
 
 	const handleRemovePreviewImage = async () => {
 		setPreviewImage(null);
-
 		setSelectedImage(null);
 	};
 
@@ -103,82 +114,66 @@ function AddCategoryForm({
 	};
 
 	return (
-		<>
-			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title className='text-muted'>
-						Add A New Category
-					</Modal.Title>
-				</Modal.Header>
-				<Form
-					noValidate
-					validated={!validated}
-					onSubmit={handleSubmit}
-					style={{ width: '100%' }}
-				>
-					<Modal.Body className='text-muted'>
-						<ErrorComponent error={error} />
+		<main dir='rtl'>
+			<Dialog onClose={handleClose} open={show}>
+				<DialogTitle>إضافة قسم</DialogTitle>
+				<DialogContent>
+					<ErrorComponent error={error} />
 
-						<Form.Group
-							className='mt-3 mb-3'
-							controlId='categoryNameFormInput'
-						>
-							<Form.Control
+					<List>
+						<ListItem>
+							<TextField
 								required
 								onChange={handleChange}
 								type='text'
-								placeholder='Category Name'
-								ref={categoryNameRef}
+								label='الاسم'
+								inputRef={categoryNameRef}
 							/>
-						</Form.Group>
-
-						<Form.Group
-							controlId='productImagesFormInput'
-							className='mt-2 mb-3'
-						>
-							<Form.Control
-								type='file'
-								multiple
-								accept='image/*'
-								onChange={handleFileChange}
-							/>
-						</Form.Group>
+						</ListItem>
 						{previewImage && (
-							<PreviewImage
-								type='previewImage'
-								key={previewImage.name}
-								path={previewImage.url}
-								imageId={previewImage.name}
-								handleRemove={
-									handleRemovePreviewImage
-								}
-								className='m-2'
-							/>
+							<ListItem>
+								<PreviewImage
+									type='previewImage'
+									key={previewImage.name}
+									path={previewImage.url}
+									imageId={previewImage.name}
+									handleRemove={
+										handleRemovePreviewImage
+									}
+								/>
+							</ListItem>
 						)}
-					</Modal.Body>
-					<Modal.Footer>
-						<Button
-							variant='secondary'
-							onClick={handleClose}
-						>
-							Close
-						</Button>
-						<LoadingButton
-							type='submit'
-							body='Add'
-							variant={
-								!validated
-									? 'secondary'
-									: 'primary'
-							}
-							className={'w-50'}
-							isLoading={isLoading}
-							disabled={!validated}
-						/>
-					</Modal.Footer>
-				</Form>
-			</Modal>
-		</>
+
+						<ListItem>
+							<Button
+								component='label'
+								role={undefined}
+								variant='contained'
+								tabIndex={-1}
+								startIcon={<CloudUploadIcon />}
+							>
+								Upload file
+								<VisuallyHiddenInput
+									type='file'
+									onChange={handleFileChange}
+									accept='image/*'
+								/>
+							</Button>
+						</ListItem>
+					</List>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose}>الغاء</Button>
+					<LoadingButton
+						onClick={handleSubmit}
+						autoFocus
+						disabled={!validated}
+						startIcon='حفظ'
+						loading={isLoading}
+					/>
+				</DialogActions>
+			</Dialog>
+		</main>
 	);
 }
 

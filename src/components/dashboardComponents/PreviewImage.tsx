@@ -1,13 +1,12 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Image } from 'react-bootstrap';
-import { BsTrashFill } from 'react-icons/bs';
 import { destroyProductImage } from '../../controllers/productImages';
 import { destroyBannerImage } from '../../controllers/bannerImages';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Badge } from '@mui/material';
 
 type PreviewImageProps = {
 	path: string;
 	imageId?: string;
-	className?: string;
 	type?: string;
 	dataType?: string;
 	handleRemove: (id: string) => void;
@@ -17,7 +16,6 @@ type PreviewImageProps = {
 
 function PreviewImage({
 	imageId = '',
-	className,
 	path,
 	dataType,
 	type = '',
@@ -43,24 +41,21 @@ function PreviewImage({
 	};
 
 	return (
-		<>
-			<Image
+		<Badge
+			badgeContent={
+				<DeleteIcon
+					onClick={handleDelete}
+					color='error'
+				/>
+			}
+		>
+			<img
 				src={path}
 				alt={`product-image${imageId}`}
 				width={100}
 				height={95}
-				className={`overlay ${className} rounded m-2`}
 			/>
-			<span className='delete-button bg-white'>
-				<BsTrashFill
-					style={{
-						fontSize: '23px',
-					}}
-					className='trash-icon text-danger'
-					onClick={handleDelete}
-				/>
-			</span>
-		</>
+		</Badge>
 	);
 }
 

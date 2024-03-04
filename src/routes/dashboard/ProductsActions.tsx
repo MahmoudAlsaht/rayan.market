@@ -1,5 +1,5 @@
 import {
-	FormEvent,
+	ChangeEvent,
 	memo,
 	useEffect,
 	useMemo,
@@ -7,12 +7,23 @@ import {
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
-import { BsPlusLg } from 'react-icons/bs';
+import AddIcon from '@mui/icons-material/Add';
 import AddProductForm from '../../components/forms/AddProductForm';
-import { Table, Button, Container } from 'react-bootstrap';
 import ProductSettings from '../../components/dashboardComponents/ProductSettings';
 import { TProduct } from '../../app/store/product';
 import { filterData } from '../../utils';
+import {
+	IconButton,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	TextField,
+	Typography,
+} from '@mui/material';
 
 const ProductsSettings = memo(() => {
 	const [showAddProductForm, setShowAddProductForm] =
@@ -29,7 +40,7 @@ const ProductsSettings = memo(() => {
 	};
 
 	const handleQueryChange = (
-		e: FormEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement>,
 	) => {
 		setQueryInput(e.currentTarget.value);
 	};
@@ -43,32 +54,35 @@ const ProductsSettings = memo(() => {
 	}, [dispatch]);
 
 	return (
-		<>
-			<Container>
-				<h1 className='ms-5 mt-3'>Products</h1>
-				<input
-					className='searchInput'
+		<main dir='rtl'>
+			<TableContainer sx={{ ml: 10 }} component={Paper}>
+				<Typography variant='h3' sx={{ ml: 3 }}>
+					المنتجات
+				</Typography>
+				<TextField
 					type='search'
-					placeholder='search Products'
+					label='البحث عن منتج'
 					value={queryInput}
 					onChange={handleQueryChange}
 				/>
-				<Button
-					className='ms-2'
-					onClick={handleClickAddProduct}
-					variant='outline-primary'
-				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
+				<IconButton onClick={handleClickAddProduct}>
+					<AddIcon />
+				</IconButton>
 				<Table>
-					<thead>
-						<tr>
-							<th scope='col'>#</th>
-							<th scope='col'>Name</th>
-							<th scope='col'></th>
-						</tr>
-					</thead>
-					<tbody>
+					<TableHead>
+						<TableRow>
+							<TableCell align='right'>
+								#
+							</TableCell>
+							<TableCell align='right'>
+								Name
+							</TableCell>
+							<TableCell align='right'>
+								Actions
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
 						{filteredProducts?.map(
 							(product, index) => (
 								<ProductSettings
@@ -78,21 +92,18 @@ const ProductsSettings = memo(() => {
 								/>
 							),
 						)}
-					</tbody>
+					</TableBody>
 				</Table>
-				<Button
-					variant='outline-primary'
-					onClick={handleClickAddProduct}
-				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
-			</Container>
+				<IconButton onClick={handleClickAddProduct}>
+					<AddIcon />
+				</IconButton>
+			</TableContainer>
 
 			<AddProductForm
 				show={showAddProductForm}
 				handleClose={handleClickAddProduct}
 			/>
-		</>
+		</main>
 	);
 });
 

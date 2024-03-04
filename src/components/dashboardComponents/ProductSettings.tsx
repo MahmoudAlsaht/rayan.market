@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
 import DeleteProductForm from '../forms/DeleteProductForm';
 import EditProductForm from '../forms/EditProductForm';
 import { TProduct } from '../../app/store/product';
-import { BsPen } from 'react-icons/bs';
-import { BsTrash } from 'react-icons/bs';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IconButton, TableCell, TableRow } from '@mui/material';
 
 type ProductSettingsProps = {
 	product: TProduct;
@@ -27,33 +27,25 @@ function ProductSettings({
 
 	return (
 		<>
-			<tr>
-				<td>{index + 1}</td>
-				<td>
+			<TableRow>
+				<TableCell align='right'>{index + 1}</TableCell>
+				<TableCell align='right'>
 					{product && product?.name.substring(0, 45)}
-				</td>
+				</TableCell>
 
-				<td>
+				<TableCell align='right'>
 					<EditProductForm
 						product={product}
 						show={showEditProductForm}
 						handleClose={handleClickEditProduct}
 					/>
-					<Button
-						variant='outline-warning'
-						onClick={handleClickEditProduct}
-						className='me-2'
-					>
-						<BsPen />
-					</Button>
+					<IconButton onClick={handleClickEditProduct}>
+						<EditNoteIcon color='warning' />
+					</IconButton>
 
-					<Button
-						variant='outline-danger'
-						onClick={handleProductDeletion}
-						className='ms-1'
-					>
-						<BsTrash />
-					</Button>
+					<IconButton onClick={handleProductDeletion}>
+						<DeleteIcon color='error' />
+					</IconButton>
 
 					<DeleteProductForm
 						productId={product?._id}
@@ -61,8 +53,8 @@ function ProductSettings({
 						handleClose={handleProductDeletion}
 						productName={product?.name}
 					/>
-				</td>
-			</tr>
+				</TableCell>
+			</TableRow>
 		</>
 	);
 }

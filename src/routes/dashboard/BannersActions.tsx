@@ -1,5 +1,5 @@
 import {
-	FormEvent,
+	ChangeEvent,
 	memo,
 	useEffect,
 	useMemo,
@@ -7,13 +7,23 @@ import {
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchBanners } from '../../controllers/banner';
-import { BsPlusLg } from 'react-icons/bs';
 import AddBannerForm from '../../components/forms/AddBannerForm';
-import { Table, Button, Container } from 'react-bootstrap';
 import BannerSettings from '../../components/dashboardComponents/BannerSettings';
 import { TBanner } from '../../app/store/banner';
 import { filterData } from '../../utils';
-import { DocumentData } from 'firebase/firestore';
+import {
+	IconButton,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	TextField,
+	Typography,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 const BannersActions = memo(() => {
 	const [showAddBannerForm, setShowAddBannerForm] =
@@ -30,13 +40,13 @@ const BannersActions = memo(() => {
 	};
 
 	const handleQueryChange = (
-		e: FormEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement>,
 	) => {
 		setQueryInput(e.currentTarget.value);
 	};
 
 	const filteredBanners = useMemo(() => {
-		return filterData(banners as DocumentData[], queryInput);
+		return filterData(banners as TBanner[], queryInput);
 	}, [banners, queryInput]);
 
 	useEffect(() => {
@@ -44,33 +54,41 @@ const BannersActions = memo(() => {
 	}, [dispatch]);
 
 	return (
-		<>
-			<Container>
-				<h1 className='ms-5 mt-3'>Banners</h1>
-				<input
-					className='searchInput'
+		<main dir='rtl'>
+			<TableContainer component={Paper} sx={{ ml: 10 }}>
+				<Typography variant='h3' sx={{ ml: 3 }}>
+					اللافتات
+				</Typography>
+				<TextField
 					type='search'
-					placeholder='search Banners'
+					label='البحث عن لافتة'
 					value={queryInput}
 					onChange={handleQueryChange}
 				/>
-				<Button
-					onClick={handleClickAddBanner}
-					variant='outline-primary'
-					className='ms-2'
-				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
+
+				<IconButton onClick={handleClickAddBanner}>
+					<AddIcon />
+				</IconButton>
+
 				<Table>
-					<thead>
-						<tr>
-							<th scope='col'>#</th>
-							<th scope='col'>Name</th>
-							<th scope='col'>Activated</th>
-							<th scope='col'>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
+					<TableHead>
+						<TableRow>
+							<TableCell align='right'>
+								#
+							</TableCell>
+							<TableCell align='right'>
+								Name
+							</TableCell>
+							<TableCell align='right'>
+								Status
+							</TableCell>
+							<TableCell align='right'>
+								Actions
+							</TableCell>
+						</TableRow>
+					</TableHead>
+
+					<TableBody>
 						{filteredBanners?.map(
 							(banner, index) => (
 								<BannerSettings
@@ -80,21 +98,18 @@ const BannersActions = memo(() => {
 								/>
 							),
 						)}
-					</tbody>
+					</TableBody>
 				</Table>
-				<Button
-					variant='outline-primary'
-					onClick={handleClickAddBanner}
-				>
-					<BsPlusLg className='floatingButtonIcon' />
-				</Button>
-			</Container>
+				<IconButton onClick={handleClickAddBanner}>
+					<AddIcon />
+				</IconButton>
+			</TableContainer>
 
 			<AddBannerForm
 				show={showAddBannerForm}
 				handleClose={handleClickAddBanner}
 			/>
-		</>
+		</main>
 	);
 });
 

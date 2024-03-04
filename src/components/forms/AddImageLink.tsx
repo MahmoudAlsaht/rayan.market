@@ -1,9 +1,10 @@
 import { useRef } from 'react';
 import { updateImageLink } from '../../controllers/banner';
 import { TBannerImage } from '../../app/store/banner';
-import { Button, Col, Form, Row } from 'react-bootstrap';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import { useAppDispatch } from '../../app/hooks';
+import { FormGroup, Grid, TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 type AddImageLinkProps = {
 	image: TBannerImage | null;
@@ -42,9 +43,9 @@ function AddImageLink({
 	};
 
 	return (
-		<div>
-			<Row key={image?._id}>
-				<Col xs={5} md={4}>
+		<div dir='rtl'>
+			<Grid container spacing={1}>
+				<Grid xs={5} md={4}>
 					<PreviewImage
 						imageId={image?._id}
 						path={image?.path as string}
@@ -52,40 +53,33 @@ function AddImageLink({
 						dataType='banner'
 						handleRemove={handleRemoveBannerImages}
 					/>
-				</Col>
-				<Col xs={5} md={6}>
-					<Form.Group
-						className='mt-3 mb-3'
-						controlId={`image${image?._id}'sLinkInput`}
-					>
-						<Form.Control
+				</Grid>
+				<Grid xs={5} md={6}>
+					<FormGroup sx={{ mr: 2 }}>
+						<TextField
 							type='text'
-							placeholder='image link'
-							ref={imageLink}
+							label='رابط للصورة'
+							inputRef={imageLink}
 							defaultValue={image?.link}
 						/>
-					</Form.Group>
-				</Col>
-				<Col xs={2}>
-					<Form.Group
-						className='mt-3 mb-3'
-						controlId={`image${image?._id}'sLinkInput`}
-					>
-						<Button
-							size='sm'
-							variant='outline-success'
-							disabled={isLoading}
+					</FormGroup>
+				</Grid>
+				<Grid xs={2}>
+					<FormGroup>
+						<LoadingButton
+							color='primary'
+							variant='outlined'
+							loading={isLoading}
+							startIcon='حفظ'
 							onClick={() =>
 								handleAddALink(
 									image?._id as string,
 								)
 							}
-						>
-							Save
-						</Button>
-					</Form.Group>
-				</Col>
-			</Row>
+						/>
+					</FormGroup>
+				</Grid>
+			</Grid>
 		</div>
 	);
 }
