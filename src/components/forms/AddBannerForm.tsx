@@ -16,7 +16,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { VisuallyHiddenInput } from '../../assets/styles';
 import { LoadingButton } from '@mui/lab';
 
 type AddBannerFormProps = {

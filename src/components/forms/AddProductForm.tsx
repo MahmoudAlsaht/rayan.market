@@ -31,7 +31,7 @@ import {
 	Typography,
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { VisuallyHiddenInput } from '../../assets/styles';
 import { LoadingButton } from '@mui/lab';
 import { TBrand } from '../../app/store/brand';
 import { fetchBrands } from '../../controllers/brand';

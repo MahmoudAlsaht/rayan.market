@@ -24,7 +24,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { VisuallyHiddenInput } from '../../assets/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { LoadingButton } from '@mui/lab';
 

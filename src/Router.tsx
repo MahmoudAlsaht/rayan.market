@@ -32,14 +32,14 @@ import BannerSettings from './routes/dashboard/BannersActions';
 import Offers from './routes/store/Offers';
 import CheckoutLayout from './layouts/CheckoutLayout';
 import Category from './routes/store/Category';
-// import InstallPWA from './components/InstallButton';
+import InstallPWA from './components/InstallButton';
 import Products from './routes/store/Products';
 import Categories from './routes/store/Categories';
 import Brands from './routes/store/Brands';
 import ShowBrand from './routes/store/ShowBrand';
 import BrandsActions from './routes/dashboard/BrandsActions';
 import { ThemeProvider } from '@mui/material';
-import { cacheRtl, theme } from './assets/jsStyles';
+import { cacheRtl, theme } from './assets/styles';
 
 export const Router = createBrowserRouter([
 	{
@@ -190,7 +190,7 @@ function Wrapper() {
 							margin: '0 auto',
 						}}
 					>
-						{/* <InstallPWA /> */}
+						<InstallPWA />
 						<Outlet />
 						<SpeedInsights />
 					</div>

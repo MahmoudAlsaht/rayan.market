@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import LoadingButton from '../LoadingButton';
 import { destroyProduct } from '../../controllers/product';
 import { useAppDispatch } from '../../app/hooks';
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Typography,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 type DeleteProductFormProps = {
 	show: boolean;
@@ -35,32 +42,32 @@ function DeleteProductForm({
 
 	return (
 		<>
-			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title className='text-danger'>
-						Delete Product
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className='text-danger'>
-					Delete {productName}?
-				</Modal.Body>
-				<Modal.Footer>
+			<Dialog open={show} onClose={handleClose}>
+				<DialogTitle>
+					<Typography>حذف المنتج</Typography>
+				</DialogTitle>
+
+				<DialogContent>
+					<Typography>
+						حذف المنتج ({productName})؟
+					</Typography>
+				</DialogContent>
+				<DialogActions>
 					<Button
-						variant='secondary'
+						variant='outlined'
 						onClick={handleClose}
 					>
-						Close
+						الغاء
 					</Button>
 					<LoadingButton
 						type='submit'
-						body='Delete'
-						variant={'danger'}
-						className={'w-50'}
-						isLoading={isLoading}
-						handleClick={handleDeletion}
+						startIcon='حذف'
+						loading={isLoading}
+						onClick={handleDeletion}
+						color='error'
 					/>
-				</Modal.Footer>
-			</Modal>
+				</DialogActions>
+			</Dialog>
 		</>
 	);
 }

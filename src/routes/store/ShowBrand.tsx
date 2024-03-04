@@ -1,12 +1,12 @@
 import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchBrand } from '../../controllers/brand';
-import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
 import { TBrand } from '../../app/store/brand';
+import { Grid } from '@mui/material';
 
 const ShowBrand = memo(() => {
 	const { brandId } = useParams();
@@ -39,12 +39,12 @@ const ShowBrand = memo(() => {
 						{brand?.name}
 					</h1>
 
-					<Row>
+					<Grid container spacing={2}>
 						{allProducts?.map(
 							(product) =>
 								product?.brand?._id ===
 									brandId && (
-									<Col
+									<Grid
 										key={product?._id}
 										xs={4}
 										sm={3}
@@ -55,10 +55,10 @@ const ShowBrand = memo(() => {
 												product as TProduct
 											}
 										/>
-									</Col>
+									</Grid>
 								),
 						)}
-					</Row>
+					</Grid>
 				</div>
 			) : null}
 		</>

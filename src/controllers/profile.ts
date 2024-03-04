@@ -61,13 +61,7 @@ export const destroyUser = createAsyncThunk(
 			);
 			setCookies('token', null);
 
-			return {
-				username: 'anonymous',
-				phone: '',
-				role: 'customer',
-				profile: '',
-				id: '',
-			};
+			return null;
 		} catch (e: any) {
 			throw new Error(e.message);
 		}

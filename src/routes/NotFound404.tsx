@@ -1,7 +1,7 @@
-import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { MdChevronLeft } from 'react-icons/md';
 import '../assets/styles/error.css';
+import { useNavigate } from 'react-router-dom';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Button } from '@mui/material';
 
 function NotFound404() {
 	const navigate = useNavigate();
@@ -20,11 +20,11 @@ function NotFound404() {
 							for is no longer here.
 						</p>
 						<Button
-							variant='outline-primary'
-							className='text-white'
+							sx={{ mr: 6, mt: 2 }}
+							variant='contained'
 							onClick={() => navigate('/home')}
 						>
-							<MdChevronLeft /> Home Page
+							العودة <NavigateNextIcon />
 						</Button>
 					</div>
 				</div>

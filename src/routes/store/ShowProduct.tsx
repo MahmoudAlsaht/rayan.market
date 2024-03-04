@@ -6,7 +6,6 @@ import {
 } from '../../app/store/product';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchProduct } from '../../controllers/product';
-import '../../assets/styles/ShowProduct.css';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';

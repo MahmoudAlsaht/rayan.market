@@ -2,11 +2,11 @@ import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TCategory } from '../../app/store/category';
 import { fetchCategory } from '../../controllers/category';
-import { Col, Row } from 'react-bootstrap';
 import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
+import { Grid } from '@mui/material';
 
 const Category = memo(() => {
 	const { categoryId } = useParams();
@@ -41,12 +41,12 @@ const Category = memo(() => {
 						{category?.name}
 					</h1>
 
-					<Row>
+					<Grid container>
 						{allProducts?.map(
 							(product) =>
 								product?.category?._id ===
 									categoryId && (
-									<Col
+									<Grid
 										key={product?._id}
 										xs={4}
 										sm={3}
@@ -57,10 +57,10 @@ const Category = memo(() => {
 												product as TProduct
 											}
 										/>
-									</Col>
+									</Grid>
 								),
 						)}
-					</Row>
+					</Grid>
 				</div>
 			) : null}
 		</>

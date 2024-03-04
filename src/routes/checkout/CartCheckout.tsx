@@ -1,7 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { TCart, TCartProduct } from '../../app/store/cart';
-import '../../assets/styles/CartStyle.css';
 import CartProductCard from '../../components/CartProductCard';
 import { checkIfProductIsAvailable } from '../../controllers/order';
 import { useNavigate } from 'react-router-dom';

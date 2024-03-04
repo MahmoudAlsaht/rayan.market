@@ -1,6 +1,6 @@
 import { uploadImage } from '../firebase/firestore/uploadFile';
 import { TProductImage } from '../app/store/product';
-import { isAdmin, sendRequestToServer } from '../utils';
+import { sendRequestToServer } from '../utils';
 
 export const fetchProductsImages = async (productId: string) => {
 	try {
@@ -36,9 +36,6 @@ export const uploadProductImages = async (
 	categoryId: string,
 ) => {
 	try {
-		if (!isAdmin())
-			throw new Error('You Are Not Authorized');
-
 		const urls = [];
 		if (images)
 			for (const file of images!) {
@@ -63,8 +60,6 @@ export const destroyProductImage = async (
 	imageId: string,
 ) => {
 	try {
-		if (!isAdmin())
-			throw new Error('You Are Not Authorized');
 		await sendRequestToServer(
 			'DELETE',
 			`product/${productId}/images/${imageId}`,

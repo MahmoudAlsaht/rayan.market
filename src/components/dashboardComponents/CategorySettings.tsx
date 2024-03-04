@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { VisuallyHiddenInput } from '../../assets/styles';
 
 type CategorySettingsProps = {
 	category: TCategory | null;

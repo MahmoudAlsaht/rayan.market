@@ -1,6 +1,6 @@
 import { uploadImage } from '../firebase/firestore/uploadFile';
 import { TBannerImage } from '../app/store/banner';
-import { isAdmin, isStaff, sendRequestToServer } from '../utils';
+import { sendRequestToServer } from '../utils';
 
 export const fetchBannersImages = async (bannerId: string) => {
 	try {
@@ -36,9 +36,6 @@ export const uploadBannerImages = async (
 	categoryId: string,
 ) => {
 	try {
-		if (!isAdmin() || !isStaff())
-			throw new Error('You Are Not Authorized');
-
 		const urls = [];
 		if (images)
 			for (const file of images!) {
@@ -63,8 +60,6 @@ export const destroyBannerImage = async (
 	imageId: string,
 ) => {
 	try {
-		if (!isAdmin() || !isStaff())
-			throw new Error('You Are Not Authorized');
 		await sendRequestToServer(
 			'DELETE',
 			`banner/${bannerId}/images/${imageId}`,

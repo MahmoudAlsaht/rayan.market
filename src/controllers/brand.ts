@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { isAdmin, sendRequestToServer } from '../utils';
+import { sendRequestToServer } from '../utils';
 import { TBrand } from '../app/store/brand';
 import { TProduct } from '../app/store/product';
 import { uploadImage } from '../firebase/firestore/uploadFile';
@@ -52,9 +52,6 @@ export const createBrand = createAsyncThunk(
 		file: File | null;
 	}) => {
 		try {
-			if (!isAdmin())
-				throw new Error('You Are Not Authorized');
-
 			const imageUrl = {
 				url: await uploadImage(
 					file,
@@ -86,9 +83,6 @@ export const updateBrand = createAsyncThunk(
 	}) => {
 		try {
 			const { brandId, name, file } = options;
-			if (!isAdmin())
-				throw new Error('You Are Not Authorized');
-
 			const imageUrl = {
 				url: await uploadImage(
 					file,
@@ -119,9 +113,6 @@ export const destroyBrand = createAsyncThunk(
 	'brands/destroyBrand',
 	async (brandId: string) => {
 		try {
-			if (!isAdmin())
-				throw new Error('You Are Not Authorized');
-
 			await sendRequestToServer(
 				'DELETE',
 				`brand/${brandId}`,

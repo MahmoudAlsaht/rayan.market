@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { uploadProductImages } from './productImages';
 import { TProduct } from '../app/store/product';
-import { isAdmin, sendRequestToServer } from '../utils';
+import { sendRequestToServer } from '../utils';
 import db from '../firebase/config';
 
 db();
@@ -75,9 +75,6 @@ export const createProduct = createAsyncThunk(
 		images: FileList | null;
 		offerExpiresDate: string | null;
 	}) => {
-		if (!isAdmin())
-			throw new Error('You Are Not Authorized');
-
 		const {
 			name,
 			categoryId,
@@ -120,9 +117,6 @@ export const updateProduct = createAsyncThunk(
 	'products/putProduct',
 	async (options: { productId: string; data: any }) => {
 		try {
-			if (!isAdmin())
-				throw new Error('You Are Not Authorized');
-
 			const { productId } = options;
 			const {
 				name,
@@ -169,9 +163,6 @@ export const destroyProduct = createAsyncThunk(
 	'products/destroyProduct',
 	async (productId: string) => {
 		try {
-			if (!isAdmin())
-				throw new Error('You Are Not Authorized');
-
 			await sendRequestToServer(
 				'DELETE',
 				`product/${productId}`,

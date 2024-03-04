@@ -36,7 +36,7 @@ import {
 import { TBrand } from '../../app/store/brand';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { fetchBrands } from '../../controllers/brand';
-import { VisuallyHiddenInput } from '../../assets/jsStyles';
+import { VisuallyHiddenInput } from '../../assets/styles';
 import { LoadingButton } from '@mui/lab';
 
 type EditProductFormProps = {
