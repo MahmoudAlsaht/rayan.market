@@ -17,7 +17,7 @@ export default function MobileProducts() {
 
 	return (
 		<main dir='rtl'>
-			<Container sx={{ mt: 2 }}>
+			<Container sx={{ mt: 2, mb: 20 }}>
 				<Grid container spacing={0.5}>
 					{products.map(
 						(product) =>
