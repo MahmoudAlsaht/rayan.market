@@ -94,7 +94,7 @@ export default function Cart({ show, handleClose }: CartProps) {
 				{cart?.totalPrice > 0 && (
 					<legend
 						dir='rtl'
-						style={{ margin: '0 -3rem' }}
+						// style={{ margin: '0 -3rem' }}
 					>
 						المجموع الكلي:{' '}
 						{cart?.totalPrice?.toFixed(2)} د.أ
