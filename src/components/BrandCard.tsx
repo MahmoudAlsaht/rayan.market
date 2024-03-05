@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar, Link } from '@mui/material/';
+import { Box, Avatar, Link } from '@mui/material/';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { TBrand } from '../app/store/brand';
 
@@ -8,16 +8,16 @@ type BrandCardProps = {
 
 export default function BrandCard({ brand }: BrandCardProps) {
 	return (
-		<Grid xs={6} md={2}>
+		<Grid lg={2}>
 			<Link
-				href={`brands/${brand?._id}`}
+				href={`categories/${brand?._id}`}
 				sx={{ textDecoration: 'none' }}
 			>
 				{!brand?.image ? (
 					<Box
 						sx={{
-							width: 150,
-							height: 150,
+							width: 100,
+							height: 100,
 							borderRadius: '50%',
 							border: '1px solid #07a180',
 							display: 'flex',
@@ -41,8 +41,16 @@ export default function BrandCard({ brand }: BrandCardProps) {
 					>
 						<Avatar
 							sx={{
-								width: 150,
-								height: 150,
+								width: {
+									sm: 100,
+									md: 110,
+									lg: 150,
+								},
+								height: {
+									sm: 100,
+									md: 110,
+									lg: 150,
+								},
 								borderRadius: '50%',
 								cursor: 'pointer',
 								transition:
@@ -55,17 +63,15 @@ export default function BrandCard({ brand }: BrandCardProps) {
 						/>
 					</div>
 				)}
-				<Typography
+				{/* <Typography
 					sx={{
 						fontSize: 30,
 						color: 'primary.main',
 						mx: 3,
-						// textAlign: 'center',
-						// width: '50%',
 					}}
 				>
 					{brand?.name}
-				</Typography>
+				</Typography> */}
 			</Link>
 		</Grid>
 	);

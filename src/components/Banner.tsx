@@ -4,7 +4,7 @@ import { fetchActiveBanner } from '../controllers/banner';
 import { fetchBannersImages } from '../controllers/bannerImages';
 import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
-import { Paper, Skeleton } from '@mui/material';
+import { Avatar, Paper, Skeleton } from '@mui/material';
 
 function Banner() {
 	const [banner, setBanner] = useState<TBanner | null>(null);
@@ -47,26 +47,33 @@ function Banner() {
 										to={image?.link || '#'}
 										key={image?._id}
 									>
-										<div
-											style={{
+										<Paper
+											sx={{
 												backgroundColor:
 													!image?.path
 														? 'none'
 														: '#07a180',
 												width: '100%',
-												height: '300px',
+												height: {
+													xs: '200px',
+													md: '300px',
+												},
 											}}
 										>
-											<img
+											<Avatar
 												src={image?.path}
-												style={{
+												sx={{
 													width: '100%',
-													height: '300px',
+													height: {
+														xs: '200px',
+														md: '300px',
+													},
 													opacity:
 														'.85',
+													borderRadius: 0,
 												}}
 											/>
-										</div>
+										</Paper>
 									</Link>
 								))
 							) : (

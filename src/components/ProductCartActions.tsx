@@ -50,22 +50,34 @@ function ProductCartActions({
 				aria-label='add to product counter'
 				onClick={handleAddProduct}
 			>
-				<AddCircleIcon />
+				<AddCircleIcon
+					sx={{ fontSize: { xs: 20, md: 27 } }}
+				/>
 			</IconButton>
-			<IconButton aria-label='product quantity in cart'>
+			<IconButton
+				aria-label='product quantity in cart'
+				sx={{ fontSize: { xs: 20, md: 27 }, p: 0 }}
+			>
 				{product?.counter}
 			</IconButton>
 			<IconButton
 				aria-label='take one product from cart'
 				onClick={handleRemoveProduct}
 			>
-				<RemoveCircleIcon />
+				<RemoveCircleIcon
+					sx={{ fontSize: { xs: 20, md: 27 } }}
+				/>
 			</IconButton>
 			<IconButton
 				aria-label='remove product from cart'
 				onClick={handleDestroyProduct}
 			>
-				<DeleteIcon sx={{ color: 'error.main' }} />
+				<DeleteIcon
+					sx={{
+						fontSize: { xs: 20, md: 27 },
+						color: 'error.main',
+					}}
+				/>
 			</IconButton>
 		</legend>
 	);

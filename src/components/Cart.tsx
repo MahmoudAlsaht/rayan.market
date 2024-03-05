@@ -91,32 +91,39 @@ export default function Cart({ show, handleClose }: CartProps) {
 						product={product}
 					/>
 				))}
-				<legend dir='rtl' style={{ margin: '0 -3rem' }}>
-					المجموع الكلي: {cart?.totalPrice?.toFixed(2)}{' '}
-					د.أ
-				</legend>
+				{cart?.totalPrice > 0 && (
+					<legend
+						dir='rtl'
+						style={{ margin: '0 -3rem' }}
+					>
+						المجموع الكلي:{' '}
+						{cart?.totalPrice?.toFixed(2)} د.أ
+					</legend>
+				)}
 			</List>
-			<DialogActions sx={{ mx: 5 }}>
-				<legend dir='rtl'>
-					<Button
-						onClick={handleCheckout}
-						disabled={
-							!checkIfCartIsEmpty ||
-							!isCountersAboveZero
-						}
-						variant='outlined'
-						sx={{ mr: 2 }}
-					>
-						الدفع
-					</Button>
-					<Button
-						variant='outlined'
-						onClick={handleClose}
-					>
-						الغاء
-					</Button>
-				</legend>
-			</DialogActions>
+			{cart?.products && cart.products.length > 0 && (
+				<DialogActions sx={{ mx: 5 }}>
+					<legend dir='rtl'>
+						<Button
+							onClick={handleCheckout}
+							disabled={
+								!checkIfCartIsEmpty ||
+								!isCountersAboveZero
+							}
+							variant='outlined'
+							sx={{ mr: 2 }}
+						>
+							الدفع
+						</Button>
+						<Button
+							variant='outlined'
+							onClick={handleClose}
+						>
+							الغاء
+						</Button>
+					</legend>
+				</DialogActions>
+			)}
 		</Dialog>
 	);
 }

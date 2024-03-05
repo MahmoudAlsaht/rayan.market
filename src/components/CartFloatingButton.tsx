@@ -18,15 +18,27 @@ function CartFloatingButton({
 				onClick={handleClickFn}
 				sx={{
 					position: 'fixed',
-					bottom: 5,
-					left: 250,
-					width: '60%',
-					height: '60px',
-					backgroundColor: 'primary.light',
+					bottom: { xs: 60, md: 5 },
+					left: { xs: 0, md: 250 },
+					width: { xs: '100%', md: '60%' },
+					height: { xs: '40px', md: '60px' },
+					backgroundColor: {
+						xs: 'primary.main',
+						md: 'primary.light',
+					},
 				}}
 			>
 				<Badge badgeContent={cartLength} color='error'>
-					<ShoppingBasketIcon sx={{ mr: 1 }} />
+					<ShoppingBasketIcon
+						sx={{
+							mr: 1,
+							fontSize: { xs: 18, md: 25 },
+							color: {
+								xs: 'white',
+								md: 'black',
+							},
+						}}
+					/>
 				</Badge>
 			</Fab>
 		</>

@@ -31,8 +31,8 @@ import {
 	Skeleton,
 	Stack,
 	Typography,
+	Grid,
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
@@ -120,18 +120,20 @@ const ShowProduct = memo(() => {
 	]);
 
 	return (
-		<Container sx={{ my: 5 }}>
+		<Container
+			sx={{ my: 5, display: { xs: 'none', sm: 'block' } }}
+		>
 			<main dir='rtl'>
 				{product !== undefined ? (
-					<Grid spacing={2} container>
-						<Grid xs={12} lg={5}>
+					<Grid container>
+						<Grid sm={12} md={6}>
 							<ProductImageCarousel
 								productImages={
 									product?.productImages as (TProductImage | null)[]
 								}
 							/>
 						</Grid>
-						<Grid xs={12} lg={6}>
+						<Grid sm={12} md={6}>
 							<Typography
 								variant='h3'
 								sx={{ color: 'primary.main' }}

@@ -5,28 +5,37 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { LoadingButton } from '@mui/lab';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TAnonymousUser } from '../../app/auth/auth';
 import { createAnonymousUser } from '../../controllers/user';
-import { addAnonymousUserToCart } from '../../app/store/cart';
+import {
+	TCart,
+	addAnonymousUserToCart,
+	emptyTheCart,
+} from '../../app/store/cart';
+import { createAnOrder } from '../../controllers/order';
+import { useNavigate } from 'react-router-dom';
 
-export default function AnonymousUserForm({
-	handleStep,
-}: {
-	handleStep: (step: string) => void;
-}) {
+export default function AnonymousUserForm() {
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [payButton, setPayButton] = useState(false);
+	const [user, setUser] = useState<TAnonymousUser | null>(
+		null,
+	);
+
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const nameRef = useRef<HTMLInputElement>(null);
 	const phoneRef = useRef<HTMLInputElement>(null);
 	const cityRef = useRef<HTMLInputElement>(null);
 	const streetRef = useRef<HTMLInputElement>(null);
+	const cart: TCart | null = useAppSelector(
+		(state) => state.cart,
+	);
 
-	const handleSubmit = async (e: FormEvent) => {
-		e.preventDefault();
-
+	const handleClick = async () => {
 		try {
 			setIsLoading(true);
 			const data = {
@@ -35,17 +44,38 @@ export default function AnonymousUserForm({
 				city: cityRef.current?.value as string,
 				street: streetRef.current?.value as string,
 			};
-			const user: TAnonymousUser =
+			const createdUser: TAnonymousUser =
 				await createAnonymousUser(data);
 
-			dispatch(addAnonymousUserToCart(user));
+			setUser(createdUser);
+
+			dispatch(addAnonymousUserToCart(createdUser));
 
 			setIsLoading(false);
+			setPayButton(true);
+		} catch (e: any) {
+			setIsLoading(false);
+		}
+	};
+
+	const handleSubmit = async (e: FormEvent) => {
+		e.preventDefault();
+
+		try {
+			setIsLoading(true);
+
+			dispatch(createAnOrder({ cart, user: user as any }));
+			dispatch(emptyTheCart());
+			navigate('/home');
+
+			setIsLoading(false);
+
 			nameRef.current!.value = '';
 			phoneRef.current!.value = '';
 			cityRef.current!.value = '';
 			streetRef.current!.value = '';
-			handleStep('payment');
+
+			setPayButton(false);
 		} catch (e: any) {
 			setIsLoading(false);
 		}
@@ -138,15 +168,29 @@ export default function AnonymousUserForm({
 							/>
 						</Grid>
 					</Grid>
-					<LoadingButton
-						type='submit'
-						fullWidth
-						variant='outlined'
-						startIcon='أكمل الدفع'
-						sx={{ mt: 3, mb: 2 }}
-						disabled={!validated}
-						loading={isLoading}
-					/>
+					{!payButton && (
+						<LoadingButton
+							fullWidth
+							variant='outlined'
+							startIcon='حفظ'
+							sx={{ mt: 3, mb: 2 }}
+							disabled={!validated}
+							loading={isLoading}
+							onClick={handleClick}
+						/>
+					)}
+
+					{payButton && (
+						<LoadingButton
+							type='submit'
+							fullWidth
+							variant='outlined'
+							startIcon='أكمل الطلب'
+							sx={{ mb: 2, mt: 2 }}
+							disabled={!payButton}
+							loading={isLoading}
+						/>
+					)}
 				</Box>
 			</Box>
 		</Container>

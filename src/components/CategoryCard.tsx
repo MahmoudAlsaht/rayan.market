@@ -10,7 +10,7 @@ export default function CategoryCard({
 	category,
 }: CategoryCardProps) {
 	return (
-		<Grid xs={6} md={2}>
+		<Grid lg={2}>
 			<Link
 				href={`categories/${category?._id}`}
 				sx={{ textDecoration: 'none' }}
@@ -18,8 +18,8 @@ export default function CategoryCard({
 				{!category?.image ? (
 					<Box
 						sx={{
-							width: 150,
-							height: 150,
+							width: 100,
+							height: 100,
 							borderRadius: '50%',
 							border: '1px solid #07a180',
 							display: 'flex',
@@ -43,8 +43,16 @@ export default function CategoryCard({
 					>
 						<Avatar
 							sx={{
-								width: 150,
-								height: 150,
+								width: {
+									sm: 100,
+									md: 110,
+									lg: 150,
+								},
+								height: {
+									sm: 100,
+									md: 110,
+									lg: 150,
+								},
 								borderRadius: '50%',
 								cursor: 'pointer',
 								transition:

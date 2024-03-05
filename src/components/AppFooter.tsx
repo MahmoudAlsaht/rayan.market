@@ -25,6 +25,7 @@ export default function StickyFooter() {
 				display: 'flex',
 				flexDirection: 'column',
 				minHeight: '100vh',
+				mb: { xs: 5, md: 0 },
 			}}
 		>
 			<Box

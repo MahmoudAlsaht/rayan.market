@@ -21,7 +21,7 @@ import { fetchUser, logout } from '../controllers/user';
 import ScrollToColor01 from './ScrollToColor';
 import CategoryNavbar from './CategoryNavbar';
 
-const pages = ['العروض', 'المنتجات', 'الرئيسية'];
+const pages = ['العروض', 'المنتجات', 'الرئيسية'].reverse();
 
 export default function MainNavbar() {
 	const [anchorElNav, setAnchorElNav] =
@@ -68,7 +68,7 @@ export default function MainNavbar() {
 	};
 
 	return (
-		<>
+		<main dir='rtl'>
 			<ScrollToColor01>
 				<AppBar position='sticky'>
 					<Container maxWidth='xl'>
@@ -173,7 +173,6 @@ export default function MainNavbar() {
 									},
 								}}
 							>
-								<FilterProducts />
 								{pages.map((page) => (
 									<Button
 										key={page}
@@ -200,6 +199,7 @@ export default function MainNavbar() {
 										{page}
 									</Button>
 								))}
+								<FilterProducts />
 							</Box>
 
 							<Box sx={{ flexGrow: 0 }}>
@@ -211,8 +211,9 @@ export default function MainNavbar() {
 										sx={{ p: 0 }}
 									>
 										<AccountCircleIcon
-											style={{
+											sx={{
 												fontSize: 30,
+												ml: 2,
 											}}
 										/>
 									</IconButton>
@@ -308,6 +309,6 @@ export default function MainNavbar() {
 					{isHomePage === -1 && <CategoryNavbar />}
 				</AppBar>
 			</ScrollToColor01>
-		</>
+		</main>
 	);
 }

@@ -62,7 +62,7 @@ export default function ChooseContactAddress({
 			setIsLoading(true);
 			dispatch(createAnOrder({ cart, user }));
 			dispatch(emptyTheCart());
-			location.pathname = '/home';
+			navigate('/home');
 			setIsLoading(false);
 		} catch (e: any) {
 			console.log(e.message);

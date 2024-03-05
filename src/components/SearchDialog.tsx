@@ -90,7 +90,7 @@ export default function SearchDialog({
 							? products.map((product) => (
 									<ListItemButton
 										key={product?._id}
-										href={`/store/products/${product?._id}`}
+										href={`/products/${product?._id}`}
 										sx={{
 											'&:hover': {
 												color: 'black',

@@ -22,10 +22,16 @@ function ProductImageCarousel({
 		>
 			{productImages && productImages.length > 0 ? (
 				productImages?.map((productImage) => (
-					<div key={productImage?._id}>
+					<div
+						key={productImage?._id}
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}
+					>
 						<img
 							src={productImage?.path}
-							width={'100%'}
+							width={'60%'}
 						/>
 					</div>
 				))

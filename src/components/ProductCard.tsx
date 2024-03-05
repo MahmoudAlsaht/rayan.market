@@ -121,9 +121,7 @@ export default function ProductCard({
 						alt={`${product?.name}'s image`}
 						sx={{ cursor: 'pointer' }}
 						onClick={() =>
-							navigate(
-								`/store/products/${product?._id}`,
-							)
+							navigate(`/products/${product?._id}`)
 						}
 					/>
 				) : (

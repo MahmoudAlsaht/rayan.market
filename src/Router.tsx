@@ -68,19 +68,14 @@ export const Router = createBrowserRouter([
 						element: <ShowBrand />,
 					},
 					{ path: 'products', element: <Products /> },
-					{ path: 'offers', element: <Offers /> },
-				],
-			},
-			{
-				element: <RootLayout />,
-				path: 'store',
-				children: [
 					{
 						path: 'products/:productId',
 						element: <ShowProduct />,
 					},
+					{ path: 'offers', element: <Offers /> },
 				],
 			},
+
 			{
 				element: <CheckoutLayout />,
 				children: [

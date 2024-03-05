@@ -73,7 +73,7 @@ function Information({
 						</Link>
 					</Typography>
 
-					<AnonymousUserForm handleStep={handleStep} />
+					<AnonymousUserForm />
 				</div>
 			) : (
 				<ChooseContactAddress

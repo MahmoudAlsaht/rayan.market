@@ -32,44 +32,7 @@ export default function BrandList({
 	return (
 		<Container sx={{ mt: 12 }}>
 			{brands.length !== 0 && (
-				<Grid xs={12} container spacing={0.5}>
-					{isHomePage !== -1 && (
-						<Grid xs={6} md={2}>
-							<Box
-								sx={{
-									mt: 5,
-									width: 100,
-									height: 100,
-									borderRadius: '50%',
-									border: '1px solid #07a180',
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									justifyContent: 'center',
-									color: '#07a180',
-									cursor: 'pointer',
-									transition:
-										'all 200ms ease-in-out',
-									'&:hover': {
-										color: '#fff',
-										backgroundColor:
-											'#07a180',
-									},
-								}}
-								onClick={() =>
-									navigate('/brands')
-								}
-							>
-								<Typography
-									sx={{ fontSize: 30 }}
-									gutterBottom
-								>
-									<ArrowBackIcon />
-								</Typography>
-							</Box>
-						</Grid>
-					)}
-
+				<Grid xs={12} container>
 					{brands.map(
 						(brand, index) =>
 							index < catLength.current && (
@@ -78,6 +41,52 @@ export default function BrandList({
 									key={brand?._id}
 								/>
 							),
+					)}
+					{isHomePage !== -1 && (
+						<Grid>
+							<Box
+								sx={{
+									mt: 5,
+									width: {
+										sm: 80,
+										lg: 70,
+									},
+									height: {
+										sm: 80,
+										lg: 70,
+									},
+									borderRadius: '50%',
+									border: '1px solid #07a180',
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									justifyContent: 'center',
+									color: 'primary.main',
+									cursor: 'pointer',
+									transition:
+										'all 200ms ease-in-out',
+									'&:hover': {
+										color: '#fff',
+										backgroundColor:
+											'primary.main',
+									},
+								}}
+								onClick={() =>
+									navigate('/categories')
+								}
+							>
+								<Typography>
+									<ArrowBackIcon
+										sx={{
+											fontSize: {
+												sm: 40,
+												md: 35,
+											},
+										}}
+									/>
+								</Typography>
+							</Box>
+						</Grid>
 					)}
 				</Grid>
 			)}

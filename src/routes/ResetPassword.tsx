@@ -1,4 +1,3 @@
-// import { Col, Container, Form, Row } from 'react-bootstrap';
 // import ErrorComponent, { IError } from '../components/Error';
 // import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
