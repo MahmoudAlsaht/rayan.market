@@ -4,7 +4,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import TuneIcon from '@mui/icons-material/Tune';
 import HomeIcon from '@mui/icons-material/Home';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { Box } from '@mui/material';
 import MobileHome from './MobileHome';
 import MobileSearch from './MobileSearch';
@@ -15,7 +15,7 @@ export default function HomeMobile() {
 	const [page, setPage] = useState('home');
 
 	const handleChange = (
-		event: React.SyntheticEvent,
+		event: SyntheticEvent,
 		newPage: string,
 	) => {
 		setPage(newPage);
