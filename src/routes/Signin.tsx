@@ -61,7 +61,7 @@ export default function SignIn() {
 					passwordRef.current!.value,
 				);
 				setIsLoading(false);
-				navigate(-1);
+				navigate('/home');
 			}
 		} catch (e: any) {
 			setError({

@@ -65,7 +65,7 @@ export default function SignUp() {
 					passwordRef.current?.value,
 					usernameRef.current!.value,
 				);
-				navigate(-1);
+				navigate('/home');
 				setIsLoading(false);
 			}
 		} catch (e: any) {
