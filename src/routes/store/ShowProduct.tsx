@@ -126,8 +126,7 @@ const ShowProduct = memo(() => {
 					<Grid container>
 						<Grid sm={12} md={6}>
 							{product?.productImages &&
-							product.productImages.length ===
-								0 ? (
+							product.productImages.length > 0 ? (
 								<Avatar
 									sx={{
 										borderRadius: 0,
