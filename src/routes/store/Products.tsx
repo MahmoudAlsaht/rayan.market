@@ -39,11 +39,12 @@ const Products = memo(() => {
 						</Grid>
 					))}
 			</Grid>
+
 			<Grid
 				container
 				sx={{
 					mt: 2,
-					mb: 20,
+					mb: 5,
 					display: {
 						sm: 'none',
 					},

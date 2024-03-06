@@ -2,11 +2,8 @@
 import {
 	AppBar,
 	Box,
-	Container,
+	Grid,
 	IconButton,
-	List,
-	ListItemButton,
-	ListItemText,
 	TextField,
 	Toolbar,
 } from '@mui/material';
@@ -23,6 +20,7 @@ import { filterData } from '../../utils';
 import { fetchFilteredProducts } from '../../controllers/product';
 import NotFound404 from '../../routes/NotFound404';
 import { useNavigate } from 'react-router-dom';
+import MobileProductCard from './MobileProductCard';
 
 export default function MobileSearch() {
 	const [queryInput, setQueryInput] = useState('');
@@ -107,56 +105,26 @@ export default function MobileSearch() {
 							/>
 						</Toolbar>
 					</AppBar>
-					<Container
+					<Grid
+						container
 						sx={{
-							margin: '1rem 0',
-							color: 'primary.main',
+							mt: 2,
+							mb: 5,
 						}}
+						spacing={1}
 					>
-						<List>
-							{filteredProducts?.length !== 0
-								? filteredProducts.map(
-										(product) => (
-											<ListItemButton
-												key={
-													product?._id
-												}
-												href={`/products/${product?._id}`}
-												sx={{
-													'&:hover': {
-														color: 'black',
-													},
-												}}
-											>
-												<img
-													width={150}
-													height={150}
-													src={
-														(product?.productImages !=
-															null &&
-															product
-																?.productImages[0]
-																?.path) ||
-														''
-													}
-												/>
-												<ListItemText
-													primary={
-														product?.name
-													}
-													secondary={
-														product?.price
-													}
-													sx={{
-														ml: '1rem',
-													}}
-												/>
-											</ListItemButton>
-										),
-								  )
-								: `${queryInput} لا توجد نتائج لبحثك`}
-						</List>
-					</Container>
+						{filteredProducts.map(
+							(product) =>
+								parseInt(
+									product?.quantity as string,
+								) > 0 && (
+									<MobileProductCard
+										product={product}
+										key={product?._id}
+									/>
+								),
+						)}
+					</Grid>
 				</Box>
 			</main>
 		</>

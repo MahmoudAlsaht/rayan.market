@@ -1,6 +1,5 @@
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import InventoryIcon from '@mui/icons-material/Inventory';
 import TuneIcon from '@mui/icons-material/Tune';
 import HomeIcon from '@mui/icons-material/Home';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
@@ -11,7 +10,7 @@ export default function MobileNavigation() {
 	const isHomePage = window.location.href.search('home');
 
 	const [page, setPage] = useState(() =>
-		isHomePage !== -1 ? 'home' : 'products',
+		isHomePage !== -1 ? 'home' : 'search',
 	);
 
 	const navigate = useNavigate();
@@ -35,24 +34,17 @@ export default function MobileNavigation() {
 				onChange={handlePageNameChange}
 			>
 				<BottomNavigationAction
-					label='الرئيسية'
-					value='home'
-					icon={<HomeIcon />}
-					onClick={() => navigate('/home')}
-				/>
-
-				<BottomNavigationAction
-					label='المنتجات'
-					value='products'
-					icon={<InventoryIcon />}
-					onClick={() => navigate('/products')}
-				/>
-
-				<BottomNavigationAction
 					label='البحث'
 					value='search'
 					icon={<ManageSearchIcon />}
 					onClick={() => navigate('/search')}
+				/>
+
+				<BottomNavigationAction
+					label='الرئيسية'
+					value='home'
+					icon={<HomeIcon />}
+					onClick={() => navigate('/home')}
 				/>
 
 				<BottomNavigationAction
