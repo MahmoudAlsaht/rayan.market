@@ -26,7 +26,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import { TProduct } from '../app/store/product';
 import { filterData } from '../utils';
-import { fetchFilteredProducts } from '../controllers/product';
+import { fetchProducts } from '../controllers/product';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -56,9 +57,10 @@ export default function SearchDialog() {
 		setQueryInput(e.currentTarget.value);
 	};
 
-	const [products, setProducts] = useState<
-		(TProduct | null)[]
-	>([]);
+	const products: (TProduct | null)[] = useAppSelector(
+		(state) => state.products,
+	);
+	const dispatch = useAppDispatch();
 
 	const [showSearchResult, setShowSearchResult] =
 		useState(false);
@@ -77,13 +79,8 @@ export default function SearchDialog() {
 	}, [products, queryInput]);
 
 	useEffect(() => {
-		const getProducts = async () => {
-			const fetchedProducts =
-				await fetchFilteredProducts();
-			setProducts(fetchedProducts);
-		};
-		getProducts();
-	}, []);
+		dispatch(fetchProducts());
+	}, [dispatch]);
 
 	return (
 		<>

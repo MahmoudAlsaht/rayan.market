@@ -17,10 +17,12 @@ import {
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { TProduct } from '../../app/store/product';
 import { filterData } from '../../utils';
-import { fetchFilteredProducts } from '../../controllers/product';
+import { fetchProducts } from '../../controllers/product';
 import NotFound404 from '../../routes/NotFound404';
 import { useNavigate } from 'react-router-dom';
 import MobileProductCard from './MobileProductCard';
+import FilterMenu from '../FilterMenu';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 export default function MobileSearch() {
 	const [queryInput, setQueryInput] = useState('');
@@ -30,13 +32,14 @@ export default function MobileSearch() {
 	) => {
 		setQueryInput(e.currentTarget.value);
 	};
-
-	const [products, setProducts] = useState<
-		(TProduct | null)[]
-	>([]);
+	const products: (TProduct | null)[] = useAppSelector(
+		(state) => state.products,
+	);
 
 	const [showSearchResult, setShowSearchResult] =
 		useState(false);
+
+	const dispatch = useAppDispatch();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setShowSearchResult(e.target.value !== '');
@@ -52,13 +55,8 @@ export default function MobileSearch() {
 	}, [products, queryInput]);
 
 	useEffect(() => {
-		const getProducts = async () => {
-			const fetchedProducts =
-				await fetchFilteredProducts();
-			setProducts(fetchedProducts);
-		};
-		getProducts();
-	}, []);
+		dispatch(fetchProducts());
+	}, [dispatch]);
 
 	return (
 		<>
@@ -103,6 +101,7 @@ export default function MobileSearch() {
 								sx={{ m: '.7rem' }}
 								onChange={handleChange}
 							/>
+							<FilterMenu />
 						</Toolbar>
 					</AppBar>
 					<Grid

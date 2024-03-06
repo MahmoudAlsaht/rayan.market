@@ -2,6 +2,7 @@ import Cookies from 'universal-cookie';
 import { TCartProduct } from '../app/store/cart';
 import { TUser } from '../app/auth/auth';
 import axios from 'axios';
+import { TProduct } from '../app/store/product';
 
 const cookies = new Cookies();
 
@@ -51,6 +52,25 @@ export const filterData = (products: any[], query: string) => {
 			.toLowerCase()
 			.includes(escapeRegExp(query?.toLowerCase()));
 	});
+};
+
+export const sortProductsBasedOnPrice = (
+	products: (TProduct | null)[],
+	action: string,
+) => {
+	if (action === 'highest') {
+		return products?.sort(
+			(a, b) =>
+				parseFloat(b?.newPrice || (b?.price as string)) -
+				parseFloat(a?.newPrice || (a?.price as string)),
+		);
+	} else if (action === 'lowest') {
+		return products?.sort(
+			(a, b) =>
+				parseFloat(a?.newPrice || (a?.price as string)) -
+				parseFloat(b?.newPrice || (b?.price as string)),
+		);
+	} else return products;
 };
 
 export const sumTotalPrice = (products: TCartProduct[]) => {
