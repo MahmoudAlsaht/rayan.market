@@ -40,12 +40,19 @@ import ShowBrand from './routes/store/ShowBrand';
 import BrandsActions from './routes/dashboard/BrandsActions';
 import { ThemeProvider } from '@mui/material';
 import { cacheRtl, theme } from './assets/styles';
+import MobileSearch from './components/mobileComponents/MobileSearch';
+import MobileOptions from './components/mobileComponents/MobileOptions';
 
 export const Router = createBrowserRouter([
 	{
 		element: <Wrapper />,
 		children: [
 			{ path: '/', element: <LandingPage /> },
+			{ path: 'user-options', element: <MobileOptions /> },
+			{
+				path: 'search',
+				element: <MobileSearch />,
+			},
 			{
 				path: '/',
 				element: <RootLayout />,

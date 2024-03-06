@@ -4,7 +4,7 @@ import { fetchActiveBanner } from '../controllers/banner';
 import { fetchBannersImages } from '../controllers/bannerImages';
 import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
-import { Avatar, Paper, Skeleton } from '@mui/material';
+import { Avatar, Box, Paper, Skeleton } from '@mui/material';
 
 function Banner() {
 	const [banner, setBanner] = useState<TBanner | null>(null);
@@ -38,7 +38,9 @@ function Banner() {
 	return (
 		<>
 			{bannerImages.length !== 0 && (
-				<div>
+				<Box
+					sx={{ display: { xs: 'none', sm: 'block' } }}
+				>
 					{!isLoading ? (
 						<Paper sx={{ mb: 3 }}>
 							{bannerImages!.length < 2 ? (
@@ -124,7 +126,7 @@ function Banner() {
 					) : (
 						<Skeleton height={311} sx={{ mb: 3 }} />
 					)}
-				</div>
+				</Box>
 			)}
 		</>
 	);

@@ -47,7 +47,7 @@ export default function CategoryNavbar() {
 					<Tabs>
 						{categories?.map(
 							(category, index) =>
-								index < 9 && (
+								index < 6 && (
 									<Link
 										key={category?._id}
 										href={`/categories/${category?._id}`}
@@ -107,7 +107,7 @@ export default function CategoryNavbar() {
 							<div dir='rtl'>
 								{categories?.map(
 									(category, index) =>
-										index > 8 && (
+										index > 5 && (
 											<Link
 												href={`/categories/${category?._id}`}
 											>

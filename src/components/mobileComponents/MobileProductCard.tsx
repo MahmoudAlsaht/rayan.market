@@ -32,7 +32,7 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import MobileShowProduct from './MobileShowProduct';
+import { Link } from 'react-router-dom';
 
 type MobileProductCardProps = {
 	product: TProduct | null;
@@ -43,21 +43,11 @@ export default function MobileProductCard({
 }: MobileProductCardProps) {
 	const [productImages, setProductImages] =
 		useState<(TProductImage | null)[]>();
-	const [isProductInCart, setisProductInCart] =
+	const [isProductInCart, setIsProductInCart] =
 		useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
 	const [productCart, setProductCart] =
 		useState<TCartProduct | null>();
-
-	const [open, setOpen] = useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
 
 	const dispatch = useAppDispatch();
 
@@ -113,7 +103,7 @@ export default function MobileProductCard({
 			cart,
 			product?._id as string,
 		) as boolean;
-		setisProductInCart(gotProduct);
+		setIsProductInCart(gotProduct);
 		setProductCart(
 			findCartProduct(
 				cart,
@@ -131,10 +121,7 @@ export default function MobileProductCard({
 					background: 'none',
 				}}
 			>
-				<legend
-					onClick={() => handleClickOpen()}
-					style={{ cursor: 'pointer' }}
-				>
+				<Link to={`/products/${product?._id}`}>
 					{productImages && productImages[0]?.path ? (
 						<CardMedia
 							component='img'
@@ -196,7 +183,7 @@ export default function MobileProductCard({
 							</legend>
 						}
 					/>
-				</legend>
+				</Link>
 
 				<CardActions>
 					{isProductInCart ? (
@@ -239,17 +226,6 @@ export default function MobileProductCard({
 					)}
 				</CardActions>
 			</Card>
-
-			<MobileShowProduct
-				product={product}
-				open={open}
-				onClose={handleClose}
-				handleAddProduct={handleAddToCounter}
-				handleAddToCart={handleAddProduct}
-				handleRemoveProduct={handleRemoveProduct}
-				productCart={productCart}
-				isProductInCart={isProductInCart}
-			/>
 		</Grid>
 	);
 }

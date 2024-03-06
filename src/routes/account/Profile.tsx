@@ -13,7 +13,7 @@ const Profile = memo(() => {
 		<Container>
 			<Grid container spacing={1}>
 				{userWidgets.map((widget, index) => (
-					<Grid md={6} key={index}>
+					<Grid xs={12} md={6} key={index}>
 						<Widget
 							widgetTitle={
 								widget.toLowerCase() ===
@@ -34,6 +34,7 @@ const Profile = memo(() => {
 									? `/account/profile/${profileId}/orders-history`
 									: `/account/profile/${profileId}/contact-info`
 							}
+							height='150px'
 						/>
 					</Grid>
 				))}

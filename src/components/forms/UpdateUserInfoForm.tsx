@@ -82,7 +82,7 @@ function UpdateUserInfoForm({
 	};
 
 	return (
-		<Container sx={{ m: 5 }}>
+		<Container sx={{ m: { sm: 5 } }}>
 			<Box noValidate component='form'>
 				<Typography variant='h3'>
 					معلومات الحساب
@@ -101,7 +101,7 @@ function UpdateUserInfoForm({
 					/>
 				</FormGroup>
 
-				<FormGroup sx={{ mb: 5 }}>
+				<FormGroup sx={{ mb: { sm: 5 } }}>
 					<TextField
 						required
 						onChange={handleChange}

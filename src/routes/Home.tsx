@@ -7,12 +7,12 @@ import { Box } from '@mui/material';
 const Home = memo(() => {
 	return (
 		<div dir='rtl'>
+			<Banner />
 			<Box
 				sx={{
 					display: { xs: 'none', sm: 'block' },
 				}}
 			>
-				<Banner />
 				<CategoryList listLength={5} />
 				<BrandList listLength={5} />
 			</Box>

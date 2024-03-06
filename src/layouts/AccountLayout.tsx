@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -163,6 +164,10 @@ export default function AccountLayout() {
 							edge='start'
 							sx={{
 								marginRight: 5,
+								display: {
+									xs: 'none',
+									sm: 'block',
+								},
 								...(open && { display: 'none' }),
 							}}
 						>
@@ -172,7 +177,15 @@ export default function AccountLayout() {
 				</AppBar>
 				<Drawer variant='permanent' open={open}>
 					<DrawerHeader>
-						<IconButton onClick={handleDrawerClose}>
+						<IconButton
+							onClick={handleDrawerClose}
+							sx={{
+								display: {
+									xs: 'none',
+									sm: 'block',
+								},
+							}}
+						>
 							<ChevronRightIcon />
 						</IconButton>
 					</DrawerHeader>
@@ -221,9 +234,17 @@ export default function AccountLayout() {
 
 						{ifNotAccountHomePage && (
 							<Link
-								to={`/account/profile/${
-									user && user?.profile
-								}`}
+								to={
+									user.role !== 'customer'
+										? `/dashboard/admin/${
+												user &&
+												user?.profile
+										  }`
+										: `/account/profile/${
+												user &&
+												user?.profile
+										  }`
+								}
 							>
 								<ListItem
 									disablePadding
@@ -254,7 +275,12 @@ export default function AccountLayout() {
 											<DashboardIcon />
 										</ListItemIcon>
 										<ListItemText
-											primary='الصفحة الشخصية'
+											primary={
+												user.role !==
+												'customer'
+													? 'لوحة التحكم'
+													: 'الصفحة الشخصية'
+											}
 											sx={{
 												opacity: open
 													? 1

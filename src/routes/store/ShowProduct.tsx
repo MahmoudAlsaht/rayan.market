@@ -10,7 +10,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
-import ProductImageCarousel from '../../components/ProductImageCarousel';
 import {
 	TCart,
 	TCartProduct,
@@ -32,6 +31,7 @@ import {
 	Stack,
 	Typography,
 	Grid,
+	Avatar,
 } from '@mui/material';
 
 const ShowProduct = memo(() => {
@@ -120,18 +120,38 @@ const ShowProduct = memo(() => {
 	]);
 
 	return (
-		<Container
-			sx={{ my: 5, display: { xs: 'none', sm: 'block' } }}
-		>
+		<Container sx={{ my: 7 }}>
 			<main dir='rtl'>
 				{product !== undefined ? (
 					<Grid container>
 						<Grid sm={12} md={6}>
-							<ProductImageCarousel
-								productImages={
-									product?.productImages as (TProductImage | null)[]
-								}
-							/>
+							{product?.productImages &&
+							product.productImages.length ===
+								0 ? (
+								<Avatar
+									sx={{
+										borderRadius: 0,
+										width: '100%',
+										height: '100%',
+									}}
+									src={
+										product?.productImages[0]
+											?.path
+									}
+									alt=''
+								/>
+							) : (
+								<div key='no image'>
+									<Skeleton
+										height={350}
+										width={300}
+										sx={{
+											mt: -14,
+											ml: -0.5,
+										}}
+									/>
+								</div>
+							)}
 						</Grid>
 						<Grid sm={12} md={6}>
 							<Typography

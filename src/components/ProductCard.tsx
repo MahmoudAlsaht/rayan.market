@@ -7,7 +7,6 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-
 import { TProduct, TProductImage } from '../app/store/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
@@ -24,7 +23,7 @@ import {
 	findCartProduct,
 } from '../controllers/cart';
 import { Skeleton, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
 	product: TProduct | null;
@@ -33,11 +32,10 @@ type ProductCardProps = {
 export default function ProductCard({
 	product,
 }: ProductCardProps) {
-	const navigate = useNavigate();
-
 	const [productImages, setProductImages] =
 		useState<(TProductImage | null)[]>();
-	const [productInCart, setProductInCart] = useState(false);
+	const [isProductInCart, setIsProductInCart] =
+		useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
 	const [productCart, setProductCart] =
 		useState<TCartProduct | null>();
@@ -67,7 +65,7 @@ export default function ProductCard({
 	};
 
 	const handleAddProduct = () => {
-		if (product && !productInCart) {
+		if (product && !isProductInCart) {
 			dispatch(
 				addToCart({
 					_id: product?._id,
@@ -96,7 +94,7 @@ export default function ProductCard({
 			cart,
 			product?._id as string,
 		) as boolean;
-		setProductInCart(gotProduct);
+		setIsProductInCart(gotProduct);
 		setProductCart(
 			findCartProduct(
 				cart,
@@ -109,56 +107,54 @@ export default function ProductCard({
 		<main dir='rtl'>
 			<Card
 				sx={{
-					maxWidth: 340,
-					mb: 2,
+					my: 1,
 				}}
 			>
-				{productImages ? (
-					<CardMedia
-						component='img'
-						height='194'
-						image={productImages[0]?.path}
-						alt={`${product?.name}'s image`}
-						sx={{ cursor: 'pointer' }}
-						onClick={() =>
-							navigate(`/products/${product?._id}`)
+				<Link to={`/products/${product?._id}`}>
+					{productImages ? (
+						<CardMedia
+							component='img'
+							height='194'
+							image={productImages[0]?.path}
+							alt={`${product?.name}'s image`}
+							sx={{ cursor: 'pointer' }}
+						/>
+					) : (
+						<Skeleton height={194} />
+					)}
+					<CardHeader
+						action={
+							<Typography sx={{ color: 'gray' }}>
+								{product?.quantity}
+							</Typography>
+						}
+						title={product?.name.substring(0, 10)}
+						subheader={
+							<legend>
+								{product?.newPrice ? (
+									<p>
+										<span
+											style={{
+												textDecoration:
+													'line-through',
+												color: 'gray',
+												fontSize: 15,
+											}}
+										>
+											{product?.price}JOD
+										</span>
+										{product?.newPrice}JOD
+									</p>
+								) : (
+									<p>{product?.price}JOD</p>
+								)}
+							</legend>
 						}
 					/>
-				) : (
-					<Skeleton height={300} />
-				)}
-				<CardHeader
-					action={
-						<Typography sx={{ color: 'gray' }}>
-							{product?.quantity}
-						</Typography>
-					}
-					title={product?.name.substring(0, 15)}
-					subheader={
-						<legend>
-							{product?.newPrice ? (
-								<p>
-									<span
-										style={{
-											textDecoration:
-												'line-through',
-											color: 'gray',
-											fontSize: 15,
-										}}
-									>
-										{product?.price}JOD
-									</span>
-									{product?.newPrice}JOD
-								</p>
-							) : (
-								<p>{product?.price}JOD</p>
-							)}
-						</legend>
-					}
-				/>
+				</Link>
 
 				<CardActions disableSpacing>
-					{productInCart ? (
+					{isProductInCart ? (
 						<legend>
 							<IconButton
 								aria-label='add to product counter'

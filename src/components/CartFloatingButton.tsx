@@ -18,13 +18,13 @@ function CartFloatingButton({
 				onClick={handleClickFn}
 				sx={{
 					position: 'fixed',
-					bottom: { xs: 60, md: 5 },
-					left: { xs: 0, md: 250 },
-					width: { xs: '100%', md: '60%' },
-					height: { xs: '40px', md: '60px' },
+					bottom: { xs: 60, sm: 5 },
+					left: { xs: 20, sm: 150, md: 250 },
+					width: { xs: '90%', sm: '50%', md: '60%' },
+					height: { xs: '40px', sm: '60px' },
 					backgroundColor: {
 						xs: 'primary.main',
-						md: 'primary.light',
+						sm: 'primary.light',
 					},
 				}}
 			>
@@ -32,7 +32,7 @@ function CartFloatingButton({
 					<ShoppingBasketIcon
 						sx={{
 							mr: 1,
-							fontSize: { xs: 18, md: 25 },
+							fontSize: { xs: 18, sm: 25 },
 							color: {
 								xs: 'white',
 								md: 'black',

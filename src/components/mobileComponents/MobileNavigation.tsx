@@ -5,16 +5,18 @@ import TuneIcon from '@mui/icons-material/Tune';
 import HomeIcon from '@mui/icons-material/Home';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { SyntheticEvent, useState } from 'react';
-import { Box } from '@mui/material';
-import MobileHome from './MobileHome';
-import MobileSearch from './MobileSearch';
-import MobileProducts from './MobileProducts';
-import MobileOptions from './MobileOptions';
+import { useNavigate } from 'react-router-dom';
 
-export default function HomeMobile() {
-	const [page, setPage] = useState('home');
+export default function MobileNavigation() {
+	const isHomePage = window.location.href.search('home');
 
-	const handleChange = (
+	const [page, setPage] = useState(() =>
+		isHomePage !== -1 ? 'home' : 'products',
+	);
+
+	const navigate = useNavigate();
+
+	const handlePageNameChange = (
 		event: SyntheticEvent,
 		newPage: string,
 	) => {
@@ -30,43 +32,36 @@ export default function HomeMobile() {
 					bottom: 0,
 				}}
 				value={page}
-				onChange={handleChange}
+				onChange={handlePageNameChange}
 			>
 				<BottomNavigationAction
 					label='الرئيسية'
 					value='home'
 					icon={<HomeIcon />}
+					onClick={() => navigate('/home')}
 				/>
 
 				<BottomNavigationAction
 					label='المنتجات'
 					value='products'
 					icon={<InventoryIcon />}
+					onClick={() => navigate('/products')}
 				/>
 
 				<BottomNavigationAction
 					label='البحث'
 					value='search'
 					icon={<ManageSearchIcon />}
+					onClick={() => navigate('/search')}
 				/>
+
 				<BottomNavigationAction
 					label='الخيارات'
 					value='options'
 					icon={<TuneIcon />}
+					onClick={() => navigate('user-options')}
 				/>
 			</BottomNavigation>
-
-			<Box>
-				{page === 'home' ? (
-					<MobileHome />
-				) : page === 'search' ? (
-					<MobileSearch />
-				) : page === 'products' ? (
-					<MobileProducts />
-				) : (
-					page === 'options' && <MobileOptions />
-				)}
-			</Box>
 		</>
 	);
 }

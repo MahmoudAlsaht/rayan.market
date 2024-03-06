@@ -105,7 +105,6 @@ export const createAnonymousUser = async (data: {
 
 		return anonymousUser;
 	} catch (e: any) {
-		console.log(e.message);
 		throw new Error('Something went wrong!');
 	}
 };

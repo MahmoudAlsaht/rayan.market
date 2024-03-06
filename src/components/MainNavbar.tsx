@@ -5,13 +5,13 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useState, MouseEvent, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from '../rayan.marketLogo.png';
 import FilterProducts from './FilterProducts';
 import { useNavigate } from 'react-router-dom';
@@ -24,8 +24,8 @@ import CategoryNavbar from './CategoryNavbar';
 const pages = ['العروض', 'المنتجات', 'الرئيسية'].reverse();
 
 export default function MainNavbar() {
-	const [anchorElNav, setAnchorElNav] =
-		useState<null | HTMLElement>(null);
+	// const [anchorElNav, setAnchorElNav] =
+	// 	useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] =
 		useState<null | HTMLElement>(null);
 
@@ -41,6 +41,7 @@ export default function MainNavbar() {
 	useEffect(() => {
 		dispatch(fetchUser());
 	}, [dispatch]);
+
 	const handleLogout = async () => {
 		await dispatch(logout());
 		dispatch(fetchUser());
@@ -48,20 +49,21 @@ export default function MainNavbar() {
 		navigate('/home');
 	};
 
-	const handleOpenNavMenu = (
-		event: MouseEvent<HTMLElement>,
-	) => {
-		setAnchorElNav(event.currentTarget);
-	};
+	// const handleOpenNavMenu = (
+	// 	event: MouseEvent<HTMLElement>,
+	// ) => {
+	// 	setAnchorElNav(event.currentTarget);
+	// };
+
 	const handleOpenUserMenu = (
 		event: React.MouseEvent<HTMLElement>,
 	) => {
 		setAnchorElUser(event.currentTarget);
 	};
 
-	const handleCloseNavMenu = () => {
-		setAnchorElNav(null);
-	};
+	// const handleCloseNavMenu = () => {
+	// 	setAnchorElNav(null);
+	// };
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
@@ -99,11 +101,11 @@ export default function MainNavbar() {
 									flexGrow: 1,
 									display: {
 										xs: 'flex',
-										md: 'none',
+										sm: 'none',
 									},
 								}}
 							>
-								<IconButton
+								{/* <IconButton
 									size='large'
 									aria-label='account of current user'
 									aria-controls='menu-appbar'
@@ -113,6 +115,7 @@ export default function MainNavbar() {
 								>
 									<MenuIcon />
 								</IconButton>
+
 								<Menu
 									id='menu-appbar'
 									anchorEl={anchorElNav}
@@ -160,7 +163,7 @@ export default function MainNavbar() {
 											</Typography>
 										</MenuItem>
 									))}
-								</Menu>
+								</Menu> */}
 							</Box>
 
 							<Box
@@ -168,7 +171,7 @@ export default function MainNavbar() {
 									flexGrow: 1,
 									display: {
 										xs: 'none',
-										md: 'flex',
+										sm: 'flex',
 										justifyContent: 'end',
 									},
 								}}
@@ -177,7 +180,7 @@ export default function MainNavbar() {
 									<Button
 										key={page}
 										onClick={() => {
-											handleCloseNavMenu();
+											// handleCloseNavMenu();
 											navigate(
 												page ===
 													'الرئيسية'

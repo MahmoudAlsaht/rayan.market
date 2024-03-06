@@ -42,7 +42,7 @@ const Dashboard = memo(() => {
 		<Container sx={{ mt: 5 }}>
 			<Grid container>
 				{adminWidgets.map((widget, index) => (
-					<Grid md={6} key={index}>
+					<Grid xs={12} md={6} key={index}>
 						<Widget
 							widgetTitle={
 								widget.toLowerCase() ===
@@ -80,6 +80,7 @@ const Dashboard = memo(() => {
 									  }/account-setting`
 									: `/dashboard/settings/${widget.toLowerCase()}`
 							}
+							height='150px'
 						/>
 					</Grid>
 				))}

@@ -20,7 +20,7 @@ function Widget({
 	return (
 		<>
 			<Link to={href}>
-				<Card sx={{ height, m: 3 }}>
+				<Card sx={{ height, m: 3, width: '90' }}>
 					<main dir='rtl'>
 						<CardContent>
 							<Typography variant='h6'>
@@ -33,8 +33,14 @@ function Widget({
 									color: 'primary.main',
 								}}
 							>
-								عرض المزيد <ArrowBackIcon />
+								المزيد{' '}
 							</Typography>
+							<ArrowBackIcon
+								sx={{
+									color: 'primary.main',
+									ml: 1,
+								}}
+							/>
 						</CardActions>
 					</main>
 				</Card>

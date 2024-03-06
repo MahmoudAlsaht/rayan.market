@@ -18,8 +18,8 @@ export default function CategoryCard({
 				{!category?.image ? (
 					<Box
 						sx={{
-							width: 100,
-							height: 100,
+							width: { sm: 80, md: 100 },
+							height: { sm: 80, md: 100 },
 							borderRadius: '50%',
 							border: '1px solid #07a180',
 							display: 'flex',
@@ -44,15 +44,16 @@ export default function CategoryCard({
 						<Avatar
 							sx={{
 								width: {
-									sm: 100,
+									sm: 70,
 									md: 110,
 									lg: 150,
 								},
 								height: {
-									sm: 100,
+									sm: 70,
 									md: 110,
 									lg: 150,
 								},
+								mr: 2,
 								borderRadius: '50%',
 								cursor: 'pointer',
 								transition:
@@ -67,9 +68,9 @@ export default function CategoryCard({
 				)}
 				<Typography
 					sx={{
-						fontSize: 30,
+						fontSize: { sm: 18, md: 27 },
 						color: 'primary.main',
-						mx: 3,
+						mx: 2,
 					}}
 				>
 					{category?.name}

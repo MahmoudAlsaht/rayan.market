@@ -48,11 +48,11 @@ export default function CategoryList({
 								sx={{
 									mt: 5,
 									width: {
-										sm: 80,
+										sm: 50,
 										lg: 70,
 									},
 									height: {
-										sm: 80,
+										sm: 50,
 										lg: 70,
 									},
 									borderRadius: '50%',
@@ -79,7 +79,7 @@ export default function CategoryList({
 									<ArrowBackIcon
 										sx={{
 											fontSize: {
-												sm: 40,
+												sm: 25,
 												md: 35,
 											},
 										}}

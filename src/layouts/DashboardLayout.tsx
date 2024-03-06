@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
@@ -25,7 +26,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -169,6 +169,10 @@ export default function DashBoardLayout() {
 						edge='start'
 						sx={{
 							marginRight: 5,
+							display: {
+								xs: 'none',
+								sm: 'block',
+							},
 							...(open && { display: 'none' }),
 						}}
 					>
@@ -178,7 +182,12 @@ export default function DashBoardLayout() {
 			</AppBar>
 			<Drawer variant='permanent' open={open}>
 				<DrawerHeader>
-					<IconButton onClick={handleDrawerClose}>
+					<IconButton
+						onClick={handleDrawerClose}
+						sx={{
+							display: { xs: 'none', sm: 'block' },
+						}}
+					>
 						<ChevronRightIcon />
 					</IconButton>
 				</DrawerHeader>
