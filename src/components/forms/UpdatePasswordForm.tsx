@@ -112,7 +112,7 @@ function UpdatePasswordForm({
 			sx={{ m: 3 }}
 		>
 			<Typography variant='h3'>
-				تحديث كلمة المرور
+				تعديل كلمة المرور
 			</Typography>
 
 			<ErrorComponent error={error} />

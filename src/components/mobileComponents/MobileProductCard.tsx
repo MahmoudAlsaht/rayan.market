@@ -148,6 +148,7 @@ export default function MobileProductCard({
 								position: 'absolute',
 								top: 0,
 								right: -17,
+								color: 'primary.main',
 							}}
 						>
 							{product?.isOffer ? (

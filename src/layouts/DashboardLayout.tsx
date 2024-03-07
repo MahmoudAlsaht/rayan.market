@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -277,9 +278,15 @@ export default function DashBoardLayout() {
 					)}
 
 					<Link
-						to={`/account/profile/${
-							user && user?.profile
-						}/account-setting`}
+						to={
+							user && user?.role === 'admin'
+								? `/dashboard/admin/${
+										user && user?.profile
+								  }/account-settings`
+								: `/account/profile/${
+										user && user?.profile
+								  }/account-setting`
+						}
 					>
 						<ListItem
 							disablePadding

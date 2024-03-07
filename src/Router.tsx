@@ -42,6 +42,7 @@ import { ThemeProvider } from '@mui/material';
 import { cacheRtl, theme } from './assets/styles';
 import MobileSearch from './components/mobileComponents/MobileSearch';
 import MobileOptions from './components/mobileComponents/MobileOptions';
+import EditAdmin from './routes/dashboard/EditAdmin';
 
 export const Router = createBrowserRouter([
 	{
@@ -149,6 +150,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'admin/:adminId',
 						element: <Dashboard />,
+					},
+					{
+						path: 'admin/:adminId/account-settings',
+						element: <EditAdmin />,
 					},
 					{
 						path: 'settings/categories',

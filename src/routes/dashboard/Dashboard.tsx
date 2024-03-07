@@ -75,9 +75,9 @@ const Dashboard = memo(() => {
 							href={
 								widget.toLowerCase() ===
 								'settings'
-									? `/account/profile/${
+									? `/dashboard/admin/${
 											user && user?.profile
-									  }/account-setting`
+									  }/account-settings`
 									: `/dashboard/settings/${widget.toLowerCase()}`
 							}
 							height='150px'
