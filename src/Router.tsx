@@ -48,16 +48,19 @@ export const Router = createBrowserRouter([
 		element: <Wrapper />,
 		children: [
 			{ path: '/', element: <LandingPage /> },
-			{ path: 'user-options', element: <MobileOptions /> },
-			{
-				path: 'search',
-				element: <MobileSearch />,
-			},
 			{
 				path: '/',
 				element: <RootLayout />,
 				children: [
 					{ path: 'home', element: <Home /> },
+					{
+						path: 'user-options',
+						element: <MobileOptions />,
+					},
+					{
+						path: 'search',
+						element: <MobileSearch />,
+					},
 					{
 						path: 'categories',
 						element: <Categories />,

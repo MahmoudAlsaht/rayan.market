@@ -71,6 +71,7 @@ export default function MobileSearch() {
 				<Box
 					sx={{
 						display: { sm: 'none' },
+						mb: 15,
 					}}
 				>
 					<AppBar

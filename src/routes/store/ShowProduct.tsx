@@ -28,10 +28,10 @@ import {
 	Divider,
 	IconButton,
 	Skeleton,
-	Stack,
 	Typography,
 	Grid,
 	Avatar,
+	Badge,
 } from '@mui/material';
 
 const ShowProduct = memo(() => {
@@ -127,18 +127,34 @@ const ShowProduct = memo(() => {
 						<Grid sm={12} md={6}>
 							{product?.productImages &&
 							product.productImages.length > 0 ? (
-								<Avatar
-									sx={{
-										borderRadius: 0,
-										width: '100%',
-										height: '100%',
-									}}
-									src={
-										product?.productImages[0]
-											?.path
+								<Badge
+									badgeContent={`x${product?.quantity}`}
+									color={
+										parseInt(
+											product?.quantity,
+										) > 0
+											? 'primary'
+											: 'error'
 									}
-									alt=''
-								/>
+									sx={{
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+									}}
+								>
+									<Avatar
+										sx={{
+											borderRadius: 0,
+											width: '100%',
+											height: '100%',
+										}}
+										src={
+											product
+												?.productImages[0]
+												?.path
+										}
+									/>
+								</Badge>
 							) : (
 								<div key='no image'>
 									<Skeleton
@@ -152,10 +168,15 @@ const ShowProduct = memo(() => {
 								</div>
 							)}
 						</Grid>
-						<Grid sm={12} md={6}>
+						<Grid sm={12} md={6} sx={{ ml: 7 }}>
 							<Typography
 								variant='h3'
-								sx={{ color: 'primary.main' }}
+								sx={{
+									color: 'primary.main',
+									fontSize: 20,
+									mt: 5,
+									mb: 2,
+								}}
 							>
 								{product?.name}
 							</Typography>
@@ -166,8 +187,9 @@ const ShowProduct = memo(() => {
 							/>
 							<Typography
 								variant='h4'
-								style={{
+								sx={{
 									color: 'gray',
+									fontSize: 20,
 								}}
 							>
 								{product?.isOffer ? (
@@ -188,81 +210,73 @@ const ShowProduct = memo(() => {
 									variant='h4'
 									sx={{
 										color: 'gray',
+										fontSize: 20,
 									}}
 								>
 									{product?.newPrice} JOD
 								</Typography>
 							)}
-							<Typography
-								variant='h4'
+
+							<Grid
+								container
 								sx={{
-									color:
-										parseInt(
-											product?.quantity as string,
-										) !== 0
-											? 'gray'
-											: 'error.main',
+									mt: 1,
+									mb: 10,
 								}}
 							>
-								{product?.quantity} متوافر
-							</Typography>
-							<Divider
-								sx={{
-									mb: 3,
-								}}
-							/>
-
-							<Stack direction='row'>
-								<Button
-									variant='outlined'
-									fullWidth
-									onClick={handleAddToCart}
-									disabled={
-										isProductInCart ||
-										parseInt(
-											product?.quantity as string,
-										) === 0
-									}
-								>
-									{!isProductInCart ? (
-										<span>
-											أضف للعربة
-											<AddShoppingCartIcon />
-										</span>
-									) : (
-										<span>
-											في العربة
-											<CheckIcon />
-										</span>
-									)}
-								</Button>
-
+								<Grid xs={12} sm={8}>
+									<Button
+										variant='outlined'
+										fullWidth
+										onClick={handleAddToCart}
+										disabled={
+											isProductInCart ||
+											parseInt(
+												product?.quantity as string,
+											) === 0
+										}
+									>
+										{!isProductInCart ? (
+											<span>
+												أضف للعربة
+												<AddShoppingCartIcon />
+											</span>
+										) : (
+											<span>
+												في العربة
+												<CheckIcon />
+											</span>
+										)}
+									</Button>
+								</Grid>
 								{isProductInCart && (
-									<legend>
-										<IconButton
-											aria-label='add to product counter'
-											onClick={
-												handleAddProduct
-											}
-										>
-											<AddCircleIcon />
-										</IconButton>
-										<IconButton aria-label='product quantity in cart'>
-											{
-												productCart?.counter
-											}
-										</IconButton>
-										<IconButton
-											aria-label='take one product from cart'
-											onClick={
-												handleRemoveProduct
-											}
-										>
-											<RemoveCircleIcon />
-										</IconButton>
-									</legend>
+									<Grid>
+										<legend>
+											<IconButton
+												aria-label='add to product counter'
+												onClick={
+													handleAddProduct
+												}
+											>
+												<AddCircleIcon />
+											</IconButton>
+											<IconButton aria-label='product quantity in cart'>
+												{
+													productCart?.counter
+												}
+											</IconButton>
+											<IconButton
+												aria-label='take one product from cart'
+												onClick={
+													handleRemoveProduct
+												}
+											>
+												<RemoveCircleIcon />
+											</IconButton>
+										</legend>
+									</Grid>
 								)}
-							</Stack>
+							</Grid>
 						</Grid>
 					</Grid>
 				) : (

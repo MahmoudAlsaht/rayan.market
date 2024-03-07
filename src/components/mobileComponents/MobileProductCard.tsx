@@ -7,6 +7,7 @@ import {
 	CardMedia,
 	Grid,
 	IconButton,
+	Paper,
 	Skeleton,
 	Typography,
 } from '@mui/material';
@@ -113,25 +114,67 @@ export default function MobileProductCard({
 	}, [cart, product?._id]);
 
 	return (
-		<Grid xs={4} spacing={1}>
+		<Grid xs={6} spacing={1}>
 			<Card
 				sx={{
-					my: 1,
-					height: '160px',
+					mx: 1,
+					mb: 1,
+					height: '215px',
 					background: 'none',
 				}}
 			>
 				<Link to={`/products/${product?._id}`}>
-					{productImages && productImages[0]?.path ? (
-						<CardMedia
-							component='img'
-							height={60}
-							image={productImages[0]?.path}
-							alt={`${product?.name}'s image`}
-						/>
-					) : (
-						<Skeleton height={60} />
-					)}
+					<Box
+						sx={{
+							height: '60%',
+							width: '85%',
+							position: 'relative',
+						}}
+					>
+						{productImages &&
+						productImages[0]?.path ? (
+							<CardMedia
+								component='img'
+								height={160}
+								sx={{ ml: 2 }}
+								image={productImages[0]?.path}
+								alt={`${product?.name}'s image`}
+							/>
+						) : (
+							<Skeleton height={180} />
+						)}
+						<Paper
+							sx={{
+								position: 'absolute',
+								top: 0,
+								right: 0,
+							}}
+						>
+							{product?.isOffer ? (
+								<div>
+									<span
+										style={{
+											textDecoration:
+												'line-through',
+											color: 'gray',
+											fontSize: 12,
+										}}
+									>
+										{product?.price}
+										د.أ{' '}
+									</span>
+									<br />
+									{product?.newPrice}
+									د.أ{' '}
+								</div>
+							) : (
+								<span>
+									{product?.price}
+									د.أ{' '}
+								</span>
+							)}
+						</Paper>
+					</Box>
 					<CardHeader
 						title={
 							<legend dir='rtl'>
@@ -139,7 +182,10 @@ export default function MobileProductCard({
 									variant='subtitle1'
 									color='primary.main'
 									sx={{
-										fontSize: 11,
+										fontSize: 13,
+										textAlign: 'center',
+										height: 5,
+										mt: 2,
 									}}
 								>
 									{product?.name.substring(
@@ -147,58 +193,38 @@ export default function MobileProductCard({
 										9,
 									)}
 								</Typography>
-								<Typography
-									variant='subtitle2'
-									color='secondary.main'
-									sx={{
-										fontSize: 11,
-										textAlign: 'center',
-										height: 12,
-									}}
-								>
-									{product?.isOffer ? (
-										<div>
-											<span
-												style={{
-													textDecoration:
-														'line-through',
-													color: 'gray',
-													fontSize: 12,
-												}}
-											>
-												{product?.price}
-												د.أ{' '}
-											</span>
-											<br />
-											{product?.newPrice}
-											د.أ{' '}
-										</div>
-									) : (
-										<span>
-											{product?.price}
-											د.أ{' '}
-										</span>
-									)}
-								</Typography>
 							</legend>
 						}
 					/>
 				</Link>
 
-				<CardActions>
+				<CardActions
+					sx={{
+						mt: -1,
+						display: 'flex',
+						justifyContent: 'center',
+					}}
+				>
 					{isProductInCart ? (
-						<Box sx={{ display: 'flex' }}>
+						<Box
+							sx={{
+								display: 'flex',
+							}}
+						>
 							<IconButton
 								aria-label='add to product counter'
 								onClick={handleAddToCounter}
 							>
 								<AddCircleIcon
-									sx={{ fontSize: 11 }}
+									sx={{ fontSize: 15 }}
 								/>
 							</IconButton>
 							<IconButton
 								aria-label='product quantity in cart'
-								sx={{ p: 0, fontSize: 11 }}
+								sx={{
+									p: 0,
+									fontSize: 15,
+								}}
 							>
 								{productCart?.counter}
 							</IconButton>
@@ -207,7 +233,7 @@ export default function MobileProductCard({
 								onClick={handleRemoveProduct}
 							>
 								<RemoveCircleIcon
-									sx={{ fontSize: 11 }}
+									sx={{ fontSize: 15 }}
 								/>
 							</IconButton>
 						</Box>

@@ -8,9 +8,14 @@ import { useNavigate } from 'react-router-dom';
 
 export default function MobileNavigation() {
 	const isHomePage = window.location.href.search('home');
+	const isSearchPage = window.location.href.search('search');
 
 	const [page, setPage] = useState(() =>
-		isHomePage !== -1 ? 'home' : 'search',
+		isHomePage !== -1
+			? 'home'
+			: isSearchPage !== -1
+			? 'search'
+			: 'options',
 	);
 
 	const navigate = useNavigate();
