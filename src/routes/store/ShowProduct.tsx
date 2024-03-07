@@ -1,9 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
-import {
-	TProduct,
-	TProductImage,
-} from '../../app/store/product';
+import { TProduct } from '../../app/store/product';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchProduct } from '../../controllers/product';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -36,13 +33,10 @@ import {
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
-	const [previewImageUrl, setPreviewImageUrl] =
-		useState<TProductImage | null>();
+	const [product, setProduct] = useState<TProduct | null>();
 	const [isProductInCart, setIsProductInCart] =
 		useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
-
-	const [product, setProduct] = useState<TProduct | null>();
 
 	const [productCart, setProductCart] =
 		useState<TCartProduct | null>();
@@ -78,7 +72,8 @@ const ShowProduct = memo(() => {
 					_id: productId,
 					name: product?.name,
 					price: product?.price,
-					imageUrl: previewImageUrl?.path as string,
+					imageUrl: product?.productImage
+						?.path as string,
 					quantity: product?.quantity,
 					counter: 1,
 				}),
@@ -93,8 +88,6 @@ const ShowProduct = memo(() => {
 				productId as string,
 			);
 			setProduct(productData);
-			if (productData?.productImages)
-				setPreviewImageUrl(productData.productImages[0]);
 		};
 		getProduct();
 
@@ -125,8 +118,8 @@ const ShowProduct = memo(() => {
 				{product !== undefined ? (
 					<Grid container>
 						<Grid sm={12} md={6}>
-							{product?.productImages &&
-							product.productImages.length > 0 ? (
+							{product?.productImage &&
+							product.productImage != null ? (
 								<Badge
 									badgeContent={`x${product?.quantity}`}
 									color={
@@ -149,8 +142,7 @@ const ShowProduct = memo(() => {
 											height: '100%',
 										}}
 										src={
-											product
-												?.productImages[0]
+											product?.productImage
 												?.path
 										}
 									/>

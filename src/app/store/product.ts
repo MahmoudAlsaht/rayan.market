@@ -23,7 +23,7 @@ export type TProductImage = TImage & {
 export type TProduct = {
 	_id: string;
 	name: string;
-	productImages: TProductImage[] | null;
+	productImage: TProductImage | null;
 	createdAt: Date;
 	price: string;
 	newPrice?: string;

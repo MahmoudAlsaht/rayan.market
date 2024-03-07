@@ -7,16 +7,13 @@ import {
 } from 'react';
 import ErrorComponent, { IError } from '../Error';
 import { updateProduct } from '../../controllers/product';
-import { fetchProductsImages } from '../../controllers/productImages';
 import { fetchCategories } from '../../controllers/category';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TCategory } from '../../app/store/category';
-import {
-	TProduct,
-	TProductImage,
-} from '../../app/store/product';
+import { TProduct } from '../../app/store/product';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import {
+	Avatar,
 	Box,
 	Button,
 	Dialog,
@@ -53,20 +50,17 @@ function EditProductForm({
 	product,
 }: EditProductFormProps) {
 	const dispatch = useAppDispatch();
-	const [previewImages, setPreviewImages] = useState<
-		TPreviewImage[] | null
-	>(null);
-	const [selectedImages, setSelectedImages] =
-		useState<FileList | null>(null);
+	const [previewImage, setPreviewImage] =
+		useState<TPreviewImage | null>(null);
+
+	const [selectedImage, setSelectedImage] =
+		useState<File | null>(null);
+
 	const [isOffer, setIsOffer] = useState(product?.isOffer);
 
 	const handleIsOffer = () => {
 		setIsOffer(!isOffer);
 	};
-
-	const [productImages, setProductImages] = useState<
-		(TProductImage | null)[]
-	>([]);
 
 	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
@@ -78,43 +72,13 @@ function EditProductForm({
 	useEffect(() => {
 		dispatch(fetchCategories());
 		dispatch(fetchBrands());
+	}, [dispatch]);
 
-		const updateImages = async () => {
-			try {
-				const images = await fetchProductsImages(
-					product?._id as string,
-				);
-				setProductImages(images);
-			} catch (e: any) {
-				console.log(e);
-			}
-		};
-		updateImages();
-	}, [dispatch, product?._id]);
-
-	const handleRemovePreviewImages = (id: string) => {
-		setPreviewImages((prevPreviewImages) => {
-			return prevPreviewImages!.filter((image) => {
-				return image.name !== id && image;
-			});
-		});
-
-		const dataTransfer = new DataTransfer();
-		for (const file of selectedImages!) {
-			id !== file.name && dataTransfer.items.add(file);
-		}
-		setSelectedImages(dataTransfer.files);
+	const handleRemovePreviewImage = async () => {
+		setPreviewImage(null);
+		setSelectedImage(null);
 	};
 
-	const handleRemoveProductImages = (id: string) => {
-		setProductImages((prevProductImages) => {
-			return prevProductImages!.filter((image) => {
-				return image?._id !== id && image;
-			});
-		});
-	};
-
-	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -159,7 +123,7 @@ function EditProductForm({
 							quantity,
 							category,
 							brand,
-							images: selectedImages,
+							image: selectedImage,
 							isOffer,
 							offerExpiresDate,
 						},
@@ -172,8 +136,8 @@ function EditProductForm({
 				setBrandValue('');
 				productPriceRef.current!.value = '';
 				productQuantityRef.current!.value = '';
-				setSelectedImages(null);
-				setPreviewImages(null);
+				setSelectedImage(null);
+				setPreviewImage(null);
 			}
 		} catch (e: any) {
 			setError({
@@ -184,43 +148,19 @@ function EditProductForm({
 		}
 	};
 
-	const handleFileChange = (
+	const handleFileChange = async (
 		e: ChangeEvent<HTMLInputElement>,
 	) => {
-		if (
-			e.target.files &&
-			productImages &&
-			e.target.files!.length + productImages!.length > 4
-		) {
-			setPreviewImages(null);
-			setSelectedImages(null);
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'Yoy Can Only Upload Up to 4 Images',
-			});
-		} else {
-			setValidated(true);
-			setError({
-				status: true,
-				message: 'looks good!',
-			});
-			const files: FileList | null = e.target.files!;
-			setSelectedImages(files);
-			const images: TPreviewImage[] = [];
-			for (const file of files) {
-				images.push({
-					url: URL.createObjectURL(file),
-					name: file.name,
-				});
-			}
-			setPreviewImages(images);
-			setValidated(true);
-			setError({
-				status: true,
-				message: 'looks good!',
-			});
-		}
+		setPreviewImage(null);
+		setSelectedImage(null);
+
+		await setSelectedImage(e.target.files![0]);
+		const file = e.target.files![0];
+		const image: TPreviewImage = {
+			url: URL.createObjectURL(file),
+			name: file?.name,
+		};
+		await setPreviewImage(image);
 	};
 
 	return (
@@ -408,7 +348,6 @@ function EditProductForm({
 								type='file'
 								onChange={handleFileChange}
 								accept='image/*'
-								multiple
 							/>
 						</Button>
 
@@ -418,34 +357,33 @@ function EditProductForm({
 								margin: '30px 0',
 							}}
 						>
-							{previewImages &&
-								previewImages?.map((image) => (
-									<PreviewImage
-										type='PreviewImage'
-										key={image?.name}
-										path={image?.url}
-										imageId={image?.name}
-										handleRemove={
-											handleRemovePreviewImages
+							{previewImage && (
+								<PreviewImage
+									type='PreviewImage'
+									key={previewImage?.name}
+									path={previewImage?.url}
+									imageId={previewImage?.name}
+									handleRemove={
+										handleRemovePreviewImage
+									}
+								/>
+							)}
+							{previewImage == null &&
+								product?.productImage && (
+									<Avatar
+										component='image'
+										sx={{
+											borderRadius: '10px',
+											ml: 5,
+											width: '100px',
+											height: '100px',
+										}}
+										src={
+											product?.productImage
+												?.path
 										}
 									/>
-								))}
-							<br />
-							{productImages &&
-								productImages?.map((image) => (
-									<PreviewImage
-										key={image?._id}
-										imageId={image?._id}
-										path={
-											image?.path as string
-										}
-										dataType='product'
-										handleRemove={
-											handleRemoveProductImages
-										}
-										productId={product?._id}
-									/>
-								))}
+								)}
 						</div>
 					</Box>
 				</DialogContent>
@@ -461,7 +399,6 @@ function EditProductForm({
 					<LoadingButton
 						startIcon='حفظ'
 						loading={isLoading}
-						disabled={!validated}
 						color='primary'
 						variant='outlined'
 						onClick={handleSubmit}

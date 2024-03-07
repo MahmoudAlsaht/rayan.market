@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { TProduct, TProductImage } from '../app/store/product';
+import { TProduct } from '../app/store/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
 	TCart,
@@ -17,7 +17,6 @@ import {
 	removeFromCounter,
 	updateTotalPrice,
 } from '../app/store/cart';
-import { fetchProductsImages } from '../controllers/productImages';
 import {
 	checkIfProductInCart,
 	findCartProduct,
@@ -32,8 +31,6 @@ type ProductCardProps = {
 export default function ProductCard({
 	product,
 }: ProductCardProps) {
-	const [productImages, setProductImages] =
-		useState<(TProductImage | null)[]>();
 	const [isProductInCart, setIsProductInCart] =
 		useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
@@ -71,9 +68,8 @@ export default function ProductCard({
 					_id: product?._id,
 					name: product?.name,
 					price: product?.price,
-					imageUrl:
-						productImages! &&
-						(productImages[0]?.path as string),
+					imageUrl: product?.productImage
+						?.path as string,
 					quantity: product?.quantity,
 					counter: 1,
 				}),
@@ -83,13 +79,6 @@ export default function ProductCard({
 	};
 
 	useEffect(() => {
-		const getImages = async () => {
-			const fetchedImages = await fetchProductsImages(
-				product?._id as string,
-			);
-			setProductImages(fetchedImages);
-		};
-		getImages();
 		const gotProduct = checkIfProductInCart(
 			cart,
 			product?._id as string,
@@ -111,11 +100,11 @@ export default function ProductCard({
 				}}
 			>
 				<Link to={`/products/${product?._id}`}>
-					{productImages ? (
+					{product?.productImage ? (
 						<CardMedia
 							component='img'
 							height='194'
-							image={productImages[0]?.path}
+							image={product?.productImage?.path}
 							alt={`${product?.name}'s image`}
 							sx={{ cursor: 'pointer' }}
 						/>

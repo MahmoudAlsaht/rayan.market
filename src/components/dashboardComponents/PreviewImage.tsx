@@ -1,5 +1,4 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { destroyProductImage } from '../../controllers/productImages';
 import { destroyBannerImage } from '../../controllers/bannerImages';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Badge } from '@mui/material';
@@ -10,7 +9,6 @@ type PreviewImageProps = {
 	type?: string;
 	dataType?: string;
 	handleRemove: (id: string) => void;
-	productId?: string;
 	bannerId?: string;
 };
 
@@ -19,7 +17,6 @@ function PreviewImage({
 	path,
 	dataType,
 	type = '',
-	productId,
 	bannerId,
 	handleRemove,
 }: PreviewImageProps) {
@@ -27,15 +24,11 @@ function PreviewImage({
 		if (type !== '') {
 			handleRemove(imageId);
 		} else {
-			dataType === 'product'
-				? await destroyProductImage(
-						productId as string,
-						imageId,
-				  )
-				: await destroyBannerImage(
-						bannerId as string,
-						imageId,
-				  );
+			dataType !== 'product' &&
+				(await destroyBannerImage(
+					bannerId as string,
+					imageId,
+				));
 			handleRemove(imageId);
 		}
 	};
@@ -54,6 +47,11 @@ function PreviewImage({
 				alt={`product-image${imageId}`}
 				width={100}
 				height={95}
+				style={{
+					marginRight: '2.5rem',
+					marginBottom: '.5rem',
+					borderRadius: '10px',
+				}}
 			/>
 		</Badge>
 	);

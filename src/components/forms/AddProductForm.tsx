@@ -60,29 +60,17 @@ function AddProductForm({
 		message: '',
 	});
 
-	const [previewImages, setPreviewImages] = useState<
-		TPreviewImage[] | null
-	>(null);
-	const [selectedImages, setSelectedImages] =
-		useState<FileList | null>(null);
+	const [previewImage, setPreviewImage] =
+		useState<TPreviewImage | null>(null);
+
+	const [selectedImage, setSelectedImage] =
+		useState<File | null>(null);
 
 	const [isOffer, setIsOffer] = useState(false);
 
-	const handleRemovePreviewImages = async (
-		imageId: string,
-	) => {
-		setPreviewImages((prevPreviewImages) => {
-			return prevPreviewImages!.filter((image) => {
-				return image.name !== imageId && image;
-			});
-		});
-
-		const dataTransfer = new DataTransfer();
-		for (const file of selectedImages!) {
-			imageId !== file.name &&
-				dataTransfer.items.add(file);
-		}
-		setSelectedImages(dataTransfer.files);
+	const handleRemovePreviewImage = async () => {
+		setPreviewImage(null);
+		setSelectedImage(null);
 	};
 
 	const productNameRef = useRef<HTMLInputElement>(null);
@@ -98,8 +86,6 @@ function AddProductForm({
 	};
 
 	const handleChange = () => {
-		console.log(productNameRef.current?.value);
-
 		if (
 			productNameRef.current?.value === '' ||
 			categoryValue === '' ||
@@ -124,30 +110,16 @@ function AddProductForm({
 	const handleFileChange = async (
 		e: ChangeEvent<HTMLInputElement>,
 	) => {
-		if (e.target.files && e.target.files.length > 4) {
-			setPreviewImages(null);
-			setSelectedImages(null);
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'You can upload Up To 4 images',
-			});
-		} else {
-			setValidated(true);
-			setError({
-				status: true,
-				message: 'looks good!',
-			});
-			await setSelectedImages(e.target.files);
-			const images: TPreviewImage[] = [];
-			for (const file of e.target.files!) {
-				images.push({
-					url: URL.createObjectURL(file),
-					name: file?.name,
-				});
-			}
-			await setPreviewImages(images);
-		}
+		setPreviewImage(null);
+		setSelectedImage(null);
+
+		await setSelectedImage(e.target.files![0]);
+		const file = e.target.files![0];
+		const image: TPreviewImage = {
+			url: URL.createObjectURL(file),
+			name: file?.name,
+		};
+		await setPreviewImage(image);
 	};
 
 	const handleSubmit = async (e: FormEvent) => {
@@ -178,7 +150,7 @@ function AddProductForm({
 						offerExpiresDate:
 							offerExpiresDateRef.current?.value ||
 							null,
-						images: selectedImages,
+						image: selectedImage,
 					}),
 				);
 				setIsLoading(false);
@@ -189,8 +161,8 @@ function AddProductForm({
 				productPriceRef.current!.value = '';
 				productNewPriceRef.current!.value = '';
 				productQuantityRef.current!.value = '';
-				setSelectedImages(null);
-				setPreviewImages(null);
+				setSelectedImage(null);
+				setPreviewImage(null);
 			}
 		} catch (e: any) {
 			setError({
@@ -377,7 +349,6 @@ function AddProductForm({
 								type='file'
 								onChange={handleFileChange}
 								accept='image/*'
-								multiple
 							/>
 						</Button>
 
@@ -387,24 +358,25 @@ function AddProductForm({
 								margin: '30px 0',
 							}}
 						>
-							{previewImages &&
-								previewImages?.map((image) => (
-									<span
-										style={{
-											marginRight: '.8rem',
-										}}
-									>
-										<PreviewImage
-											type='previewImage'
-											key={image.name}
-											path={image.url}
-											imageId={image.name}
-											handleRemove={
-												handleRemovePreviewImages
-											}
-										/>
-									</span>
-								))}
+							{previewImage && (
+								<span
+									style={{
+										marginRight: '.8rem',
+									}}
+								>
+									<PreviewImage
+										type='previewImage'
+										key={previewImage.name}
+										path={previewImage.url}
+										imageId={
+											previewImage.name
+										}
+										handleRemove={
+											handleRemovePreviewImage
+										}
+									/>
+								</span>
+							)}
 						</div>
 					</DialogContent>
 					<DialogActions>

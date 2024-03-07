@@ -11,10 +11,7 @@ import {
 	Skeleton,
 	Typography,
 } from '@mui/material';
-import {
-	TProduct,
-	TProductImage,
-} from '../../app/store/product';
+import { TProduct } from '../../app/store/product';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
@@ -25,7 +22,6 @@ import {
 	removeFromCounter,
 	updateTotalPrice,
 } from '../../app/store/cart';
-import { fetchProductsImages } from '../../controllers/productImages';
 import {
 	checkIfProductInCart,
 	findCartProduct,
@@ -42,8 +38,6 @@ type MobileProductCardProps = {
 export default function MobileProductCard({
 	product,
 }: MobileProductCardProps) {
-	const [productImages, setProductImages] =
-		useState<(TProductImage | null)[]>();
 	const [isProductInCart, setIsProductInCart] =
 		useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
@@ -81,9 +75,8 @@ export default function MobileProductCard({
 					_id: product?._id,
 					name: product?.name,
 					price: product?.price,
-					imageUrl:
-						productImages! &&
-						(productImages[0]?.path as string),
+					imageUrl: product?.productImage
+						?.path as string,
 					quantity: product?.quantity,
 					counter: 1,
 				}),
@@ -93,13 +86,6 @@ export default function MobileProductCard({
 	};
 
 	useEffect(() => {
-		const getImages = async () => {
-			const fetchedImages = await fetchProductsImages(
-				product?._id as string,
-			);
-			setProductImages(fetchedImages);
-		};
-		getImages();
 		const gotProduct = checkIfProductInCart(
 			cart,
 			product?._id as string,
@@ -131,13 +117,15 @@ export default function MobileProductCard({
 							position: 'relative',
 						}}
 					>
-						{productImages &&
-						productImages[0]?.path ? (
+						{product?.productImage &&
+						product?.productImage?.path ? (
 							<CardMedia
 								component='img'
 								height={160}
 								sx={{ ml: 2 }}
-								image={productImages[0]?.path}
+								image={
+									product?.productImage?.path
+								}
 								alt={`${product?.name}'s image`}
 							/>
 						) : (

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { uploadProductImages } from './productImages';
 import { TProduct } from '../app/store/product';
 import { sendRequestToServer } from '../utils';
 import db from '../firebase/config';
+import { uploadImage } from '../firebase/firestore/uploadFile';
 
 db();
 
@@ -19,20 +19,6 @@ export const fetchProducts = createAsyncThunk(
 		}
 	},
 );
-
-export const fetchFilteredProducts = async () => {
-	try {
-		const products: (TProduct | null)[] =
-			await sendRequestToServer(
-				'GET',
-				`product/filter-products`,
-			);
-
-		return products;
-	} catch (e: any) {
-		throw new Error(e.message);
-	}
-};
 
 export const fetchOffers = async () => {
 	try {
@@ -72,7 +58,7 @@ export const createProduct = createAsyncThunk(
 		newPrice: string | null;
 		isOffer: boolean;
 		quantity: string;
-		images: FileList | null;
+		image: File | null;
 		offerExpiresDate: string | null;
 	}) => {
 		const {
@@ -81,21 +67,25 @@ export const createProduct = createAsyncThunk(
 			brandId,
 			price,
 			quantity,
-			images,
+			image,
 			newPrice,
 			isOffer,
 			offerExpiresDate,
 		} = option;
 
 		try {
-			const imagesUrls = await uploadProductImages(
-				images,
-				categoryId,
-			);
+			const imageUrl = {
+				url: await uploadImage(
+					image,
+					`${image?.name}`,
+					`products/${name}`,
+				),
+				fileName: image?.name,
+			};
 
 			const product: TProduct | null =
 				await sendRequestToServer('POST', 'product', {
-					imagesUrls,
+					imageUrl,
 					name,
 					categoryId,
 					brandId,
@@ -124,16 +114,20 @@ export const updateProduct = createAsyncThunk(
 				quantity,
 				category,
 				brand,
-				images,
+				image,
 				newPrice,
 				offerExpiresDate,
 				isOffer,
 			} = options.data;
 
-			const imagesUrls = await uploadProductImages(
-				images,
-				category,
-			);
+			const imageUrl = {
+				url: await uploadImage(
+					image,
+					`${image?.name}`,
+					`products/${name}`,
+				),
+				fileName: image?.name,
+			};
 
 			const product: TProduct | null =
 				await sendRequestToServer(
@@ -145,7 +139,7 @@ export const updateProduct = createAsyncThunk(
 						newPrice,
 						quantity,
 						category,
-						imagesUrls,
+						imageUrl,
 						offerExpiresDate,
 						isOffer,
 						brand,

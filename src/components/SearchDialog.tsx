@@ -148,10 +148,10 @@ export default function SearchDialog() {
 													width={150}
 													height={150}
 													src={
-														(product?.productImages !=
+														(product?.productImage !=
 															null &&
 															product
-																?.productImages[0]
+																?.productImage
 																?.path) ||
 														''
 													}
