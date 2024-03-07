@@ -147,7 +147,7 @@ export default function MobileProductCard({
 							sx={{
 								position: 'absolute',
 								top: 0,
-								right: 0,
+								right: -17,
 							}}
 						>
 							{product?.isOffer ? (
