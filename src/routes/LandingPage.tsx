@@ -1,8 +1,11 @@
-import { Grid, Link } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import coverImg from '../coverImg.jpg';
 import EastIcon from '@mui/icons-material/East';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
+	const navigate = useNavigate();
+
 	return (
 		<Grid container>
 			<Grid
@@ -19,21 +22,28 @@ export default function LandingPage() {
 				}}
 			>
 				<h1 className=''>Welcome</h1>
-				<p className='text-center w-50'>
+				<Typography
+					sx={{
+						textAlign: 'center',
+						width: '60%',
+						mb: 2,
+					}}
+				>
 					Lorem ipsum dolor sit amet consectetur
 					adipisicing elit. Perspiciatis qui nulla
 					labore reiciendis itaque fuga, aperiam
 					consectetur quo vitae corporis, voluptatibus,
 					quia quod laudantium praesentium nihil est
 					accusamus cupiditate hic?
-				</p>
-				<Link
-					href='/home'
+				</Typography>
+				<Button
+					onClick={() => navigate('/home')}
 					sx={{
 						color: '#000',
 						border: '1px solid #000',
 						padding: '.5rem .8rem',
 						borderRadius: '.5rem',
+						display: 'flex',
 						transition: 'all 200ms ease-in-out',
 						textDecoration: 'none',
 						'&:hover': {
@@ -43,7 +53,7 @@ export default function LandingPage() {
 					}}
 				>
 					Take a look <EastIcon />
-				</Link>
+				</Button>
 			</Grid>
 			<Grid
 				xs={12}
