@@ -63,7 +63,7 @@ const Category = memo(() => {
 						}}
 					>
 						<MainMobileNavBar />
-						<Grid container>
+						<Grid container sx={{ mb: 10 }}>
 							{allProducts?.map(
 								(product) =>
 									product?.category?._id ===

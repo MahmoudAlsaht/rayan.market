@@ -64,7 +64,7 @@ const ShowBrand = memo(() => {
 					>
 						{' '}
 						<MainMobileNavBar />
-						<Grid container>
+						<Grid container sx={{ mb: 10 }}>
 							{allProducts?.map(
 								(product) =>
 									product?.brand?._id ===
