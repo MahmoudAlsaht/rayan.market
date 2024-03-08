@@ -39,7 +39,7 @@ function Banner() {
 		<>
 			{bannerImages.length !== 0 && (
 				<Box
-					sx={{ display: { xs: 'none', sm: 'block' } }}
+				// sx={{ display: { xs: 'none', sm: 'block' } }}
 				>
 					{!isLoading ? (
 						<Paper sx={{ mb: 3 }}>

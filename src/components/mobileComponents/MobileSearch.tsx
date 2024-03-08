@@ -111,7 +111,6 @@ export default function MobileSearch() {
 							mt: 2,
 							mb: 5,
 						}}
-						spacing={1}
 					>
 						{filteredProducts.map(
 							(product) =>

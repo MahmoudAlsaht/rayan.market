@@ -100,7 +100,7 @@ export default function MobileProductCard({
 	}, [cart, product?._id]);
 
 	return (
-		<Grid xs={6} spacing={1}>
+		<Grid xs={6}>
 			<Card
 				sx={{
 					mx: 1,

@@ -1,5 +1,11 @@
-import { Typography } from '@mui/material';
+import MobileBrandList from './MobileBrandList';
+import MobileCategoryList from './MobileCategoryList';
 
 export default function MobileHome() {
-	return <Typography variant='h1'>MobileHome</Typography>;
+	return (
+		<main>
+			<MobileCategoryList isHomePage={true} />
+			<MobileBrandList isHomePage={true} />
+		</main>
+	);
 }
