@@ -29,7 +29,9 @@ import {
 	Grid,
 	Avatar,
 	Badge,
+	Box,
 } from '@mui/material';
+import MainMobileNavBar from './MainMobileNavBar';
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
@@ -113,8 +115,11 @@ const ShowProduct = memo(() => {
 	]);
 
 	return (
-		<Container sx={{ my: 7 }}>
-			<main dir='rtl'>
+		<main dir='rtl'>
+			<Box sx={{ display: { sm: 'none' } }}>
+				<MainMobileNavBar />
+			</Box>
+			<Container sx={{ my: 7 }}>
 				{product !== undefined ? (
 					<Grid container>
 						<Grid sm={12} md={6}>
@@ -281,8 +286,8 @@ const ShowProduct = memo(() => {
 						</Grid>
 					</Grid>
 				)}
-			</main>
-		</Container>
+			</Container>
+		</main>
 	);
 });
 

@@ -1,22 +1,15 @@
 import { memo, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
-import {
-	AppBar,
-	Box,
-	Grid,
-	IconButton,
-	Toolbar,
-} from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import MobileProductCard from '../../components/mobileComponents/MobileProductCard';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import MainMobileNavBar from './MainMobileNavBar';
 
 const ShowBrand = memo(() => {
 	const { brandId } = useParams();
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const allProducts: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
@@ -70,24 +63,7 @@ const ShowBrand = memo(() => {
 						}}
 					>
 						{' '}
-						<AppBar
-							sx={{
-								position: 'relative',
-								bgcolor: '#fff',
-								mb: 2,
-							}}
-						>
-							<Toolbar>
-								<IconButton
-									edge='start'
-									sx={{ color: 'black' }}
-									aria-label='close'
-									onClick={() => navigate(-1)}
-								>
-									<KeyboardArrowRightIcon />
-								</IconButton>
-							</Toolbar>
-						</AppBar>
+						<MainMobileNavBar />
 						<Grid container>
 							{allProducts?.map(
 								(product) =>
