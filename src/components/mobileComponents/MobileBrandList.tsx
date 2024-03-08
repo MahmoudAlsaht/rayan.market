@@ -44,8 +44,10 @@ export default function MobileBrandList({
 					<Grid>
 						<Box
 							sx={{
-								height: '70px',
-								width: '70px',
+								mt: 3,
+								ml: 2,
+								height: '40px',
+								width: '40px',
 								borderRadius: '50%',
 								border: '1px solid #07a180',
 								display: 'flex',
@@ -67,10 +69,7 @@ export default function MobileBrandList({
 							<Typography>
 								<ArrowBackIcon
 									sx={{
-										fontSize: {
-											sm: 25,
-											md: 35,
-										},
+										fontSize: 15,
 									}}
 								/>
 							</Typography>
