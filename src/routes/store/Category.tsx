@@ -1,14 +1,22 @@
 import { memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
-import { Grid } from '@mui/material';
+import {
+	AppBar,
+	Box,
+	Grid,
+	IconButton,
+	Toolbar,
+} from '@mui/material';
 import MobileProductCard from '../../components/mobileComponents/MobileProductCard';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const Category = memo(() => {
 	const { categoryId } = useParams();
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const allProducts: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
@@ -53,26 +61,46 @@ const Category = memo(() => {
 								),
 						)}
 					</Grid>
-					<Grid
-						container
+
+					<Box
 						sx={{
 							display: {
 								sm: 'none',
 							},
 						}}
 					>
-						{allProducts?.map(
-							(product) =>
-								product?.category?._id ===
-									categoryId && (
-									<MobileProductCard
-										product={
-											product as TProduct
-										}
-									/>
-								),
-						)}
-					</Grid>
+						<AppBar
+							sx={{
+								position: 'relative',
+								bgcolor: '#fff',
+								mb: 2,
+							}}
+						>
+							<Toolbar>
+								<IconButton
+									edge='start'
+									sx={{ color: 'black' }}
+									aria-label='close'
+									onClick={() => navigate(-1)}
+								>
+									<KeyboardArrowRightIcon />
+								</IconButton>
+							</Toolbar>
+						</AppBar>
+						<Grid container>
+							{allProducts?.map(
+								(product) =>
+									product?.category?._id ===
+										categoryId && (
+										<MobileProductCard
+											product={
+												product as TProduct
+											}
+										/>
+									),
+							)}
+						</Grid>
+					</Box>
 				</div>
 			) : null}
 		</>

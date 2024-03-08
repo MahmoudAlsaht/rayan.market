@@ -16,6 +16,7 @@ export default function Brands() {
 			<Box
 				sx={{
 					display: { sm: 'none' },
+					mt: 10,
 				}}
 			>
 				<MobileBrandList isHomePage={false} />
