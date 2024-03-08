@@ -1,19 +1,15 @@
 import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TCategory } from '../../app/store/category';
-import { fetchCategory } from '../../controllers/category';
 import ProductCard from '../../components/ProductCard';
 import { TProduct } from '../../app/store/product';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProducts } from '../../controllers/product';
 import { Grid } from '@mui/material';
+import MobileProductCard from '../../components/mobileComponents/MobileProductCard';
 
 const Category = memo(() => {
 	const { categoryId } = useParams();
 	const dispatch = useAppDispatch();
-	const [category, setCategory] = useState<TCategory | null>(
-		null,
-	);
 	const allProducts: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
 	);
@@ -22,13 +18,6 @@ const Category = memo(() => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		const getCategory = async () => {
-			if (categoryId) {
-				const data = await fetchCategory(categoryId);
-				setCategory(data as TCategory);
-			}
-		};
-		getCategory();
 		dispatch(fetchProducts());
 		setIsLoading(false);
 	}, [categoryId, dispatch]);
@@ -36,19 +25,22 @@ const Category = memo(() => {
 	return (
 		<>
 			{!isLoading ? (
-				<div>
-					<h1 className='text-center mt-3'>
-						{category?.name}
-					</h1>
-
-					<Grid container>
+				<div dir='rtl'>
+					<Grid
+						container
+						sx={{
+							display: {
+								xs: 'none',
+								sm: 'flex',
+							},
+						}}
+					>
 						{allProducts?.map(
 							(product) =>
 								product?.category?._id ===
 									categoryId && (
 									<Grid
 										key={product?._id}
-										xs={4}
 										sm={3}
 										lg={2}
 									>
@@ -58,6 +50,26 @@ const Category = memo(() => {
 											}
 										/>
 									</Grid>
+								),
+						)}
+					</Grid>
+					<Grid
+						container
+						sx={{
+							display: {
+								sm: 'none',
+							},
+						}}
+					>
+						{allProducts?.map(
+							(product) =>
+								product?.category?._id ===
+									categoryId && (
+									<MobileProductCard
+										product={
+											product as TProduct
+										}
+									/>
 								),
 						)}
 					</Grid>

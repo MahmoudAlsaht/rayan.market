@@ -40,7 +40,7 @@ export default function MobileBrandList({
 						/>
 					),
 				)}
-				{isHomePage && (
+				{isHomePage && brands?.length > 0 && (
 					<Grid>
 						<Box
 							sx={{

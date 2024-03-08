@@ -40,7 +40,7 @@ export default function MobileCategoryList({
 						/>
 					),
 				)}
-				{isHomePage && (
+				{isHomePage && categories?.length > 0 && (
 					<Grid>
 						<Box
 							sx={{
