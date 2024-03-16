@@ -16,20 +16,20 @@ const Profile = memo(() => {
 					<Grid xs={12} md={6} key={index}>
 						<Widget
 							widgetTitle={
-								widget.toLowerCase() ===
+								widget?.toLowerCase() ===
 								'settings'
 									? 'معلومات الحساب'
-									: widget.toLowerCase() ===
+									: widget?.toLowerCase() ===
 									  'orders'
 									? 'طلباتي'
 									: 'عناويني'
 							}
 							key={widget}
 							href={
-								widget.toLowerCase() ===
+								widget?.toLowerCase() ===
 								'settings'
 									? `/account/profile/${profileId}/account-setting`
-									: widget.toLowerCase() ===
+									: widget?.toLowerCase() ===
 									  'orders'
 									? `/account/profile/${profileId}/orders-history`
 									: `/account/profile/${profileId}/contact-info`

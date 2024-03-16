@@ -57,9 +57,7 @@ const OrderSettings = memo(() => {
 			return order?.orderId
 				?.toLowerCase()
 				.includes(
-					escapeRegExp(
-						queryInput?.toLocaleLowerCase(),
-					),
+					escapeRegExp(queryInput?.toLowerCase()),
 				);
 		});
 	}, [

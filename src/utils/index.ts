@@ -49,7 +49,7 @@ export function escapeRegExp(str: string) {
 export const filterData = (products: any[], query: string) => {
 	return products?.filter((data) => {
 		return data?.name
-			.toLowerCase()
+			?.toLowerCase()
 			.includes(escapeRegExp(query?.toLowerCase()));
 	});
 };

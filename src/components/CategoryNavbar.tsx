@@ -5,9 +5,9 @@ import { fetchCategories } from '../controllers/category';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useEffect, useState, MouseEvent } from 'react';
 import { TCategory } from '../app/store/category';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link, Menu, MenuItem } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 
 const ITEM_HEIGHT = 48;
 
@@ -50,7 +50,7 @@ export default function CategoryNavbar() {
 								index < 6 && (
 									<Link
 										key={category?._id}
-										href={`/categories/${category?._id}`}
+										to={`/categories/${category?._id}`}
 									>
 										<Tab
 											sx={{
@@ -109,7 +109,7 @@ export default function CategoryNavbar() {
 									(category, index) =>
 										index > 5 && (
 											<Link
-												href={`/categories/${category?._id}`}
+												to={`/categories/${category?._id}`}
 											>
 												<MenuItem
 													key={

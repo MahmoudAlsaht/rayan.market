@@ -45,10 +45,10 @@ const Dashboard = memo(() => {
 					<Grid xs={12} md={6} key={index}>
 						<Widget
 							widgetTitle={
-								widget.toLowerCase() ===
+								widget?.toLowerCase() ===
 								'settings' ? (
 									'معلومات الحساب'
-								) : widget.toLowerCase() ===
+								) : widget?.toLowerCase() ===
 								  'orders' ? (
 									<Badge
 										badgeContent={
@@ -58,13 +58,13 @@ const Dashboard = memo(() => {
 									>
 										الطلبات
 									</Badge>
-								) : widget.toLowerCase() ===
+								) : widget?.toLowerCase() ===
 								  'categories' ? (
 									'الأقسام'
-								) : widget.toLowerCase() ===
+								) : widget?.toLowerCase() ===
 								  'brands' ? (
 									'العلامات التجارية'
-								) : widget.toLowerCase() ===
+								) : widget?.toLowerCase() ===
 								  'products' ? (
 									'المنتجات'
 								) : (
@@ -73,12 +73,12 @@ const Dashboard = memo(() => {
 							}
 							key={widget}
 							href={
-								widget.toLowerCase() ===
+								widget?.toLowerCase() ===
 								'settings'
 									? `/dashboard/admin/${
 											user && user?.profile
 									  }/account-settings`
-									: `/dashboard/settings/${widget.toLowerCase()}`
+									: `/dashboard/settings/${widget?.toLowerCase()}`
 							}
 							height='150px'
 						/>

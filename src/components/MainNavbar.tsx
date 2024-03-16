@@ -79,7 +79,6 @@ export default function MainNavbar() {
 								variant='h6'
 								noWrap
 								component='a'
-								href='/home'
 								sx={{
 									mr: 2,
 									display: {
@@ -92,6 +91,7 @@ export default function MainNavbar() {
 									color: '#000',
 									textDecoration: 'none',
 								}}
+								onClick={() => navigate('/home')}
 							>
 								<img width={100} src={Logo} />
 							</Typography>
