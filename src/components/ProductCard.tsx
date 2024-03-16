@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -21,7 +20,7 @@ import {
 	checkIfProductInCart,
 	findCartProduct,
 } from '../controllers/cart';
-import { Skeleton, Typography } from '@mui/material';
+import { Avatar, Skeleton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
@@ -101,13 +100,16 @@ export default function ProductCard({
 			>
 				<Link to={`/products/${product?._id}`}>
 					{product?.productImage ? (
-						<CardMedia
-							component='img'
-							height='194'
-							image={product?.productImage?.path}
-							alt={`${product?.name}'s image`}
-							sx={{ cursor: 'pointer' }}
-						/>
+						<Avatar
+							src={product?.productImage?.path}
+							sx={{
+								height: 194,
+								borderRadius: 0,
+								width: '100%',
+							}}
+						>
+							No Image
+						</Avatar>
 					) : (
 						<Skeleton height={194} />
 					)}

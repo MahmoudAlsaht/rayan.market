@@ -90,6 +90,7 @@ export default function MainNavbar() {
 									letterSpacing: '.3rem',
 									color: '#000',
 									textDecoration: 'none',
+									cursor: 'pointer',
 								}}
 								onClick={() => navigate('/home')}
 							>

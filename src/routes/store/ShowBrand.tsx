@@ -8,7 +8,7 @@ import { Box, Grid } from '@mui/material';
 import MobileProductCard from '../../components/mobileComponents/MobileProductCard';
 import MainMobileNavBar from './MainMobileNavBar';
 
-const ShowBrand = memo(() => {
+const Brand = memo(() => {
 	const { brandId } = useParams();
 	const dispatch = useAppDispatch();
 	const allProducts: (TProduct | null)[] = useAppSelector(
@@ -29,7 +29,6 @@ const ShowBrand = memo(() => {
 				<div dir='rtl'>
 					<Grid
 						container
-						spacing={2}
 						sx={{
 							display: {
 								xs: 'none',
@@ -43,7 +42,8 @@ const ShowBrand = memo(() => {
 									brandId && (
 									<Grid
 										key={product?._id}
-										xs={4}
+										sm={3}
+										lg={2}
 									>
 										<ProductCard
 											product={
@@ -62,7 +62,6 @@ const ShowBrand = memo(() => {
 							},
 						}}
 					>
-						{' '}
 						<MainMobileNavBar />
 						<Grid container sx={{ mb: 10 }}>
 							{allProducts?.map(
@@ -84,4 +83,4 @@ const ShowBrand = memo(() => {
 	);
 });
 
-export default ShowBrand;
+export default Brand;

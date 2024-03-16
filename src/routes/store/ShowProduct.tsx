@@ -28,7 +28,6 @@ import {
 	Typography,
 	Grid,
 	Avatar,
-	Badge,
 	Box,
 } from '@mui/material';
 import MainMobileNavBar from './MainMobileNavBar';
@@ -123,49 +122,27 @@ const ShowProduct = memo(() => {
 				{product !== undefined ? (
 					<Grid container>
 						<Grid sm={12} md={6}>
-							{product?.productImage &&
-							product.productImage != null ? (
-								<Badge
-									badgeContent={`x${product?.quantity}`}
-									color={
-										parseInt(
-											product?.quantity,
-										) > 0
-											? 'primary'
-											: 'error'
-									}
-									sx={{
-										display: 'flex',
-										flexDirection: 'column',
-										alignItems: 'center',
+							{product?.productImage && (
+								<Avatar
+									style={{
+										borderRadius: 0,
+										width: '70%',
+										height: '100%',
 									}}
+									src={
+										product?.productImage
+											?.path
+									}
 								>
-									<Avatar
-										sx={{
-											borderRadius: 0,
-											width: '100%',
-											height: '100%',
-										}}
-										src={
-											product?.productImage
-												?.path
-										}
-									/>
-								</Badge>
-							) : (
-								<div key='no image'>
-									<Skeleton
-										height={350}
-										width={300}
-										sx={{
-											mt: -14,
-											ml: -0.5,
-										}}
-									/>
-								</div>
+									No Image
+								</Avatar>
 							)}
 						</Grid>
-						<Grid sm={12} md={6} sx={{ ml: 7 }}>
+						<Grid
+							sm={12}
+							md={6}
+							sx={{ ml: { xs: 7, sm: 0 } }}
+						>
 							<Typography
 								variant='h3'
 								sx={{

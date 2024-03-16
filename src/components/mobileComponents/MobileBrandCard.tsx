@@ -1,6 +1,6 @@
 import {
+	Avatar,
 	Card,
-	CardMedia,
 	Grid,
 	Skeleton,
 	Typography,
@@ -29,16 +29,19 @@ export default function MobileBrandCard({
 						borderRadius: '50%',
 					}}
 				>
-					<CardMedia
-						component='img'
-						width={'100%'}
-						height={'100%'}
-						image={brand?.image?.path}
-						alt={`${brand?.name}'s image`}
+					<Avatar
+						sx={{
+							borderRadius: 0,
+							width: '100%',
+							height: '100%',
+						}}
+						src={brand?.image?.path}
 						onClick={() =>
 							navigate(`/brands/${brand?._id}`)
 						}
-					/>
+					>
+						No Image
+					</Avatar>
 				</Card>
 			) : (
 				<Skeleton

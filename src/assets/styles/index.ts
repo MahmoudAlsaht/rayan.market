@@ -5,6 +5,7 @@ import createCache from '@emotion/cache';
 
 export const theme = createTheme({
 	direction: 'rtl',
+	typography: { allVariants: { fontFamily: 'Alexandria' } },
 	palette: {
 		primary: {
 			main: '#07a180',

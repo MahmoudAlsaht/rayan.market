@@ -4,7 +4,7 @@ import MobileBrandList from '../../components/mobileComponents/MobileBrandList';
 
 export default function Brands() {
 	return (
-		<>
+		<div dir='rtl'>
 			<Box
 				sx={{
 					display: { xs: 'none', sm: 'block' },
@@ -21,6 +21,6 @@ export default function Brands() {
 			>
 				<MobileBrandList isHomePage={false} />
 			</Box>
-		</>
+		</div>
 	);
 }

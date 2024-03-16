@@ -72,7 +72,7 @@ export default function BrandList({
 									},
 								}}
 								onClick={() =>
-									navigate('/categories')
+									navigate('/brands')
 								}
 							>
 								<Typography>

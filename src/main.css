@@ -1,3 +1,12 @@
+@font-face {
+	font-family: Alexandria;
+	src: url('./fonts/Alexandria-VariableFont_wght.ttf')
+		format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+html,
 body {
 	margin: 0 !important;
 	background-color: #f8f9fa;

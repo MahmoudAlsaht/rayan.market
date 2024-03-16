@@ -1,10 +1,10 @@
 import {
+	Avatar,
 	Box,
 	Button,
 	Card,
 	CardActions,
 	CardHeader,
-	CardMedia,
 	Grid,
 	IconButton,
 	Paper,
@@ -119,15 +119,18 @@ export default function MobileProductCard({
 					>
 						{product?.productImage &&
 						product?.productImage?.path ? (
-							<CardMedia
-								component='img'
-								height={160}
-								sx={{ ml: 2 }}
-								image={
-									product?.productImage?.path
-								}
+							<Avatar
+								sx={{
+									borderRadius: 0,
+									height: 160,
+									width: '100%',
+									ml: 2,
+								}}
+								src={product?.productImage?.path}
 								alt={`${product?.name}'s image`}
-							/>
+							>
+								No Image
+							</Avatar>
 						) : (
 							<Skeleton height={180} />
 						)}

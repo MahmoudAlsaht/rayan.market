@@ -1,6 +1,6 @@
 import {
+	Avatar,
 	Card,
-	CardMedia,
 	Grid,
 	Skeleton,
 	Typography,
@@ -31,18 +31,21 @@ export default function MobileCategoryCard({
 							borderRadius: '50%',
 						}}
 					>
-						<CardMedia
-							component='img'
-							width={'100%'}
-							height={'100%'}
-							image={category?.image?.path}
-							alt={`${category?.name}'s image`}
+						<Avatar
+							sx={{
+								borderRadius: 0,
+								width: '100%',
+								height: '100%',
+							}}
+							src={category?.image?.path}
 							onClick={() =>
 								navigate(
 									`/categories/${category?._id}`,
 								)
 							}
-						/>
+						>
+							No Image
+						</Avatar>
 					</Card>
 				) : (
 					<Skeleton

@@ -46,7 +46,9 @@ function CartProductCard({ product }: CartProductCardProps) {
 										},
 									}}
 									src={product?.imageUrl}
-								/>
+								>
+									No Image Available
+								</Avatar>
 							) : (
 								<Skeleton
 									sx={{

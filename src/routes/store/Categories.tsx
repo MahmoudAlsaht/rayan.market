@@ -4,7 +4,7 @@ import MobileCategoryList from '../../components/mobileComponents/MobileCategory
 
 export default function Categories() {
 	return (
-		<>
+		<div dir='rtl'>
 			<Box
 				sx={{
 					display: { xs: 'none', sm: 'block' },
@@ -20,6 +20,6 @@ export default function Categories() {
 			>
 				<MobileCategoryList isHomePage={false} />
 			</Box>
-		</>
+		</div>
 	);
 }
