@@ -1,75 +1,65 @@
-import { useEffect, useState } from 'react';
-import { TBanner, TBannerImage } from '../app/store/banner';
-import { fetchActiveBanner } from '../controllers/banner';
-import { fetchBannersImages } from '../controllers/bannerImages';
+import { useEffect } from 'react';
+import { TBanner } from '../app/store/banner';
 import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
-import { Avatar, Box, Paper, Skeleton } from '@mui/material';
+import { Avatar, Box, Paper } from '@mui/material';
+import { fetchBanners } from '../controllers/banner';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 function Banner() {
-	const [banner, setBanner] = useState<TBanner | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
-	const [bannerImages, setBannerImages] = useState<
-		(TBannerImage | null)[]
-	>([]);
+	const banners: (TBanner | null)[] = useAppSelector(
+		(state) => state.banners,
+	);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		const getBanner = async () => {
-			const fetchedBanner = await fetchActiveBanner();
-			setBanner(fetchedBanner);
-		};
-		getBanner();
-		const updateImages = async () => {
-			setIsLoading(true);
-			try {
-				const images = await fetchBannersImages(
-					banner?._id as string,
-				);
-				setBannerImages(images);
-				setIsLoading(false);
-			} catch (e: any) {
-				setIsLoading(false);
-				return;
-			}
-		};
-		updateImages();
-	}, [banner?._id]);
+		dispatch(fetchBanners());
+	}, [dispatch]);
 
 	return (
 		<>
-			{bannerImages.length !== 0 && (
-				<Box>
-					{!isLoading ? (
+			{banners[0]?.bannerImages &&
+				banners[0]?.bannerImages?.length !== 0 && (
+					<Box>
 						<Paper sx={{ mb: 3 }}>
-							{bannerImages!.length < 2 ? (
-								bannerImages?.map((image) => (
-									<Link
-										to={image?.link || '#'}
-										key={image?._id}
-									>
-										<Paper
-											sx={{
-												backgroundColor:
-													!image?.path
-														? 'none'
-														: '#07a180',
-												width: '100%',
-												height: '250px',
-											}}
+							{banners[0].bannerImages &&
+							banners[0].bannerImages.length <
+								2 ? (
+								banners[0].bannerImages?.map(
+									(image) => (
+										<Link
+											to={
+												image?.link ||
+												'#'
+											}
+											key={image?._id}
 										>
-											<Avatar
-												src={image?.path}
+											<Paper
 												sx={{
+													backgroundColor:
+														!image?.path
+															? 'none'
+															: '#07a180',
 													width: '100%',
 													height: '250px',
-													opacity:
-														'.85',
 												}}
-												variant='square'
-											/>
-										</Paper>
-									</Link>
-								))
+											>
+												<Avatar
+													src={
+														image?.path
+													}
+													sx={{
+														width: '100%',
+														height: '250px',
+														opacity:
+															'.85',
+													}}
+													variant='square'
+												/>
+											</Paper>
+										</Link>
+									),
+								)
 							) : (
 								<Carousel
 									indicators={false}
@@ -77,8 +67,8 @@ function Banner() {
 									fullHeightHover
 									animation='slide'
 								>
-									{bannerImages &&
-										bannerImages!.map(
+									{banners[0].bannerImages &&
+										banners[0].bannerImages.map(
 											(image) => (
 												<Link
 													key={
@@ -92,9 +82,7 @@ function Banner() {
 													<div
 														style={{
 															backgroundColor:
-																isLoading
-																	? 'none'
-																	: '#07a180',
+																'#07a180',
 															width: '100%',
 															height: '300px',
 														}}
@@ -115,11 +103,8 @@ function Banner() {
 								</Carousel>
 							)}
 						</Paper>
-					) : (
-						<Skeleton height={311} sx={{ mb: 3 }} />
-					)}
-				</Box>
-			)}
+					</Box>
+				)}
 		</>
 	);
 }

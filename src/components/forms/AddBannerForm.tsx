@@ -1,7 +1,13 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import {
+	ChangeEvent,
+	FormEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import ErrorComponent, { IError } from '../Error';
 import { createBanner } from '../../controllers/banner';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TPreviewImage } from './EditProductForm';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -12,12 +18,21 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	FormControl,
 	FormGroup,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
 	TextField,
 	Typography,
 } from '@mui/material';
 import { VisuallyHiddenInput } from '../../assets/styles';
 import { LoadingButton } from '@mui/lab';
+import { TBrand } from '../../app/store/brand';
+import { TCategory } from '../../app/store/category';
+import { fetchBrands } from '../../controllers/brand';
+import { fetchCategories } from '../../controllers/category';
 
 type AddBannerFormProps = {
 	show: boolean;
@@ -29,11 +44,23 @@ function AddBannerForm({
 	handleClose,
 }: AddBannerFormProps) {
 	const dispatch = useAppDispatch();
+	const brands: (TBrand | null)[] = useAppSelector(
+		(state) => state.brands,
+	);
+	const categories: (TCategory | null)[] = useAppSelector(
+		(state) => state.categories,
+	);
+
 	const [previewImages, setPreviewImages] = useState<
 		TPreviewImage[] | null
 	>(null);
 	const [selectedImages, setSelectedImages] =
 		useState<FileList | null>(null);
+	const [categoryValue, setCategoryValue] = useState('');
+	const [brandValue, setBrandValue] = useState('');
+
+	const [bannerTypeValue, setBannerTypeValue] =
+		useState('normal');
 
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -112,6 +139,9 @@ function AddBannerForm({
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
+		console.log(bannerTypeValue);
+		console.log(categoryValue);
+		console.log(brandValue);
 		try {
 			setIsLoading(true);
 			const form = e.currentTarget as HTMLFormElement;
@@ -126,6 +156,9 @@ function AddBannerForm({
 						name: bannerNameRef.current
 							?.value as string,
 						images: selectedImages,
+						type: bannerTypeValue,
+						category: categoryValue,
+						brand: brandValue,
 					}),
 				);
 				setIsLoading(false);
@@ -142,6 +175,11 @@ function AddBannerForm({
 			setIsLoading(false);
 		}
 	};
+
+	useEffect(() => {
+		dispatch(fetchBrands());
+		dispatch(fetchCategories());
+	}, [dispatch]);
 
 	return (
 		<main dir='rtl'>
@@ -165,6 +203,130 @@ function AddBannerForm({
 						</FormGroup>
 
 						<FormGroup sx={{ m: 5 }}>
+							<FormControl>
+								<InputLabel id='selectBannerType'>
+									نوع اللافتة
+								</InputLabel>
+								<Select
+									labelId='selectBannerType'
+									id='bannerType-select'
+									value={bannerTypeValue}
+									onChange={(
+										e: SelectChangeEvent,
+									) => {
+										setBannerTypeValue(
+											e.target
+												?.value as string,
+										);
+									}}
+									label='اختر النوع'
+								>
+									{[
+										'اختر النوع',
+										'Normal',
+										'Brand',
+										'Category',
+									]?.map((type) => (
+										<MenuItem
+											value={type?.toLowerCase()}
+											key={type?.toLowerCase()}
+										>
+											{type}
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						</FormGroup>
+
+						{bannerTypeValue === 'category' && (
+							<FormGroup>
+								<FormControl
+									sx={{ mx: 5, minWidth: 120 }}
+								>
+									<InputLabel id='selectCategory'>
+										القسم
+									</InputLabel>
+									<Select
+										labelId='selectCategory'
+										id='category-select'
+										value={categoryValue}
+										onChange={(
+											e: SelectChangeEvent,
+										) => {
+											setCategoryValue(
+												e.target
+													.value as string,
+											);
+										}}
+										label='اختر القسم'
+									>
+										<MenuItem value=''>
+											<em>اختر القسم</em>
+										</MenuItem>
+										{categories?.map(
+											(category) => (
+												<MenuItem
+													value={
+														category?._id
+													}
+													key={
+														category?._id
+													}
+												>
+													{
+														category?.name
+													}
+												</MenuItem>
+											),
+										)}
+									</Select>
+								</FormControl>
+							</FormGroup>
+						)}
+
+						{bannerTypeValue === 'brand' && (
+							<FormGroup>
+								<FormControl
+									sx={{ mx: 5, minWidth: 120 }}
+								>
+									<InputLabel id='selectCategory'>
+										العلامة التجارية
+									</InputLabel>
+									<Select
+										labelId='selectBrand'
+										id='brand-select'
+										value={brandValue}
+										onChange={(
+											e: SelectChangeEvent,
+										) => {
+											setBrandValue(
+												e.target
+													?.value as string,
+											);
+										}}
+										label='اختر علامة تجارية'
+									>
+										<MenuItem value=''>
+											<em>
+												اختر علامة تجارية
+											</em>
+										</MenuItem>
+										{brands?.map((brand) => (
+											<MenuItem
+												value={
+													brand?._id
+												}
+												key={brand?._id}
+											>
+												{brand?.name}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+							</FormGroup>
+						)}
+
+						<FormGroup sx={{ m: 5 }}>
 							<Button
 								component='label'
 								role={undefined}
@@ -180,17 +342,20 @@ function AddBannerForm({
 								/>
 							</Button>
 						</FormGroup>
+
 						{previewImages &&
 							previewImages?.map((image) => (
-								<PreviewImage
-									type='previewImage'
-									key={image.name}
-									path={image.url}
-									imageId={image.name}
-									handleRemove={
-										handleRemovePreviewImages
-									}
-								/>
+								<FormGroup sx={{ m: 5 }}>
+									<PreviewImage
+										type='previewImage'
+										key={image.name}
+										path={image.url}
+										imageId={image.name}
+										handleRemove={
+											handleRemovePreviewImages
+										}
+									/>
+								</FormGroup>
 							))}
 					</Box>
 				</DialogContent>

@@ -69,7 +69,7 @@ const Dashboard = memo(() => {
 								  'products' ? (
 									'المنتجات'
 								) : widget?.toLowerCase() ===
-								  'brands' ? (
+								  'banners' ? (
 									'اللافتات'
 								) : (
 									'المستخدمين'

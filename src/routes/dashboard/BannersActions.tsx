@@ -80,9 +80,6 @@ const BannersActions = memo(() => {
 								Name
 							</TableCell>
 							<TableCell align='right'>
-								Status
-							</TableCell>
-							<TableCell align='right'>
 								Actions
 							</TableCell>
 						</TableRow>

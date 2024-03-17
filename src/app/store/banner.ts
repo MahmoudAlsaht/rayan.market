@@ -20,7 +20,6 @@ export type TBanner = {
 	name: string;
 	bannerImages: TBannerImage[] | null;
 	createdAt: Date;
-	active: boolean;
 };
 
 const initialState: (TBanner | null)[] = [];

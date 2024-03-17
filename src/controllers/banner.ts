@@ -20,25 +20,33 @@ export const fetchBanners = createAsyncThunk(
 	},
 );
 
-export const fetchActiveBanner = async () => {
-	try {
-		const banners: (TBanner | null)[] =
-			await sendRequestToServer('GET', `banner`);
-		const banner = banners?.filter((b) => b && b?.active);
-		return (banner![0] as TBanner) || null;
-	} catch (e: any) {
-		throw new Error(e.message);
-	}
-};
+// export const fetchActiveBanner = async () => {
+// 	try {
+// 		const banners: (TBanner | null)[] =
+// 			await sendRequestToServer('GET', `banner`);
+// 		const banner = banners?.filter((b) => b && b?.active);
+// 		return (banner![0] as TBanner) || null;
+// 	} catch (e: any) {
+// 		throw new Error(e.message);
+// 	}
+// };
 
 export const createBanner = createAsyncThunk(
 	'Banners/createBanner',
 	async (option: {
 		name: string;
 		images: FileList | null;
+		type: string;
+		category: string;
+		brand: string;
 	}) => {
 		try {
-			const { name, images } = option;
+			const { name, images, type, category, brand } =
+				option;
+
+			console.log(type);
+			console.log(brand);
+			console.log(category);
 
 			const imagesUrls = await uploadBannerImages(
 				images,
@@ -48,6 +56,9 @@ export const createBanner = createAsyncThunk(
 				await sendRequestToServer('POST', `banner`, {
 					name,
 					imagesUrls,
+					type,
+					category,
+					brand,
 				});
 
 			return banner;

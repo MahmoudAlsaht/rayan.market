@@ -4,11 +4,11 @@ import EditBannerForm from '../forms/EditBannerForm';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TBanner } from '../../app/store/banner';
-import { updateBannersActivity } from '../../controllers/banner';
-import { useAppDispatch } from '../../app/hooks';
+// import { updateBannersActivity } from '../../controllers/banner';
+// import { useAppDispatch } from '../../app/hooks';
 import {
 	IconButton,
-	Switch,
+	// Switch,
 	TableCell,
 	TableRow,
 } from '@mui/material';
@@ -20,7 +20,7 @@ type BannerSettingsProps = {
 
 function BannerSettings({ banner, index }: BannerSettingsProps) {
 	const [show, setShow] = useState(false);
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 	const [showEditBannerForm, setShowEditBannerForm] =
 		useState(false);
 
@@ -30,18 +30,18 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 
 	const handleBannerDeletion = async () => setShow(!show);
 
-	const handleClick = async () => {
-		try {
-			await dispatch(
-				updateBannersActivity({
-					bannerId: banner?._id,
-					active: !banner?.active,
-				}),
-			);
-		} catch (e: any) {
-			console.error(e.message);
-		}
-	};
+	// const handleClick = async () => {
+	// 	try {
+	// 		await dispatch(
+	// 			updateBannersActivity({
+	// 				bannerId: banner?._id,
+	// 				// active: !banner?.active,
+	// 			}),
+	// 		);
+	// 	} catch (e: any) {
+	// 		console.error(e.message);
+	// 	}
+	// };
 
 	return (
 		<TableRow>
@@ -50,7 +50,7 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 				{banner?.name.substring(0, 45)}
 			</TableCell>
 
-			<TableCell
+			{/* <TableCell
 				align='right'
 				sx={{
 					color: !banner?.active
@@ -64,7 +64,7 @@ function BannerSettings({ banner, index }: BannerSettingsProps) {
 					onClick={handleClick}
 				/>
 				{banner?.active ? 'Activated' : 'Deactivated'}
-			</TableCell>
+			</TableCell> */}
 
 			<TableCell align='right'>
 				<EditBannerForm
