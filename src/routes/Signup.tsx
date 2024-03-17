@@ -142,7 +142,7 @@ export default function SignUp() {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component='h1' variant='h5'>
-					Sign up
+					التسجيل
 				</Typography>
 				<Box
 					component='form'
@@ -160,7 +160,7 @@ export default function SignUp() {
 								required
 								fullWidth
 								id='username'
-								label='Username'
+								label='اسم المستخدم'
 								autoFocus
 								inputRef={usernameRef}
 								onChange={handleChange}
@@ -172,7 +172,7 @@ export default function SignUp() {
 								required
 								fullWidth
 								id='phone'
-								label='Phone Number'
+								label='رقم الهاتف'
 								name='phone'
 								type='number'
 								autoComplete='phone Number'
@@ -185,7 +185,7 @@ export default function SignUp() {
 								required
 								fullWidth
 								name='password'
-								label='Password'
+								label='كلمة المرور'
 								type='password'
 								id='password'
 								autoComplete='new-password'
@@ -198,7 +198,7 @@ export default function SignUp() {
 								required
 								fullWidth
 								name='passwordConfirmation'
-								label='Confirm Password'
+								label='تأكيد كلمة المرور'
 								type='password'
 								id='passwordConfirmation'
 								autoComplete='new-password'
@@ -223,7 +223,7 @@ export default function SignUp() {
 						type='submit'
 						fullWidth
 						variant='outlined'
-						startIcon='Signup'
+						startIcon='التسجيل'
 						sx={{ mt: 3, mb: 2 }}
 						disabled={!validated}
 						loading={isLoading}
@@ -234,7 +234,7 @@ export default function SignUp() {
 								href='/auth/signin'
 								variant='body2'
 							>
-								Already have an account? Sign in
+								تملك حساب بالفعل؟ تسجيل الدخول
 							</Link>
 						</Grid>
 					</Grid>

@@ -43,6 +43,7 @@ import { cacheRtl, theme } from './assets/styles';
 import MobileSearch from './components/mobileComponents/MobileSearch';
 import MobileOptions from './components/mobileComponents/MobileOptions';
 import EditAdmin from './routes/dashboard/EditAdmin';
+import UsersActions from './routes/dashboard/UsersActions';
 
 export const Router = createBrowserRouter([
 	{
@@ -154,6 +155,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'admin/:adminId/account-settings',
 						element: <EditAdmin />,
+					},
+					{
+						path: 'settings/users',
+						element: <UsersActions />,
 					},
 					{
 						path: 'settings/categories',

@@ -30,6 +30,7 @@ const Dashboard = memo(() => {
 	}, [dispatch]);
 
 	const adminWidgets = [
+		'Users',
 		'Settings',
 		'Orders',
 		'Categories',
@@ -67,8 +68,11 @@ const Dashboard = memo(() => {
 								) : widget?.toLowerCase() ===
 								  'products' ? (
 									'المنتجات'
-								) : (
+								) : widget?.toLowerCase() ===
+								  'brands' ? (
 									'اللافتات'
+								) : (
+									'المستخدمين'
 								)
 							}
 							key={widget}

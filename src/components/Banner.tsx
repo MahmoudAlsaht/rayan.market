@@ -38,9 +38,7 @@ function Banner() {
 	return (
 		<>
 			{bannerImages.length !== 0 && (
-				<Box
-				// sx={{ display: { xs: 'none', sm: 'block' } }}
-				>
+				<Box>
 					{!isLoading ? (
 						<Paper sx={{ mb: 3 }}>
 							{bannerImages!.length < 2 ? (
@@ -56,24 +54,18 @@ function Banner() {
 														? 'none'
 														: '#07a180',
 												width: '100%',
-												height: {
-													xs: '200px',
-													md: '300px',
-												},
+												height: '250px',
 											}}
 										>
 											<Avatar
 												src={image?.path}
 												sx={{
 													width: '100%',
-													height: {
-														xs: '200px',
-														md: '300px',
-													},
+													height: '250px',
 													opacity:
 														'.85',
-													borderRadius: 0,
 												}}
+												variant='square'
 											/>
 										</Paper>
 									</Link>

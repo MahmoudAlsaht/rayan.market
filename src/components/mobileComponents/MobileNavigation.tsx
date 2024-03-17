@@ -28,12 +28,13 @@ export default function MobileNavigation() {
 	};
 
 	return (
-		<>
+		<main dir='rtl'>
 			<BottomNavigation
 				sx={{
 					width: '100%',
 					position: 'fixed',
 					bottom: 0,
+					zIndex: 1,
 				}}
 				value={page}
 				onChange={handlePageNameChange}
@@ -59,6 +60,6 @@ export default function MobileNavigation() {
 					onClick={() => navigate('user-options')}
 				/>
 			</BottomNavigation>
-		</>
+		</main>
 	);
 }

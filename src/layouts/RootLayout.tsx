@@ -6,8 +6,6 @@ import { useState } from 'react';
 import { TCart } from '../app/store/cart';
 import { useAppSelector } from '../app/hooks';
 import AppFooter from '../components/AppFooter';
-import HomeMobile from '../components/mobileComponents/MobileNavigation';
-import { Box } from '@mui/material';
 
 function RootLayout() {
 	const [show, setShow] = useState(false);
@@ -19,25 +17,9 @@ function RootLayout() {
 
 	return (
 		<>
-			<Box
-				sx={{
-					display: { xs: 'none', sm: 'block' },
-				}}
-			>
-				<MainNavbar />
-			</Box>
+			<MainNavbar />
 
 			<Outlet />
-
-			<main dir='rtl'>
-				<Box
-					sx={{
-						display: { sm: 'none' },
-					}}
-				>
-					<HomeMobile />
-				</Box>
-			</main>
 
 			<AppFooter />
 

@@ -11,6 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 
 import HomeIcon from '@mui/icons-material/Home';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import CategoryIcon from '@mui/icons-material/Category';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -315,6 +316,42 @@ export default function DashBoardLayout() {
 								</ListItemIcon>
 								<ListItemText
 									primary='إعدادات الحساب'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/users'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<AdminPanelSettingsIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='المستخدمين'
 									sx={{
 										opacity: open ? 1 : 0,
 									}}

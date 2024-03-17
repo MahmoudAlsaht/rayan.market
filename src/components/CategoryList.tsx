@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import { fetchCategories } from '../controllers/category';
 import CategoryCard from './CategoryCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 
 export default function CategoryList({
@@ -30,7 +30,7 @@ export default function CategoryList({
 	}, [categories?.length, dispatch]);
 
 	return (
-		<Container sx={{ mt: 12 }}>
+		<Container sx={{ mt: 20 }}>
 			{categories.length !== 0 && (
 				<Grid xs={12} container>
 					{categories.map(
@@ -56,7 +56,6 @@ export default function CategoryList({
 										lg: 70,
 									},
 									borderRadius: '50%',
-									border: '1px solid #07a180',
 									display: 'flex',
 									flexDirection: 'column',
 									alignItems: 'center',
@@ -76,7 +75,7 @@ export default function CategoryList({
 								}
 							>
 								<Typography>
-									<ArrowBackIcon
+									<ArrowBackIosIcon
 										sx={{
 											fontSize: {
 												sm: 25,

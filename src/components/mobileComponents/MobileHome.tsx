@@ -3,7 +3,7 @@ import MobileCategoryList from './MobileCategoryList';
 
 export default function MobileHome() {
 	return (
-		<main>
+		<main dir='rtl'>
 			<MobileCategoryList isHomePage={true} />
 			<MobileBrandList isHomePage={true} />
 		</main>

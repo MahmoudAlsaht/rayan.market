@@ -24,7 +24,7 @@ const Brand = memo(() => {
 	}, [brandId, dispatch]);
 
 	return (
-		<>
+		<Box sx={{ mt: { sm: 20 } }}>
 			{!isLoading ? (
 				<div dir='rtl'>
 					<Grid
@@ -79,7 +79,7 @@ const Brand = memo(() => {
 					</Box>
 				</div>
 			) : null}
-		</>
+		</Box>
 	);
 });
 

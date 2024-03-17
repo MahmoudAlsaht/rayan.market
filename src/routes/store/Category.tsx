@@ -24,7 +24,7 @@ const Category = memo(() => {
 	}, [categoryId, dispatch]);
 
 	return (
-		<>
+		<Box sx={{ mt: { sm: 20 } }}>
 			{!isLoading ? (
 				<div dir='rtl'>
 					<Grid
@@ -79,7 +79,7 @@ const Category = memo(() => {
 					</Box>
 				</div>
 			) : null}
-		</>
+		</Box>
 	);
 });
 

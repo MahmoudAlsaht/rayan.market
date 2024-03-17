@@ -120,7 +120,7 @@ export default function SignIn() {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component='h1' variant='h5'>
-					Sign in
+					تسجيل الدخول
 				</Typography>
 				<Box
 					component='form'
@@ -135,7 +135,7 @@ export default function SignIn() {
 						required
 						fullWidth
 						id='phone'
-						label='Phone Number'
+						label='رقم الهاتف'
 						name='phone'
 						autoComplete='phone number'
 						type='number'
@@ -148,7 +148,7 @@ export default function SignIn() {
 						required
 						fullWidth
 						name='password'
-						label='Password'
+						label='كلمة المرور'
 						type='password'
 						id='password'
 						autoComplete='current-password'
@@ -160,7 +160,7 @@ export default function SignIn() {
 						type='submit'
 						fullWidth
 						variant='outlined'
-						startIcon='Signin'
+						startIcon='تسجيل الدخول'
 						loading={isLoading}
 						disabled={!validated}
 						sx={{ mt: 3, mb: 2 }}
@@ -169,7 +169,7 @@ export default function SignIn() {
 					<Grid container>
 						<Grid item xs>
 							<Link href='#' variant='body2'>
-								Forgot password?
+								نسيت كلمة المرور؟
 							</Link>
 						</Grid>
 						<Grid item>
@@ -177,9 +177,7 @@ export default function SignIn() {
 								href='/auth/signup'
 								variant='body2'
 							>
-								{
-									"Don't have an account? Sign Up"
-								}
+								لا تملك حساب؟ قم بالتسجيل
 							</Link>
 						</Grid>
 					</Grid>

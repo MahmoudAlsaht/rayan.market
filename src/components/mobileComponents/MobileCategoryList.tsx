@@ -4,7 +4,7 @@ import { TCategory } from '../../app/store/category';
 import { fetchCategories } from '../../controllers/category';
 import MobileCategoryCard from './MobileCategoryCard';
 import { Box, Grid, Typography } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 
 export default function MobileCategoryList({
@@ -49,7 +49,6 @@ export default function MobileCategoryList({
 								height: '40px',
 								width: '40px',
 								borderRadius: '50%',
-								border: '1px solid #07a180',
 								display: 'flex',
 								flexDirection: 'column',
 								alignItems: 'center',
@@ -69,7 +68,7 @@ export default function MobileCategoryList({
 							}
 						>
 							<Typography>
-								<ArrowBackIcon
+								<ArrowBackIosIcon
 									sx={{
 										fontSize: 15,
 									}}

@@ -7,7 +7,10 @@ export default function Categories() {
 		<div dir='rtl'>
 			<Box
 				sx={{
-					display: { xs: 'none', sm: 'block' },
+					display: {
+						xs: 'none',
+						sm: 'block',
+					},
 				}}
 			>
 				<CategoryList />

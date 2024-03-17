@@ -4,7 +4,7 @@ import { TBrand } from '../../app/store/brand';
 import { fetchBrands } from '../../controllers/brand';
 import MobileBrandCard from './MobileBrandCard';
 import { Box, Grid, Typography } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 
 export default function MobileBrandList({
@@ -49,7 +49,6 @@ export default function MobileBrandList({
 								height: '40px',
 								width: '40px',
 								borderRadius: '50%',
-								border: '1px solid #07a180',
 								display: 'flex',
 								flexDirection: 'column',
 								alignItems: 'center',
@@ -67,7 +66,7 @@ export default function MobileBrandList({
 							onClick={() => navigate('/brands')}
 						>
 							<Typography>
-								<ArrowBackIcon
+								<ArrowBackIosIcon
 									sx={{
 										fontSize: 15,
 									}}

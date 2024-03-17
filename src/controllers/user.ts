@@ -6,6 +6,7 @@ import {
 	sendRequestToServer,
 	setCookies,
 } from '../utils';
+import { TUser } from '../app/auth/auth';
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
@@ -26,6 +27,34 @@ export const fetchUser = createAsyncThunk(
 		}
 	},
 );
+
+export const fetchUsers = async () => {
+	try {
+		const users: (TUser | null)[] =
+			await sendRequestToServer('GET', 'auth/users');
+
+		return users;
+	} catch (e: any) {
+		console.error(e.message);
+	}
+};
+
+export const editUserRole = async ({
+	userId,
+	role,
+}: {
+	userId: string;
+	role: string;
+}) => {
+	try {
+		await sendRequestToServer('POST', 'auth/users', {
+			userId,
+			role,
+		});
+	} catch (e: any) {
+		console.error(e.message);
+	}
+};
 
 export const signUp = async (
 	phone: any,

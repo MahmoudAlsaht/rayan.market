@@ -48,9 +48,14 @@ export function escapeRegExp(str: string) {
 
 export const filterData = (products: any[], query: string) => {
 	return products?.filter((data) => {
-		return data?.name
-			?.toLowerCase()
-			.includes(escapeRegExp(query?.toLowerCase()));
+		return (
+			data?.name
+				?.toLowerCase()
+				.includes(escapeRegExp(query?.toLowerCase())) ||
+			data?.username
+				?.toLowerCase()
+				.includes(escapeRegExp(query?.toLowerCase()))
+		);
 	});
 };
 

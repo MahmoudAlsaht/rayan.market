@@ -1,5 +1,5 @@
 import { AppBar, Button, Container } from '@mui/material';
-import EastIcon from '@mui/icons-material/East';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useNavigate } from 'react-router-dom';
 
 function AuthNavbar() {
@@ -14,7 +14,7 @@ function AuthNavbar() {
 						aria-label='menu'
 						sx={{ mr: 2 }}
 					>
-						<EastIcon />
+						<ArrowForwardIosIcon />
 					</Button>
 				</Container>
 			</AppBar>
