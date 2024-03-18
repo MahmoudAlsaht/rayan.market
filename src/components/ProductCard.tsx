@@ -22,6 +22,7 @@ import {
 } from '../controllers/cart';
 import { Avatar, Skeleton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { updateProductViews } from '../controllers/product';
 
 type ProductCardProps = {
 	product: TProduct | null;
@@ -98,7 +99,14 @@ export default function ProductCard({
 					my: 1,
 				}}
 			>
-				<Link to={`/products/${product?._id}`}>
+				<Link
+					to={`/products/${product?._id}`}
+					onClick={async () =>
+						updateProductViews(
+							product?._id as string,
+						)
+					}
+				>
 					{product?.productImage ? (
 						<Avatar
 							src={product?.productImage?.path}

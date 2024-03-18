@@ -30,6 +30,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link } from 'react-router-dom';
+import { updateProductViews } from '../../controllers/product';
 
 type MobileProductCardProps = {
 	product: TProduct | null;
@@ -109,7 +110,14 @@ export default function MobileProductCard({
 					background: 'none',
 				}}
 			>
-				<Link to={`/products/${product?._id}`}>
+				<Link
+					to={`/products/${product?._id}`}
+					onClick={async () =>
+						updateProductViews(
+							product?._id as string,
+						)
+					}
+				>
 					<Box
 						sx={{
 							height: '60%',

@@ -118,7 +118,7 @@ const ShowProduct = memo(() => {
 			<Box sx={{ display: { sm: 'none' } }}>
 				<MainMobileNavBar />
 			</Box>
-			<Container sx={{ my: 7 }}>
+			<Container sx={{ my: 7, mt: 20 }}>
 				{product !== undefined ? (
 					<Grid container>
 						<Grid sm={12} md={6}>

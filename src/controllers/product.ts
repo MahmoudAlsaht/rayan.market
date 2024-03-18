@@ -153,6 +153,17 @@ export const updateProduct = createAsyncThunk(
 	},
 );
 
+export const updateProductViews = async (productId: string) => {
+	try {
+		await sendRequestToServer(
+			'PATCH',
+			`product/${productId}`,
+		);
+	} catch (e) {
+		throw new Error('Sorry, Something went wrong!!!');
+	}
+};
+
 export const destroyProduct = createAsyncThunk(
 	'products/destroyProduct',
 	async (productId: string) => {

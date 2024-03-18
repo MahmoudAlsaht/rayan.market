@@ -33,6 +33,7 @@ export type TProduct = {
 	isOffer?: boolean;
 	remaining?: string;
 	offerExpiresDate?: string;
+	views: number;
 };
 
 const initialState: (TProduct | null)[] = [];
