@@ -7,6 +7,7 @@ import {
 	destroyCategory,
 } from '../../controllers/category';
 import { TImage, TProduct } from './product';
+import { TBanner } from './banner';
 
 export type TCategory = {
 	_id: string;
@@ -14,6 +15,7 @@ export type TCategory = {
 	products: (TProduct | null)[];
 	createdAt: Date;
 	image: TImage;
+	banner?: TBanner | null;
 };
 
 const initialState: (TCategory | null)[] = [];

@@ -9,6 +9,8 @@ import {
 	updateImageLink,
 } from '../../controllers/banner';
 import { TImage } from './product';
+import { TCategory } from './category';
+import { TBrand } from './brand';
 
 export type TBannerImage = TImage & {
 	banner: TBanner;
@@ -20,6 +22,9 @@ export type TBanner = {
 	name: string;
 	bannerImages: TBannerImage[] | null;
 	createdAt: Date;
+	bannerType: string;
+	category?: TCategory | null;
+	brand?: TBrand | null;
 };
 
 const initialState: (TBanner | null)[] = [];

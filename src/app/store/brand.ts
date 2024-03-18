@@ -7,6 +7,7 @@ import {
 	destroyBrand,
 } from '../../controllers/brand';
 import { TImage, TProduct } from './product';
+import { TBanner } from './banner';
 
 export type TBrand = {
 	_id: string;
@@ -14,6 +15,7 @@ export type TBrand = {
 	products: (TProduct | null)[];
 	createdAt: Date;
 	image: TImage;
+	banner?: TBanner | null;
 };
 
 const initialState: (TBrand | null)[] = [];

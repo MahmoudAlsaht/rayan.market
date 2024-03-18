@@ -7,6 +7,10 @@ import { fetchProducts } from '../../controllers/product';
 import { Box, Grid } from '@mui/material';
 import MobileProductCard from '../../components/mobileComponents/MobileProductCard';
 import MainMobileNavBar from './MainMobileNavBar';
+import { TBrand } from '../../app/store/brand';
+import { fetchBrand } from '../../controllers/brand';
+import Banner from '../../components/Banner';
+import { TBanner } from '../../app/store/banner';
 
 const Brand = memo(() => {
 	const { brandId } = useParams();
@@ -14,19 +18,31 @@ const Brand = memo(() => {
 	const allProducts: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
 	);
+	const [brand, setBrand] = useState<TBrand | null>(null);
 
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		setIsLoading(true);
+		const getBrand = async () => {
+			const fetchedCategory = await fetchBrand(
+				brandId as string,
+			);
+			setBrand(fetchedCategory);
+		};
+		getBrand();
 		dispatch(fetchProducts());
 		setIsLoading(false);
 	}, [brandId, dispatch]);
 
 	return (
-		<Box sx={{ mt: { sm: 20 } }}>
+		<Box sx={{ mt: { sm: 17 } }}>
 			{!isLoading ? (
 				<div dir='rtl'>
+					<Banner
+						banner={brand?.banner as TBanner | null}
+					/>
+
 					<Grid
 						container
 						sx={{

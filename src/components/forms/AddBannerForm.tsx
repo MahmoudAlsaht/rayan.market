@@ -139,9 +139,7 @@ function AddBannerForm({
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log(bannerTypeValue);
-		console.log(categoryValue);
-		console.log(brandValue);
+
 		try {
 			setIsLoading(true);
 			const form = e.currentTarget as HTMLFormElement;
@@ -223,7 +221,8 @@ function AddBannerForm({
 								>
 									{[
 										'اختر النوع',
-										'Normal',
+										'Main',
+										'Offers',
 										'Brand',
 										'Category',
 									]?.map((type) => (

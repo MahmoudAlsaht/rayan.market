@@ -7,6 +7,10 @@ import { fetchProducts } from '../../controllers/product';
 import { Box, Grid } from '@mui/material';
 import MobileProductCard from '../../components/mobileComponents/MobileProductCard';
 import MainMobileNavBar from './MainMobileNavBar';
+import Banner from '../../components/Banner';
+import { TCategory } from '../../app/store/category';
+import { TBanner } from '../../app/store/banner';
+import { fetchCategory } from '../../controllers/category';
 
 const Category = memo(() => {
 	const { categoryId } = useParams();
@@ -15,18 +19,34 @@ const Category = memo(() => {
 		(state) => state.products,
 	);
 
+	const [category, setCategory] = useState<TCategory | null>(
+		null,
+	);
+
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		setIsLoading(true);
 		dispatch(fetchProducts());
+		const getCategory = async () => {
+			const fetchedCategory = await fetchCategory(
+				categoryId as string,
+			);
+			setCategory(fetchedCategory);
+		};
+		getCategory();
 		setIsLoading(false);
 	}, [categoryId, dispatch]);
 
 	return (
-		<Box sx={{ mt: { sm: 20 } }}>
+		<Box sx={{ mt: { sm: 17 } }}>
 			{!isLoading ? (
 				<div dir='rtl'>
+					<Banner
+						banner={
+							category?.banner as TBanner | null
+						}
+					/>
 					<Grid
 						container
 						sx={{
