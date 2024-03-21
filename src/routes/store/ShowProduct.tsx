@@ -29,8 +29,10 @@ import {
 	Grid,
 	Avatar,
 	Box,
+	Paper,
 } from '@mui/material';
 import MainMobileNavBar from './MainMobileNavBar';
+import ProductsList from '../../components/ProductsList';
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
@@ -105,6 +107,7 @@ const ShowProduct = memo(() => {
 			) as TCartProduct,
 		);
 	}, [
+		dispatch,
 		cart,
 		isProductInCart,
 		product?._id,
@@ -264,6 +267,20 @@ const ShowProduct = memo(() => {
 					</Grid>
 				)}
 			</Container>
+
+			<Paper
+				role='most view products'
+				sx={{ mt: 15, bgcolor: 'inherit' }}
+			>
+				<Typography
+					variant='h3'
+					color='primary'
+					sx={{ ml: 5, mt: 5 }}
+				>
+					الأكثر شيوعا
+				</Typography>
+				<ProductsList productsLength={6} mt={0} />
+			</Paper>
 		</main>
 	);
 });

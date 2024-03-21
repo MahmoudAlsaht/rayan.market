@@ -20,8 +20,12 @@ import {
 	checkIfProductInCart,
 	findCartProduct,
 } from '../controllers/cart';
-import { Avatar, Skeleton, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import {
+	Avatar,
+	Link,
+	Skeleton,
+	Typography,
+} from '@mui/material';
 import { updateProductViews } from '../controllers/product';
 
 type ProductCardProps = {
@@ -100,7 +104,8 @@ export default function ProductCard({
 				}}
 			>
 				<Link
-					to={`/products/${product?._id}`}
+					sx={{ textDecoration: 'none' }}
+					href={`/products/${product?._id}`}
 					onClick={async () =>
 						updateProductViews(
 							product?._id as string,
@@ -124,7 +129,7 @@ export default function ProductCard({
 					<CardHeader
 						action={
 							<Typography sx={{ color: 'gray' }}>
-								{product?.quantity}
+								{product?.views}
 							</Typography>
 						}
 						title={product?.name.substring(0, 10)}
