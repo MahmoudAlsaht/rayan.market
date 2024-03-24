@@ -8,6 +8,7 @@ import {
 } from '../../controllers/product';
 import { TCategory } from './category';
 import { TBrand } from './brand';
+import { TLabel } from '../../controllers/label';
 
 export type TImage = {
 	_id: string;
@@ -34,6 +35,7 @@ export type TProduct = {
 	remaining?: string;
 	offerExpiresDate?: string;
 	views: number;
+	labels?: TLabel[];
 };
 
 const initialState: (TProduct | null)[] = [];

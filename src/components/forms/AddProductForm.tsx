@@ -35,6 +35,7 @@ import { VisuallyHiddenInput } from '../../assets/styles';
 import { LoadingButton } from '@mui/lab';
 import { TBrand } from '../../app/store/brand';
 import { fetchBrands } from '../../controllers/brand';
+import LabelInput from './LabelInput';
 
 type AddProductFormProps = {
 	show: boolean;
@@ -179,7 +180,12 @@ function AddProductForm({
 	}, [dispatch]);
 	return (
 		<div dir='rtl'>
-			<Dialog dir='rtl' open={show} onClose={handleClose}>
+			<Dialog
+				dir='rtl'
+				open={show}
+				onClose={handleClose}
+				fullScreen
+			>
 				<DialogTitle>
 					<Typography variant='h3'>
 						أضف منتج جديد
@@ -287,6 +293,8 @@ function AddProductForm({
 								inputRef={productPriceRef}
 							/>
 						</FormGroup>
+
+						<LabelInput />
 
 						<FormGroup sx={{ m: 5 }}>
 							<FormControlLabel
