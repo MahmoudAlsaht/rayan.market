@@ -36,6 +36,7 @@ import { LoadingButton } from '@mui/lab';
 import { TBrand } from '../../app/store/brand';
 import { fetchBrands } from '../../controllers/brand';
 import LabelInput from './LabelInput';
+import { TLabel } from '../../controllers/label';
 
 type AddProductFormProps = {
 	show: boolean;
@@ -53,6 +54,10 @@ function AddProductForm({
 	const brands: (TBrand | null)[] = useAppSelector(
 		(state) => state.brands,
 	);
+
+	const [selectedLabels, setSelectedLabels] = useState<
+		TLabel[] | null
+	>(null);
 
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -152,6 +157,7 @@ function AddProductForm({
 							offerExpiresDateRef.current?.value ||
 							null,
 						image: selectedImage,
+						labels: selectedLabels,
 					}),
 				);
 				setIsLoading(false);
@@ -294,7 +300,10 @@ function AddProductForm({
 							/>
 						</FormGroup>
 
-						<LabelInput />
+						<LabelInput
+							selectedLabels={selectedLabels}
+							setSelectedLabels={setSelectedLabels}
+						/>
 
 						<FormGroup sx={{ m: 5 }}>
 							<FormControlLabel

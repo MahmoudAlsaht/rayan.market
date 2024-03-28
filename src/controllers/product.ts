@@ -3,6 +3,7 @@ import { TProduct } from '../app/store/product';
 import { sendRequestToServer } from '../utils';
 import db from '../firebase/config';
 import { uploadImage } from '../firebase/firestore/uploadFile';
+import { TLabel } from './label';
 
 db();
 
@@ -60,6 +61,7 @@ export const createProduct = createAsyncThunk(
 		quantity: string;
 		image: File | null;
 		offerExpiresDate: string | null;
+		labels: TLabel[] | null;
 	}) => {
 		const {
 			name,
@@ -71,6 +73,7 @@ export const createProduct = createAsyncThunk(
 			newPrice,
 			isOffer,
 			offerExpiresDate,
+			labels,
 		} = option;
 
 		try {
@@ -94,6 +97,7 @@ export const createProduct = createAsyncThunk(
 					isOffer,
 					newPrice: parseFloat(newPrice as string),
 					offerExpiresDate,
+					labels,
 				});
 
 			return product;
@@ -118,16 +122,20 @@ export const updateProduct = createAsyncThunk(
 				newPrice,
 				offerExpiresDate,
 				isOffer,
+				labels,
 			} = options.data;
 
-			const imageUrl = {
-				url: await uploadImage(
-					image,
-					`${image?.name}`,
-					`products/${name}`,
-				),
-				fileName: image?.name,
-			};
+			console.log(image);
+			let imageUrl = null;
+			if (image)
+				imageUrl = {
+					url: await uploadImage(
+						image,
+						`${image?.name}`,
+						`products/${name}`,
+					),
+					fileName: image?.name,
+				};
 
 			const product: TProduct | null =
 				await sendRequestToServer(
@@ -143,6 +151,7 @@ export const updateProduct = createAsyncThunk(
 						offerExpiresDate,
 						isOffer,
 						brand,
+						labels,
 					},
 				);
 

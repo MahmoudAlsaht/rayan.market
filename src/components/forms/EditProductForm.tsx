@@ -35,6 +35,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { fetchBrands } from '../../controllers/brand';
 import { VisuallyHiddenInput } from '../../assets/styles';
 import { LoadingButton } from '@mui/lab';
+import { TLabel } from '../../controllers/label';
+import LabelInput from './LabelInput';
 
 type EditProductFormProps = {
 	show: boolean;
@@ -55,6 +57,10 @@ function EditProductForm({
 
 	const [selectedImage, setSelectedImage] =
 		useState<File | null>(null);
+
+	const [selectedLabels, setSelectedLabels] = useState<
+		TLabel[] | null
+	>(null);
 
 	const [isOffer, setIsOffer] = useState(product?.isOffer);
 
@@ -126,6 +132,7 @@ function EditProductForm({
 							image: selectedImage,
 							isOffer,
 							offerExpiresDate,
+							labels: selectedLabels,
 						},
 					}),
 				);
@@ -170,6 +177,7 @@ function EditProductForm({
 				onClose={handleClose}
 				dir='rtl'
 				sx={{ height: '100%' }}
+				fullScreen
 			>
 				<DialogContent>
 					<Box component='form' noValidate>
@@ -283,6 +291,11 @@ function EditProductForm({
 								defaultValue={product?.price}
 							/>
 						</FormGroup>
+
+						<LabelInput
+							selectedLabels={selectedLabels}
+							setSelectedLabels={setSelectedLabels}
+						/>
 
 						<FormGroup sx={{ m: 5 }}>
 							<FormControlLabel
