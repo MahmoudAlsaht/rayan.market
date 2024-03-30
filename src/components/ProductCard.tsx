@@ -20,12 +20,7 @@ import {
 	checkIfProductInCart,
 	findCartProduct,
 } from '../controllers/cart';
-import {
-	Avatar,
-	Link,
-	Skeleton,
-	Typography,
-} from '@mui/material';
+import { Avatar, Link, Skeleton } from '@mui/material';
 import { updateProductViews } from '../controllers/product';
 
 type ProductCardProps = {
@@ -126,12 +121,7 @@ export default function ProductCard({
 					) : (
 						<Skeleton height={194} />
 					)}
-					<CardHeader
-						action={
-							<Typography sx={{ color: 'gray' }}>
-								{product?.views}
-							</Typography>
-						}
+					<CardHeader // action={}
 						title={product?.name.substring(0, 10)}
 						subheader={
 							<legend>

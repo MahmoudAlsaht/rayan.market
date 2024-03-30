@@ -20,13 +20,11 @@ import {
 	DialogContent,
 	DialogTitle,
 	FormControl,
-	FormControlLabel,
 	FormGroup,
 	InputLabel,
 	MenuItem,
 	Select,
 	SelectChangeEvent,
-	Switch,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -37,6 +35,8 @@ import { TBrand } from '../../app/store/brand';
 import { fetchBrands } from '../../controllers/brand';
 import LabelInput from './LabelInput';
 import { TLabel } from '../../controllers/label';
+import { Dayjs } from 'dayjs';
+import ProductOfferHandling from './ProductOfferHandling';
 
 type AddProductFormProps = {
 	show: boolean;
@@ -58,6 +58,12 @@ function AddProductForm({
 	const [selectedLabels, setSelectedLabels] = useState<
 		TLabel[] | null
 	>(null);
+
+	const [isEndDate, setIsEndDate] = useState(false);
+	const [startOfferDate, setStartOfferDate] =
+		useState<Dayjs | null>(null);
+	const [endOfferDate, setEndOfferDate] =
+		useState<Dayjs | null>(null);
 
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -87,9 +93,9 @@ function AddProductForm({
 	const [brandValue, setBrandValue] = useState('');
 	const offerExpiresDateRef = useRef<HTMLInputElement>(null);
 
-	const handleIsOffer = () => {
-		setIsOffer(!isOffer);
-	};
+	const handleIsOffer = () => setIsOffer(!isOffer);
+
+	const handleIsEndDate = () => setIsEndDate(!isEndDate);
 
 	const handleChange = () => {
 		if (
@@ -158,6 +164,11 @@ function AddProductForm({
 							null,
 						image: selectedImage,
 						labels: selectedLabels,
+						startDate:
+							startOfferDate?.format('YYYY-MM-DD'),
+						endDate:
+							endOfferDate?.format('YYYY-MM-DD'),
+						isEndDate,
 					}),
 				);
 				setIsLoading(false);
@@ -305,54 +316,23 @@ function AddProductForm({
 							setSelectedLabels={setSelectedLabels}
 						/>
 
-						<FormGroup sx={{ m: 5 }}>
-							<FormControlLabel
-								control={
-									<Switch
-										type='switch'
-										id='custom-switch'
-										checked={isOffer}
-										onClick={handleIsOffer}
-									/>
-								}
-								label={
-									isOffer
-										? 'الغاء العرض'
-										: 'تقديم عرض'
-								}
-							/>
-						</FormGroup>
-
-						{isOffer && (
-							<div>
-								<FormGroup sx={{ mx: 5 }}>
-									<TextField
-										onChange={handleChange}
-										type='number'
-										label='السعر الجدبد'
-										inputRef={
-											productNewPriceRef
-										}
-									/>
-								</FormGroup>
-
-								<FormGroup sx={{ m: 5 }}>
-									<TextField
-										onChange={handleChange}
-										type='number'
-										label='مدة العرض'
-										required
-										inputRef={
-											offerExpiresDateRef
-										}
-										inputProps={{
-											min: '1',
-											max: '10',
-										}}
-									/>
-								</FormGroup>
-							</div>
-						)}
+						<ProductOfferHandling
+							isOffer={isOffer}
+							isEndDate={isEndDate}
+							handleChange={handleChange}
+							handleIsEndDate={handleIsEndDate}
+							handleIsOffer={handleIsOffer}
+							startOfferDate={startOfferDate}
+							endOfferDate={endOfferDate}
+							offerExpiresDateRef={
+								offerExpiresDateRef
+							}
+							productNewPriceRef={
+								productNewPriceRef
+							}
+							setStartOfferDate={setStartOfferDate}
+							setEndOfferDate={setEndOfferDate}
+						/>
 
 						<Button
 							component='label'

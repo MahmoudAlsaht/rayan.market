@@ -62,6 +62,9 @@ export const createProduct = createAsyncThunk(
 		image: File | null;
 		offerExpiresDate: string | null;
 		labels: TLabel[] | null;
+		startDate: string | undefined;
+		endDate: string | undefined;
+		isEndDate: boolean;
 	}) => {
 		const {
 			name,
@@ -74,6 +77,9 @@ export const createProduct = createAsyncThunk(
 			isOffer,
 			offerExpiresDate,
 			labels,
+			startDate,
+			endDate,
+			isEndDate,
 		} = option;
 
 		try {
@@ -98,6 +104,9 @@ export const createProduct = createAsyncThunk(
 					newPrice: parseFloat(newPrice as string),
 					offerExpiresDate,
 					labels,
+					startDate,
+					endDate,
+					isEndDate,
 				});
 
 			return product;
@@ -123,9 +132,11 @@ export const updateProduct = createAsyncThunk(
 				offerExpiresDate,
 				isOffer,
 				labels,
+				startDate,
+				endDate,
+				isEndDate,
 			} = options.data;
 
-			console.log(image);
 			let imageUrl = null;
 			if (image)
 				imageUrl = {
@@ -152,6 +163,9 @@ export const updateProduct = createAsyncThunk(
 						isOffer,
 						brand,
 						labels,
+						startDate,
+						endDate,
+						isEndDate,
 					},
 				);
 

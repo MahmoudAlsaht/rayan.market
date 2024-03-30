@@ -20,13 +20,11 @@ import {
 	DialogActions,
 	DialogContent,
 	FormControl,
-	FormControlLabel,
 	FormGroup,
 	InputLabel,
 	MenuItem,
 	Select,
 	SelectChangeEvent,
-	Switch,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -37,6 +35,8 @@ import { VisuallyHiddenInput } from '../../assets/styles';
 import { LoadingButton } from '@mui/lab';
 import { TLabel } from '../../controllers/label';
 import LabelInput from './LabelInput';
+import ProductOfferHandling from './ProductOfferHandling';
+import dayjs, { Dayjs } from 'dayjs';
 
 type EditProductFormProps = {
 	show: boolean;
@@ -64,9 +64,21 @@ function EditProductForm({
 
 	const [isOffer, setIsOffer] = useState(product?.isOffer);
 
-	const handleIsOffer = () => {
-		setIsOffer(!isOffer);
-	};
+	const [isEndDate, setIsEndDate] = useState(
+		product?.isEndDate,
+	);
+	const [startOfferDate, setStartOfferDate] =
+		useState<Dayjs | null>(
+			dayjs(product?.startOfferDate, 'YYYY-MM-DD') || null,
+		);
+	const [endOfferDate, setEndOfferDate] =
+		useState<Dayjs | null>(
+			dayjs(product?.endOfferDate, 'YYYY-MM-DD') || null,
+		);
+
+	const handleIsOffer = () => setIsOffer(!isOffer);
+
+	const handleIsEndDate = () => setIsEndDate(!isEndDate);
 
 	const categories: (TCategory | null)[] = useAppSelector(
 		(state) => state.categories,
@@ -133,6 +145,15 @@ function EditProductForm({
 							isOffer,
 							offerExpiresDate,
 							labels: selectedLabels,
+							startDate:
+								startOfferDate?.format(
+									'YYYY-MM-DD',
+								),
+							endDate:
+								endOfferDate?.format(
+									'YYYY-MM-DD',
+								),
+							isEndDate,
 						},
 					}),
 				);
@@ -297,57 +318,22 @@ function EditProductForm({
 							setSelectedLabels={setSelectedLabels}
 						/>
 
-						<FormGroup sx={{ m: 5 }}>
-							<FormControlLabel
-								control={
-									<Switch
-										type='switch'
-										id='custom-switch'
-										checked={isOffer}
-										onClick={handleIsOffer}
-									/>
-								}
-								label={
-									isOffer
-										? 'الغاء العرض'
-										: 'تقديم عرض'
-								}
-							/>
-						</FormGroup>
-
-						{isOffer && (
-							<div>
-								<FormGroup sx={{ m: 5 }}>
-									<TextField
-										type='text'
-										label='السعر الجديد'
-										inputRef={
-											productNewPriceRef
-										}
-										defaultValue={
-											product?.newPrice
-										}
-									/>
-								</FormGroup>
-
-								<FormGroup sx={{ m: 5 }}>
-									<TextField
-										type='text'
-										label='مدة العرض'
-										inputRef={
-											offerExpiresDateRef
-										}
-										defaultValue={
-											product?.offerExpiresDate
-										}
-										inputProps={{
-											min: '1',
-											max: '30',
-										}}
-									/>
-								</FormGroup>
-							</div>
-						)}
+						<ProductOfferHandling
+							isOffer={isOffer || false}
+							isEndDate={isEndDate || false}
+							handleIsEndDate={handleIsEndDate}
+							handleIsOffer={handleIsOffer}
+							startOfferDate={startOfferDate}
+							endOfferDate={endOfferDate}
+							offerExpiresDateRef={
+								offerExpiresDateRef
+							}
+							productNewPriceRef={
+								productNewPriceRef
+							}
+							setStartOfferDate={setStartOfferDate}
+							setEndOfferDate={setEndOfferDate}
+						/>
 
 						<Button
 							component='label'

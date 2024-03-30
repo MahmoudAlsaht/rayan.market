@@ -33,7 +33,10 @@ export type TProduct = {
 	brand: TBrand;
 	isOffer?: boolean;
 	remaining?: string;
-	offerExpiresDate?: string;
+	isEndDate?: boolean;
+	offerExpiresDate?: number;
+	startOfferDate?: string | null;
+	endOfferDate?: string | null;
 	views: number;
 	labels?: TLabel[];
 };
