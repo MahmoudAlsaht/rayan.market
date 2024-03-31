@@ -10,6 +10,7 @@ import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 
+import DiscountIcon from '@mui/icons-material/Discount';
 import HomeIcon from '@mui/icons-material/Home';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -460,6 +461,42 @@ export default function DashBoardLayout() {
 								</ListItemIcon>
 								<ListItemText
 									primary='المنتجات'
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/promos'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<DiscountIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='كوبونات الخصم'
 									sx={{
 										opacity: open ? 1 : 0,
 									}}

@@ -1,6 +1,10 @@
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { RefObject, SetStateAction } from 'react';
+import { Dayjs } from 'dayjs';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {
 	FormControlLabel,
 	FormGroup,
@@ -8,10 +12,6 @@ import {
 	Switch,
 	TextField,
 } from '@mui/material';
-import { RefObject, SetStateAction } from 'react';
-import { Dayjs } from 'dayjs';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 type ProductOfferHandlingProps = {
 	isOffer: boolean;

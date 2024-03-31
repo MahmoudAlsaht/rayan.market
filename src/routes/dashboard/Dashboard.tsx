@@ -36,6 +36,7 @@ const Dashboard = memo(() => {
 		'Categories',
 		'Brands',
 		'Products',
+		'Promos',
 		'Banners',
 	];
 
@@ -71,8 +72,11 @@ const Dashboard = memo(() => {
 								) : widget?.toLowerCase() ===
 								  'banners' ? (
 									'اللافتات'
-								) : (
+								) : widget?.toLowerCase() ===
+								  'users' ? (
 									'المستخدمين'
+								) : (
+									'كوبونات الخصم'
 								)
 							}
 							key={widget}

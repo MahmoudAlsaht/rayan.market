@@ -7,6 +7,7 @@ import ProductsReducer from './store/product';
 import CartReducer from './store/cart';
 import OrderReducer from './store/order';
 import BannerReducer from './store/banner';
+import PromoReducer from './store/promo';
 
 export const store = configureStore({
 	reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
 		orders: OrderReducer,
 		banners: BannerReducer,
 		brands: BrandsReducer,
+		promos: PromoReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }),

@@ -44,6 +44,7 @@ import MobileSearch from './components/mobileComponents/MobileSearch';
 import MobileOptions from './components/mobileComponents/MobileOptions';
 import EditAdmin from './routes/dashboard/EditAdmin';
 import UsersActions from './routes/dashboard/UsersActions';
+import PromosActions from './routes/dashboard/PromosActions';
 
 export const Router = createBrowserRouter([
 	{
@@ -167,6 +168,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/brands',
 						element: <BrandsActions />,
+					},
+					{
+						path: 'settings/promos',
+						element: <PromosActions />,
 					},
 					{
 						path: 'settings/products',
