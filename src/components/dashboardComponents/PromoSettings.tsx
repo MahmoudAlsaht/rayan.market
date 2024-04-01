@@ -1,12 +1,9 @@
 import { useState } from 'react';
-// import { useAppDispatch } from '../../app/hooks';
-// import { updateBrand } from '../../controllers/brand';
-// import DeleteBrandForm from '../forms/DeleteBrandForm';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TPromoCode } from '../../app/store/promo';
 import { Button, TableCell, TableRow } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import EditPromoForm from '../forms/EditPromoForm';
 
 type PromoSettingsProps = {
 	promo: TPromoCode | null;
@@ -14,29 +11,10 @@ type PromoSettingsProps = {
 };
 
 function PromoSettings({ promo, index }: PromoSettingsProps) {
-	// const dispatch = useAppDispatch();
-	const [isEditing, setIsEditing] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 	const [show, setShow] = useState(false);
 
-	const handleIsEditing = () => setIsEditing(!isEditing);
-
-	const handleBrandUpdate = async () => {
-		try {
-			// await dispatch(
-			// 	updateBrand({
-			// 		brandId: brand?._id as string,
-			// 		name: nameRef.current?.value as string,
-			// 		file: selectedImage,
-			// 	}),
-			// );
-			setIsLoading(true);
-			handleIsEditing();
-			setIsLoading(false);
-		} catch (e: any) {
-			setIsLoading(false);
-		}
-	};
+	const handleOpenEditForm = () => setShow(true);
+	const handleCloseEditForm = () => setShow(false);
 
 	const handleBrandDeletion = async () => setShow(!show);
 
@@ -49,42 +27,25 @@ function PromoSettings({ promo, index }: PromoSettingsProps) {
 			</TableCell>
 
 			<TableCell align='right'>
-				{!isEditing ? (
-					<legend>
-						<Button onClick={handleIsEditing}>
-							<EditNoteIcon color='warning' />
-						</Button>
+				<Button onClick={handleOpenEditForm}>
+					<EditNoteIcon color='warning' />
+				</Button>
 
-						<Button onClick={handleBrandDeletion}>
-							<DeleteIcon color='error' />
-						</Button>
-						{/* <DeleteBrandForm
+				<EditPromoForm
+					show={show}
+					handleClose={handleCloseEditForm}
+					promo={promo}
+				/>
+
+				<Button onClick={handleBrandDeletion}>
+					<DeleteIcon color='error' />
+				</Button>
+				{/* <DeleteBrandForm
 							brandId={brand?._id as string}
 							show={show}
 							handleClose={handleBrandDeletion}
 							brandName={brand?.name as string}
 						/> */}
-					</legend>
-				) : (
-					<legend>
-						<Button
-							variant='outlined'
-							color='error'
-							sx={{ mr: 1 }}
-							onClick={handleIsEditing}
-						>
-							الغاء
-						</Button>
-
-						<LoadingButton
-							onClick={handleBrandUpdate}
-							loading={isLoading}
-							loadingPosition='center'
-							variant='outlined'
-							startIcon='حفظ'
-						/>
-					</legend>
-				)}
 			</TableCell>
 		</TableRow>
 	);

@@ -1,74 +1,61 @@
-import ErrorComponent, { IError } from '../Error';
 import { FormEvent, useRef, useState } from 'react';
+import ErrorComponent, { IError } from '../Error';
+import { updatePromo } from '../../controllers/promo';
 import { useAppDispatch } from '../../app/hooks';
-import { createPromo } from '../../controllers/promo';
+import { TPromoCode } from '../../app/store/promo';
 import {
 	Box,
 	Button,
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogTitle,
+	FormControlLabel,
 	FormGroup,
 	Grid,
+	Switch,
 	TextField,
 	Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-type AddProductFormProps = {
+type EditPromoFormProps = {
 	show: boolean;
 	handleClose: () => void;
+	promo: TPromoCode | null;
 };
 
-function AddProductForm({
+function EditPromoForm({
 	show,
 	handleClose,
-}: AddProductFormProps) {
+	promo,
+}: EditPromoFormProps) {
 	const dispatch = useAppDispatch();
-	const [startDate, setStartDate] = useState<Dayjs | null>(
-		null,
-	);
-	const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
-	const [validated, setValidated] = useState(false);
+	const [expired, setExpired] = useState(!promo?.expired);
+
+	const [startDate, setStartDate] = useState<Dayjs | null>(
+		dayjs(promo?.startDate, 'YYYY-MM-DD') || null,
+	);
+	const [endDate, setEndDate] = useState<Dayjs | null>(
+		dayjs(promo?.endDate, 'YYYY-MM-DD') || null,
+	);
+
+	const handleExpired = () => setExpired(!expired);
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<IError>({
 		status: null,
 		message: '',
 	});
-
 	const codeRef = useRef<HTMLInputElement>(null);
 	const discountRef = useRef<HTMLInputElement>(null);
-
-	const handleChange = () => {
-		if (
-			codeRef.current?.value === '' ||
-			discountRef.current?.value == null ||
-			parseInt(discountRef.current?.value as string) <=
-				0 ||
-			endDate == null ||
-			startDate == null
-		) {
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'الرجاء قم بملئ جميع الحقول',
-			});
-		} else {
-			setValidated(true);
-			setError({
-				status: true,
-				message: 'looks good!',
-			});
-		}
-	};
+	// const offerExpiresDateRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -81,17 +68,21 @@ function AddProductForm({
 					message: 'invalid fields',
 				});
 			} else {
+				const code = codeRef.current?.value;
+				const discount = discountRef.current?.value;
+
 				await dispatch(
-					createPromo({
-						code: codeRef.current?.value as string,
-						discount:
-							discountRef.current?.value || null,
+					updatePromo({
+						code: code || null,
+						promoId: promo?._id as string,
+						discount: discount || null,
 						startDate:
 							startDate?.format('YYYY-MM-DD') ||
 							null,
 						endDate:
 							endDate?.format('YYYY-MM-DD') ||
 							null,
+						expired: !expired,
 					}),
 				);
 				setIsLoading(false);
@@ -109,42 +100,57 @@ function AddProductForm({
 			setIsLoading(false);
 		}
 	};
-
 	return (
 		<div dir='rtl'>
 			<Dialog
-				dir='rtl'
 				open={show}
 				onClose={handleClose}
+				dir='rtl'
+				sx={{ height: '100%' }}
 				fullScreen
 			>
-				<DialogTitle>
-					<Typography variant='h3'>
-						أضف كوبون
-					</Typography>
-				</DialogTitle>
-
-				<Box component='form' noValidate>
-					<DialogContent>
+				<DialogContent>
+					<Box component='form' noValidate>
+						<Typography variant='h3'>
+							تعديل {promo?.code}
+						</Typography>
 						<ErrorComponent error={error} />
 
 						<FormGroup sx={{ m: 5 }}>
-							<TextField
-								required
-								onChange={handleChange}
-								type='text'
-								label='كود الخصم'
-								inputRef={codeRef}
+							<FormControlLabel
+								control={
+									<Switch
+										type='switch'
+										id='custom-switch'
+										checked={expired}
+										onClick={handleExpired}
+									/>
+								}
+								label={
+									!expired
+										? 'غير فعال'
+										: 'فعال'
+								}
 							/>
 						</FormGroup>
 
 						<FormGroup sx={{ m: 5 }}>
 							<TextField
 								required
-								onChange={handleChange}
+								type='text'
+								label='كود الخصم'
+								inputRef={codeRef}
+								defaultValue={promo?.code}
+							/>
+						</FormGroup>
+
+						<FormGroup sx={{ m: 5 }}>
+							<TextField
+								required
 								type='number'
 								label='نسبة الخصم'
 								inputRef={discountRef}
+								defaultValue={promo?.discount}
 							/>
 						</FormGroup>
 
@@ -163,7 +169,9 @@ function AddProductForm({
 										label='تاريخ البداية'
 										value={startDate}
 										onChange={(newDate) =>
-											setStartDate(newDate)
+											setStartDate(
+												newDate || null,
+											)
 										}
 									/>
 								</Grid>
@@ -178,35 +186,36 @@ function AddProductForm({
 										label='تاريخ النهاية'
 										value={endDate}
 										onChange={(newDate) =>
-											setEndDate(newDate)
+											setEndDate(
+												newDate || null,
+											)
 										}
 									/>
 								</Grid>
 							</LocalizationProvider>
 						</Grid>
-					</DialogContent>
+					</Box>
+				</DialogContent>
 
-					<DialogActions>
-						<Button
-							variant='outlined'
-							onClick={handleClose}
-							color='error'
-						>
-							إلغاء
-						</Button>
-						<LoadingButton
-							type='submit'
-							startIcon='أضف'
-							variant='outlined'
-							loading={isLoading}
-							disabled={!validated}
-							onClick={handleSubmit}
-						/>
-					</DialogActions>
-				</Box>
+				<DialogActions>
+					<Button
+						variant='outlined'
+						onClick={handleClose}
+						color='error'
+					>
+						إلغاء
+					</Button>
+					<LoadingButton
+						startIcon='حفظ'
+						loading={isLoading}
+						color='primary'
+						variant='outlined'
+						onClick={handleSubmit}
+					/>
+				</DialogActions>
 			</Dialog>
 		</div>
 	);
 }
 
-export default AddProductForm;
+export default EditPromoForm;

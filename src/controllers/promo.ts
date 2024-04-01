@@ -25,9 +25,9 @@ export const createPromo = createAsyncThunk(
 		endDate,
 	}: {
 		code: string;
-		discount: number | undefined;
-		startDate: string | undefined;
-		endDate: string | undefined;
+		discount: string | null;
+		startDate: string | null;
+		endDate: string | null;
 	}) => {
 		try {
 			const promo: TPromoCode | null =
@@ -37,6 +37,44 @@ export const createPromo = createAsyncThunk(
 					startDate,
 					endDate,
 				});
+
+			return promo;
+		} catch (e: any) {
+			throw new Error(e.message);
+		}
+	},
+);
+
+export const updatePromo = createAsyncThunk(
+	'promos/updatePromo',
+	async ({
+		code,
+		discount,
+		startDate,
+		endDate,
+		expired,
+		promoId,
+	}: {
+		code: string | null;
+		discount: string | null;
+		startDate: string | null;
+		endDate: string | null;
+		expired: boolean;
+		promoId: string;
+	}) => {
+		try {
+			const promo: TPromoCode | null =
+				await sendRequestToServer(
+					'PUT',
+					`promo/${promoId}`,
+					{
+						code,
+						discount,
+						startDate,
+						endDate,
+						expired,
+					},
+				);
 
 			return promo;
 		} catch (e: any) {

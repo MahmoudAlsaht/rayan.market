@@ -3,6 +3,7 @@ import type { RootState } from '../store';
 import {
 	fetchPromos,
 	createPromo,
+	updatePromo,
 } from '../../controllers/promo';
 
 export type TPromoCode = {
@@ -32,6 +33,17 @@ export const PromosSlice = createSlice({
 			createPromo.fulfilled,
 			(state, action) => {
 				state = [...state, action.payload];
+				return state;
+			},
+		);
+		builder.addCase(
+			updatePromo.fulfilled,
+			(state, action) => {
+				state = state?.map((promo) =>
+					promo?._id === action.payload?._id
+						? action.payload
+						: promo,
+				);
 				return state;
 			},
 		);
