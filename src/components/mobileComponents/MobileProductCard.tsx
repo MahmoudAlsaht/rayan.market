@@ -58,14 +58,24 @@ export default function MobileProductCard({
 				),
 			}),
 		);
-		dispatch(updateTotalPrice(productCart?.price as string));
+		dispatch(
+			updateTotalPrice(
+				(productCart?.newPrice as string) ||
+					(productCart?.price as string),
+			),
+		);
 	};
 
 	const handleRemoveProduct = () => {
 		if (productCart?.counter === 0) return;
 		dispatch(removeFromCounter(productCart?._id as string));
 		dispatch(
-			updateTotalPrice(-(productCart?.price as string)),
+			updateTotalPrice(
+				-(
+					(productCart?.newPrice as string) ||
+					(productCart?.price as string)
+				),
+			),
 		);
 	};
 
@@ -82,7 +92,12 @@ export default function MobileProductCard({
 					counter: 1,
 				}),
 			);
-			dispatch(updateTotalPrice(product?.price as string));
+			dispatch(
+				updateTotalPrice(
+					(product?.newPrice as string) ||
+						(product?.price as string),
+				),
+			);
 		}
 	};
 

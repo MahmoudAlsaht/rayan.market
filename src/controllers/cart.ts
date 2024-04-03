@@ -82,6 +82,13 @@ const cartReducers = {
 		state.paymentMethod = action.payload;
 		setCookies('cart', state, 30);
 	},
+	addPromoCodeToCart: (
+		state: TCart,
+		action: PayloadAction<string | null>,
+	) => {
+		state.promoCode = action.payload;
+		setCookies('cart', state, 30);
+	},
 	addToCounter: (
 		state: TCart,
 		action: PayloadAction<{ id: string; maxNum: number }>,

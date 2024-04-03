@@ -83,6 +83,24 @@ export const updatePromo = createAsyncThunk(
 	},
 );
 
+export const getPromo = async ({
+	promoCode,
+}: {
+	promoCode: string;
+}) => {
+	try {
+		const promo: TPromoCode | null =
+			await sendRequestToServer(
+				'GET',
+				`promo/${promoCode}`,
+			);
+
+		return promo;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
+
 export const deletePromo = createAsyncThunk(
 	'promos/deletePromo',
 	async (promoId: string) => {

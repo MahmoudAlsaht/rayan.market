@@ -28,6 +28,7 @@ export const createAnOrder = createAsyncThunk(
 					isUserRegistered,
 					contactId: cart?.contactId,
 					paymentMethod: cart?.paymentMethod,
+					promoCode: cart?.promoCode,
 				},
 			);
 
