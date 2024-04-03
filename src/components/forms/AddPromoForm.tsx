@@ -51,10 +51,7 @@ function AddProductForm({
 		if (
 			codeRef.current?.value === '' ||
 			discountRef.current?.value == null ||
-			parseInt(discountRef.current?.value as string) <=
-				0 ||
-			endDate == null ||
-			startDate == null
+			parseInt(discountRef.current?.value as string) <= 0
 		) {
 			setValidated(false);
 			setError({

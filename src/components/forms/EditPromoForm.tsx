@@ -55,7 +55,6 @@ function EditPromoForm({
 	});
 	const codeRef = useRef<HTMLInputElement>(null);
 	const discountRef = useRef<HTMLInputElement>(null);
-	// const offerExpiresDateRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();

@@ -66,18 +66,10 @@ const PromosActions = memo(() => {
 					<Table sx={{ minWidth: 650 }}>
 						<TableHead>
 							<TableRow>
-								<TableCell align='right'>
-									#
-								</TableCell>
-								<TableCell align='right'>
-									Code
-								</TableCell>
-								<TableCell align='right'>
-									Status
-								</TableCell>
-								<TableCell align='right'>
-									Actions
-								</TableCell>
+								<TableCell>#</TableCell>
+								<TableCell>Code</TableCell>
+								<TableCell>Status</TableCell>
+								<TableCell>Actions</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>

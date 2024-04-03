@@ -4,6 +4,7 @@ import {
 	fetchPromos,
 	createPromo,
 	updatePromo,
+	deletePromo,
 } from '../../controllers/promo';
 
 export type TPromoCode = {
@@ -43,6 +44,16 @@ export const PromosSlice = createSlice({
 					promo?._id === action.payload?._id
 						? action.payload
 						: promo,
+				);
+				return state;
+			},
+		);
+		builder.addCase(
+			deletePromo.fulfilled,
+			(state, action) => {
+				state = state?.filter(
+					(promo) =>
+						promo?._id === action.payload && promo,
 				);
 				return state;
 			},
