@@ -33,7 +33,7 @@ const CartCheckout = memo(() => {
 	}, [cart?.products, checkIfCartIsEmpty, navigate]);
 
 	return (
-		<main dir='rtl'>
+		<main dir='rtl' style={{ marginTop: '10rem' }}>
 			{cart?.products?.map((product) => (
 				<CartProductCard
 					key={product?._id}

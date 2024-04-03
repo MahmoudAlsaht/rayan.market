@@ -14,6 +14,7 @@ export type TCart = {
 	userId?: string | null;
 	anonymousUserId: string | null;
 	contactId?: string | null;
+	paymentMethod?: string | null;
 	totalPrice: number;
 };
 
@@ -35,6 +36,7 @@ export const {
 	removeProduct,
 	addAnonymousUserToCart,
 	addUserAndContactToCart,
+	addPaymentMethodToCart,
 	updateTotalPrice,
 	emptyTheCart,
 } = CartSlice.actions;

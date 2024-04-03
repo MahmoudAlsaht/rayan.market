@@ -14,7 +14,6 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	CardHeader,
 	Container,
 	Link,
 	Typography,
@@ -107,7 +106,7 @@ const ShowOrder = memo(() => {
 
 			<Container sx={{ mx: 5 }}>
 				<Card>
-					<CardHeader>
+					<CardContent>
 						<Typography>
 							Order-Id:{' '}
 							<span style={{ color: 'gray' }}>
@@ -140,9 +139,13 @@ const ShowOrder = memo(() => {
 								{order?.status}
 							</Typography>
 						</Typography>
-					</CardHeader>
-					<CardContent>
-						<Typography variant='h3'>
+						<Typography>
+							طريقة الدفع:{' '}
+							<span style={{ color: 'gray' }}>
+								{order?.paymentMethod}
+							</span>
+						</Typography>
+						<Typography variant='h5'>
 							المنتجات
 						</Typography>
 						{order?.products?.map((product) => (
@@ -168,10 +171,10 @@ const ShowOrder = memo(() => {
 								</small>
 							</Typography>
 						))}
-						<Typography variant='h4'>
+						<Typography variant='h5'>
 							معلومات المشتري
 						</Typography>
-						<Typography variant='h6'>
+						<Typography variant='h5'>
 							<Typography
 								sx={{ color: 'secondary' }}
 							>

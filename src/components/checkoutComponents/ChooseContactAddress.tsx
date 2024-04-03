@@ -2,14 +2,10 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useAppDispatch } from '../../app/hooks';
+import { ChangeEvent, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import {
-	TCart,
-	addUserAndContactToCart,
-	emptyTheCart,
-} from '../../app/store/cart';
+import { addUserAndContactToCart } from '../../app/store/cart';
 import { TContactInfo } from '../../controllers/contact';
 import { TUser } from '../../app/auth/auth';
 import {
@@ -19,20 +15,20 @@ import {
 	RadioGroup,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { createAnOrder } from '../../controllers/order';
 import { useNavigate } from 'react-router-dom';
 
 type ChooseContactAddressProps = {
 	contacts: (TContactInfo | null)[];
 	user: TUser | null;
+	handleStep: (step: string) => void;
 };
 
 export default function ChooseContactAddress({
 	contacts,
 	user,
+	handleStep,
 }: ChooseContactAddressProps) {
 	const dispatch = useAppDispatch();
-	const [isLoading, setIsLoading] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -49,25 +45,8 @@ export default function ChooseContactAddress({
 		);
 	};
 
-	const cart: TCart | null = useAppSelector(
-		(state) => state.cart,
-	);
-
 	const checkSelectedAddress = () =>
 		selectedAddress != undefined && selectedAddress !== '';
-
-	const handleSubmit = (e: FormEvent<Element> | undefined) => {
-		e?.preventDefault();
-		try {
-			setIsLoading(true);
-			dispatch(createAnOrder({ cart, user }));
-			dispatch(emptyTheCart());
-			navigate('/home');
-			setIsLoading(false);
-		} catch (e: any) {
-			console.log(e.message);
-		}
-	};
 
 	return (
 		<>
@@ -192,9 +171,8 @@ export default function ChooseContactAddress({
 			)}
 
 			<LoadingButton
-				startIcon='أكمل الطلب'
-				loading={isLoading}
-				onClick={handleSubmit}
+				startIcon='أكمل للدفع'
+				onClick={() => handleStep('payment')}
 				variant='outlined'
 				disabled={!checkSelectedAddress()}
 			/>

@@ -19,6 +19,8 @@ export type TOrder = {
 	createdAt: Date;
 	orderId: string;
 	status: string;
+	promoCode?: string | null;
+	paymentMethod: string;
 };
 
 const initialState: TOrder[] = [];

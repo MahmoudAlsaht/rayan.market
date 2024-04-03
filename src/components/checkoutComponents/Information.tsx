@@ -46,13 +46,16 @@ function Information({
 				separator={
 					<NavigateBeforeIcon fontSize='small' />
 				}
-				sx={{ my: 5 }}
+				sx={{ my: 5, mt: 20 }}
 			>
 				<Typography>
 					<Link to='/cart'>السلة</Link>
 				</Typography>
 				<Typography
-					sx={{ color: 'primary.main' }}
+					sx={{
+						color: 'primary.main',
+						cursor: 'pointer',
+					}}
 					onClick={() => handleStep('information')}
 				>
 					معلومات الاتصال
@@ -79,6 +82,7 @@ function Information({
 				<ChooseContactAddress
 					contacts={contacts!}
 					user={user}
+					handleStep={handleStep}
 				/>
 			)}
 		</div>
