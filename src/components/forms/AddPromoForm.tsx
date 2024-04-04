@@ -22,15 +22,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-type AddProductFormProps = {
+type AddPromoFormProps = {
 	show: boolean;
 	handleClose: () => void;
 };
 
-function AddProductForm({
-	show,
-	handleClose,
-}: AddProductFormProps) {
+function AddPromoForm({ show, handleClose }: AddPromoFormProps) {
 	const dispatch = useAppDispatch();
 	const [startDate, setStartDate] = useState<Dayjs | null>(
 		null,
@@ -206,4 +203,4 @@ function AddProductForm({
 	);
 }
 
-export default AddProductForm;
+export default AddPromoForm;

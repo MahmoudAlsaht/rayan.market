@@ -21,6 +21,7 @@ import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -579,6 +580,42 @@ export default function DashBoardLayout() {
 											الطلبات
 										</Badge>
 									}
+									sx={{
+										opacity: open ? 1 : 0,
+									}}
+								/>
+							</ListItemButton>
+						</ListItem>
+					</Link>
+
+					<Link to='/dashboard/settings/districts'>
+						<ListItem
+							disablePadding
+							sx={{
+								display: 'block',
+								color: 'primary.main',
+							}}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open
+										? 'initial'
+										: 'center',
+									px: 2.5,
+								}}
+							>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<LocationSearchingIcon />
+								</ListItemIcon>
+								<ListItemText
+									primary='المناطق المدعومة'
 									sx={{
 										opacity: open ? 1 : 0,
 									}}

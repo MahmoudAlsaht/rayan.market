@@ -1,12 +1,10 @@
 import { TProfile } from '../app/auth/profile';
 import { sendRequestToServer } from '../utils';
+import { TDistrict } from './district';
 
 export type TContactInfo = {
 	_id: string;
-	address: {
-		city: string;
-		street: string;
-	};
+	district: TDistrict;
 	contactNumber: string;
 	profile: TProfile;
 };
@@ -45,17 +43,16 @@ export const getContactData = async (
 export const createNewContactInfo = async (
 	profileId: string,
 	{
-		city,
-		street,
+		district,
 		contactNumber,
-	}: { city: string; street: string; contactNumber: string },
+	}: { district: TDistrict; contactNumber: string },
 ) => {
 	try {
 		const contact: TContactInfo | null =
 			await sendRequestToServer(
 				'POST',
 				`account/${profileId}/contacts`,
-				{ city, street, contactNumber },
+				{ district, contactNumber },
 			);
 
 		return contact;
@@ -70,21 +67,20 @@ export const updateUserContactInfo = async ({
 	profileId,
 }: {
 	data: {
-		city: string;
-		street: string;
+		district: TDistrict;
 		contactNumber: string;
 	};
 	contactId: string;
 	profileId: string;
 }) => {
 	try {
-		const { city, street, contactNumber } = data;
+		const { district, contactNumber } = data;
 
 		const contact: TContactInfo | null =
 			await sendRequestToServer(
 				'PUT',
 				`account/${profileId}/contacts/${contactId}`,
-				{ city, street, contactNumber },
+				{ district, contactNumber },
 			);
 
 		return contact;

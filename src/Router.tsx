@@ -45,6 +45,7 @@ import MobileOptions from './components/mobileComponents/MobileOptions';
 import EditAdmin from './routes/dashboard/EditAdmin';
 import UsersActions from './routes/dashboard/UsersActions';
 import PromosActions from './routes/dashboard/PromosActions';
+import DistrictsActions from './routes/dashboard/DistrictsActions';
 
 export const Router = createBrowserRouter([
 	{
@@ -160,6 +161,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/users',
 						element: <UsersActions />,
+					},
+					{
+						path: 'settings/districts',
+						element: <DistrictsActions />,
 					},
 					{
 						path: 'settings/categories',
