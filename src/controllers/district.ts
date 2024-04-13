@@ -6,13 +6,10 @@ export type TDistrict = {
 	shippingFees: number;
 };
 
-export const fetchDistricts = async (profileId: string) => {
+export const fetchDistricts = async () => {
 	try {
 		const districts: (TDistrict | null)[] =
-			await sendRequestToServer(
-				'GET',
-				`account/${profileId}/district`,
-			);
+			await sendRequestToServer('GET', `district`);
 
 		return districts;
 	} catch (e: any) {
@@ -21,21 +18,18 @@ export const fetchDistricts = async (profileId: string) => {
 };
 
 export const createDistrict = async ({
-	profileId,
 	name,
 	shippingFees,
 }: {
 	name: string;
 	shippingFees: string;
-	profileId: string;
 }) => {
 	try {
 		const district: TDistrict | null =
-			await sendRequestToServer(
-				'POST',
-				`account/${profileId}/district`,
-				{ name, shippingFees },
-			);
+			await sendRequestToServer('POST', `district`, {
+				name,
+				shippingFees,
+			});
 
 		return district;
 	} catch (e: any) {
@@ -44,12 +38,10 @@ export const createDistrict = async ({
 };
 
 export const updateDistrict = async ({
-	profileId,
 	districtId,
 	name,
 	shippingFees,
 }: {
-	profileId: string;
 	districtId: string;
 	name: string;
 	shippingFees: string;
@@ -58,7 +50,7 @@ export const updateDistrict = async ({
 		const district: TDistrict | null =
 			await sendRequestToServer(
 				'PUT',
-				`account/${profileId}/district/${districtId}`,
+				`district/${districtId}`,
 				{ name, shippingFees },
 			);
 
@@ -68,17 +60,10 @@ export const updateDistrict = async ({
 	}
 };
 
-export const getDistrict = async ({
-	profileId,
-}: {
-	profileId: string;
-}) => {
+export const getDistrict = async () => {
 	try {
 		const district: TDistrict | null =
-			await sendRequestToServer(
-				'GET',
-				`account/${profileId}/district`,
-			);
+			await sendRequestToServer('GET', `district`);
 
 		return district;
 	} catch (e: any) {
@@ -87,16 +72,14 @@ export const getDistrict = async ({
 };
 
 export const deleteDistrict = async ({
-	profileId,
 	districtId,
 }: {
 	districtId: string;
-	profileId: string;
 }) => {
 	try {
 		await sendRequestToServer(
 			'DELETE',
-			`account/${profileId}/district/${districtId}`,
+			`district/${districtId}`,
 		);
 		return districtId;
 	} catch (e: any) {

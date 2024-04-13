@@ -45,7 +45,7 @@ export const createNewContactInfo = async (
 	{
 		district,
 		contactNumber,
-	}: { district: TDistrict; contactNumber: string },
+	}: { district: string; contactNumber: string },
 ) => {
 	try {
 		const contact: TContactInfo | null =
@@ -67,7 +67,7 @@ export const updateUserContactInfo = async ({
 	profileId,
 }: {
 	data: {
-		district: TDistrict;
+		district: string;
 		contactNumber: string;
 	};
 	contactId: string;

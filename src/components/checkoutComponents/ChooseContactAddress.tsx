@@ -106,8 +106,8 @@ export default function ChooseContactAddress({
 												>
 													{
 														contact
-															?.address
-															.city
+															?.district
+															?.name
 													}
 													-{index + 1}
 												</Typography>
@@ -116,11 +116,6 @@ export default function ChooseContactAddress({
 													color='text.secondary'
 													component='div'
 												>
-													{
-														contact
-															?.address
-															.street
-													}
 													<br />
 													{
 														contact?.contactNumber

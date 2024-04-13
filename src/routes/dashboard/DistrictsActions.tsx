@@ -77,9 +77,7 @@ const DistrictsActions = memo(() => {
 	useEffect(() => {
 		dispatch(fetchUser());
 		const getDistricts = async () => {
-			const fetchedDistricts = await fetchDistricts(
-				user?.profile as string,
-			);
+			const fetchedDistricts = await fetchDistricts();
 			setDistricts(fetchedDistricts);
 		};
 		getDistricts();

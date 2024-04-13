@@ -161,8 +161,7 @@ const ShowOrderDetails = memo(() => {
 							>
 								العنوان:{' '}
 							</Typography>{' '}
-							{order?.contact?.address?.street},{' '}
-							{order?.contact?.address?.city}
+							{order?.contact?.district?.name}
 						</Typography>
 						<Typography variant='h6'>
 							<Typography

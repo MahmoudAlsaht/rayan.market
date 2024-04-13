@@ -122,8 +122,7 @@ export const logout = createAsyncThunk(
 export const createAnonymousUser = async (data: {
 	name: string;
 	phone: string;
-	city: string;
-	street: string;
+	districtId: string;
 }) => {
 	try {
 		const anonymousUser = await sendRequestToServer(

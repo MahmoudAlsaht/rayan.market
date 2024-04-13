@@ -1,4 +1,10 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import {
+	ChangeEvent,
+	FormEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import {
 	TContactInfo,
 	createNewContactInfo,
@@ -10,12 +16,21 @@ import {
 	Box,
 	Button,
 	Container,
+	FormControl,
 	FormGroup,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
 	TextField,
 	Typography,
 } from '@mui/material';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { LoadingButton } from '@mui/lab';
+import {
+	TDistrict,
+	fetchDistricts,
+} from '../../controllers/district';
 
 function ContactInfoForm({
 	contact,
@@ -25,6 +40,9 @@ function ContactInfoForm({
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
+	const [districts, setDistricts] = useState<
+		(TDistrict | null)[]
+	>([]);
 
 	const [error, setError] = useState<IError>({
 		status: null,
@@ -33,8 +51,8 @@ function ContactInfoForm({
 	const { profileId } = useParams();
 	const navigate = useNavigate();
 
-	const cityRef = useRef<HTMLInputElement>(null);
-	const streetRef = useRef<HTMLInputElement>(null);
+	const [districtValue, setDistrictValue] = useState('');
+
 	const contactNumberRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: FormEvent) => {
@@ -51,8 +69,7 @@ function ContactInfoForm({
 				});
 			} else {
 				const data = {
-					city: cityRef.current?.value as string,
-					street: streetRef.current?.value as string,
+					district: districtValue,
 					contactNumber: contactNumberRef.current
 						?.value as string,
 				};
@@ -70,8 +87,8 @@ function ContactInfoForm({
 				}
 				setIsLoading(false);
 				setIsEditing(false);
-				cityRef.current!.value = '';
-				streetRef.current!.value = '';
+
+				setDistrictValue('');
 				contactNumberRef.current!.value = '';
 				navigate(-1);
 			}
@@ -88,8 +105,7 @@ function ContactInfoForm({
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
-			cityRef.current?.value === '' ||
-			streetRef.current?.value === '' ||
+			districtValue === '' ||
 			contactNumberRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
@@ -115,6 +131,14 @@ function ContactInfoForm({
 		}
 	};
 
+	useEffect(() => {
+		const getDistricts = async () => {
+			const fetchedDistricts = await fetchDistricts();
+			setDistricts(fetchedDistricts);
+		};
+		getDistricts();
+	}, []);
+
 	return (
 		<Container sx={{ m: 3 }}>
 			<main dir='rtl'>
@@ -134,26 +158,45 @@ function ContactInfoForm({
 
 					{isEditing ? (
 						<Box>
-							<FormGroup sx={{ m: 3 }}>
-								<TextField
-									autoFocus
-									onChange={handleChange}
-									type='text'
-									required
-									label='أدخل اسم المنطقة'
-									inputRef={cityRef}
-								/>
-							</FormGroup>
-
-							<FormGroup sx={{ m: 3 }}>
-								<TextField
-									required
-									onChange={handleChange}
-									type='text'
-									label='اسم الشارع'
-									inputRef={streetRef}
-								/>
-							</FormGroup>
+							<FormControl
+								sx={{ ml: 3, width: '95.5%' }}
+							>
+								<InputLabel id='selectCategory'>
+									المنطقة
+								</InputLabel>
+								<Select
+									labelId='selectCategory'
+									id='category-select'
+									value={districtValue}
+									onChange={(
+										e: SelectChangeEvent,
+									) => {
+										setDistrictValue(
+											e.target
+												.value as string,
+										);
+									}}
+									label='اختر المنطقة'
+								>
+									<MenuItem value=''>
+										<em>اختر المنطقة</em>
+									</MenuItem>
+									{districts?.map(
+										(district) => (
+											<MenuItem
+												value={
+													district?._id
+												}
+												key={
+													district?._id
+												}
+											>
+												{district?.name}
+											</MenuItem>
+										),
+									)}
+								</Select>
+							</FormControl>
 
 							<FormGroup sx={{ m: 3 }}>
 								<TextField
@@ -168,7 +211,7 @@ function ContactInfoForm({
 							<FormGroup sx={{ m: 3 }}>
 								<Button
 									variant='outlined'
-									color='info'
+									color='error'
 									onClick={() =>
 										setIsEditing(false)
 									}
@@ -191,11 +234,7 @@ function ContactInfoForm({
 						<Box sx={{ m: 3 }}>
 							<Typography variant='h4'>
 								المنطقة :{' '}
-								{contact?.address?.city}
-							</Typography>
-							<Typography variant='h4'>
-								الشارع:{' '}
-								{contact?.address?.street}
+								{contact?.district?.name}
 							</Typography>
 							<Typography variant='h4'>
 								رقم التواصل:{' '}

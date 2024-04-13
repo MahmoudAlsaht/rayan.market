@@ -4,59 +4,46 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { LoadingButton } from '@mui/lab';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+	ChangeEvent,
+	FormEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
+import { useAppDispatch } from '../../app/hooks';
 import { TAnonymousUser } from '../../app/auth/auth';
 import { createAnonymousUser } from '../../controllers/user';
+import { addAnonymousUserToCart } from '../../app/store/cart';
 import {
-	TCart,
-	addAnonymousUserToCart,
-	emptyTheCart,
-} from '../../app/store/cart';
-import { createAnOrder } from '../../controllers/order';
-import { useNavigate } from 'react-router-dom';
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+} from '@mui/material';
+import {
+	TDistrict,
+	fetchDistricts,
+} from '../../controllers/district';
 
-export default function AnonymousUserForm() {
+export default function AnonymousUserForm({
+	handleStep,
+}: {
+	handleStep: (step: string) => void;
+}) {
+	const [districts, setDistricts] = useState<
+		(TDistrict | null)[]
+	>([]);
+
 	const [validated, setValidated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [payButton, setPayButton] = useState(false);
-	const [user, setUser] = useState<TAnonymousUser | null>(
-		null,
-	);
 
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 
 	const nameRef = useRef<HTMLInputElement>(null);
 	const phoneRef = useRef<HTMLInputElement>(null);
-	const cityRef = useRef<HTMLInputElement>(null);
-	const streetRef = useRef<HTMLInputElement>(null);
-	const cart: TCart | null = useAppSelector(
-		(state) => state.cart,
-	);
-
-	const handleClick = async () => {
-		try {
-			setIsLoading(true);
-			const data = {
-				name: nameRef.current?.value as string,
-				phone: phoneRef.current?.value as string,
-				city: cityRef.current?.value as string,
-				street: streetRef.current?.value as string,
-			};
-			const createdUser: TAnonymousUser =
-				await createAnonymousUser(data);
-
-			setUser(createdUser);
-
-			dispatch(addAnonymousUserToCart(createdUser));
-
-			setIsLoading(false);
-			setPayButton(true);
-		} catch (e: any) {
-			setIsLoading(false);
-		}
-	};
+	const [districtValue, setDistrictValue] = useState('');
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -64,18 +51,21 @@ export default function AnonymousUserForm() {
 		try {
 			setIsLoading(true);
 
-			dispatch(createAnOrder({ cart, user: user as any }));
-			dispatch(emptyTheCart());
-			navigate('/home');
+			const data = {
+				name: nameRef.current?.value as string,
+				phone: phoneRef.current?.value as string,
+				districtId: districtValue,
+			};
+			const createdUser: TAnonymousUser =
+				await createAnonymousUser(data);
 
-			setIsLoading(false);
+			dispatch(addAnonymousUserToCart(createdUser));
 
 			nameRef.current!.value = '';
 			phoneRef.current!.value = '';
-			cityRef.current!.value = '';
-			streetRef.current!.value = '';
-
-			setPayButton(false);
+			setDistrictValue('');
+			setIsLoading(false);
+			handleStep('payment');
 		} catch (e: any) {
 			setIsLoading(false);
 		}
@@ -85,10 +75,9 @@ export default function AnonymousUserForm() {
 		const form = e.currentTarget as HTMLFormElement;
 
 		if (
-			cityRef.current?.value === '' ||
+			districtValue === '' ||
 			nameRef.current?.value === '' ||
 			phoneRef.current?.value === '' ||
-			streetRef.current?.value === '' ||
 			form.checkValidity() === false
 		) {
 			setValidated(false);
@@ -98,6 +87,14 @@ export default function AnonymousUserForm() {
 			setValidated(true);
 		}
 	};
+
+	useEffect(() => {
+		const getDistricts = async () => {
+			const fetchedDistricts = await fetchDistricts();
+			setDistricts(fetchedDistricts);
+		};
+		getDistricts();
+	}, []);
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -129,31 +126,45 @@ export default function AnonymousUserForm() {
 						</Grid>
 
 						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
-								id='city'
-								label='المنطقة'
-								name='city'
-								type='text'
-								autoComplete='city'
-								inputRef={cityRef}
-								onChange={handleChange}
-							/>
+							<FormControl fullWidth>
+								<InputLabel id='selectCategory'>
+									المنطقة
+								</InputLabel>
+								<Select
+									labelId='selectCategory'
+									id='category-select'
+									value={districtValue}
+									onChange={(
+										e: SelectChangeEvent,
+									) => {
+										setDistrictValue(
+											e.target
+												.value as string,
+										);
+									}}
+									label='اختر المنطقة'
+								>
+									<MenuItem value=''>
+										<em>اختر المنطقة</em>
+									</MenuItem>
+									{districts?.map(
+										(district) => (
+											<MenuItem
+												value={
+													district?._id
+												}
+												key={
+													district?._id
+												}
+											>
+												{district?.name}
+											</MenuItem>
+										),
+									)}
+								</Select>
+							</FormControl>
 						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
-								id='street'
-								label='الشارع'
-								name='street'
-								type='text'
-								autoComplete='street'
-								inputRef={streetRef}
-								onChange={handleChange}
-							/>
-						</Grid>
+
 						<Grid item xs={12}>
 							<TextField
 								required
@@ -168,29 +179,15 @@ export default function AnonymousUserForm() {
 							/>
 						</Grid>
 					</Grid>
-					{!payButton && (
-						<LoadingButton
-							fullWidth
-							variant='outlined'
-							startIcon='حفظ'
-							sx={{ mt: 3, mb: 2 }}
-							disabled={!validated}
-							loading={isLoading}
-							onClick={handleClick}
-						/>
-					)}
-
-					{payButton && (
-						<LoadingButton
-							type='submit'
-							fullWidth
-							variant='outlined'
-							startIcon='أكمل الطلب'
-							sx={{ mb: 2, mt: 2 }}
-							disabled={!payButton}
-							loading={isLoading}
-						/>
-					)}
+					<LoadingButton
+						fullWidth
+						variant='outlined'
+						startIcon='حفظ'
+						type='submit'
+						sx={{ mt: 3, mb: 2 }}
+						disabled={!validated}
+						loading={isLoading}
+					/>
 				</Box>
 			</Box>
 		</Container>
