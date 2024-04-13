@@ -217,7 +217,7 @@ export default function MainNavbar() {
 														<MenuItem
 															onClick={() =>
 																navigate(
-																	`/dashboard/admin/${user?._id}`,
+																	`/dashboard/admin/${user?.profile}`,
 																)
 															}
 														>
@@ -230,7 +230,7 @@ export default function MainNavbar() {
 														<MenuItem
 															onClick={() =>
 																navigate(
-																	`/account/profile/${user?._id}`,
+																	`/account/profile/${user?.profile}`,
 																)
 															}
 														>
