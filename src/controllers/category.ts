@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { sendRequestToServer } from '../utils';
 import { TCategory } from '../app/store/category';
 import { TProduct } from '../app/store/product';
-import { uploadImage } from '../firebase/firestore/uploadFile';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
@@ -53,20 +52,15 @@ export const createCategory = createAsyncThunk(
 		file: File | null;
 	}) => {
 		try {
-			const imageUrl = {
-				url: await uploadImage(
-					file,
-					`${file?.name}`,
-					`categories/${name}`,
-				),
-				fileName: file?.name,
-			};
-
+			const formData = new FormData();
+			formData.append('name', name);
+			formData.append('file', file as File);
 			const category: TCategory | null =
-				await sendRequestToServer('POST', `category`, {
-					name,
-					imageUrl,
-				});
+				await sendRequestToServer(
+					'POST',
+					`category`,
+					formData,
+				);
 
 			return category;
 		} catch (e: any) {
@@ -84,23 +78,19 @@ export const updateCategory = createAsyncThunk(
 	}) => {
 		try {
 			const { categoryId, name, file } = options;
-			const imageUrl = {
-				url: await uploadImage(
-					file,
-					`${file?.name}`,
-					`categories/${name}`,
-				),
-				fileName: file?.name,
-			};
+
+			const formData = new FormData();
+
+			console.log(name);
+			formData.append('name', name);
+			console.log(formData.get('name'));
+			formData.append('file', file as File);
 
 			const category: TCategory | null =
 				await sendRequestToServer(
 					'PUT',
 					`category/${categoryId}`,
-					{
-						name,
-						imageUrl,
-					},
+					formData,
 				);
 
 			return category;

@@ -76,18 +76,10 @@ const CategoriesActions = memo(() => {
 					<Table sx={{ minWidth: 650 }}>
 						<TableHead>
 							<TableRow>
-								<TableCell align='right'>
-									#
-								</TableCell>
-								<TableCell align='right'>
-									Name
-								</TableCell>
-								<TableCell align='right'>
-									Image
-								</TableCell>
-								<TableCell align='right'>
-									Actions
-								</TableCell>
+								<TableCell>#</TableCell>
+								<TableCell>Name</TableCell>
+								<TableCell>Image</TableCell>
+								<TableCell>Actions</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>

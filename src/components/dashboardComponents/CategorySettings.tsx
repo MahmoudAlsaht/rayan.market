@@ -63,23 +63,20 @@ function CategorySettings({
 
 	return (
 		<TableRow>
-			<TableCell align='right'>{index + 1}</TableCell>
+			<TableCell>{index + 1}</TableCell>
 			{!isEditing ? (
-				<TableCell align='right'>
-					{category?.name}
-				</TableCell>
+				<TableCell>{category?.name}</TableCell>
 			) : (
-				<TableCell align='right'>
+				<TableCell>
 					<TextField
 						label='الاسم'
 						type='text'
-						defaultValue={category?.name}
-						ref={nameRef}
+						inputRef={nameRef}
 					/>
 				</TableCell>
 			)}
 			{!isEditing ? (
-				<TableCell align='right'>
+				<TableCell>
 					{category?.image?.path && (
 						<img
 							src={category?.image?.path}
@@ -90,7 +87,7 @@ function CategorySettings({
 					)}
 				</TableCell>
 			) : (
-				<TableCell align='right'>
+				<TableCell>
 					<Button
 						component='label'
 						role={undefined}
@@ -107,7 +104,7 @@ function CategorySettings({
 					</Button>
 				</TableCell>
 			)}
-			<TableCell align='right'>
+			<TableCell>
 				{!isEditing ? (
 					<legend>
 						<Button onClick={handleIsEditing}>
