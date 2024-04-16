@@ -10,11 +10,11 @@ function ErrorComponent({ error }: { error: IError }) {
 	return (
 		<main dir='rtl'>
 			<Stack sx={{ my: 3 }}>
-				{error.status === false ? (
+				{error.status === true ? (
 					<Alert severity='warning'>
 						{error.message}.
 					</Alert>
-				) : error.status === true ? (
+				) : error.status === false ? (
 					<Alert severity='success'>
 						{error.message}.
 					</Alert>
