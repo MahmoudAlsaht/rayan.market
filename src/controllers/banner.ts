@@ -1,9 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TBanner } from '../app/store/banner';
 import { sendRequestToServer } from '../utils';
-import db from '../firebase/config';
-
-db();
 
 export const fetchBanners = createAsyncThunk(
 	'banners/fetchBanners',

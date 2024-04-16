@@ -1,10 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TProduct } from '../app/store/product';
 import { sendRequestToServer } from '../utils';
-import db from '../firebase/config';
 import { TLabel } from './label';
-
-db();
 
 export const fetchProducts = createAsyncThunk(
 	'products/fetchProducts',
