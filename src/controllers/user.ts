@@ -57,9 +57,10 @@ export const editUserRole = async ({
 };
 
 export const signUp = async (
-	phone: any,
-	password: any,
+	phone: string | null,
+	password: string | null,
 	displayName: string,
+	verificationCode: string | null,
 ) => {
 	try {
 		if (displayName === 'anonymous')
@@ -71,6 +72,7 @@ export const signUp = async (
 				username: displayName,
 				phone,
 				password,
+				verificationCode,
 			},
 		);
 		setCookies('token', res.token, 0.3);

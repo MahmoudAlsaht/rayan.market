@@ -163,3 +163,26 @@ export const sendRequestToServer = async (
 		throw new Error(e?.response?.data?.error);
 	}
 };
+
+export const checkPhoneValidity = async (phonNumber: string) => {
+	try {
+		const options = {
+			method: 'GET',
+			url: 'https://phonenumbervalidatefree.p.rapidapi.com/ts_PhoneNumberValidateTest.jsp',
+			params: {
+				number: `+962${phonNumber.slice(0)}`,
+				country: 'JO',
+			},
+			headers: {
+				'X-RapidAPI-Key':
+					'a0ef5d47bfmsh89627da1cf24512p137ad9jsn7ba4dcd07d38',
+				'X-RapidAPI-Host':
+					'phonenumbervalidatefree.p.rapidapi.com',
+			},
+		};
+		const response = await axios.request(options);
+		return response?.data?.isValidNumber as boolean;
+	} catch (e: any) {
+		console.log(e);
+	}
+};

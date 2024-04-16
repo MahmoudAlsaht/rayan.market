@@ -20,18 +20,29 @@ import { TUser } from '../app/auth/auth';
 import { fetchUser, signUp } from '../controllers/user';
 import ErrorComponent, { IError } from '../components/Error';
 import { LoadingButton } from '@mui/lab';
+import { checkPhoneValidity } from '../utils';
 
 export default function SignUp() {
 	const [validated, setValidated] = useState(false);
+	const [isPhoneValid, setIsPhoneValid] = useState(false);
+	const [isVerificationCodeValid, setIsVerificationCodeValid] =
+		useState(false);
+	const [phone, setPhone] = useState<null | string>(null);
+	const [verificationCode, setVerificationCode] = useState<
+		null | string
+	>(null);
 	const [error, setError] = useState<IError>({
 		status: null,
 		message: '',
 	});
 	const [isLoading, setIsLoading] = useState(false);
 
-	const phoneRef = useRef<HTMLInputElement>(null);
-	const usernameRef = useRef<HTMLInputElement>(null);
-	const passwordRef = useRef<HTMLInputElement>(null);
+	const phoneRef = useRef<HTMLInputElement | null>(null);
+	const verificationCodeRef = useRef<HTMLInputElement | null>(
+		null,
+	);
+	const usernameRef = useRef<HTMLInputElement | null>(null);
+	const passwordRef = useRef<HTMLInputElement | null>(null);
 	const confirmPasswordRef = useRef<HTMLInputElement | null>(
 		null,
 	);
@@ -61,9 +72,10 @@ export default function SignUp() {
 			} else {
 				setIsLoading(true);
 				await signUp(
-					phoneRef.current?.value,
-					passwordRef.current?.value,
+					phone,
+					passwordRef.current!.value,
 					usernameRef.current!.value,
+					verificationCode,
 				);
 				navigate('/home');
 				setIsLoading(false);
@@ -77,10 +89,108 @@ export default function SignUp() {
 		}
 	};
 
-	const handleChange = (e: ChangeEvent) => {
+	const checkPhonNumber = async (e: FormEvent) => {
+		e.preventDefault();
+		setIsLoading(true);
+		const validity = await checkPhoneValidity(
+			phoneRef.current?.value as string,
+		);
+		setIsPhoneValid(validity as boolean);
+		if (!validity) {
+			setError({
+				status: true,
+				message: 'رقم الهاتف غير صحيح',
+			});
+			setIsLoading(false);
+		} else {
+			setError({
+				status: false,
+				message: 'رقم الهاتف صحيح',
+			});
+			setPhone(phoneRef.current?.value as string);
+			if (phoneRef.current) phoneRef.current.value = '';
+			setIsLoading(false);
+		}
+	};
+
+	const checkVerificationCode = (e: FormEvent) => {
+		e.preventDefault();
+		setIsVerificationCodeValid(true);
+		// if (!validity) {
+		// 	setError({
+		// 		status: true,
+		// 		message: 'رقم الهاتف غير صحيح',
+		// 	});
+		// } else {
+		// setError({
+		// 	status: false,
+		// 	message: 'رقم الهاتف صحيح',
+		// });
+		setVerificationCode(
+			verificationCodeRef.current?.value as string,
+		);
+		if (verificationCodeRef.current)
+			verificationCodeRef.current.value = '';
+		// }
+	};
+
+	const handlePhoneChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
 		if (
 			phoneRef.current?.value === '' ||
+			form.checkValidity() === false
+		) {
+			setValidated(false);
+			setError({
+				status: true,
+				message: 'الرحاء إدخال جميع الحقول المطلوبة',
+			});
+		} else if (phoneRef.current?.value.length !== 10) {
+			setValidated(false);
+			setError({
+				status: true,
+				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
+			});
+		} else {
+			setValidated(true);
+			setError({
+				status: false,
+				message: 'looks good!',
+			});
+		}
+	};
+
+	const handleVerificationCodeChange = (e: ChangeEvent) => {
+		const form = e.currentTarget as HTMLFormElement;
+		if (
+			verificationCodeRef.current?.value === '' ||
+			form.checkValidity() === false
+		) {
+			setValidated(false);
+			setError({
+				status: true,
+				message: 'الرحاء إدخال جميع الحقول المطلوبة',
+			});
+		} else if (
+			verificationCodeRef.current?.value.length !== 6
+		) {
+			setValidated(false);
+			setError({
+				status: true,
+				message: 'ادخل 6 أرقام',
+			});
+		} else {
+			setValidated(true);
+			setError({
+				status: false,
+				message: 'looks good!',
+			});
+		}
+	};
+
+	const handleChange = (e: ChangeEvent) => {
+		const form = e.currentTarget as HTMLFormElement;
+		if (
 			passwordRef.current?.value === '' ||
 			usernameRef.current?.value === '' ||
 			confirmPasswordRef.current?.value === '' ||
@@ -88,7 +198,7 @@ export default function SignUp() {
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'الرحاء إدخال جميع الحقول المطلوبة',
 			});
 		} else if (
@@ -97,31 +207,25 @@ export default function SignUp() {
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'كلمتي المرور غير متطابقتين',
 			});
 		} else if (passwordRef.current!.value.length < 6) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'كلمة المرور يجب أن لا تقل عن 6 خانات',
-			});
-		} else if (phoneRef.current?.value.length !== 10) {
-			setValidated(false);
-			setError({
-				status: false,
-				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
 			});
 		} else if (usernameRef.current?.value === 'anonymous') {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: ' لا يمكنك اختيار اسم المستخدم هذا!',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
@@ -144,91 +248,157 @@ export default function SignUp() {
 				<Typography component='h1' variant='h5'>
 					التسجيل
 				</Typography>
-				<Box
-					component='form'
-					noValidate
-					onSubmit={handleSubmit}
-					sx={{ mt: 3 }}
-				>
+				<Box sx={{ mt: 3 }}>
 					<ErrorComponent error={error} />
 
-					<Grid container spacing={2}>
-						<Grid item xs={12}>
-							<TextField
-								autoComplete='given-name'
-								name='username'
-								required
-								fullWidth
-								id='username'
-								label='اسم المستخدم'
-								autoFocus
-								inputRef={usernameRef}
-								onChange={handleChange}
-							/>
-						</Grid>
-
-						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
-								id='phone'
-								label='رقم الهاتف'
-								name='phone'
-								type='number'
-								autoComplete='phone Number'
-								inputRef={phoneRef}
-								onChange={handleChange}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
-								name='password'
-								label='كلمة المرور'
-								type='password'
-								id='password'
-								autoComplete='new-password'
-								inputRef={passwordRef}
-								onChange={handleChange}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
-								name='passwordConfirmation'
-								label='تأكيد كلمة المرور'
-								type='password'
-								id='passwordConfirmation'
-								autoComplete='new-password'
-								inputRef={confirmPasswordRef}
-								onChange={handleChange}
-							/>
-						</Grid>
-
-						{/* <Grid item xs={12}>
-								<FormControlLabel
-									control={
-										<Checkbox
-											value='allowExtraEmails'
-											color='primary'
-										/>
-									}
-									label='I want to receive inspiration, marketing promotions and updates via email.'
+					{!isPhoneValid ? (
+						<Box
+							component='form'
+							noValidate
+							onSubmit={checkPhonNumber}
+							sx={{ mt: 3 }}
+						>
+							<Grid item xs={12}>
+								<TextField
+									required
+									fullWidth
+									id='phone'
+									label='رقم الهاتف'
+									name='phone'
+									type='number'
+									autoComplete='phone Number'
+									inputRef={phoneRef}
+									onChange={handlePhoneChange}
 								/>
-							</Grid> */}
-					</Grid>
-					<LoadingButton
-						type='submit'
-						fullWidth
-						variant='outlined'
-						startIcon='التسجيل'
-						sx={{ mt: 3, mb: 2 }}
-						disabled={!validated}
-						loading={isLoading}
-					/>
-					<Grid container justifyContent='flex-end'>
+							</Grid>
+
+							<LoadingButton
+								fullWidth
+								type='submit'
+								sx={{ mt: 1 }}
+								variant='outlined'
+								startIcon='أرسل رمز التحقق'
+								loading={isLoading}
+							/>
+						</Box>
+					) : !isVerificationCodeValid ? (
+						<Box
+							component='form'
+							noValidate
+							onSubmit={checkVerificationCode}
+							sx={{ mt: 3 }}
+						>
+							<Grid item xs={12}>
+								<TextField
+									required
+									fullWidth
+									id='verificationCode'
+									label='رمز التحقق'
+									name='verificationCode'
+									type='number'
+									autoComplete='verificationCode Number'
+									inputRef={
+										verificationCodeRef
+									}
+									onChange={
+										handleVerificationCodeChange
+									}
+								/>
+							</Grid>
+
+							<LoadingButton
+								type='submit'
+								fullWidth
+								sx={{ mt: 1 }}
+								variant='outlined'
+								startIcon='تحقق من الرمز'
+								loading={isLoading}
+							/>
+						</Box>
+					) : (
+						<Box
+							component='form'
+							noValidate
+							onSubmit={handleSubmit}
+							sx={{ mt: 3 }}
+						>
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<TextField
+										autoComplete='given-name'
+										name='username'
+										required
+										fullWidth
+										id='username'
+										label='اسم المستخدم'
+										autoFocus
+										inputRef={usernameRef}
+										onChange={handleChange}
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										required
+										fullWidth
+										name='password'
+										label='كلمة المرور'
+										type='password'
+										id='password'
+										autoComplete='new-password'
+										inputRef={passwordRef}
+										onChange={handleChange}
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										required
+										fullWidth
+										name='passwordConfirmation'
+										label='تأكيد كلمة المرور'
+										type='password'
+										id='passwordConfirmation'
+										autoComplete='new-password'
+										inputRef={
+											confirmPasswordRef
+										}
+										onChange={handleChange}
+									/>
+								</Grid>
+
+								{/* <Grid item xs={12}>
+									<FormControlLabel
+										control={
+											<Checkbox
+												value='allowExtraEmails'
+												color='primary'
+											/>
+										}
+										label='I want to receive inspiration, marketing promotions and updates via email.'
+									/>
+								</Grid> */}
+							</Grid>
+
+							<LoadingButton
+								type={
+									isVerificationCodeValid
+										? 'submit'
+										: 'button'
+								}
+								fullWidth
+								variant='outlined'
+								startIcon='التسجيل'
+								sx={{ mt: 3, mb: 2 }}
+								disabled={!validated}
+								loading={isLoading}
+							/>
+						</Box>
+					)}
+
+					<Grid
+						container
+						justifyContent='flex-end'
+						sx={{ mt: 3 }}
+					>
 						<Grid item>
 							<Link
 								href='/auth/signin'
