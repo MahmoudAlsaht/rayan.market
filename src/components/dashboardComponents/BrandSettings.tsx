@@ -71,7 +71,7 @@ function BrandSettings({ brand, index }: BrandSettingsProps) {
 						label='الاسم'
 						type='text'
 						defaultValue={brand?.name}
-						ref={nameRef}
+						inputRef={nameRef}
 					/>
 				</TableCell>
 			)}

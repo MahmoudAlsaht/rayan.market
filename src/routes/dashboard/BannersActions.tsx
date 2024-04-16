@@ -73,15 +73,9 @@ const BannersActions = memo(() => {
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell align='right'>
-								#
-							</TableCell>
-							<TableCell align='right'>
-								Name
-							</TableCell>
-							<TableCell align='right'>
-								Actions
-							</TableCell>
+							<TableCell>#</TableCell>
+							<TableCell>Name</TableCell>
+							<TableCell>Actions</TableCell>
 						</TableRow>
 					</TableHead>
 

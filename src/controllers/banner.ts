@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { uploadBannerImages } from './bannerImages';
 import { TBanner } from '../app/store/banner';
 import { sendRequestToServer } from '../utils';
 import db from '../firebase/config';
@@ -20,17 +19,6 @@ export const fetchBanners = createAsyncThunk(
 	},
 );
 
-// export const fetchActiveBanner = async () => {
-// 	try {
-// 		const banners: (TBanner | null)[] =
-// 			await sendRequestToServer('GET', `banner`);
-// 		const banner = banners?.filter((b) => b && b?.active);
-// 		return (banner![0] as TBanner) || null;
-// 	} catch (e: any) {
-// 		throw new Error(e.message);
-// 	}
-// };
-
 export const createBanner = createAsyncThunk(
 	'Banners/createBanner',
 	async (option: {
@@ -44,22 +32,22 @@ export const createBanner = createAsyncThunk(
 			const { name, images, type, category, brand } =
 				option;
 
-			console.log(type);
-			console.log(brand);
-			console.log(category);
+			const formData = new FormData();
+			formData.append('name', name);
+			formData.append('type', type);
+			formData.append('category', category);
+			formData.append('brand', brand);
 
-			const imagesUrls = await uploadBannerImages(
-				images,
-				name,
-			);
+			if (images)
+				for (const image of images) {
+					formData.append('files', image as File);
+				}
 			const banner: TBanner | null =
-				await sendRequestToServer('POST', `banner`, {
-					name,
-					imagesUrls,
-					type,
-					category,
-					brand,
-				});
+				await sendRequestToServer(
+					'POST',
+					`banner`,
+					formData,
+				);
 
 			return banner;
 		} catch (e: any) {
@@ -100,16 +88,19 @@ export const updateBanner = createAsyncThunk(
 			const { bannerName, images, currName } =
 				options.data;
 
-			const imagesUrls = await uploadBannerImages(
-				images,
-				bannerName || currName,
-			);
+			const formData = new FormData();
+			formData.append('name', bannerName || currName);
+
+			if (images)
+				for (const image of images) {
+					formData.append('files', image as File);
+				}
 
 			const banner: TBanner | null =
 				await sendRequestToServer(
 					'PUT',
 					`banner/${bannerId}`,
-					{ imagesUrls, name: bannerName || currName },
+					formData,
 				);
 
 			return banner;

@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { sendRequestToServer } from '../utils';
 import { TCategory } from '../app/store/category';
-import { TProduct } from '../app/store/product';
 
 export const fetchCategories = createAsyncThunk(
 	'categories/fetchCategories',
@@ -16,17 +15,6 @@ export const fetchCategories = createAsyncThunk(
 		}
 	},
 );
-
-export const filterProductsBasedOnCategory = (
-	allProducts: (TProduct | null)[],
-	categoryId: string,
-) => {
-	const products = allProducts.filter(
-		(product) => product?.category?._id === categoryId,
-	);
-
-	return products;
-};
 
 export const fetchCategory = async (categoryId: string) => {
 	try {

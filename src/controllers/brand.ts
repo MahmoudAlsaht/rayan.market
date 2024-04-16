@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { sendRequestToServer } from '../utils';
 import { TBrand } from '../app/store/brand';
-import { TProduct } from '../app/store/product';
-import { uploadImage } from '../firebase/firestore/uploadFile';
 
 export const fetchBrands = createAsyncThunk(
 	'brands/fetchBrands',
@@ -17,17 +15,6 @@ export const fetchBrands = createAsyncThunk(
 		}
 	},
 );
-
-export const filterProductsBasedOnBrand = (
-	allProducts: (TProduct | null)[],
-	brandId: string,
-) => {
-	const products = allProducts.filter(
-		(product) => product?.brand?._id === brandId,
-	);
-
-	return products;
-};
 
 export const fetchBrand = async (brandId: string) => {
 	try {
@@ -52,20 +39,17 @@ export const createBrand = createAsyncThunk(
 		file: File | null;
 	}) => {
 		try {
-			const imageUrl = {
-				url: await uploadImage(
-					file,
-					`${file?.name}`,
-					`brands/${name}`,
-				),
-				fileName: file?.name,
-			};
+			const formData = new FormData();
+
+			formData.append('name', name);
+			formData.append('file', file as File);
 
 			const brand: TBrand | null =
-				await sendRequestToServer('POST', `brand`, {
-					name,
-					imageUrl,
-				});
+				await sendRequestToServer(
+					'POST',
+					`brand`,
+					formData,
+				);
 
 			return brand;
 		} catch (e: any) {
@@ -83,23 +67,15 @@ export const updateBrand = createAsyncThunk(
 	}) => {
 		try {
 			const { brandId, name, file } = options;
-			const imageUrl = {
-				url: await uploadImage(
-					file,
-					`${file?.name}`,
-					`brands/${name}`,
-				),
-				fileName: file?.name,
-			};
+			const formData = new FormData();
+			formData.append('name', name);
+			formData.append('file', file as File);
 
 			const brand: TBrand | null =
 				await sendRequestToServer(
 					'PUT',
 					`brand/${brandId}`,
-					{
-						name,
-						imageUrl,
-					},
+					formData,
 				);
 
 			return brand;

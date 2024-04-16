@@ -1,4 +1,3 @@
-import { uploadImage } from '../firebase/firestore/uploadFile';
 import { TBannerImage } from '../app/store/banner';
 import { sendRequestToServer } from '../utils';
 
@@ -26,30 +25,6 @@ export const fetchPreviewImage = async (
 				`banner/${bannerId}/images/${imageId}`,
 			);
 		return images;
-	} catch (e: any) {
-		throw new Error(e.message);
-	}
-};
-
-export const uploadBannerImages = async (
-	images: FileList | null,
-	categoryId: string,
-) => {
-	try {
-		const urls = [];
-		if (images)
-			for (const file of images!) {
-				urls.push({
-					url: await uploadImage(
-						file,
-						`${file.name}`,
-						`banners/${categoryId}`,
-					),
-					fileName: file.name,
-				});
-			}
-
-		return urls;
 	} catch (e: any) {
 		throw new Error(e.message);
 	}
