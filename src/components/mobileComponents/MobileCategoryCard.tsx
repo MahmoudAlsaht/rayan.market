@@ -18,7 +18,7 @@ export default function MobileCategoryCard({
 	const navigate = useNavigate();
 
 	return (
-		<Grid xs={3}>
+		<Grid>
 			<legend>
 				{category?.image ? (
 					<Card
