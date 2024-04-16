@@ -181,6 +181,8 @@ function AddProductForm({
 				productQuantityRef.current!.value = '';
 				setSelectedImage(null);
 				setPreviewImage(null);
+				setStartOfferDate(null);
+				setEndOfferDate(null);
 			}
 		} catch (e: any) {
 			setError({

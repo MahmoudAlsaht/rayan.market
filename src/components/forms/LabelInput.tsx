@@ -4,12 +4,9 @@ import {
 	Chip,
 	FormGroup,
 	Grid,
-	// Menu,
-	// MenuItem,
 	TextField,
 } from '@mui/material';
 import { FormEvent, useRef } from 'react';
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { TLabel, createLabel } from '../../controllers/label';
 
 export default function LabelInput({
@@ -22,20 +19,6 @@ export default function LabelInput({
 	>;
 }) {
 	const labelRef = useRef<HTMLInputElement>(null);
-	// const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(
-	// 	null,
-	// );
-	// const open = Boolean(anchorEl);
-
-	// const handleClickLabelMenu = (
-	// 	event: React.MouseEvent<HTMLButtonElement>,
-	// ) => {
-	// 	setAnchorEl(event.currentTarget);
-	// };
-
-	// const handleCloseLabelMenu = () => {
-	// 	setAnchorEl(null);
-	// };
 
 	const handleAddLabel = async (e: FormEvent) => {
 		e.preventDefault();
@@ -101,65 +84,6 @@ export default function LabelInput({
 						/>
 					</FormGroup>
 				</Grid>
-
-				{/* <Grid xs={1} sx={{ ml: 0.5 }}>
-					<Button
-						size='large'
-						id='label-button'
-						variant='contained'
-						aria-controls={
-							open ? 'label-menu' : undefined
-						}
-						aria-haspopup='true'
-						aria-expanded={open ? 'true' : undefined}
-						onClick={handleClickLabelMenu}
-						endIcon={<KeyboardArrowDownIcon />}
-					/>
-					<Menu
-						id='label-menu'
-						anchorEl={anchorEl}
-						open={open}
-						onClose={handleCloseLabelMenu}
-						MenuListProps={{
-							'aria-labelledby': 'label-button',
-						}}
-					>
-						{labels?.map((label) => (
-							<MenuItem
-								key={label?._id}
-								onClick={() => {
-									setSelectedLabels(
-										(prevLabels) => {
-											if (prevLabels) {
-												return [
-													...prevLabels.filter(
-														(
-															optionLabel,
-														) => {
-															return (
-																optionLabel?._id !==
-																	label?._id &&
-																optionLabel
-															);
-														},
-													),
-													label,
-												];
-											}
-											return [
-												label,
-											] as TLabel[];
-										},
-									);
-									handleCloseLabelMenu();
-								}}
-							>
-								{label.value}
-							</MenuItem>
-						))}
-					</Menu>
-				</Grid> */}
-
 				<Grid xs={1}>
 					<Button
 						type='submit'

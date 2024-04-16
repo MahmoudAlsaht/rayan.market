@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TProduct } from '../app/store/product';
 import { sendRequestToServer } from '../utils';
 import db from '../firebase/config';
-import { uploadImage } from '../firebase/firestore/uploadFile';
 import { TLabel } from './label';
 
 db();
@@ -83,31 +82,47 @@ export const createProduct = createAsyncThunk(
 		} = option;
 
 		try {
-			const imageUrl = {
-				url: await uploadImage(
-					image,
-					`${image?.name}`,
-					`products/${name}`,
-				),
-				fileName: image?.name,
-			};
+			const formData = new FormData();
+
+			formData.append('file', image as File);
+			formData.append('name', name);
+			formData.append('categoryId', categoryId);
+			formData.append('brandId', brandId);
+			formData.append('price', `${parseFloat(price)}`);
+			formData.append('quantity', quantity);
+			formData.append('isOffer', `${isOffer}`);
+			formData.append(
+				'newPrice',
+				`${parseFloat(newPrice as string)}`,
+			);
+			formData.append(
+				'offerExpiresDate',
+				offerExpiresDate as string,
+			);
+
+			if (labels)
+				if (labels.length > 1)
+					for (const label of labels!) {
+						formData.append(
+							'labels',
+							label?._id as string,
+						);
+					}
+				else
+					formData.append(
+						'label',
+						labels[0]?._id as string,
+					);
+			formData.append('startDate', startDate as string);
+			formData.append('endDate', endDate as string);
+			formData.append('isEndDate', `${isEndDate}`);
 
 			const product: TProduct | null =
-				await sendRequestToServer('POST', 'product', {
-					imageUrl,
-					name,
-					categoryId,
-					brandId,
-					price: parseFloat(price),
-					quantity,
-					isOffer,
-					newPrice: parseFloat(newPrice as string),
-					offerExpiresDate,
-					labels,
-					startDate,
-					endDate,
-					isEndDate,
-				});
+				await sendRequestToServer(
+					'POST',
+					'product',
+					formData,
+				);
 
 			return product;
 		} catch (e) {
@@ -123,54 +138,64 @@ export const updateProduct = createAsyncThunk(
 			const { productId } = options;
 			const {
 				name,
+				categoryId,
+				brandId,
 				price,
 				quantity,
-				category,
-				brand,
 				image,
 				newPrice,
-				offerExpiresDate,
 				isOffer,
+				offerExpiresDate,
 				labels,
 				startDate,
 				endDate,
 				isEndDate,
 			} = options.data;
 
-			let imageUrl = null;
-			if (image)
-				imageUrl = {
-					url: await uploadImage(
-						image,
-						`${image?.name}`,
-						`products/${name}`,
-					),
-					fileName: image?.name,
-				};
+			const formData = new FormData();
+
+			formData.append('file', image as File);
+			formData.append('name', name);
+			formData.append('categoryId', categoryId);
+			formData.append('brandId', brandId);
+			formData.append('price', `${parseFloat(price)}`);
+			formData.append('quantity', quantity);
+			formData.append('isOffer', `${isOffer}`);
+			formData.append(
+				'newPrice',
+				`${parseFloat(newPrice as string)}`,
+			);
+			formData.append(
+				'offerExpiresDate',
+				offerExpiresDate as string,
+			);
+			if (labels)
+				if (labels.length > 1)
+					for (const label of labels!) {
+						formData.append(
+							'labels',
+							label?._id as string,
+						);
+					}
+				else
+					formData.append(
+						'label',
+						labels[0]?._id as string,
+					);
+			formData.append('startDate', startDate as string);
+			formData.append('endDate', endDate as string);
+			formData.append('isEndDate', `${isEndDate}`);
 
 			const product: TProduct | null =
 				await sendRequestToServer(
 					'PUT',
 					`product/${productId}`,
-					{
-						name,
-						price,
-						newPrice,
-						quantity,
-						category,
-						imageUrl,
-						offerExpiresDate,
-						isOffer,
-						brand,
-						labels,
-						startDate,
-						endDate,
-						isEndDate,
-					},
+					formData,
 				);
 
 			return product;
 		} catch (e) {
+			console.log(e);
 			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},

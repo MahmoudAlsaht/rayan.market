@@ -28,12 +28,12 @@ function ProductSettings({
 	return (
 		<>
 			<TableRow>
-				<TableCell align='right'>{index + 1}</TableCell>
-				<TableCell align='right'>
+				<TableCell>{index + 1}</TableCell>
+				<TableCell>
 					{product && product?.name.substring(0, 45)}
 				</TableCell>
 
-				<TableCell align='right'>
+				<TableCell>
 					<EditProductForm
 						product={product}
 						show={showEditProductForm}
