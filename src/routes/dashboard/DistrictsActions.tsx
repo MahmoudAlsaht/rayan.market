@@ -1,5 +1,4 @@
 import { ChangeEvent, memo, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TDistrict } from '../../controllers/district';
 import { fetchDistricts } from '../../controllers/district';
 import AddIcon from '@mui/icons-material/Add';
@@ -16,8 +15,6 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { TUser } from '../../app/auth/auth';
-import { fetchUser } from '../../controllers/user';
 import DistrictSettings from '../../components/dashboardComponents/DistrictSettings';
 
 const DistrictsActions = memo(() => {
@@ -26,15 +23,9 @@ const DistrictsActions = memo(() => {
 
 	const [queryInput, setQueryInput] = useState('');
 
-	const dispatch = useAppDispatch();
-
 	const [districts, setDistricts] = useState<
 		(TDistrict | null)[]
 	>([]);
-
-	const user: TUser | null = useAppSelector(
-		(state) => state.user,
-	);
 
 	const handleClickAddBrand = () => {
 		setShowDistrictForm(!showDistrictForm);
@@ -75,13 +66,12 @@ const DistrictsActions = memo(() => {
 	};
 
 	useEffect(() => {
-		dispatch(fetchUser());
 		const getDistricts = async () => {
 			const fetchedDistricts = await fetchDistricts();
 			setDistricts(fetchedDistricts);
 		};
 		getDistricts();
-	}, [dispatch, user?.profile]);
+	}, []);
 
 	return (
 		<>
@@ -121,9 +111,6 @@ const DistrictsActions = memo(() => {
 										key={district?._id}
 										district={district}
 										index={index}
-										profileId={
-											user?.profile as string
-										}
 										updateDistricts={
 											updateDistricts
 										}
@@ -144,7 +131,6 @@ const DistrictsActions = memo(() => {
 			<AddDistrictForm
 				show={showDistrictForm}
 				handleClose={handleClickAddBrand}
-				profileId={user?.profile as string}
 				addToDistricts={addToDistricts}
 			/>
 		</>

@@ -20,7 +20,6 @@ type EditDistrictFormProps = {
 	show: boolean;
 	handleClose: () => void;
 	district: TDistrict | null;
-	profileId: string;
 	updateDistricts: (updatedDistrict: TDistrict | null) => void;
 };
 
@@ -28,7 +27,6 @@ function EditDistrictForm({
 	show,
 	handleClose,
 	district,
-	profileId,
 	updateDistricts,
 }: EditDistrictFormProps) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -57,7 +55,6 @@ function EditDistrictForm({
 				const updatedDistrict = await updateDistrict({
 					name: name as string,
 					districtId: district?._id as string,
-					profileId: profileId,
 					shippingFees: shippingFees as string,
 				});
 

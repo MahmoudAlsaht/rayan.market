@@ -17,7 +17,6 @@ type DeletePromoFormProps = {
 	show: boolean;
 	handleClose: () => void;
 	districtName: string;
-	profileId: string;
 	districtId: string;
 	removeFromDistricts: (districtId: string) => void;
 };
@@ -27,7 +26,6 @@ function DeletePromoForm({
 	handleClose,
 	districtName,
 	districtId,
-	profileId,
 	removeFromDistricts,
 }: DeletePromoFormProps) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +33,10 @@ function DeletePromoForm({
 	const handleDeletion = async () => {
 		try {
 			setIsLoading(true);
-			await deleteDistrict({ districtId, profileId });
+			await deleteDistrict({ districtId });
 			removeFromDistricts(districtId);
 			setIsLoading(false);
-			fetchDistricts(profileId);
+			fetchDistricts();
 			handleClose();
 		} catch (e: any) {
 			console.log(e);

@@ -20,14 +20,12 @@ import {
 type AddDistrictFormProps = {
 	show: boolean;
 	handleClose: () => void;
-	profileId: string;
 	addToDistricts: (district: TDistrict | null) => void;
 };
 
 function AddDistrictForm({
 	show,
 	handleClose,
-	profileId,
 	addToDistricts,
 }: AddDistrictFormProps) {
 	const [validated, setValidated] = useState(false);
@@ -71,7 +69,6 @@ function AddDistrictForm({
 					name: nameRef.current?.value as string,
 					shippingFees: shippingFeesRef.current
 						?.value as string,
-					profileId: profileId,
 				});
 
 				addToDistricts(district);

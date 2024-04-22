@@ -9,7 +9,6 @@ import DeleteDistrictForm from '../forms/DeleteDistrictForm';
 type DistrictSettingsProps = {
 	district: TDistrict | null;
 	index: number;
-	profileId: string;
 	removeFromDistricts: (districtId: string) => void;
 	updateDistricts: (updatedDistrict: TDistrict | null) => void;
 };
@@ -17,7 +16,6 @@ type DistrictSettingsProps = {
 function DistrictSettings({
 	district,
 	index,
-	profileId,
 	removeFromDistricts,
 	updateDistricts,
 }: DistrictSettingsProps) {
@@ -46,7 +44,6 @@ function DistrictSettings({
 					show={showEditForm}
 					handleClose={handleCloseEditForm}
 					district={district}
-					profileId={profileId}
 					updateDistricts={updateDistricts}
 				/>
 
@@ -59,7 +56,6 @@ function DistrictSettings({
 					show={showDeleteForm}
 					handleClose={handleCloseDeleteForm}
 					districtId={district?._id as string}
-					profileId={profileId}
 					removeFromDistricts={removeFromDistricts}
 				/>
 			</TableCell>
