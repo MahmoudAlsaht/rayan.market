@@ -9,7 +9,7 @@ function Banner({ banner }: { banner: TBanner | null }) {
 			{banner?.bannerImages &&
 				banner?.bannerImages?.length !== 0 && (
 					<Box>
-						<Paper sx={{ mb: 3 }}>
+						<Paper sx={{ mb: { sm: 3 } }}>
 							{banner.bannerImages &&
 							banner.bannerImages.length < 2 ? (
 								banner.bannerImages?.map(
