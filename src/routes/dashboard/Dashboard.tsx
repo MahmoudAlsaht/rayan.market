@@ -26,8 +26,8 @@ const Dashboard = memo(() => {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchOrders(''));
-	}, [dispatch]);
+		dispatch(fetchOrders(user?._id));
+	}, [dispatch, user?._id]);
 
 	const adminWidgets = [
 		'Users',

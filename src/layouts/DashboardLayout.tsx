@@ -37,7 +37,6 @@ import { TUser } from '../app/auth/auth';
 import { TOrder } from '../app/store/order';
 import { fetchUser, logout } from '../controllers/user';
 import { fetchOrders } from '../controllers/order';
-import { isAdmin } from '../utils';
 import { Badge } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -133,11 +132,12 @@ export default function DashBoardLayout() {
 	const ifNotDashboardHomePage =
 		window.location.pathname.includes('settings');
 
+	if (user?.role === 'customer') navigate('/home');
+
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchOrders(''));
-		if (!isAdmin(user)) navigate('/home');
-	}, [dispatch, navigate, user]);
+		dispatch(fetchOrders(user?._id));
+	}, [dispatch, user?._id]);
 
 	const pendingOrders: TOrder[] = orders?.filter((order) => {
 		return order.status === 'pending';

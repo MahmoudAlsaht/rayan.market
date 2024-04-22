@@ -19,8 +19,12 @@ import {
 	Tabs,
 	TextField,
 } from '@mui/material';
+import { TUser } from '../../app/auth/auth';
+import { fetchUser } from '../../controllers/user';
 
 const OrderSettings = memo(() => {
+	const user: TUser = useAppSelector((state) => state.user);
+
 	const orders: TOrder[] = useAppSelector(
 		(state) => state.orders,
 	);
@@ -68,8 +72,9 @@ const OrderSettings = memo(() => {
 	]);
 
 	useEffect(() => {
-		dispatch(fetchOrders(''));
-	}, [dispatch]);
+		dispatch(fetchUser());
+		dispatch(fetchOrders(user?._id));
+	}, [dispatch, user?._id]);
 
 	const handleChange = (
 		event: SyntheticEvent,

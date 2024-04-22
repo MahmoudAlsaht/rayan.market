@@ -30,7 +30,6 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { TUser } from '../app/auth/auth';
 import { fetchUser, logout } from '../controllers/user';
 import { fetchOrders } from '../controllers/order';
-import { isAuthenticated } from '../utils';
 import { useEffect, useState } from 'react';
 import AppFooter from '../components/AppFooter';
 
@@ -124,11 +123,12 @@ export default function AccountLayout() {
 		window.location.pathname.includes('contact-info') ||
 		window.location.pathname.includes('orders-history');
 
+	if (user?.username === '' || user?.role !== 'customer')
+		navigate('/home');
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchOrders(''));
-		if (!isAuthenticated(user)) navigate('/home');
-	}, [dispatch, navigate, user]);
+		dispatch(fetchOrders(user?._id));
+	}, [dispatch, user]);
 
 	const handleLogout = async () => {
 		await dispatch(logout());
