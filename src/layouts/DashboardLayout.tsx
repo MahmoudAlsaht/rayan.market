@@ -281,15 +281,9 @@ export default function DashBoardLayout() {
 					)}
 
 					<Link
-						to={
-							user && user?.role === 'admin'
-								? `/dashboard/admin/${
-										user && user?.profile
-								  }/account-settings`
-								: `/account/profile/${
-										user && user?.profile
-								  }/account-setting`
-						}
+						to={`/dashboard/admin/${
+							user && user?.profile
+						}/account-settings`}
 					>
 						<ListItem
 							disablePadding
