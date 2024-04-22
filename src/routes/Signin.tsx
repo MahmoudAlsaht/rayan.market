@@ -65,7 +65,7 @@ export default function SignIn() {
 			}
 		} catch (e: any) {
 			setError({
-				status: false,
+				status: true,
 				message: e.message,
 			});
 			setIsLoading(false);
@@ -81,25 +81,25 @@ export default function SignIn() {
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'الرحاء إدخال جميع الحقول المطلوبة',
 			});
 		} else if (passwordRef.current!.value.length < 6) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'كلمة المرور يجب أن لا تقل عن 6 خانات',
 			});
 		} else if (phoneRef.current?.value.length !== 10) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
@@ -168,7 +168,10 @@ export default function SignIn() {
 
 					<Grid container>
 						<Grid item xs>
-							<Link href='#' variant='body2'>
+							<Link
+								href='/auth/reset-password'
+								variant='body2'
+							>
 								نسيت كلمة المرور؟
 							</Link>
 						</Grid>

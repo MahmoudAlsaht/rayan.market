@@ -16,7 +16,7 @@ export const fetchUser = createAsyncThunk(
 
 			if (token == undefined) return null;
 
-			const user = await sendRequestToServer(
+			const user: TUser | null = await sendRequestToServer(
 				'GET',
 				'auth',
 			);
@@ -134,6 +134,64 @@ export const createAnonymousUser = async (data: {
 		);
 
 		return anonymousUser;
+	} catch (e: any) {
+		throw new Error('Something went wrong!');
+	}
+};
+
+export const requestVerificationCode = async (
+	phoneNumber: string,
+) => {
+	try {
+		const userId = await sendRequestToServer(
+			'post',
+			'auth/reset-password',
+			{ phone: phoneNumber },
+		);
+
+		return userId as string;
+	} catch (e: any) {
+		throw new Error('Something went wrong!');
+	}
+};
+
+export const check6DigitCode = async ({
+	verificationCode,
+	user,
+}: {
+	verificationCode: string;
+	user: string;
+}) => {
+	try {
+		const userId = await sendRequestToServer(
+			'post',
+			`auth/reset-password/${user}`,
+			{ verificationCode },
+		);
+
+		return userId as string;
+	} catch (e: any) {
+		throw new Error('Something went wrong!');
+	}
+};
+
+export const updatePassword = async ({
+	passwordConfirmation,
+	password,
+	user,
+}: {
+	passwordConfirmation: string;
+	password: string;
+	user: string;
+}) => {
+	try {
+		const userId = await sendRequestToServer(
+			'post',
+			`auth/reset-password/${user}/update-password`,
+			{ passwordConfirmation, password },
+		);
+
+		return userId as string;
 	} catch (e: any) {
 		throw new Error('Something went wrong!');
 	}
