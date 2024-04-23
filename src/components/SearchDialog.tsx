@@ -10,6 +10,7 @@ import {
 	Slide,
 	TextField,
 	Toolbar,
+	Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import {
@@ -25,9 +26,13 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import { TProduct } from '../app/store/product';
-import { filterData } from '../utils';
+import { filterProducts } from '../utils';
 import { fetchProducts } from '../controllers/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { TCategory } from '../app/store/category';
+import { TBrand } from '../app/store/brand';
+import { fetchBrands } from '../controllers/brand';
+import { fetchCategories } from '../controllers/category';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -60,6 +65,12 @@ export default function SearchDialog() {
 	const products: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
 	);
+	const categories: (TCategory | null)[] = useAppSelector(
+		(state) => state.categories,
+	);
+	const brands: (TBrand | null)[] = useAppSelector(
+		(state) => state.brands,
+	);
 	const dispatch = useAppDispatch();
 
 	const [showSearchResult, setShowSearchResult] =
@@ -72,14 +83,18 @@ export default function SearchDialog() {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filterData(
+		return filterProducts(
 			products,
+			categories,
+			brands,
 			queryInput,
 		) as (TProduct | null)[];
-	}, [products, queryInput]);
+	}, [brands, categories, products, queryInput]);
 
 	useEffect(() => {
 		dispatch(fetchProducts());
+		dispatch(fetchCategories());
+		dispatch(fetchBrands());
 	}, [dispatch]);
 
 	return (
@@ -114,7 +129,7 @@ export default function SearchDialog() {
 								fullWidth
 								variant='standard'
 								type='search'
-								label='ابحث عن منتج'
+								label='ابحث عن منتج، قسم، أو علامة تجارية.....'
 								inputProps={{
 									style: {
 										outline: 'none',
@@ -127,50 +142,55 @@ export default function SearchDialog() {
 					</AppBar>
 					<Container sx={{ margin: '1rem 0' }}>
 						<List>
-							{filteredProducts?.length !== 0
-								? filteredProducts.map(
-										(product) => (
-											<ListItemButton
-												key={
-													product?._id
+							{filteredProducts?.length > 0 ? (
+								filteredProducts.map(
+									(product) => (
+										<ListItemButton
+											key={product?._id}
+											href={`/products/${product?._id}`}
+											sx={{
+												'&:hover': {
+													color: 'black',
+												},
+											}}
+											onClick={() => {
+												handleCloseSearch();
+											}}
+										>
+											<img
+												width={150}
+												height={150}
+												src={
+													(product?.productImage !=
+														null &&
+														product
+															?.productImage
+															?.path) ||
+													''
 												}
-												href={`/products/${product?._id}`}
+											/>
+											<ListItemText
+												primary={
+													product?.name
+												}
+												secondary={
+													product?.price
+												}
 												sx={{
-													'&:hover': {
-														color: 'black',
-													},
+													ml: '1rem',
 												}}
-												onClick={() => {
-													handleCloseSearch();
-												}}
-											>
-												<img
-													width={150}
-													height={150}
-													src={
-														(product?.productImage !=
-															null &&
-															product
-																?.productImage
-																?.path) ||
-														''
-													}
-												/>
-												<ListItemText
-													primary={
-														product?.name
-													}
-													secondary={
-														product?.price
-													}
-													sx={{
-														ml: '1rem',
-													}}
-												/>
-											</ListItemButton>
-										),
-								  )
-								: `${queryInput} لا توجد نتائج لبحثك`}
+											/>
+										</ListItemButton>
+									),
+								)
+							) : (
+								<Typography
+									variant='h6'
+									sx={{ m: 3, color: 'black' }}
+								>
+									{`لا يوجد نتائج للبحث (${queryInput})`}
+								</Typography>
+							)}
 						</List>
 					</Container>
 				</main>

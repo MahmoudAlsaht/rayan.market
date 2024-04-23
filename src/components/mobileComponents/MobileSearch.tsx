@@ -6,6 +6,7 @@ import {
 	IconButton,
 	TextField,
 	Toolbar,
+	Typography,
 } from '@mui/material';
 import {
 	ChangeEvent,
@@ -16,13 +17,18 @@ import {
 } from 'react';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { TProduct } from '../../app/store/product';
-import { filterData } from '../../utils';
 import { fetchProducts } from '../../controllers/product';
-import NotFound404 from '../../routes/NotFound404';
+// import NotFound404 from '../../routes/NotFound404';
 import { useNavigate } from 'react-router-dom';
 import MobileProductCard from './MobileProductCard';
 import FilterMenu from '../FilterMenu';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import ProductsList from '../ProductsList';
+import { TCategory } from '../../app/store/category';
+import { TBrand } from '../../app/store/brand';
+import { filterProducts } from '../../utils';
+import { fetchCategories } from '../../controllers/category';
+import { fetchBrands } from '../../controllers/brand';
 
 export default function MobileSearch() {
 	const [queryInput, setQueryInput] = useState('');
@@ -34,6 +40,12 @@ export default function MobileSearch() {
 	};
 	const products: (TProduct | null)[] = useAppSelector(
 		(state) => state.products,
+	);
+	const categories: (TCategory | null)[] = useAppSelector(
+		(state) => state.categories,
+	);
+	const brands: (TBrand | null)[] = useAppSelector(
+		(state) => state.brands,
 	);
 
 	const [showSearchResult, setShowSearchResult] =
@@ -48,29 +60,27 @@ export default function MobileSearch() {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filterData(
+		return filterProducts(
 			products,
+			categories,
+			brands,
 			queryInput,
 		) as (TProduct | null)[];
-	}, [products, queryInput]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [queryInput]);
 
 	useEffect(() => {
 		dispatch(fetchProducts());
+		dispatch(fetchProducts());
+		dispatch(fetchCategories());
+		dispatch(fetchBrands());
 	}, [dispatch]);
 
 	return (
 		<>
-			<Box
-				sx={{
-					display: { xs: 'none', sm: 'block' },
-				}}
-			>
-				<NotFound404 />
-			</Box>
 			<main dir='rtl'>
 				<Box
 					sx={{
-						display: { sm: 'none' },
 						mb: 15,
 					}}
 				>
@@ -93,7 +103,7 @@ export default function MobileSearch() {
 								fullWidth
 								variant='standard'
 								type='search'
-								label='ابحث عن منتج'
+								label='ابحث عن منتج، قسم، أو علامة تجارية.....'
 								inputProps={{
 									style: {
 										outline: 'none',
@@ -108,22 +118,39 @@ export default function MobileSearch() {
 					<Grid
 						container
 						sx={{
+							display: { sm: 'none' },
 							mt: 2,
 							mb: 5,
 						}}
 					>
-						{filteredProducts.map(
-							(product) =>
-								parseInt(
-									product?.quantity as string,
-								) > 0 && (
-									<MobileProductCard
-										product={product}
-										key={product?._id}
-									/>
-								),
+						{filteredProducts.length > 0 ? (
+							filteredProducts.map(
+								(product) =>
+									parseInt(
+										product?.quantity as string,
+									) > 0 && (
+										<MobileProductCard
+											product={product}
+											key={product?._id}
+										/>
+									),
+							)
+						) : (
+							<Typography
+								variant='h6'
+								sx={{ m: 3, color: 'black' }}
+							>
+								{`لا يوجد نتائج للبحث (${queryInput})`}
+							</Typography>
 						)}
 					</Grid>
+					<Box
+						sx={{
+							display: { xs: 'none', sm: 'flex' },
+						}}
+					>
+						<ProductsList mt={0} />
+					</Box>
 				</Box>
 			</main>
 		</>

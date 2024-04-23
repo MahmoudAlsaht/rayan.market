@@ -3,6 +3,8 @@ import { TCartProduct } from '../app/store/cart';
 import { TUser } from '../app/auth/auth';
 import axios from 'axios';
 import { TProduct } from '../app/store/product';
+import { TBrand } from '../app/store/brand';
+import { TCategory } from '../app/store/category';
 
 const cookies = new Cookies();
 
@@ -45,6 +47,43 @@ export const checkIfDocIsNew = (createdAt: number) => {
 export function escapeRegExp(str: string) {
 	return str.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
 }
+
+export const filterProducts = (
+	products: (TProduct | null)[],
+	brands: (TBrand | null)[],
+	categories: (TCategory | null)[],
+	query: string,
+) => {
+	if (query === '') return products;
+	const filteredData: (TProduct | null)[] = [];
+
+	for (const product of products) {
+		if (
+			product?.name
+				?.toLowerCase()
+				.includes(escapeRegExp(query?.toLowerCase()))
+		)
+			filteredData.push(product);
+	}
+	for (const category of categories) {
+		if (
+			category?.name
+				?.toLowerCase()
+				.includes(escapeRegExp(query?.toLowerCase()))
+		)
+			filteredData.push(...category.products);
+	}
+	for (const brand of brands) {
+		if (
+			brand?.name
+				?.toLowerCase()
+				.includes(escapeRegExp(query?.toLowerCase()))
+		)
+			filteredData.push(...brand.products);
+	}
+
+	return filteredData;
+};
 
 export const filterData = (products: any[], query: string) => {
 	return products?.filter((data) => {
