@@ -132,7 +132,7 @@ export default function ProductCard({
 						<Skeleton height={194} />
 					)}
 					<CardHeader // action={}
-						title={product?.name.substring(0, 10)}
+						title={product?.name?.substring(0, 10)}
 						subheader={
 							<legend>
 								{product?.newPrice ? (
