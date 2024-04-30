@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { TBanner } from '../app/store/banner';
 import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
@@ -16,8 +17,11 @@ function Banner({ banner }: { banner: TBanner | null }) {
 									(image) => (
 										<Link
 											to={
-												image?.link ||
-												'#'
+												banner?.bannerType ===
+												'offers'
+													? '/offers'
+													: image?.link ||
+													  '#'
 											}
 											key={image?._id}
 										>
@@ -28,7 +32,10 @@ function Banner({ banner }: { banner: TBanner | null }) {
 															? 'none'
 															: '#07a180',
 													width: '100%',
-													height: '250px',
+													height: {
+														xs: '190px',
+														sm: '250px',
+													},
 												}}
 											>
 												<Avatar
@@ -37,7 +44,10 @@ function Banner({ banner }: { banner: TBanner | null }) {
 													}
 													sx={{
 														width: '100%',
-														height: '250px',
+														height: {
+															xs: '190px',
+															sm: '250px',
+														},
 														opacity:
 															'.85',
 													}}

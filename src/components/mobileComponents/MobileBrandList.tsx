@@ -1,9 +1,10 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TBrand } from '../../app/store/brand';
 import { fetchBrands } from '../../controllers/brand';
 import MobileBrandCard from './MobileBrandCard';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,21 +26,30 @@ export default function MobileBrandList({
 	return (
 		<main dir='rtl'>
 			<Grid container sx={{ mt: 5 }}>
-				{brands?.map((brand, index) =>
-					isHomePage ? (
-						index <= 6 && (
-							<MobileBrandCard
-								brand={brand}
-								key={brand?._id}
+				{brands != null
+					? brands?.map((brand, index) =>
+							isHomePage ? (
+								index <= 6 && (
+									<MobileBrandCard
+										brand={brand}
+										key={brand?._id}
+									/>
+								)
+							) : (
+								<MobileBrandCard
+									brand={brand}
+									key={brand?._id}
+								/>
+							),
+					  )
+					: [1, 2, 3, 4, 5, 6].map(() => (
+							<Skeleton
+								sx={{ mt: 3, ml: 2 }}
+								variant='circular'
+								width='70px'
+								height='70px'
 							/>
-						)
-					) : (
-						<MobileBrandCard
-							brand={brand}
-							key={brand?._id}
-						/>
-					),
-				)}
+					  ))}
 				{isHomePage && brands?.length > 0 && (
 					<Grid>
 						<Box

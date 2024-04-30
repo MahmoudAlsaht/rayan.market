@@ -1,4 +1,10 @@
-import { Box, Container, Typography } from '@mui/material';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import {
+	Box,
+	Container,
+	Skeleton,
+	Typography,
+} from '@mui/material';
 import { TCategory } from '../app/store/category';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useEffect, useRef } from 'react';
@@ -33,15 +39,34 @@ export default function CategoryList({
 		<Container sx={{ mt: 20 }}>
 			{categories.length !== 0 && (
 				<Grid xs={12} container>
-					{categories.map(
-						(category, index) =>
-							index < catLength.current && (
-								<CategoryCard
-									category={category}
-									key={category?._id}
+					{categories != null
+						? categories.map(
+								(category, index) =>
+									index <
+										catLength.current && (
+										<CategoryCard
+											category={category}
+											key={category?._id}
+										/>
+									),
+						  )
+						: [1, 2, 3, 4, 5, 6].map(() => (
+								<Skeleton
+									sx={{
+										mt: 3,
+										ml: 2,
+										width: {
+											sm: 80,
+											md: 100,
+										},
+										height: {
+											sm: 80,
+											md: 100,
+										},
+									}}
+									variant='circular'
 								/>
-							),
-					)}
+						  ))}
 					{isHomePage !== -1 && (
 						<Grid>
 							<Box

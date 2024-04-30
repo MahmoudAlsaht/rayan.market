@@ -11,9 +11,11 @@ const ProductsList = memo(
 	({
 		productsLength = 0,
 		mt = 20,
+		mb = 0,
 	}: {
 		productsLength?: number;
 		mt?: number;
+		mb?: number;
 	}) => {
 		const dispatch = useAppDispatch();
 		const products: (TProduct | null)[] = useAppSelector(
@@ -38,7 +40,7 @@ const ProductsList = memo(
 		}, [dispatch, products, productsLength]);
 
 		return (
-			<Box sx={{ mt: { sm: mt } }}>
+			<Box sx={{ mt: { sm: mt }, mb }}>
 				<main dir='rtl'>
 					<Grid
 						container

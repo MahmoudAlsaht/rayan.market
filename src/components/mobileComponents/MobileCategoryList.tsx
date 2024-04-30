@@ -1,9 +1,10 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TCategory } from '../../app/store/category';
 import { fetchCategories } from '../../controllers/category';
 import MobileCategoryCard from './MobileCategoryCard';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,21 +26,30 @@ export default function MobileCategoryList({
 	return (
 		<main dir='rtl'>
 			<Grid container sx={{ mt: 5 }}>
-				{categories?.map((category, index) =>
-					isHomePage ? (
-						index <= 6 && (
-							<MobileCategoryCard
-								category={category}
-								key={category?._id}
+				{categories != null
+					? categories?.map((category, index) =>
+							isHomePage ? (
+								index <= 6 && (
+									<MobileCategoryCard
+										category={category}
+										key={category?._id}
+									/>
+								)
+							) : (
+								<MobileCategoryCard
+									category={category}
+									key={category?._id}
+								/>
+							),
+					  )
+					: [1, 2, 3, 4, 5, 6].map(() => (
+							<Skeleton
+								sx={{ mt: 3, ml: 2 }}
+								variant='circular'
+								width='70px'
+								height='70px'
 							/>
-						)
-					) : (
-						<MobileCategoryCard
-							category={category}
-							key={category?._id}
-						/>
-					),
-				)}
+					  ))}
 				{isHomePage && categories?.length > 0 && (
 					<Grid>
 						<Box
