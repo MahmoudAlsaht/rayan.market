@@ -5,7 +5,6 @@ import axios from 'axios';
 import { TProduct } from '../app/store/product';
 import { TBrand } from '../app/store/brand';
 import { TCategory } from '../app/store/category';
-import { TLabel } from '../controllers/label';
 
 const cookies = new Cookies();
 
@@ -53,21 +52,10 @@ export const filterProducts = (
 	products: (TProduct | null)[],
 	brands: (TBrand | null)[],
 	categories: (TCategory | null)[],
-	labels: TLabel[] | null,
 	query: string,
 ) => {
-	if (query === '') return products;
+	if (query === '' || query == null) return products;
 	const filteredData: (TProduct | null)[] = [];
-
-	for (const label of labels!) {
-		if (
-			label?.value
-				?.toLowerCase()
-				.includes(escapeRegExp(query?.toLowerCase()))
-		)
-			for (const product of label.products!)
-				filteredData.push(product);
-	}
 
 	for (const product of products) {
 		if (

@@ -71,25 +71,22 @@ export default function SearchDialog() {
 	const brands: (TBrand | null)[] = useAppSelector(
 		(state) => state.brands,
 	);
+
 	const dispatch = useAppDispatch();
 
-	const [showSearchResult, setShowSearchResult] =
-		useState(false);
-
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setShowSearchResult(e.target.value !== '');
 		handleQueryChange(e);
-		console.log(showSearchResult);
 	};
 
 	const filteredProducts = useMemo(() => {
 		return filterProducts(
 			products,
-			categories,
 			brands,
+			categories,
 			queryInput,
 		) as (TProduct | null)[];
-	}, [brands, categories, products, queryInput]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [queryInput]);
 
 	useEffect(() => {
 		dispatch(fetchProducts());

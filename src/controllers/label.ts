@@ -4,13 +4,15 @@ import { sendRequestToServer } from '../utils';
 export type TLabel = {
 	value: string;
 	_id: string;
-	products: TProduct[] | null;
+	products: (TProduct | null)[];
 };
 
 export const getLabels = async () => {
 	try {
-		const labels: TLabel[] | null =
-			await sendRequestToServer('get', 'label');
+		const labels: TLabel[] = await sendRequestToServer(
+			'get',
+			'label',
+		);
 
 		return labels;
 	} catch (e: any) {
