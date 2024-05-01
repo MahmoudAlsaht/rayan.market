@@ -2,27 +2,24 @@ import { useEffect, useState } from 'react';
 import Banner from '../Banner';
 import MobileBrandList from './MobileBrandList';
 import MobileCategoryList from './MobileCategoryList';
-import { fetchBanners } from '../../controllers/banner';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TBanner } from '../../app/store/banner';
 import { Box, Paper, Typography } from '@mui/material';
 import ProductsList from '../ProductsList';
+import { fetchBannerByType } from '../../controllers/banner';
 
 export default function MobileHome() {
-	const banners: (TBanner | null)[] = useAppSelector(
-		(state) => state.banners,
-	);
 	const [offerBanner, setOfferBanner] =
 		useState<TBanner | null>(null);
-	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchBanners());
-		const OfferBanners = banners?.filter(
-			(banner) => banner?.bannerType === 'offers',
-		);
-		setOfferBanner(OfferBanners[0]);
-	}, [banners, dispatch]);
+		const getBanner = async () => {
+			const fetchedBanner = await fetchBannerByType(
+				'offers',
+			);
+			setOfferBanner(fetchedBanner);
+		};
+		getBanner();
+	}, []);
 	return (
 		<main dir='rtl'>
 			<MobileCategoryList isHomePage={true} />

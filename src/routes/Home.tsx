@@ -4,26 +4,23 @@ import CategoryList from '../components/CategoryList';
 import BrandList from '../components/BrandList';
 import { Box } from '@mui/material';
 import MobileHome from '../components/mobileComponents/MobileHome';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchBanners } from '../controllers/banner';
 import { TBanner } from '../app/store/banner';
+import { fetchBannerByType } from '../controllers/banner';
 
 const Home = memo(() => {
-	const banners: (TBanner | null)[] = useAppSelector(
-		(state) => state.banners,
-	);
 	const [mainBanner, setMainBanner] = useState<TBanner | null>(
 		null,
 	);
-	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchBanners());
-		const mainBanners = banners?.filter(
-			(banner) => banner?.bannerType === 'main',
-		);
-		setMainBanner(mainBanners[0]);
-	}, [banners, dispatch]);
+		const getBanner = async () => {
+			const fetchedBanner = await fetchBannerByType(
+				'main',
+			);
+			setMainBanner(fetchedBanner);
+		};
+		getBanner();
+	});
 
 	return (
 		<div dir='rtl' style={{ height: '120dvh' }}>

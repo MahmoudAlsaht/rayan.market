@@ -16,6 +16,20 @@ export const fetchBanners = createAsyncThunk(
 	},
 );
 
+export const fetchBannerByType = async (type: string) => {
+	try {
+		const banner: TBanner | null = await sendRequestToServer(
+			'post',
+			`banner/type`,
+			{ type },
+		);
+
+		return banner;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
+
 export const createBanner = createAsyncThunk(
 	'Banners/createBanner',
 	async (option: {

@@ -29,6 +29,7 @@ import { TBrand } from '../../app/store/brand';
 import { filterProducts } from '../../utils';
 import { fetchCategories } from '../../controllers/category';
 import { fetchBrands } from '../../controllers/brand';
+import { TLabel, getLabels } from '../../controllers/label';
 
 export default function MobileSearch() {
 	const [queryInput, setQueryInput] = useState('');
@@ -51,6 +52,8 @@ export default function MobileSearch() {
 	const [showSearchResult, setShowSearchResult] =
 		useState(false);
 
+	const [labels, setLabels] = useState<TLabel[] | null>(null);
+
 	const dispatch = useAppDispatch();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,14 +65,20 @@ export default function MobileSearch() {
 	const filteredProducts = useMemo(() => {
 		return filterProducts(
 			products,
-			categories,
 			brands,
+			categories,
+			labels,
 			queryInput,
 		) as (TProduct | null)[];
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [queryInput]);
 
 	useEffect(() => {
+		const fetchLabels = async () => {
+			const fetchedLabels = await getLabels();
+			setLabels(fetchedLabels);
+		};
+		fetchLabels();
 		dispatch(fetchProducts());
 		dispatch(fetchProducts());
 		dispatch(fetchCategories());

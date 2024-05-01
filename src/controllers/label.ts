@@ -1,9 +1,10 @@
+import { TProduct } from '../app/store/product';
 import { sendRequestToServer } from '../utils';
 
 export type TLabel = {
 	value: string;
 	_id: string;
-	products: string[];
+	products: TProduct[] | null;
 };
 
 export const getLabels = async () => {

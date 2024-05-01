@@ -1,11 +1,10 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { memo, useEffect, useState } from 'react';
-import { fetchProducts } from '../controllers/product';
 import ProductCard from '../components/ProductCard';
 import { TProduct } from '../app/store/product';
 import { Box, Grid } from '@mui/material';
 import MobileProductCard from '../components/mobileComponents/MobileProductCard';
+import { sortProducts } from '../controllers/product';
 
 const ProductsList = memo(
 	({
@@ -17,27 +16,19 @@ const ProductsList = memo(
 		mt?: number;
 		mb?: number;
 	}) => {
-		const dispatch = useAppDispatch();
-		const products: (TProduct | null)[] = useAppSelector(
-			(state) => state.products,
-		);
-
 		const [sortedProducts, setSortedProducts] = useState<
 			(TProduct | null)[]
 		>([]);
 
 		useEffect(() => {
-			dispatch(fetchProducts());
-			setSortedProducts(
-				productsLength === 0
-					? products
-					: products.toSorted((a, b) =>
-							b != null && a != null
-								? b.views - a.views
-								: 0 - 0,
-					  ),
-			);
-		}, [dispatch, products, productsLength]);
+			const getProducts = async () => {
+				const fetchedProducts = await sortProducts(
+					productsLength,
+				);
+				setSortedProducts(fetchedProducts);
+			};
+			getProducts();
+		}, [productsLength]);
 
 		return (
 			<Box sx={{ mt: { sm: mt }, mb }}>
@@ -57,6 +48,7 @@ const ProductsList = memo(
 							(product, index) => {
 								return productsLength === 0 ? (
 									<Grid
+										item
 										sm={3}
 										md={2}
 										key={product?._id}
@@ -70,6 +62,7 @@ const ProductsList = memo(
 								) : (
 									index < productsLength && (
 										<Grid
+											item
 											sm={3}
 											md={2}
 											key={product?._id}
@@ -103,6 +96,7 @@ const ProductsList = memo(
 									product?.quantity as string,
 								) > 0 ? (
 								<MobileProductCard
+									key={product?._id}
 									product={product as TProduct}
 								/>
 							) : (
@@ -111,6 +105,7 @@ const ProductsList = memo(
 										product?.quantity as string,
 									) > 0 && (
 										<MobileProductCard
+											key={product?._id}
 											product={
 												product as TProduct
 											}

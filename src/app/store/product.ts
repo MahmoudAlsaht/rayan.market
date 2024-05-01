@@ -38,7 +38,7 @@ export type TProduct = {
 	startOfferDate?: string | null;
 	endOfferDate?: string | null;
 	views: number;
-	labels?: TLabel[];
+	labels?: TLabel[] | null;
 };
 
 const initialState: (TProduct | null)[] = [];

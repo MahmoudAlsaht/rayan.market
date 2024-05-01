@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TProduct } from '../app/store/product';
 import { sendRequestToServer } from '../utils';
@@ -16,6 +17,26 @@ export const fetchProducts = createAsyncThunk(
 		}
 	},
 );
+
+export const sortProducts = async (productsLength: number) => {
+	try {
+		const products: (TProduct | null)[] =
+			await sendRequestToServer('GET', `product`);
+
+		const sortedProducts =
+			productsLength === 0
+				? products
+				: products.toSorted((a, b) =>
+						b != null && a != null
+							? b.views - a.views
+							: 0 - 0,
+				  );
+
+		return sortedProducts;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
 
 export const fetchOffers = async () => {
 	try {
