@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useParams } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
 import { TProduct } from '../../app/store/product';
@@ -292,9 +293,26 @@ const ShowProduct = memo(() => {
 					color='primary'
 					sx={{ ml: 5, mt: 5 }}
 				>
-					الأكثر شيوعا
+					منتجات مشابهة
 				</Typography>
-				<ProductsList productsLength={6} mt={0} />
+				<ProductsList
+					sortBasedOn='label'
+					productsLength={6}
+					productId={productId}
+					labelId={
+						product?.labels &&
+						product?.labels?.length
+							? (product?.labels[
+									Math.floor(
+										Math.random() *
+											product?.labels
+												?.length,
+									)
+							  ]?._id as string)
+							: ''
+					}
+					mt={0}
+				/>
 			</Paper>
 		</main>
 	);

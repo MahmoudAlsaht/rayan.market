@@ -43,7 +43,7 @@ export default function MobileHome() {
 
 			<Box>
 				<Paper
-					role='most view products'
+					role='most viewed products'
 					sx={{ bgcolor: 'inherit' }}
 				>
 					<Typography

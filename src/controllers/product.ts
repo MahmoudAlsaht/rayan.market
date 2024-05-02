@@ -21,12 +21,20 @@ export const fetchProducts = createAsyncThunk(
 export const sortProducts = async (
 	productsLength: number,
 	sortBasedOn: string,
+	labelId?: string,
+	productId?: string,
 ) => {
 	try {
 		const products: (TProduct | null)[] =
 			await sendRequestToServer('GET', `product`);
 
-		let sortedProducts: (TProduct | null)[];
+		console.log(labelId);
+		const label: TLabel | null = await sendRequestToServer(
+			'get',
+			`label/${labelId}`,
+		);
+
+		let sortedProducts: (TProduct | null)[] = [null];
 
 		if (sortBasedOn === 'views') {
 			sortedProducts =
@@ -37,7 +45,7 @@ export const sortProducts = async (
 								? b.views - a.views
 								: 0 - 0,
 					  );
-		} else {
+		} else if (sortBasedOn === 'most viewed products') {
 			sortedProducts =
 				productsLength === 0
 					? products
@@ -47,6 +55,16 @@ export const sortProducts = async (
 								  a.numberOfPurchases
 								: 0 - 0,
 					  );
+		} else {
+			if (label?.products)
+				sortedProducts = label.products.filter(
+					(product) => {
+						return (
+							product?._id !== productId && product
+						);
+					},
+				);
+			console.log(sortedProducts);
 		}
 
 		return sortedProducts;

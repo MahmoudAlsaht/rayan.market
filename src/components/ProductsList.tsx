@@ -12,11 +12,15 @@ const ProductsList = memo(
 		mt = 20,
 		mb = 0,
 		sortBasedOn = 'views',
+		labelId = '',
+		productId = '',
 	}: {
 		productsLength?: number;
 		mt?: number;
 		mb?: number;
 		sortBasedOn?: string;
+		labelId?: string;
+		productId?: string;
 	}) => {
 		const [sortedProducts, setSortedProducts] = useState<
 			(TProduct | null)[]
@@ -27,12 +31,13 @@ const ProductsList = memo(
 				const fetchedProducts = await sortProducts(
 					productsLength,
 					sortBasedOn,
+					labelId,
+					productId,
 				);
 				setSortedProducts(fetchedProducts);
 			};
 			getProducts();
-			console.log('render');
-		}, [productsLength, sortBasedOn]);
+		}, [labelId, productId, productsLength, sortBasedOn]);
 
 		return (
 			<Box sx={{ mt: { sm: mt }, mb }}>
@@ -94,29 +99,35 @@ const ProductsList = memo(
 						}}
 						spacing={1}
 					>
-						{sortedProducts.map((product, index) => {
-							return productsLength === 0 &&
-								parseInt(
-									product?.quantity as string,
-								) > 0 ? (
-								<MobileProductCard
-									key={product?._id}
-									product={product as TProduct}
-								/>
-							) : (
-								index < productsLength &&
+						{sortedProducts?.map(
+							(product, index) => {
+								return productsLength === 0 &&
 									parseInt(
 										product?.quantity as string,
-									) > 0 && (
-										<MobileProductCard
-											key={product?._id}
-											product={
-												product as TProduct
-											}
-										/>
-									)
-							);
-						})}
+									) > 0 ? (
+									<MobileProductCard
+										key={product?._id}
+										product={
+											product as TProduct
+										}
+									/>
+								) : (
+									index < productsLength &&
+										parseInt(
+											product?.quantity as string,
+										) > 0 && (
+											<MobileProductCard
+												key={
+													product?._id
+												}
+												product={
+													product as TProduct
+												}
+											/>
+										)
+								);
+							},
+						)}
 					</Grid>
 				</main>
 			</Box>
