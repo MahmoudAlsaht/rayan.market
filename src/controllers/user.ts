@@ -75,7 +75,7 @@ export const signUp = async (
 				verificationCode,
 			},
 		);
-		setCookies('token', res.token, 0.3);
+		setCookies('token', res.token);
 	} catch (e: any) {
 		throw new Error(e.message);
 	}
@@ -94,7 +94,7 @@ export const signIn = async (
 				password,
 			},
 		);
-		setCookies('token', res.token, 0.3);
+		setCookies('token', res.token);
 	} catch (e: any) {
 		throw new Error(e.message);
 	}
