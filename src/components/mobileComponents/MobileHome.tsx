@@ -37,10 +37,27 @@ export default function MobileHome() {
 					>
 						الأكثر شيوعا
 					</Typography>
+					<ProductsList productsLength={6} mt={0} />
+				</Paper>
+			</Box>
+
+			<Box>
+				<Paper
+					role='most view products'
+					sx={{ bgcolor: 'inherit' }}
+				>
+					<Typography
+						variant='h3'
+						color='primary'
+						sx={{ ml: 5, mt: 5 }}
+					>
+						الأكثر مبيعا
+					</Typography>
 					<ProductsList
 						productsLength={6}
 						mt={0}
 						mb={20}
+						sortBasedOn='numberOfPurchases'
 					/>
 					<Box
 						sx={{ height: '10px', width: '100%' }}

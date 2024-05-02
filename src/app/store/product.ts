@@ -38,6 +38,7 @@ export type TProduct = {
 	startOfferDate?: string | null;
 	endOfferDate?: string | null;
 	views: number;
+	numberOfPurchases: number;
 	labels?: TLabel[] | null;
 };
 

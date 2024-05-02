@@ -11,10 +11,12 @@ const ProductsList = memo(
 		productsLength = 0,
 		mt = 20,
 		mb = 0,
+		sortBasedOn = 'views',
 	}: {
 		productsLength?: number;
 		mt?: number;
 		mb?: number;
+		sortBasedOn?: string;
 	}) => {
 		const [sortedProducts, setSortedProducts] = useState<
 			(TProduct | null)[]
@@ -24,11 +26,13 @@ const ProductsList = memo(
 			const getProducts = async () => {
 				const fetchedProducts = await sortProducts(
 					productsLength,
+					sortBasedOn,
 				);
 				setSortedProducts(fetchedProducts);
 			};
 			getProducts();
-		}, [productsLength]);
+			console.log('render');
+		}, [productsLength, sortBasedOn]);
 
 		return (
 			<Box sx={{ mt: { sm: mt }, mb }}>
