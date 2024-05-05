@@ -14,6 +14,7 @@ const ProductsList = memo(
 		sortBasedOn = 'views',
 		labelId = '',
 		productId = '',
+		setProductListLength,
 	}: {
 		productsLength?: number;
 		mt?: number;
@@ -21,6 +22,7 @@ const ProductsList = memo(
 		sortBasedOn?: string;
 		labelId?: string;
 		productId?: string;
+		setProductListLength: (num: number) => void;
 	}) => {
 		const [sortedProducts, setSortedProducts] = useState<
 			(TProduct | null)[]
@@ -37,7 +39,15 @@ const ProductsList = memo(
 				setSortedProducts(fetchedProducts);
 			};
 			getProducts();
-		}, [labelId, productId, productsLength, sortBasedOn]);
+			setProductListLength(sortedProducts?.length);
+		}, [
+			labelId,
+			productId,
+			productsLength,
+			setProductListLength,
+			sortBasedOn,
+			sortedProducts?.length,
+		]);
 
 		return (
 			<Box sx={{ mt: { sm: mt }, mb }}>

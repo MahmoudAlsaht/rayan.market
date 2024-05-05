@@ -30,10 +30,9 @@ import {
 	Grid,
 	Avatar,
 	Box,
-	Paper,
 } from '@mui/material';
 import MainMobileNavBar from './MainMobileNavBar';
-import ProductsList from '../../components/ProductsList';
+import ProductListPreview from '../../components/ProductListPreview';
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
@@ -137,7 +136,7 @@ const ShowProduct = memo(() => {
 			<Box sx={{ display: { sm: 'none' } }}>
 				<MainMobileNavBar />
 			</Box>
-			<Container sx={{ my: 7, mt: 20 }}>
+			<Container sx={{ my: 7, mt: { sm: 20 } }}>
 				{product !== undefined ? (
 					<Grid container>
 						<Grid sm={12} md={6}>
@@ -284,36 +283,22 @@ const ShowProduct = memo(() => {
 				)}
 			</Container>
 
-			<Paper
-				role='most view products'
-				sx={{ mt: 15, bgcolor: 'inherit' }}
-			>
-				<Typography
-					variant='h3'
-					color='primary'
-					sx={{ ml: 5, mt: 5 }}
-				>
-					منتجات مشابهة
-				</Typography>
-				<ProductsList
-					sortBasedOn='label'
-					productsLength={6}
-					productId={productId}
-					labelId={
-						product?.labels &&
-						product?.labels?.length
-							? (product?.labels[
-									Math.floor(
-										Math.random() *
-											product?.labels
-												?.length,
-									)
-							  ]?._id as string)
-							: ''
-					}
-					mt={0}
-				/>
-			</Paper>
+			<ProductListPreview
+				title='منتجات مشابهة'
+				sortBasedOn='label'
+				productId={productId}
+				labelId={
+					product?.labels && product?.labels?.length
+						? (product?.labels[
+								Math.floor(
+									Math.random() *
+										product?.labels?.length,
+								)
+						  ]?._id as string)
+						: ''
+				}
+				mb={10}
+			/>
 		</main>
 	);
 });

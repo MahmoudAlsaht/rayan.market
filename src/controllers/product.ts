@@ -28,7 +28,6 @@ export const sortProducts = async (
 		const products: (TProduct | null)[] =
 			await sendRequestToServer('GET', `product`);
 
-		console.log(labelId);
 		const label: TLabel | null = await sendRequestToServer(
 			'get',
 			`label/${labelId}`,
@@ -64,7 +63,6 @@ export const sortProducts = async (
 						);
 					},
 				);
-			console.log(sortedProducts);
 		}
 
 		return sortedProducts;
