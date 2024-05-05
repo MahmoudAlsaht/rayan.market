@@ -75,18 +75,10 @@ function CartProductCard({ product }: CartProductCardProps) {
 						</Typography>
 						<Typography
 							variant='h6'
-							sx={{ fontSize: 17 }}
+							sx={{ fontSize: 17, ml: 2 }}
+							color='black'
 						>
 							{product?.price} د.أ
-						</Typography>
-						<Typography
-							variant='h6'
-							sx={{ fontSize: 17 }}
-						>
-							{product?.quantity}{' '}
-							<span style={{ color: 'gray' }}>
-								في المخزون
-							</span>
 						</Typography>
 						<ProductCartActions
 							totalProductPrice={totalProductPrice}

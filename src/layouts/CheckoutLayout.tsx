@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import MainNavbar from '../components/MainNavbar';
 import AppFooter from '../components/AppFooter';
 import { Box } from '@mui/material';
+import MobileNavigation from '../components/mobileComponents/MobileNavigation';
 function CheckoutLayout() {
 	return (
 		<>
@@ -11,6 +12,10 @@ function CheckoutLayout() {
 				}}
 			>
 				<MainNavbar />
+			</Box>
+
+			<Box sx={{ display: { sm: 'none' } }}>
+				<MobileNavigation />
 			</Box>
 
 			<Outlet />

@@ -76,7 +76,11 @@ const CategoriesActions = memo(() => {
 					<Table sx={{ minWidth: 650 }}>
 						<TableHead>
 							<TableRow>
-								<TableCell>#</TableCell>
+								<TableCell>
+									{categories
+										? categories.length
+										: '#'}
+								</TableCell>
 								<TableCell>Name</TableCell>
 								<TableCell>Image</TableCell>
 								<TableCell>Actions</TableCell>

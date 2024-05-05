@@ -20,15 +20,12 @@ export const updateUserPhoneAndUsername = async (data: any) => {
 	try {
 		const { phone, username, profileId } = data;
 
-		const res = await sendRequestToServer(
+		await sendRequestToServer(
 			'POST',
 			`account/profile/${profileId}/updateUserPhoneAndUsername`,
 			{ phone, username },
 		);
-
-		setCookies('user', res, 0.3);
 	} catch (e: any) {
-		console.error(e.message);
 		throw new Error(e.message);
 	}
 };

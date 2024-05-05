@@ -60,13 +60,11 @@ function BrandSettings({ brand, index }: BrandSettingsProps) {
 
 	return (
 		<TableRow>
-			<TableCell align='right'>{index + 1}</TableCell>
+			<TableCell>{index + 1}</TableCell>
 			{!isEditing ? (
-				<TableCell align='right'>
-					{brand?.name}
-				</TableCell>
+				<TableCell>{brand?.name}</TableCell>
 			) : (
-				<TableCell align='right'>
+				<TableCell>
 					<TextField
 						label='الاسم'
 						type='text'
@@ -76,7 +74,7 @@ function BrandSettings({ brand, index }: BrandSettingsProps) {
 				</TableCell>
 			)}
 			{!isEditing ? (
-				<TableCell align='right'>
+				<TableCell>
 					{brand?.image?.path && (
 						<img
 							src={brand?.image?.path}
@@ -87,7 +85,7 @@ function BrandSettings({ brand, index }: BrandSettingsProps) {
 					)}
 				</TableCell>
 			) : (
-				<TableCell align='right'>
+				<TableCell>
 					<Button
 						component='label'
 						role={undefined}
@@ -104,7 +102,7 @@ function BrandSettings({ brand, index }: BrandSettingsProps) {
 					</Button>
 				</TableCell>
 			)}
-			<TableCell align='right'>
+			<TableCell>
 				{!isEditing ? (
 					<legend>
 						<Button onClick={handleIsEditing}>

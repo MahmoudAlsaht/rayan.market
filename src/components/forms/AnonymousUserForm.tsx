@@ -97,7 +97,11 @@ export default function AnonymousUserForm({
 	}, []);
 
 	return (
-		<Container component='main' maxWidth='xs'>
+		<Container
+			component='main'
+			maxWidth='xs'
+			sx={{ mb: 10 }}
+		>
 			<CssBaseline />
 			<Box
 				sx={{

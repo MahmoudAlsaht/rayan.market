@@ -104,6 +104,7 @@ export default function PaymentMethods({
 			<FormControl
 				sx={{
 					mt: 20,
+					mb: 10,
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',

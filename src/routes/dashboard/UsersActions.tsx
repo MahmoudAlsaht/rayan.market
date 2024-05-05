@@ -65,7 +65,9 @@ const UsersActions = memo(() => {
 					<Table sx={{ minWidth: 650 }}>
 						<TableHead>
 							<TableRow>
-								<TableCell>#</TableCell>
+								<TableCell>
+									{users ? users.length : '#'}
+								</TableCell>
 								<TableCell>Username</TableCell>
 								<TableCell>Phone</TableCell>
 								<TableCell>Role</TableCell>
@@ -74,15 +76,14 @@ const UsersActions = memo(() => {
 						</TableHead>
 						<TableBody>
 							{filteredUsers?.map(
-								(user, index) =>
-									user?.role !== 'admin' && (
-										<UserSettings
-											setUsers={setUsers}
-											key={user?._id}
-											user={user}
-											index={index}
-										/>
-									),
+								(user, index) => (
+									<UserSettings
+										setUsers={setUsers}
+										key={user?._id}
+										user={user}
+										index={index}
+									/>
+								),
 							)}
 						</TableBody>
 					</Table>

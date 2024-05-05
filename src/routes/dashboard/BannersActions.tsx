@@ -73,7 +73,9 @@ const BannersActions = memo(() => {
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell>#</TableCell>
+							<TableCell>
+								{banners ? banners.length : '#'}
+							</TableCell>
 							<TableCell>Name</TableCell>
 							<TableCell>Actions</TableCell>
 						</TableRow>

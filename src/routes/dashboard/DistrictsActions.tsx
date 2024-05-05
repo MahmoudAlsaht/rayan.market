@@ -96,7 +96,11 @@ const DistrictsActions = memo(() => {
 					<Table sx={{ minWidth: 650 }}>
 						<TableHead>
 							<TableRow>
-								<TableCell>#</TableCell>
+								<TableCell>
+									{districts
+										? districts.length
+										: '#'}
+								</TableCell>
 								<TableCell>name</TableCell>
 								<TableCell>
 									shipping fees

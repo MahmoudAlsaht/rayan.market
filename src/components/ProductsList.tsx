@@ -14,7 +14,7 @@ const ProductsList = memo(
 		sortBasedOn = 'views',
 		labelId = '',
 		productId = '',
-		setProductListLength,
+		setProductListLength = null,
 	}: {
 		productsLength?: number;
 		mt?: number;
@@ -22,7 +22,7 @@ const ProductsList = memo(
 		sortBasedOn?: string;
 		labelId?: string;
 		productId?: string;
-		setProductListLength: (num: number) => void;
+		setProductListLength?: ((num: number) => void) | null;
 	}) => {
 		const [sortedProducts, setSortedProducts] = useState<
 			(TProduct | null)[]
@@ -39,7 +39,8 @@ const ProductsList = memo(
 				setSortedProducts(fetchedProducts);
 			};
 			getProducts();
-			setProductListLength(sortedProducts?.length);
+			if (setProductListLength != null)
+				setProductListLength(sortedProducts?.length);
 		}, [
 			labelId,
 			productId,

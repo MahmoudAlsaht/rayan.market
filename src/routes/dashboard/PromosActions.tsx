@@ -66,7 +66,11 @@ const PromosActions = memo(() => {
 					<Table sx={{ minWidth: 650 }}>
 						<TableHead>
 							<TableRow>
-								<TableCell>#</TableCell>
+								<TableCell>
+									{promos
+										? promos.length
+										: '#'}
+								</TableCell>
 								<TableCell>Code</TableCell>
 								<TableCell>Status</TableCell>
 								<TableCell>Actions</TableCell>

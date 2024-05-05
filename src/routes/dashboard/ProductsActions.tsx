@@ -71,7 +71,11 @@ const ProductsSettings = memo(() => {
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell>#</TableCell>
+							<TableCell>
+								{products
+									? products.length
+									: '#'}
+							</TableCell>
 							<TableCell>Name</TableCell>
 							<TableCell>Actions</TableCell>
 						</TableRow>
