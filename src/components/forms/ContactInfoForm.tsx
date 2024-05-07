@@ -25,7 +25,6 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { LoadingButton } from '@mui/lab';
 import {
 	TDistrict,
@@ -143,13 +142,6 @@ function ContactInfoForm({
 		<Container sx={{ m: { sm: 5 } }}>
 			<main dir='rtl'>
 				<Box component='form' noValidate>
-					<Button
-						variant='outlined'
-						color='secondary'
-						onClick={() => navigate(-1)}
-					>
-						<ArrowRightAltIcon />
-					</Button>
 					<h3 className='text-muted text-center mb-3'>
 						أضف عنوانا
 					</h3>

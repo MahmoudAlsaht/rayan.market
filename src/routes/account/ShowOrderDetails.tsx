@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { memo, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
 	fetchOrder,
 	updateOrderStatus,
@@ -18,11 +18,9 @@ import {
 	Link,
 	Typography,
 } from '@mui/material';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 const ShowOrderDetails = memo(() => {
 	const { orderId } = useParams();
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const user: TUser | null = useAppSelector(
 		(state) => state.user,
@@ -63,21 +61,7 @@ const ShowOrderDetails = memo(() => {
 
 	return (
 		<main dir='rtl'>
-			<Container sx={{ m: { sm: 5 } }}>
-				<Button
-					size='large'
-					variant='outlined'
-					sx={{
-						color: 'secondary.main',
-						borderColor: 'secondary.main',
-					}}
-					onClick={() => navigate(-1)}
-				>
-					<ArrowRightAltIcon /> العودة
-				</Button>
-			</Container>
-
-			<Container sx={{ mx: 5 }}>
+			<Container sx={{ mx: { sm: 5 } }}>
 				<Card>
 					<CardContent>
 						<Typography>
@@ -172,18 +156,25 @@ const ShowOrderDetails = memo(() => {
 							{order?.contact?.contactNumber}
 						</Typography>
 					</CardContent>
-					<CardActions>
+					<CardActions
+						sx={{ mb: { xs: 10, sm: 'unset' } }}
+					>
 						{order?.status === 'pending' ? (
 							<Button
 								variant='outlined'
 								onClick={handleClick}
 								color='error'
-								sx={{ mx: 1 }}
+								sx={{ mx: { sm: 1 } }}
 							>
 								إالغاء الطلب
 							</Button>
 						) : (
-							<Button disabled sx={{ mx: 1 }}>
+							<Button
+								disabled
+								sx={{
+									mx: 1,
+								}}
+							>
 								This order has been{' '}
 								{order?.status}, There are no
 								actions to be performed.
