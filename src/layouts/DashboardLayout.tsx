@@ -30,6 +30,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -39,6 +40,7 @@ import { fetchUser, logout } from '../controllers/user';
 import { fetchOrders } from '../controllers/order';
 import { Badge } from '@mui/material';
 import { useEffect, useState } from 'react';
+import MobileNavigation from '../components/mobileComponents/MobileNavigation';
 
 const drawerWidth = 240;
 
@@ -158,86 +160,164 @@ export default function DashBoardLayout() {
 	};
 
 	return (
-		<Box sx={{ display: 'flex' }}>
-			<CssBaseline />
-			<AppBar
-				dir='rtl'
-				open={open}
-				sx={{ bgcolor: 'white', color: 'primary.main' }}
-			>
-				<Toolbar>
-					<IconButton
-						color='inherit'
-						aria-label='open drawer'
-						onClick={handleDrawerOpen}
-						edge='start'
-						sx={{
-							marginRight: 5,
-							display: {
-								xs: 'none',
-								sm: 'block',
-							},
-							...(open && { display: 'none' }),
-						}}
-					>
-						<MenuIcon />
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-			<Drawer variant='permanent' open={open}>
-				<DrawerHeader>
-					<IconButton
-						onClick={handleDrawerClose}
-						sx={{
-							display: { xs: 'none', sm: 'block' },
-						}}
-					>
-						<ChevronRightIcon />
-					</IconButton>
-				</DrawerHeader>
-				<Divider />
-				<List>
-					<Link to={`/home`}>
-						<ListItem
-							disablePadding
+		<>
+			<Box sx={{ display: 'flex' }}>
+				<CssBaseline />
+				<AppBar
+					dir='rtl'
+					open={open}
+					sx={{
+						bgcolor: 'white',
+						color: 'primary.main',
+					}}
+				>
+					<Toolbar>
+						<IconButton
+							color='inherit'
+							aria-label='open drawer'
+							onClick={handleDrawerOpen}
+							edge='start'
 							sx={{
-								display: 'block',
-								color: 'primary.main',
+								marginRight: 5,
+								display: {
+									xs: 'none',
+									sm: 'block',
+								},
+								...(open && { display: 'none' }),
 							}}
 						>
-							<ListItemButton
+							<MenuIcon />
+						</IconButton>
+
+						<IconButton
+							color='inherit'
+							aria-label='open drawer'
+							onClick={() => navigate(-1)}
+							edge='start'
+							sx={{
+								marginRight: 5,
+								display: {
+									xs: 'block',
+									sm: 'none',
+								},
+							}}
+						>
+							<ArrowForwardIosIcon />
+						</IconButton>
+					</Toolbar>
+				</AppBar>
+				<Drawer
+					variant='permanent'
+					open={open}
+					sx={{ display: { xs: 'none', sm: 'block' } }}
+				>
+					<DrawerHeader>
+						<IconButton
+							onClick={handleDrawerClose}
+							sx={{
+								display: {
+									xs: 'none',
+									sm: 'block',
+								},
+							}}
+						>
+							<ChevronRightIcon />
+						</IconButton>
+					</DrawerHeader>
+					<Divider />
+					<List>
+						<Link to={`/home`}>
+							<ListItem
+								disablePadding
 								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
+									display: 'block',
+									color: 'primary.main',
 								}}
 							>
-								<ListItemIcon
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										minHeight: 48,
+										justifyContent: open
+											? 'initial'
+											: 'center',
+										px: 2.5,
 									}}
 								>
-									<HomeIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary='الرئيسية'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open
+												? 3
+												: 'auto',
+											justifyContent:
+												'center',
+										}}
+									>
+										<HomeIcon />
+									</ListItemIcon>
+									<ListItemText
+										primary='الرئيسية'
+										sx={{
+											opacity: open
+												? 1
+												: 0,
+										}}
+									/>
+								</ListItemButton>
+							</ListItem>
+						</Link>
 
-					{ifNotDashboardHomePage && (
+						{ifNotDashboardHomePage && (
+							<Link
+								to={`/dashboard/admin/${
+									user && user?.profile
+								}`}
+							>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<DashboardIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary='لوحة التحكم'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
 						<Link
 							to={`/dashboard/admin/${
 								user && user?.profile
-							}`}
+							}/account-settings`}
 						>
 							<ListItem
 								disablePadding
@@ -265,10 +345,10 @@ export default function DashBoardLayout() {
 												'center',
 										}}
 									>
-										<DashboardIcon />
+										<SettingsIcon />
 									</ListItemIcon>
 									<ListItemText
-										primary='لوحة التحكم'
+										primary='إعدادات الحساب'
 										sx={{
 											opacity: open
 												? 1
@@ -278,311 +358,368 @@ export default function DashBoardLayout() {
 								</ListItemButton>
 							</ListItem>
 						</Link>
-					)}
 
-					<Link
-						to={`/dashboard/admin/${
-							user && user?.profile
-						}/account-settings`}
-					>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						{user?.role === 'admin' && (
+							<Link to='/dashboard/settings/users'>
+								<ListItem
+									disablePadding
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										display: 'block',
+										color: 'primary.main',
 									}}
 								>
-									<SettingsIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary='إعدادات الحساب'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
-
-					<Link to='/dashboard/settings/users'>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
-									}}
-								>
-									<AdminPanelSettingsIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary='المستخدمين'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
-
-					<Link to='/dashboard/settings/categories'>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
-									}}
-								>
-									<CategoryIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary='الأقسام'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
-
-					<Link to='/dashboard/settings/brands'>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
-									}}
-								>
-									<BrandingWatermarkIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary='العلامات التجارية'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
-
-					<Link to='/dashboard/settings/products'>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
-									}}
-								>
-									<Inventory2Icon />
-								</ListItemIcon>
-								<ListItemText
-									primary='المنتجات'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
-
-					<Link to='/dashboard/settings/promos'>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
-									}}
-								>
-									<DiscountIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary='كوبونات الخصم'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
-
-					<Link to='/dashboard/settings/banners'>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
-									}}
-								>
-									<ViewCarouselIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary='اللافتات'
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
-
-					<Link to='/dashboard/settings/orders'>
-						<ListItem
-							disablePadding
-							sx={{
-								display: 'block',
-								color: 'primary.main',
-							}}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open
-										? 'initial'
-										: 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
-									}}
-								>
-									<LocalShippingIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary={
-										<Badge
-											badgeContent={
-												pendingOrders?.length ||
-												0
-											}
-											color='primary'
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
 										>
-											الطلبات
-										</Badge>
-									}
-									sx={{
-										opacity: open ? 1 : 0,
-									}}
-								/>
-							</ListItemButton>
-						</ListItem>
-					</Link>
+											<AdminPanelSettingsIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary='المستخدمين'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
 
-					<Link to='/dashboard/settings/districts'>
+						{(user?.role === 'admin' ||
+							user?.role === 'editor') && (
+							<Link to='/dashboard/settings/categories'>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<CategoryIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary='الأقسام'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
+						{(user?.role === 'admin' ||
+							user?.role === 'editor') && (
+							<Link to='/dashboard/settings/brands'>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<BrandingWatermarkIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary='العلامات التجارية'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
+						{(user?.role === 'admin' ||
+							user?.role === 'editor') && (
+							<Link to='/dashboard/settings/products'>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<Inventory2Icon />
+										</ListItemIcon>
+										<ListItemText
+											primary='المنتجات'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
+						{(user?.role === 'admin' ||
+							user?.role === 'editor') && (
+							<Link to='/dashboard/settings/promos'>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<DiscountIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary='كوبونات الخصم'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
+						{(user?.role === 'admin' ||
+							user?.role === 'editor') && (
+							<Link to='/dashboard/settings/banners'>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<ViewCarouselIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary='اللافتات'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
+						{(user?.role === 'admin' ||
+							user?.role === 'staff') && (
+							<Link to='/dashboard/settings/orders'>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<LocalShippingIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary={
+												<Badge
+													badgeContent={
+														pendingOrders?.length ||
+														0
+													}
+													color='primary'
+												>
+													الطلبات
+												</Badge>
+											}
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
+						{(user?.role === 'admin' ||
+							user?.role === 'editor') && (
+							<Link to='/dashboard/settings/districts'>
+								<ListItem
+									disablePadding
+									sx={{
+										display: 'block',
+										color: 'primary.main',
+									}}
+								>
+									<ListItemButton
+										sx={{
+											minHeight: 48,
+											justifyContent: open
+												? 'initial'
+												: 'center',
+											px: 2.5,
+										}}
+									>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open
+													? 3
+													: 'auto',
+												justifyContent:
+													'center',
+											}}
+										>
+											<LocationSearchingIcon />
+										</ListItemIcon>
+										<ListItemText
+											primary='المناطق المدعومة'
+											sx={{
+												opacity: open
+													? 1
+													: 0,
+											}}
+										/>
+									</ListItemButton>
+								</ListItem>
+							</Link>
+						)}
+
 						<ListItem
 							disablePadding
 							sx={{
@@ -598,6 +735,7 @@ export default function DashBoardLayout() {
 										: 'center',
 									px: 2.5,
 								}}
+								onClick={handleLogout}
 							>
 								<ListItemIcon
 									sx={{
@@ -606,61 +744,33 @@ export default function DashBoardLayout() {
 										justifyContent: 'center',
 									}}
 								>
-									<LocationSearchingIcon />
+									<LogoutIcon />
 								</ListItemIcon>
 								<ListItemText
-									primary='المناطق المدعومة'
+									primary='تسجيل الخروج'
 									sx={{
 										opacity: open ? 1 : 0,
 									}}
 								/>
 							</ListItemButton>
 						</ListItem>
-					</Link>
+					</List>
+					<Divider />
+				</Drawer>
 
-					<ListItem
-						disablePadding
-						sx={{
-							display: 'block',
-							color: 'primary.main',
-						}}
-					>
-						<ListItemButton
-							sx={{
-								minHeight: 48,
-								justifyContent: open
-									? 'initial'
-									: 'center',
-								px: 2.5,
-							}}
-							onClick={handleLogout}
-						>
-							<ListItemIcon
-								sx={{
-									minWidth: 0,
-									mr: open ? 3 : 'auto',
-									justifyContent: 'center',
-								}}
-							>
-								<LogoutIcon />
-							</ListItemIcon>
-							<ListItemText
-								primary='تسجيل الخروج'
-								sx={{
-									opacity: open ? 1 : 0,
-								}}
-							/>
-						</ListItemButton>
-					</ListItem>
-				</List>
-				<Divider />
-			</Drawer>
-			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-				<DrawerHeader />
-				<main dir='rtl'>
-					<Outlet />
-				</main>
+				<Box
+					component='main'
+					sx={{ flexGrow: 1, py: 3 }}
+				>
+					<DrawerHeader />
+					<main dir='rtl'>
+						<Outlet />
+					</main>
+				</Box>
 			</Box>
-		</Box>
+			<Box sx={{ display: { sm: 'none' } }}>
+				<MobileNavigation />
+			</Box>
+		</>
 	);
 }

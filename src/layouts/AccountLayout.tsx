@@ -15,6 +15,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -32,6 +33,7 @@ import { fetchUser, logout } from '../controllers/user';
 import { fetchOrders } from '../controllers/order';
 import { useEffect, useState } from 'react';
 import AppFooter from '../components/AppFooter';
+import MobileNavigation from '../components/mobileComponents/MobileNavigation';
 
 const drawerWidth = 240;
 
@@ -173,9 +175,29 @@ export default function AccountLayout() {
 						>
 							<MenuIcon />
 						</IconButton>
+
+						<IconButton
+							color='inherit'
+							aria-label='open drawer'
+							onClick={() => navigate(-1)}
+							edge='start'
+							sx={{
+								marginRight: 5,
+								display: {
+									xs: 'block',
+									sm: 'none',
+								},
+							}}
+						>
+							<ArrowForwardIosIcon />
+						</IconButton>
 					</Toolbar>
 				</AppBar>
-				<Drawer variant='permanent' open={open}>
+				<Drawer
+					variant='permanent'
+					open={open}
+					sx={{ display: { xs: 'none', sm: 'block' } }}
+				>
 					<DrawerHeader>
 						<IconButton
 							onClick={handleDrawerClose}
@@ -234,17 +256,9 @@ export default function AccountLayout() {
 
 						{ifNotAccountHomePage && (
 							<Link
-								to={
-									user.role !== 'customer'
-										? `/dashboard/admin/${
-												user &&
-												user?.profile
-										  }`
-										: `/account/profile/${
-												user &&
-												user?.profile
-										  }`
-								}
+								to={`/account/profile/${
+									user && user?.profile
+								}`}
 							>
 								<ListItem
 									disablePadding
@@ -338,7 +352,7 @@ export default function AccountLayout() {
 						</Link>
 
 						<Link
-							to={`profile/${
+							to={`/account/profile/${
 								user && user?.profile
 							}/orders-history`}
 						>
@@ -383,7 +397,7 @@ export default function AccountLayout() {
 						</Link>
 
 						<Link
-							to={`profile/${
+							to={`/account/profile/${
 								user && user?.profile
 							}/contact-info`}
 						>
@@ -470,6 +484,9 @@ export default function AccountLayout() {
 						<Outlet />
 					</main>
 				</Box>
+			</Box>
+			<Box sx={{ display: { sm: 'none' } }}>
+				<MobileNavigation />
 			</Box>
 			<AppFooter />
 		</>

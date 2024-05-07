@@ -58,7 +58,7 @@ const CategoriesActions = memo(() => {
 			<main dir='rtl'>
 				<TableContainer
 					component={Paper}
-					sx={{ ml: 10 }}
+					sx={{ ml: { sm: 10 } }}
 				>
 					<Typography variant='h3' sx={{ ml: 3 }}>
 						الأقسام

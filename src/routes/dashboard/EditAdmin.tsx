@@ -30,7 +30,7 @@ function EditAdmin() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Container sx={{ m: 5 }}>
+		<Container sx={{ ml: { sm: 5 } }}>
 			<div dir='rtl'>
 				<Box
 					sx={{

@@ -57,7 +57,7 @@ export default function MobileNavigation() {
 					label='الخيارات'
 					value='options'
 					icon={<TuneIcon />}
-					onClick={() => navigate('user-options')}
+					onClick={() => navigate('/user-options')}
 				/>
 			</BottomNavigation>
 		</main>

@@ -10,7 +10,7 @@ const Profile = memo(() => {
 	const userWidgets = ['Settings', 'Orders', 'Contacts'];
 
 	return (
-		<Container>
+		<Container sx={{ m: { sm: 5 } }}>
 			<Grid container spacing={1}>
 				{userWidgets.map((widget, index) => (
 					<Grid xs={12} md={6} key={index}>

@@ -26,7 +26,7 @@ const OrderHistoryList = memo(() => {
 	}, [dispatch, user?._id]);
 
 	return (
-		<Container sx={{ m: 3 }}>
+		<Container sx={{ m: { sm: 5 } }}>
 			{orders?.map((order) => (
 				<Widget
 					href={`/account/profile/${profileId}/orders-history/${order?._id}`}

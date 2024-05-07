@@ -55,7 +55,10 @@ const ProductsSettings = memo(() => {
 
 	return (
 		<main dir='rtl'>
-			<TableContainer sx={{ ml: 10 }} component={Paper}>
+			<TableContainer
+				sx={{ ml: { sm: 10 } }}
+				component={Paper}
+			>
 				<Typography variant='h3' sx={{ ml: 3 }}>
 					المنتجات
 				</Typography>

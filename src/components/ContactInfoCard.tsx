@@ -24,20 +24,24 @@ function ContactInfoCard({
 	};
 
 	return (
-		<Grid xs={12} sm={6} lg={4} xl={3}>
-			<Widget
-				widgetTitle={`العنوان - ${index + 1}`}
-				href={`/account/profile/${profileId}/contact-info/${contact?._id}`}
-			/>
-			<Button
-				onClick={handleClick}
-				variant='outlined'
-				color='error'
-				sx={{ ml: 3 }}
-			>
-				Delete
-			</Button>
-		</Grid>
+		<>
+			<Grid xs={8} sm={6} lg={4} xl={3}>
+				<Widget
+					widgetTitle={`العنوان - ${index + 1}`}
+					href={`/account/profile/${profileId}/contact-info/${contact?._id}`}
+				/>
+			</Grid>
+			<Grid xs={4} sm={12}>
+				<Button
+					onClick={handleClick}
+					variant='outlined'
+					color='error'
+					sx={{ mt: 4, py: 5 }}
+				>
+					Delete
+				</Button>
+			</Grid>
+		</>
 	);
 }
 

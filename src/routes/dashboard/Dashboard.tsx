@@ -2,7 +2,7 @@
 import Widget from '../../components/Widget';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TUser } from '../../app/auth/auth';
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { fetchUser } from '../../controllers/user';
 import { TOrder } from '../../app/store/order';
 import { fetchOrders } from '../../controllers/order';
@@ -24,27 +24,44 @@ const Dashboard = memo(() => {
 		return order.status === 'pending';
 	});
 
+	const [adminWidgets, setAdminWidgets] = useState<string[]>(
+		[],
+	);
+
 	useEffect(() => {
 		dispatch(fetchUser());
 		dispatch(fetchOrders(user?._id));
-	}, [dispatch, user?._id]);
-
-	const adminWidgets = [
-		'Users',
-		'Settings',
-		'Orders',
-		'Categories',
-		'Brands',
-		'Products',
-		'Promos',
-		'Banners',
-		'Districts',
-	];
+		if (user?.role === 'admin') {
+			setAdminWidgets([
+				'Users',
+				'Settings',
+				'Orders',
+				'Categories',
+				'Brands',
+				'Products',
+				'Promos',
+				'Banners',
+				'Districts',
+			]);
+		} else if (user?.role === 'editor') {
+			setAdminWidgets([
+				'Settings',
+				'Categories',
+				'Brands',
+				'Products',
+				'Promos',
+				'Banners',
+				'Districts',
+			]);
+		} else if (user?.role === 'staff') {
+			setAdminWidgets(['Settings', 'Orders']);
+		}
+	}, [dispatch, user?._id, user?.role]);
 
 	return (
 		<Container sx={{ mt: 5 }}>
 			<Grid container>
-				{adminWidgets.map((widget, index) => (
+				{adminWidgets?.map((widget, index) => (
 					<Grid xs={12} md={6} key={index}>
 						<Widget
 							widgetTitle={

@@ -55,7 +55,10 @@ const BannersActions = memo(() => {
 
 	return (
 		<main dir='rtl'>
-			<TableContainer component={Paper} sx={{ ml: 10 }}>
+			<TableContainer
+				component={Paper}
+				sx={{ ml: { sm: 10 } }}
+			>
 				<Typography variant='h3' sx={{ ml: 3 }}>
 					اللافتات
 				</Typography>

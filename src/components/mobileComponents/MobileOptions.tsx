@@ -11,7 +11,6 @@ import {
 	ListItemText,
 	Toolbar,
 } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -22,6 +21,10 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect } from 'react';
 import { fetchUser, logout } from '../../controllers/user';
 import NotFound404 from '../../routes/NotFound404';
+import AdminOptions from '../AdminOptions';
+import EditorOptions from '../EditorOptions';
+import StaffOptions from '../StaffOptions';
+import CustomerOptions from '../CustomerOptions';
 
 export default function MobileOptions() {
 	const navigate = useNavigate();
@@ -66,7 +69,7 @@ export default function MobileOptions() {
 						<Toolbar>
 							<IconButton
 								edge='start'
-								sx={{ color: 'black' }}
+								sx={{ color: 'primary.main' }}
 								aria-label='close'
 								onClick={() => navigate(-1)}
 							>
@@ -79,44 +82,44 @@ export default function MobileOptions() {
 						sx={{
 							margin: '1rem 0',
 							color: 'primary.main',
+							mb: 20,
 						}}
 					>
 						<List>
 							{user &&
 							user.username !== 'anonymous' ? (
 								<legend>
-									<ListItem>
-										<ListItemButton
-											onClick={() =>
-												navigate(
-													user?.role !==
-														'customer'
-														? `/dashboard/admin/${user?.profile}`
-														: `/account/profile/${user?.profile}`,
-												)
+									{user?.role === 'admin' && (
+										<AdminOptions
+											profileId={
+												user?.profile as string
 											}
-											sx={{
-												'&:hover': {
-													color: 'black',
-												},
-											}}
-										>
-											<ListItemIcon>
-												<DashboardIcon />
-											</ListItemIcon>
-											<ListItemText
-												primary={
-													user?.role !==
-													'customer'
-														? 'لوحة التحكم'
-														: 'الصفحة الشخصية'
-												}
-												sx={{
-													ml: '1rem',
-												}}
-											/>
-										</ListItemButton>
-									</ListItem>
+										/>
+									)}
+									{user?.role === 'editor' && (
+										<EditorOptions
+											profileId={
+												user?.profile as string
+											}
+										/>
+									)}
+									{user?.role === 'staff' && (
+										<StaffOptions
+											profileId={
+												user?.profile as string
+											}
+										/>
+									)}
+
+									{user?.role ===
+										'customer' && (
+										<CustomerOptions
+											profileId={
+												user?.profile as string
+											}
+										/>
+									)}
+
 									<ListItem>
 										<ListItemButton
 											onClick={

@@ -140,7 +140,7 @@ function ContactInfoForm({
 	}, []);
 
 	return (
-		<Container sx={{ m: 3 }}>
+		<Container sx={{ m: { sm: 5 } }}>
 			<main dir='rtl'>
 				<Box component='form' noValidate>
 					<Button

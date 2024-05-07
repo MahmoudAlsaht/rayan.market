@@ -90,7 +90,7 @@ const ShowOrder = memo(() => {
 
 	return (
 		<main dir='rtl'>
-			<Container sx={{ mx: 5 }}>
+			<Container sx={{ ml: { sm: 5 } }}>
 				<Button
 					size='large'
 					variant='outlined'

@@ -85,7 +85,7 @@ const OrderSettings = memo(() => {
 
 	return (
 		<main dir='rtl'>
-			<Container sx={{ ml: 10 }}>
+			<Container sx={{ ml: { sm: 10 } }}>
 				<Tabs
 					value={orderStatus}
 					onChange={handleChange}

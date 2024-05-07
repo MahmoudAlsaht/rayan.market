@@ -31,7 +31,7 @@ function EditUser() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Container sx={{ m: 5 }}>
+		<Container sx={{ m: { sm: 5 } }}>
 			<div dir='rtl'>
 				<Box
 					sx={{

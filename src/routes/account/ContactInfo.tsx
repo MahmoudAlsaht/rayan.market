@@ -55,7 +55,7 @@ function ContactInfo() {
 	}, [dispatch, profileId]);
 
 	return (
-		<Container sx={{ mx: 5 }}>
+		<Container sx={{ m: { sm: 5 } }}>
 			<main dir='rtl'>
 				<Grid container spacing={2}>
 					{contactInfo &&
@@ -72,7 +72,7 @@ function ContactInfo() {
 						<Card
 							sx={{
 								mt: 2,
-								width: 130,
+								width: { xs: '100%', sm: 130 },
 								height: 130,
 								display: 'flex',
 								flexDirection: 'column',
