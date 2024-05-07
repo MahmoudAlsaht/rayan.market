@@ -73,7 +73,7 @@ const BrandsActions = memo(() => {
 					<IconButton onClick={handleClickAddBrand}>
 						<AddIcon />
 					</IconButton>
-					<Table sx={{ minWidth: 650 }}>
+					<Table>
 						<TableHead>
 							<TableRow>
 								<TableCell>

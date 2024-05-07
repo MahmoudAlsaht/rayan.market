@@ -161,6 +161,9 @@ export default function DashBoardLayout() {
 
 	return (
 		<>
+			<Box sx={{ display: { sm: 'none' } }}>
+				<MobileNavigation />
+			</Box>
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />
 				<AppBar
@@ -767,9 +770,6 @@ export default function DashBoardLayout() {
 						<Outlet />
 					</main>
 				</Box>
-			</Box>
-			<Box sx={{ display: { sm: 'none' } }}>
-				<MobileNavigation />
 			</Box>
 		</>
 	);

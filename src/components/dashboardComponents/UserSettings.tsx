@@ -75,7 +75,6 @@ function UserSettings({
 		<TableRow>
 			<TableCell>{index + 1}</TableCell>
 
-			<TableCell>{user?.username}</TableCell>
 			<TableCell>{user?.phone}</TableCell>
 			{!isEditing ? (
 				<TableCell>{user?.role}</TableCell>

@@ -73,7 +73,7 @@ const CategoriesActions = memo(() => {
 					<IconButton onClick={handleClickAddCat}>
 						<AddIcon />
 					</IconButton>
-					<Table sx={{ minWidth: 650 }}>
+					<Table>
 						<TableHead>
 							<TableRow>
 								<TableCell>

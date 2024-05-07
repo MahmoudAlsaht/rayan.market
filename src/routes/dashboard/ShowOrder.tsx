@@ -90,7 +90,11 @@ const ShowOrder = memo(() => {
 
 	return (
 		<main dir='rtl'>
-			<Container sx={{ ml: { sm: 5 } }}>
+			<Container
+				sx={{
+					ml: { sm: 5 },
+				}}
+			>
 				<Button
 					size='large'
 					variant='outlined'
@@ -104,7 +108,7 @@ const ShowOrder = memo(() => {
 				</Button>
 			</Container>
 
-			<Container sx={{ mx: 5 }}>
+			<Container sx={{ mx: { sm: 5 } }}>
 				<Card>
 					<CardContent>
 						<Typography>
@@ -199,7 +203,9 @@ const ShowOrder = memo(() => {
 							{order?.contact?.contactNumber}
 						</Typography>
 					</CardContent>
-					<CardActions>
+					<CardActions
+						sx={{ mb: { xs: 10, sm: 'unset' } }}
+					>
 						{order?.status === 'pending' ? (
 							<div>
 								<Button

@@ -62,13 +62,12 @@ const UsersActions = memo(() => {
 						sx={{ ml: 3 }}
 					/>
 
-					<Table sx={{ minWidth: 650 }}>
+					<Table>
 						<TableHead>
 							<TableRow>
 								<TableCell>
 									{users ? users.length : '#'}
 								</TableCell>
-								<TableCell>Username</TableCell>
 								<TableCell>Phone</TableCell>
 								<TableCell>Role</TableCell>
 								<TableCell>Actions</TableCell>

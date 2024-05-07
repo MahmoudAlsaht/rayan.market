@@ -10,17 +10,19 @@ type widgetProps = {
 	widgetTitle: string | ReactNode;
 	height?: string;
 	href: string;
+	width?: string;
 };
 
 function Widget({
 	widgetTitle,
 	href,
 	height = '120px',
+	width = '90',
 }: widgetProps) {
 	return (
 		<>
 			<Link to={href}>
-				<Card sx={{ height, m: 3, width: '90' }}>
+				<Card sx={{ height, m: 3, width }}>
 					<main dir='rtl'>
 						<CardContent>
 							<Typography variant='h6'>

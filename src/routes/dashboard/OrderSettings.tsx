@@ -85,14 +85,17 @@ const OrderSettings = memo(() => {
 
 	return (
 		<main dir='rtl'>
-			<Container sx={{ ml: { sm: 10 } }}>
+			<Container
+				sx={{
+					ml: { sm: 10 },
+				}}
+			>
 				<Tabs
 					value={orderStatus}
 					onChange={handleChange}
 					variant='scrollable'
 					scrollButtons='auto'
 					aria-label='scrollable auto tabs example'
-					sx={{ my: 5 }}
 				>
 					<Tab label='الكل' value='all' />
 					<Tab
@@ -119,12 +122,23 @@ const OrderSettings = memo(() => {
 						value='pending'
 					/>
 					<Tab label='قبلت' value='accepted' />
+				</Tabs>
+
+				<Tabs
+					value={orderStatus}
+					onChange={handleChange}
+					variant='scrollable'
+					scrollButtons='auto'
+					aria-label='scrollable auto tabs example'
+					sx={{ mb: 5 }}
+				>
 					<Tab label='اكتملت' value='completed' />
 					<Tab label='رفضت' value='rejected' />
 					<Tab label='ألغيت' value='canceled' />
 				</Tabs>
 
 				<TextField
+					sx={{ ml: 3 }}
 					type='search'
 					label='ابحث عن طلب'
 					value={queryInput}
@@ -136,6 +150,8 @@ const OrderSettings = memo(() => {
 						key={order?._id}
 						widgetTitle={order?.orderId}
 						href={`/dashboard/settings/orders/${order?._id}`}
+						height='100px'
+						width='70%'
 					/>
 				))}
 			</Container>
