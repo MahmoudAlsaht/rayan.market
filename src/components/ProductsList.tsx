@@ -116,7 +116,6 @@ const ProductsList = memo(
 								sm: 'none',
 							},
 						}}
-						spacing={1}
 					>
 						{sortedProducts?.map(
 							(product, index) => {
