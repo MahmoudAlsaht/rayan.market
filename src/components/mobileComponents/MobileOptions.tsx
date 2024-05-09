@@ -20,7 +20,6 @@ import { TUser } from '../../app/auth/auth';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect } from 'react';
 import { fetchUser, logout } from '../../controllers/user';
-import NotFound404 from '../../routes/NotFound404';
 import AdminOptions from '../AdminOptions';
 import EditorOptions from '../EditorOptions';
 import StaffOptions from '../StaffOptions';
@@ -46,19 +45,7 @@ export default function MobileOptions() {
 
 	return (
 		<>
-			<Box
-				sx={{
-					display: { xs: 'none', sm: 'block' },
-				}}
-			>
-				<NotFound404 />
-			</Box>
-
-			<Box
-				sx={{
-					display: { sm: 'none' },
-				}}
-			>
+			<Box>
 				<main dir='rtl'>
 					<AppBar
 						sx={{
@@ -66,7 +53,11 @@ export default function MobileOptions() {
 							bgcolor: '#fff',
 						}}
 					>
-						<Toolbar>
+						<Toolbar
+							sx={{
+								display: { sm: 'none' },
+							}}
+						>
 							<IconButton
 								edge='start'
 								sx={{ color: 'primary.main' }}
@@ -83,6 +74,7 @@ export default function MobileOptions() {
 							margin: '1rem 0',
 							color: 'primary.main',
 							mb: 20,
+							mt: { sm: 10 },
 						}}
 					>
 						<List>
