@@ -26,13 +26,17 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import { TProduct } from '../app/store/product';
-import { filterProducts } from '../utils';
+import {
+	filterProducts,
+	sortProductsBasedOnPrice,
+} from '../utils';
 import { fetchProducts } from '../controllers/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { TCategory } from '../app/store/category';
 import { TBrand } from '../app/store/brand';
 import { fetchBrands } from '../controllers/brand';
 import { fetchCategories } from '../controllers/category';
+import FilterMenu from './FilterMenu';
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -55,6 +59,7 @@ export default function SearchDialog() {
 	};
 
 	const [queryInput, setQueryInput] = useState('');
+	const [priceFilter, setPriceFilter] = useState<string>('');
 
 	const handleQueryChange = (
 		e: FormEvent<HTMLInputElement>,
@@ -79,14 +84,17 @@ export default function SearchDialog() {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filterProducts(
-			products,
-			brands,
-			categories,
-			queryInput,
-		) as (TProduct | null)[];
+		return sortProductsBasedOnPrice(
+			filterProducts(
+				products,
+				brands,
+				categories,
+				queryInput,
+			) as (TProduct | null)[],
+			priceFilter,
+		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [queryInput]);
+	}, [queryInput, priceFilter]);
 
 	useEffect(() => {
 		dispatch(fetchProducts());
@@ -116,12 +124,15 @@ export default function SearchDialog() {
 						<Toolbar>
 							<IconButton
 								edge='start'
-								sx={{ color: 'black' }}
+								sx={{ color: 'error.main' }}
 								onClick={handleCloseSearch}
 								aria-label='close'
 							>
 								<CloseIcon />
 							</IconButton>
+							<FilterMenu
+								setPriceFilter={setPriceFilter}
+							/>
 							<TextField
 								fullWidth
 								variant='standard'

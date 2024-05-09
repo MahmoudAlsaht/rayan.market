@@ -39,7 +39,6 @@ const ProductsList = memo(
 		useEffect(() => {
 			const getProducts = async () => {
 				const fetchedProducts = await sortProducts(
-					productsLength,
 					sortBasedOn,
 					labelId,
 					productId,

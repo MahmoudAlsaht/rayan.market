@@ -1,23 +1,19 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-
-import Paper from '@mui/material/Paper';
 import SearchDialog from './SearchDialog';
-import FilterMenu from './FilterMenu';
+import { Box } from '@mui/material';
 
 export default function FilterProducts() {
 	return (
-		<Paper
-			component='form'
+		<Box
 			sx={{
 				p: '2px 4px',
 				display: 'flex',
 				alignItems: 'center',
 				border: 'none',
-				bgcolor: 'inherit',
+				background: 'none',
 			}}
 		>
 			<SearchDialog />
-			<FilterMenu />
-		</Paper>
+		</Box>
 	);
 }

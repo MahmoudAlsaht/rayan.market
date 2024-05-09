@@ -19,7 +19,6 @@ export const fetchProducts = createAsyncThunk(
 );
 
 export const sortProducts = async (
-	productsLength: number,
 	sortBasedOn: string,
 	labelId?: string,
 	productId?: string,

@@ -48,6 +48,28 @@ export function escapeRegExp(str: string) {
 	return str?.replace(/[.@&*+?^${}()|[\]\\]/g, ''); // $& means the whole matched string
 }
 
+export const sortProductsBasedOnPrice = (
+	products: (TProduct | null)[],
+	action: string,
+) => {
+	let sortedProducts: (TProduct | null)[] = [];
+	if (action === 'highest') {
+		sortedProducts = products?.toSorted(
+			(a, b) =>
+				parseFloat(b?.newPrice || (b?.price as string)) -
+				parseFloat(a?.newPrice || (a?.price as string)),
+		);
+	} else if (action === 'lowest') {
+		sortedProducts = products?.toSorted(
+			(a, b) =>
+				parseFloat(a?.newPrice || (a?.price as string)) -
+				parseFloat(b?.newPrice || (b?.price as string)),
+		);
+	} else sortedProducts = products;
+
+	return sortedProducts;
+};
+
 export const filterProducts = (
 	products: (TProduct | null)[],
 	brands: (TBrand | null)[],
@@ -97,25 +119,6 @@ export const filterData = (products: any[], query: string) => {
 				.includes(escapeRegExp(query?.toLowerCase()))
 		);
 	});
-};
-
-export const sortProductsBasedOnPrice = (
-	products: (TProduct | null)[],
-	action: string,
-) => {
-	if (action === 'highest') {
-		return products?.sort(
-			(a, b) =>
-				parseFloat(b?.newPrice || (b?.price as string)) -
-				parseFloat(a?.newPrice || (a?.price as string)),
-		);
-	} else if (action === 'lowest') {
-		return products?.sort(
-			(a, b) =>
-				parseFloat(a?.newPrice || (a?.price as string)) -
-				parseFloat(b?.newPrice || (b?.price as string)),
-		);
-	} else return products;
 };
 
 export const sumTotalPrice = (products: TCartProduct[]) => {

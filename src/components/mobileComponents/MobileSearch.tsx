@@ -18,7 +18,6 @@ import {
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { TProduct } from '../../app/store/product';
 import { fetchProducts } from '../../controllers/product';
-// import NotFound404 from '../../routes/NotFound404';
 import { useNavigate } from 'react-router-dom';
 import MobileProductCard from './MobileProductCard';
 import FilterMenu from '../FilterMenu';
@@ -26,12 +25,17 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ProductsList from '../ProductsList';
 import { TCategory } from '../../app/store/category';
 import { TBrand } from '../../app/store/brand';
-import { filterProducts } from '../../utils';
+import {
+	filterProducts,
+	sortProductsBasedOnPrice,
+} from '../../utils';
 import { fetchCategories } from '../../controllers/category';
 import { fetchBrands } from '../../controllers/brand';
 
 export default function MobileSearch() {
 	const [queryInput, setQueryInput] = useState('');
+	const [priceFilter, setPriceFilter] = useState<string>('');
+
 	const navigate = useNavigate();
 	const handleQueryChange = (
 		e: FormEvent<HTMLInputElement>,
@@ -55,14 +59,17 @@ export default function MobileSearch() {
 	};
 
 	const filteredProducts = useMemo(() => {
-		return filterProducts(
-			products,
-			brands,
-			categories,
-			queryInput,
-		) as (TProduct | null)[];
+		return sortProductsBasedOnPrice(
+			filterProducts(
+				products,
+				brands,
+				categories,
+				queryInput,
+			) as (TProduct | null)[],
+			priceFilter,
+		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [queryInput]);
+	}, [queryInput, priceFilter]);
 
 	useEffect(() => {
 		dispatch(fetchProducts());
@@ -107,7 +114,9 @@ export default function MobileSearch() {
 								sx={{ m: '.7rem' }}
 								onChange={handleChange}
 							/>
-							<FilterMenu />
+							<FilterMenu
+								setPriceFilter={setPriceFilter}
+							/>
 						</Toolbar>
 					</AppBar>
 					<Grid

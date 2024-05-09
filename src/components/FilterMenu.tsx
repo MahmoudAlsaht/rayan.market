@@ -1,14 +1,14 @@
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useState, MouseEvent } from 'react';
-import { useAppDispatch } from '../app/hooks';
-import { sortProductsBasedOnPrice } from '../app/store/product';
 
 const ITEM_HEIGHT = 48;
 
-export default function FilterMenu() {
-	const dispatch = useAppDispatch();
-
+export default function FilterMenu({
+	setPriceFilter,
+}: {
+	setPriceFilter: (value: string) => void;
+}) {
 	const [filterAnchorEl, setFilterAnchorEl] =
 		useState<null | HTMLElement>(null);
 	const filterOpen = Boolean(filterAnchorEl);
@@ -56,11 +56,7 @@ export default function FilterMenu() {
 					<MenuItem
 						// selected={option === 'Pyxis'}
 						onClick={() => {
-							dispatch(
-								sortProductsBasedOnPrice(
-									'highest',
-								),
-							);
+							setPriceFilter('highest');
 							handleFilterClose();
 						}}
 					>
@@ -69,11 +65,7 @@ export default function FilterMenu() {
 					<MenuItem
 						// selected={option === 'Pyxis'}
 						onClick={() => {
-							dispatch(
-								sortProductsBasedOnPrice(
-									'lowest',
-								),
-							);
+							setPriceFilter('lowest');
 							handleFilterClose();
 						}}
 					>

@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import {
 	fetchProducts,
@@ -47,34 +47,7 @@ const initialState: (TProduct | null)[] = [];
 export const ProductsSlice = createSlice({
 	name: 'products',
 	initialState,
-	reducers: {
-		sortProductsBasedOnPrice: (
-			state: (TProduct | null)[],
-			action: PayloadAction<string>,
-		) => {
-			if (action.payload === 'highest') {
-				return state?.sort(
-					(a, b) =>
-						parseFloat(
-							b?.newPrice || (b?.price as string),
-						) -
-						parseFloat(
-							a?.newPrice || (a?.price as string),
-						),
-				);
-			} else if (action.payload === 'lowest') {
-				return state?.sort(
-					(a, b) =>
-						parseFloat(
-							a?.newPrice || (a?.price as string),
-						) -
-						parseFloat(
-							b?.newPrice || (b?.price as string),
-						),
-				);
-			} else return state;
-		},
-	},
+	reducers: {},
 	extraReducers(builder) {
 		builder.addCase(
 			fetchProducts.fulfilled,
@@ -119,7 +92,5 @@ export const ProductsSlice = createSlice({
 });
 
 export const selectProfile = (state: RootState) => state;
-export const { sortProductsBasedOnPrice } =
-	ProductsSlice.actions;
 
 export default ProductsSlice.reducer;
