@@ -9,6 +9,7 @@ type ProductListPreviewProps = {
 	sortBasedOn?: string;
 	labelId?: string;
 	productId?: string;
+	productsLength?: number;
 };
 
 export default function ProductListPreview({
@@ -18,6 +19,7 @@ export default function ProductListPreview({
 	sortBasedOn = '',
 	labelId = '',
 	productId = '',
+	productsLength = 6,
 }: ProductListPreviewProps) {
 	const [productListLength, setProductListLength] =
 		useState(0);
@@ -30,14 +32,14 @@ export default function ProductListPreview({
 					sx={{ mt: 15, bgcolor: 'inherit' }}
 				>
 					<Typography
-						variant='h3'
+						variant='h5'
 						color='primary'
-						sx={{ ml: 5, mt: 5 }}
+						sx={{ ml: 5, mt: 5, pt: 2.5 }}
 					>
 						{productListLength > 0 && title}{' '}
 					</Typography>
 					<ProductsList
-						productsLength={6}
+						productsLength={productsLength}
 						mt={mt}
 						mb={mb}
 						sortBasedOn={sortBasedOn}

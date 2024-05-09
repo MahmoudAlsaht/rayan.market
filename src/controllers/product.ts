@@ -36,33 +36,23 @@ export const sortProducts = async (
 		let sortedProducts: (TProduct | null)[] = [null];
 
 		if (sortBasedOn === 'views') {
-			sortedProducts =
-				productsLength === 0
-					? products
-					: products.toSorted((a, b) =>
-							b != null && a != null
-								? b.views - a.views
-								: 0 - 0,
-					  );
-		} else if (sortBasedOn === 'most viewed products') {
-			sortedProducts =
-				productsLength === 0
-					? products
-					: products.toSorted((a, b) =>
-							b != null && a != null
-								? b.numberOfPurchases -
-								  a.numberOfPurchases
-								: 0 - 0,
-					  );
+			sortedProducts = products.toSorted((a, b) =>
+				b != null && a != null
+					? b.views - a.views
+					: 0 - 0,
+			);
+		} else if (sortBasedOn === 'purchases') {
+			sortedProducts = products.toSorted((a, b) =>
+				b != null && a != null
+					? b.numberOfPurchases - a.numberOfPurchases
+					: 0 - 0,
+			);
+		} else if (label?.products) {
+			sortedProducts = label.products.filter((product) => {
+				return product?._id !== productId && product;
+			});
 		} else {
-			if (label?.products)
-				sortedProducts = label.products.filter(
-					(product) => {
-						return (
-							product?._id !== productId && product
-						);
-					},
-				);
+			sortedProducts = products;
 		}
 
 		return sortedProducts;

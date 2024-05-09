@@ -46,6 +46,8 @@ import EditAdmin from './routes/dashboard/EditAdmin';
 import UsersActions from './routes/dashboard/UsersActions';
 import PromosActions from './routes/dashboard/PromosActions';
 import DistrictsActions from './routes/dashboard/DistrictsActions';
+import TopViews from './routes/store/TopViews';
+import TopPurchases from './routes/store/TopPurchases';
 
 export const Router = createBrowserRouter([
 	{
@@ -82,6 +84,14 @@ export const Router = createBrowserRouter([
 						element: <ShowBrand />,
 					},
 					{ path: 'products', element: <Products /> },
+					{
+						path: 'products/top-views',
+						element: <TopViews />,
+					},
+					{
+						path: 'products/top-purchases',
+						element: <TopPurchases />,
+					},
 					{
 						path: 'products/:productId',
 						element: <ShowProduct />,

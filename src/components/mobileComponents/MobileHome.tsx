@@ -31,13 +31,15 @@ export default function MobileHome() {
 			<Box>
 				<ProductListPreview
 					title='الأكثر شيوعا'
-					sortBasedOn='most viewed products'
+					sortBasedOn='views'
+					productsLength={5}
 				/>
 				<ProductListPreview
 					title='الأكثر مبيعا'
 					mt={0}
 					mb={20}
-					sortBasedOn='most viewed products'
+					sortBasedOn='purchases'
+					productsLength={5}
 				/>
 				<Box sx={{ height: '10px', width: '100%' }} />
 			</Box>

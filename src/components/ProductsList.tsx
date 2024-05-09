@@ -2,16 +2,24 @@
 import { memo, useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { TProduct } from '../app/store/product';
-import { Box, Grid } from '@mui/material';
+import {
+	Box,
+	Card,
+	CardHeader,
+	Grid,
+	Typography,
+} from '@mui/material';
 import MobileProductCard from '../components/mobileComponents/MobileProductCard';
 import { sortProducts } from '../controllers/product';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Link } from 'react-router-dom';
 
 const ProductsList = memo(
 	({
 		productsLength = 0,
 		mt = 20,
 		mb = 0,
-		sortBasedOn = 'views',
+		sortBasedOn = '',
 		labelId = '',
 		productId = '',
 		setProductListLength = null,
@@ -139,6 +147,46 @@ const ProductsList = memo(
 								);
 							},
 						)}
+						{(sortBasedOn === 'views' ||
+							sortBasedOn === 'purchases') &&
+							productsLength > 0 && (
+								<Grid xs={6}>
+									<Link
+										to={`/products/top-${sortBasedOn}`}
+									>
+										<Card
+											sx={{
+												mx: 1,
+												mb: 1,
+												height: '215px',
+												background:
+													'none',
+											}}
+										>
+											<CardHeader
+												title={
+													<Typography
+														sx={{
+															color: 'primary.main',
+															display:
+																'flex',
+															alignItems:
+																'center',
+															justifyContent:
+																'center',
+															mt: '50%',
+														}}
+													>
+														عرض
+														المزيد
+														<ChevronLeftIcon />
+													</Typography>
+												}
+											/>
+										</Card>
+									</Link>
+								</Grid>
+							)}
 					</Grid>
 				</main>
 			</Box>
