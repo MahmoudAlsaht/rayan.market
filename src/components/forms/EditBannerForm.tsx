@@ -197,7 +197,7 @@ function EditBannerForm({
 
 	return (
 		<main dir='rtl'>
-			<Dialog open={show} onClose={handleClose}>
+			<Dialog open={show} onClose={handleClose} fullScreen>
 				<DialogTitle>
 					<Typography variant='h3'>
 						تعديل اللافتة {banner?.name}
