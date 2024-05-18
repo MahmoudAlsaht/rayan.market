@@ -107,13 +107,13 @@ function EditBannerForm({
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'الرجاء قم بملئ جميع الحقول',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
@@ -126,7 +126,7 @@ function EditBannerForm({
 			const form = e.currentTarget as HTMLFormElement;
 			if (form.checkValidity() === false) {
 				setError({
-					status: false,
+					status: true,
 					message: 'invalid fields',
 				});
 			} else {
@@ -168,13 +168,13 @@ function EditBannerForm({
 			setSelectedImages(null);
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'Yoy Can Only Upload Up to 4 Images',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 			const files: FileList | null = e.target.files!;
@@ -189,7 +189,7 @@ function EditBannerForm({
 			setPreviewImages(images);
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
@@ -200,7 +200,7 @@ function EditBannerForm({
 			<Dialog open={show} onClose={handleClose}>
 				<DialogTitle>
 					<Typography variant='h3'>
-						تعديل {banner?.name}
+						تعديل اللافتة {banner?.name}
 					</Typography>
 				</DialogTitle>
 				<DialogContent>

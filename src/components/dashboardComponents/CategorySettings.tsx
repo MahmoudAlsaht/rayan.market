@@ -26,8 +26,8 @@ function CategorySettings({
 }: CategorySettingsProps) {
 	const dispatch = useAppDispatch();
 	const [isEditing, setIsEditing] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 	const [show, setShow] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const [selectedImage, setSelectedImage] =
 		useState<File | null>(null);

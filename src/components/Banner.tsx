@@ -132,7 +132,7 @@ function Banner({ banner }: { banner: TBanner | null }) {
 						variant='contained'
 						onClick={() => handleClickEditBanner()}
 					>
-						Edit Banner
+						تعديل اللافتة
 					</Button>
 					<EditBannerForm
 						banner={banner}
