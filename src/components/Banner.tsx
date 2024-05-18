@@ -2,9 +2,30 @@
 import { TBanner } from '../app/store/banner';
 import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
-import { Avatar, Box, Paper } from '@mui/material';
+import { Avatar, Box, Button, Paper } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { TUser } from '../app/auth/auth';
+import { useEffect, useState } from 'react';
+import { fetchUser } from '../controllers/user';
+import EditBannerForm from './forms/EditBannerForm';
 
 function Banner({ banner }: { banner: TBanner | null }) {
+	const dispatch = useAppDispatch();
+	const user: TUser | null = useAppSelector(
+		(state) => state.user,
+	);
+
+	const [showEditBannerForm, setShowEditBannerForm] =
+		useState(false);
+
+	const handleClickEditBanner = () => {
+		setShowEditBannerForm(!showEditBannerForm);
+	};
+
+	useEffect(() => {
+		dispatch(fetchUser());
+	}, [dispatch]);
+
 	return (
 		<>
 			{banner?.bannerImages &&
@@ -102,6 +123,24 @@ function Banner({ banner }: { banner: TBanner | null }) {
 						</Paper>
 					</Box>
 				)}
+
+			{(user?.role === 'admin' ||
+				user?.role === 'editor') && (
+				<legend>
+					<Button
+						color='warning'
+						variant='contained'
+						onClick={() => handleClickEditBanner()}
+					>
+						Edit Banner
+					</Button>
+					<EditBannerForm
+						banner={banner}
+						show={showEditBannerForm}
+						handleClose={handleClickEditBanner}
+					/>
+				</legend>
+			)}
 		</>
 	);
 }

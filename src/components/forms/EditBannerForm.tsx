@@ -31,7 +31,7 @@ import { LoadingButton } from '@mui/lab';
 type EditBannerFormProps = {
 	show: boolean;
 	handleClose: () => void;
-	banner: TBanner;
+	banner: TBanner | null;
 };
 
 function EditBannerForm({
@@ -54,7 +54,7 @@ function EditBannerForm({
 		const updateImages = async () => {
 			try {
 				const images = await fetchBannersImages(
-					banner?._id,
+					banner?._id as string,
 				);
 				setBannerImages(images);
 			} catch (e: any) {
@@ -133,8 +133,8 @@ function EditBannerForm({
 				const bannerName = bannerNameRef.current?.value;
 				await dispatch(
 					updateBanner({
-						bannerId: banner?._id,
-						currName: banner?.name,
+						bannerId: banner?._id as string,
+						currName: banner?.name as string,
 						data: {
 							bannerName,
 							images: selectedImages,
@@ -250,7 +250,9 @@ function EditBannerForm({
 								<AddImageLink
 									key={image?._id}
 									image={image}
-									bannerId={banner?._id}
+									bannerId={
+										banner?._id as string
+									}
 									setIsLoading={setIsLoading}
 									isLoading={isLoading}
 									handleRemoveBannerImages={

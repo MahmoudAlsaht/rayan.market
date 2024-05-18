@@ -13,7 +13,7 @@ type BannerSettingsProps = {
 
 function BannerSettings({ banner, index }: BannerSettingsProps) {
 	const [show, setShow] = useState(false);
-	// const dispatch = useAppDispatch();
+
 	const [showEditBannerForm, setShowEditBannerForm] =
 		useState(false);
 
