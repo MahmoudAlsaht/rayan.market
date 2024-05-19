@@ -33,13 +33,26 @@ import {
 } from '@mui/material';
 import MainMobileNavBar from './MainMobileNavBar';
 import ProductListPreview from '../../components/ProductListPreview';
+import { fetchUser } from '../../controllers/user';
+import { TUser } from '../../app/auth/auth';
+import EditProductForm from '../../components/forms/EditProductForm';
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
+	const [showEditProductForm, setShowEditProductForm] =
+		useState(false);
+
+	const handleClickEditProduct = () => {
+		setShowEditProductForm(!showEditProductForm);
+	};
+
 	const [product, setProduct] = useState<TProduct | null>();
 	const [isProductInCart, setIsProductInCart] =
 		useState(false);
 	const cart: TCart = useAppSelector((state) => state.cart);
+	const user: TUser | null = useAppSelector(
+		(state) => state.user,
+	);
 
 	const [productCart, setProductCart] =
 		useState<TCartProduct | null>();
@@ -101,6 +114,7 @@ const ShowProduct = memo(() => {
 	};
 
 	useEffect(() => {
+		dispatch(fetchUser());
 		const getProduct = async () => {
 			const productData = await fetchProduct(
 				productId as string,
@@ -136,6 +150,24 @@ const ShowProduct = memo(() => {
 			<Box sx={{ display: { sm: 'none' } }}>
 				<MainMobileNavBar />
 			</Box>
+			{(user.role === 'admin' ||
+				user.role === 'editor') && (
+				<Button
+					variant='contained'
+					color='warning'
+					sx={{ ml: 2 }}
+					onClick={handleClickEditProduct}
+				>
+					تعديل المنتج
+				</Button>
+			)}
+
+			<EditProductForm
+				product={product as TProduct | null}
+				show={showEditProductForm}
+				handleClose={handleClickEditProduct}
+			/>
+
 			<Container sx={{ my: 7, mt: { sm: 20 } }}>
 				{product !== undefined ? (
 					<Grid container>

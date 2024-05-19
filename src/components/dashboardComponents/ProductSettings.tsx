@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, TableCell, TableRow } from '@mui/material';
 
 type ProductSettingsProps = {
-	product: TProduct;
+	product: TProduct | null;
 	index: number;
 };
 
@@ -48,10 +48,10 @@ function ProductSettings({
 					</IconButton>
 
 					<DeleteProductForm
-						productId={product?._id}
+						productId={product?._id as string}
 						show={show}
 						handleClose={handleProductDeletion}
-						productName={product?.name}
+						productName={product?.name as string}
 					/>
 				</TableCell>
 			</TableRow>

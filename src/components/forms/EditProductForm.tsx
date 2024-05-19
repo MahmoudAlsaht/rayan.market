@@ -41,7 +41,7 @@ import dayjs, { Dayjs } from 'dayjs';
 type EditProductFormProps = {
 	show: boolean;
 	handleClose: () => void;
-	product: TProduct;
+	product: TProduct | null;
 };
 
 export type TPreviewImage = { url: string; name: string };
