@@ -58,25 +58,37 @@ const Category = memo(() => {
 								category?.banner as TBanner | null
 							}
 						/>
-						{(user?.role === 'admin' ||
-							user?.role === 'editor') && (
-							<legend
-								style={{ marginTop: '2rem' }}
-							>
-								<Button
-									onClick={handleSetShow}
-									color='warning'
-									variant='contained'
+
+						<Box
+							sx={{
+								display: {
+									xs: 'none',
+									sm: 'block',
+								},
+							}}
+						>
+							{(user?.role === 'admin' ||
+								user?.role === 'editor') && (
+								<legend
+									style={{ marginTop: '2rem' }}
 								>
-									تعديل القسم
-								</Button>
-								<EditCategoryForm
-									handleClose={handleSetShow}
-									show={show}
-									category={category}
-								/>
-							</legend>
-						)}
+									<Button
+										onClick={handleSetShow}
+										color='warning'
+										variant='contained'
+									>
+										تعديل القسم
+									</Button>
+									<EditCategoryForm
+										handleClose={
+											handleSetShow
+										}
+										show={show}
+										category={category}
+									/>
+								</legend>
+							)}
+						</Box>
 						<Grid
 							container
 							sx={{
@@ -113,6 +125,28 @@ const Category = memo(() => {
 							}}
 						>
 							<MainMobileNavBar />
+
+							{(user?.role === 'admin' ||
+								user?.role === 'editor') && (
+								<legend>
+									<Button
+										onClick={handleSetShow}
+										color='warning'
+										variant='contained'
+										sx={{ mb: 3 }}
+									>
+										تعديل القسم
+									</Button>
+									<EditCategoryForm
+										handleClose={
+											handleSetShow
+										}
+										show={show}
+										category={category}
+									/>
+								</legend>
+							)}
+
 							<Grid container sx={{ mb: 10 }}>
 								{allProducts?.map(
 									(product) =>
