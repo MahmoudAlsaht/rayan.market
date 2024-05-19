@@ -45,7 +45,7 @@ function AddImageLink({
 	return (
 		<div dir='rtl'>
 			<Grid container spacing={1}>
-				<Grid xs={5} md={4}>
+				<Grid xs={12} md={2}>
 					<PreviewImage
 						imageId={image?._id}
 						path={image?.path as string}
@@ -54,7 +54,7 @@ function AddImageLink({
 						handleRemove={handleRemoveBannerImages}
 					/>
 				</Grid>
-				<Grid xs={5} md={6}>
+				<Grid xs={12} md={6}>
 					<FormGroup sx={{ mr: 2 }}>
 						<TextField
 							type='text'
@@ -64,8 +64,8 @@ function AddImageLink({
 						/>
 					</FormGroup>
 				</Grid>
-				<Grid xs={2}>
-					<FormGroup>
+				<Grid xs={12} md={2}>
+					<FormGroup sx={{ mt: 2, mr: 2 }}>
 						<LoadingButton
 							color='primary'
 							variant='outlined'

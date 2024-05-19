@@ -20,6 +20,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	Divider,
 	FormGroup,
 	TextField,
 	Typography,
@@ -197,10 +198,15 @@ function EditBannerForm({
 
 	return (
 		<main dir='rtl'>
-			<Dialog open={show} onClose={handleClose} fullScreen>
+			<Dialog
+				dir='rtl'
+				open={show}
+				onClose={handleClose}
+				fullScreen
+			>
 				<DialogTitle>
 					<Typography variant='h3'>
-						تعديل اللافتة {banner?.name}
+						تعديل اللافتة ({banner?.name})
 					</Typography>
 				</DialogTitle>
 				<DialogContent>
@@ -233,33 +239,72 @@ function EditBannerForm({
 							</Button>
 						</FormGroup>
 						<br />
-						{previewImages &&
-							previewImages?.map((image) => (
-								<PreviewImage
-									type='PreviewImage'
-									key={image?.name}
-									path={image?.url}
-									imageId={image?.name}
-									handleRemove={
-										handleRemovePreviewImages
-									}
-								/>
-							))}
-						{bannerImages &&
-							bannerImages?.map((image) => (
-								<AddImageLink
-									key={image?._id}
-									image={image}
-									bannerId={
-										banner?._id as string
-									}
-									setIsLoading={setIsLoading}
-									isLoading={isLoading}
-									handleRemoveBannerImages={
-										handleRemoveBannerImages
-									}
-								/>
-							))}
+						<Box>
+							{previewImages && (
+								<legend>
+									<Typography
+										variant='h6'
+										sx={{
+											mb: 5,
+											mx: 5,
+										}}
+									>
+										{previewImages?.length}{' '}
+										صورة جديدة
+									</Typography>
+									{previewImages?.map(
+										(image) => (
+											<PreviewImage
+												type='PreviewImage'
+												key={image?.name}
+												path={image?.url}
+												imageId={
+													image?.name
+												}
+												handleRemove={
+													handleRemovePreviewImages
+												}
+											/>
+										),
+									)}
+									<Divider sx={{ mb: 3 }} />
+								</legend>
+							)}
+							{bannerImages && (
+								<legend>
+									<Typography
+										variant='h6'
+										sx={{
+											mb: 5,
+											mx: 5,
+										}}
+									>
+										صور لافتة ({banner?.name}
+										)
+									</Typography>
+									{bannerImages?.map(
+										(image) => (
+											<AddImageLink
+												key={image?._id}
+												image={image}
+												bannerId={
+													banner?._id as string
+												}
+												setIsLoading={
+													setIsLoading
+												}
+												isLoading={
+													isLoading
+												}
+												handleRemoveBannerImages={
+													handleRemoveBannerImages
+												}
+											/>
+										),
+									)}
+								</legend>
+							)}
+						</Box>
 					</Box>
 				</DialogContent>
 				<DialogActions>
