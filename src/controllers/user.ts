@@ -56,6 +56,34 @@ export const editUserRole = async ({
 	}
 };
 
+export const createUser = async (
+	adminId: string,
+	phone: string | null,
+	password: string | null,
+	username: string,
+	role: string,
+) => {
+	try {
+		if (username === 'anonymous')
+			throw new Error('You cannot pick this username');
+
+		const user: TUser | null = await sendRequestToServer(
+			'post',
+			'auth/create-user',
+			{
+				adminId,
+				username,
+				phone,
+				password,
+				role,
+			},
+		);
+		return user;
+	} catch (e: any) {
+		throw new Error(e.message);
+	}
+};
+
 export const signUp = async (
 	phone: string | null,
 	password: string | null,
