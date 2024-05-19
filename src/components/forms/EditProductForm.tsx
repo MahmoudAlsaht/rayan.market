@@ -133,7 +133,7 @@ function EditProductForm({
 					offerExpiresDateRef.current?.value;
 				await dispatch(
 					updateProduct({
-						productId: product?._id,
+						productId: product?._id as string,
 						data: {
 							name,
 							price,
