@@ -32,7 +32,7 @@ const UsersActions = memo(() => {
 	return (
 		<>
 			<main dir='rtl'>
-				<Box sx={{ width: '100%', ml: 20 }}>
+				<Box sx={{ width: '100%', ml: { sm: 20 } }}>
 					<Tabs
 						value={page}
 						onChange={handleTabsChange}
