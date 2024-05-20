@@ -9,8 +9,13 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	FormControl,
 	FormGroup,
 	Grid,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -32,6 +37,8 @@ function AddPromoForm({ show, handleClose }: AddPromoFormProps) {
 	const [startDate, setStartDate] = useState<Dayjs | null>(
 		null,
 	);
+	const [promoType, setPromoType] = useState('');
+
 	const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
 	const [validated, setValidated] = useState(false);
@@ -52,13 +59,13 @@ function AddPromoForm({ show, handleClose }: AddPromoFormProps) {
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'الرجاء قم بملئ جميع الحقول',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
@@ -77,6 +84,7 @@ function AddPromoForm({ show, handleClose }: AddPromoFormProps) {
 			} else {
 				await dispatch(
 					createPromo({
+						promoType,
 						code: codeRef.current?.value as string,
 						discount:
 							discountRef.current?.value || null,
@@ -103,6 +111,8 @@ function AddPromoForm({ show, handleClose }: AddPromoFormProps) {
 			setIsLoading(false);
 		}
 	};
+
+	const promoTypes = ['shipping', 'product'];
 
 	return (
 		<div dir='rtl'>
@@ -131,6 +141,45 @@ function AddPromoForm({ show, handleClose }: AddPromoFormProps) {
 								inputRef={codeRef}
 							/>
 						</FormGroup>
+
+						<FormControl
+							sx={{
+								mx: 5,
+								width: { xs: '100%', sm: '93%' },
+							}}
+						>
+							<InputLabel id='promoTypeSelect'>
+								نوع الخصم
+							</InputLabel>
+							<Select
+								labelId='promoTypeSelect'
+								id='promoType-select'
+								value={promoType}
+								onChange={(
+									e: SelectChangeEvent,
+								) => {
+									setPromoType(
+										e.target.value as string,
+									);
+									handleChange();
+								}}
+								label='اختر القسم'
+							>
+								<MenuItem value=''>
+									<em>اختر القسم</em>
+								</MenuItem>
+								{promoTypes?.map((type) => (
+									<MenuItem
+										value={type}
+										key={type}
+									>
+										{type === 'shipping'
+											? 'خصم على التوصيل'
+											: 'خصم على سعر المنتج'}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
 
 						<FormGroup sx={{ m: 5 }}>
 							<TextField

@@ -23,11 +23,13 @@ export const createPromo = createAsyncThunk(
 		discount,
 		startDate,
 		endDate,
+		promoType,
 	}: {
 		code: string;
 		discount: string | null;
 		startDate: string | null;
 		endDate: string | null;
+		promoType: string;
 	}) => {
 		try {
 			const promo: TPromoCode | null =
@@ -36,6 +38,7 @@ export const createPromo = createAsyncThunk(
 					discount,
 					startDate,
 					endDate,
+					promoType,
 				});
 
 			return promo;

@@ -15,12 +15,14 @@ export type TOrder = {
 	contact: TContactInfo;
 	user: TUser | TAnonymousUser;
 	products: TCartProduct[];
-	totalPrice: number;
+	totalPrice: string;
+	billTotal: string;
 	createdAt: Date;
 	orderId: string;
 	status: string;
 	promoCode?: string | null;
 	paymentMethod: string;
+	shippingFees: string;
 };
 
 const initialState: TOrder[] = [];

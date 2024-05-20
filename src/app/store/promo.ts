@@ -9,6 +9,7 @@ import {
 
 export type TPromoCode = {
 	_id: string;
+	promoType: string;
 	code: string;
 	discount: number;
 	expired: boolean;

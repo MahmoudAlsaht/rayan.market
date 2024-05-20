@@ -98,6 +98,18 @@ const ShowOrder = memo(() => {
 							</span>
 						</Typography>
 						<Typography>
+							مبلغ الفاتورة:{' '}
+							<span style={{ color: 'gray' }}>
+								{order?.billTotal}
+							</span>
+						</Typography>
+						<Typography>
+							رسوم التوصيل:{' '}
+							<span style={{ color: 'gray' }}>
+								{order?.shippingFees}
+							</span>
+						</Typography>
+						<Typography>
 							المبلغ الإجمالي:{' '}
 							<span style={{ color: 'gray' }}>
 								{order?.totalPrice}

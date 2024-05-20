@@ -155,7 +155,7 @@ const ShowProduct = memo(() => {
 				<Button
 					variant='contained'
 					color='warning'
-					sx={{ ml: 2 }}
+					sx={{ ml: 2, mt: { sm: 10 } }}
 					onClick={handleClickEditProduct}
 				>
 					تعديل المنتج
