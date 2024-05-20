@@ -250,14 +250,38 @@ export default function PaymentMethods({
 						/>
 					))}
 				</RadioGroup>
-				<LoadingButton
-					size='large'
-					startIcon='أكمل الطلب'
-					loading={isLoading}
-					onClick={handleSubmit}
-					variant='outlined'
-					disabled={!checkSelectedMethod()}
-				/>
+
+				{promo != null ? (
+					cart?.totalPrice * (promo?.discount / 100) >=
+					3 ? (
+						<LoadingButton
+							size='large'
+							startIcon='أكمل الطلب'
+							loading={isLoading}
+							onClick={handleSubmit}
+							variant='outlined'
+							disabled={!checkSelectedMethod()}
+						/>
+					) : (
+						<Typography variant='h6' color='error'>
+							يجب ان تكون قيمة سلتك 3 دنانير على
+							الأقل
+						</Typography>
+					)
+				) : cart?.totalPrice >= 3 ? (
+					<LoadingButton
+						size='large'
+						startIcon='أكمل الطلب'
+						loading={isLoading}
+						onClick={handleSubmit}
+						variant='outlined'
+						disabled={!checkSelectedMethod()}
+					/>
+				) : (
+					<Typography variant='h6' color='error'>
+						يجب ان تكون قيمة سلتك 3 دنانير على الأقل
+					</Typography>
+				)}
 			</FormControl>
 		</main>
 	);
