@@ -36,7 +36,6 @@ function DeleteCategoryForm({
 			setIsLoading(false);
 			handleClose();
 		} catch (e: any) {
-			console.log(e);
 			setIsLoading(false);
 		}
 	};

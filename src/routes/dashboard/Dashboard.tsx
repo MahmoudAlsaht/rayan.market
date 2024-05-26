@@ -30,7 +30,7 @@ const Dashboard = memo(() => {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchOrders(user?._id));
+		dispatch(fetchOrders());
 		if (user?.role === 'admin') {
 			setAdminWidgets([
 				'Users',
@@ -56,7 +56,7 @@ const Dashboard = memo(() => {
 		} else if (user?.role === 'staff') {
 			setAdminWidgets(['Settings', 'Orders']);
 		}
-	}, [dispatch, user?._id, user?.role]);
+	}, [dispatch, user?.role]);
 
 	return (
 		<Container sx={{ mt: 5 }}>

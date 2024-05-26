@@ -13,7 +13,7 @@ export const fetchDistricts = async () => {
 
 		return districts;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -33,7 +33,7 @@ export const createDistrict = async ({
 
 		return district;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -56,7 +56,7 @@ export const updateDistrict = async ({
 
 		return district;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -67,7 +67,7 @@ export const getDistrict = async () => {
 
 		return district;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -83,6 +83,6 @@ export const deleteDistrict = async ({
 		);
 		return districtId;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };

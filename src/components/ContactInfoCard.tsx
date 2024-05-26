@@ -19,7 +19,7 @@ function ContactInfoCard({
 		try {
 			await handleDelete(contact?._id as string);
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	};
 

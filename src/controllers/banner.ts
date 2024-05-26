@@ -11,7 +11,7 @@ export const fetchBanners = createAsyncThunk(
 
 			return banners;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -26,7 +26,7 @@ export const fetchBannerByType = async (type: string) => {
 
 		return banner;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -62,27 +62,7 @@ export const createBanner = createAsyncThunk(
 
 			return banner;
 		} catch (e: any) {
-			throw new Error(e.message);
-		}
-	},
-);
-
-export const updateBannersActivity = createAsyncThunk(
-	'Banners/updateBannerStatus',
-	async (option: { bannerId: string; active: boolean }) => {
-		try {
-			const { bannerId, active } = option;
-
-			const banners: (TBanner | null)[] =
-				await sendRequestToServer(
-					'PATCH',
-					`banner/${bannerId}`,
-					{ active },
-				);
-
-			return banners;
-		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -116,7 +96,7 @@ export const updateBanner = createAsyncThunk(
 
 			return banner;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -140,7 +120,7 @@ export const updateImageLink = createAsyncThunk(
 
 			return banner;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -156,7 +136,7 @@ export const destroyBanner = createAsyncThunk(
 
 			return bannerId;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );

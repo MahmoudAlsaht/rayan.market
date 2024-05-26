@@ -13,7 +13,7 @@ export const fetchProducts = createAsyncThunk(
 
 			return products;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -56,7 +56,7 @@ export const sortProducts = async (
 
 		return sortedProducts;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -71,7 +71,7 @@ export const fetchOffers = async () => {
 			);
 		return products;
 	} catch (e: any) {
-		console.log(e);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -84,7 +84,7 @@ export const fetchProduct = async (productId: string) => {
 			);
 		return product;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -235,7 +235,6 @@ export const updateProduct = createAsyncThunk(
 
 			return product;
 		} catch (e) {
-			console.log(e);
 			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},
@@ -263,7 +262,6 @@ export const destroyProduct = createAsyncThunk(
 
 			return productId;
 		} catch (e: any) {
-			console.log(e.message);
 			throw new Error('Sorry, Something went wrong!!!');
 		}
 	},

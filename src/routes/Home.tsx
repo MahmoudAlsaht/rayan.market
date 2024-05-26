@@ -20,7 +20,7 @@ const Home = memo(() => {
 			setMainBanner(fetchedBanner);
 		};
 		getBanner();
-	});
+	}, []);
 
 	return (
 		<div dir='rtl' style={{ height: '120dvh' }}>

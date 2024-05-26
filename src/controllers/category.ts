@@ -11,7 +11,7 @@ export const fetchCategories = createAsyncThunk(
 
 			return categories;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -26,7 +26,7 @@ export const fetchCategory = async (categoryId: string) => {
 
 		return categories;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -52,7 +52,7 @@ export const createCategory = createAsyncThunk(
 
 			return category;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -69,9 +69,7 @@ export const updateCategory = createAsyncThunk(
 
 			const formData = new FormData();
 
-			console.log(name);
 			formData.append('name', name);
-			console.log(formData.get('name'));
 			formData.append('file', file as File);
 
 			const category: TCategory | null =

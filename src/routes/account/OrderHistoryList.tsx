@@ -3,8 +3,6 @@ import { memo, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TOrder } from '../../app/store/order';
 import { fetchOrders } from '../../controllers/order';
-import { TUser } from '../../app/auth/auth';
-import { fetchUser } from '../../controllers/user';
 import Widget from '../../components/Widget';
 import { useParams } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
@@ -14,16 +12,12 @@ const OrderHistoryList = memo(() => {
 	const orders: TOrder[] = useAppSelector(
 		(state) => state.orders,
 	);
-	const user: TUser | null = useAppSelector(
-		(state) => state.user,
-	);
 
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchUser());
-		dispatch(fetchOrders(user?._id as string));
-	}, [dispatch, user?._id]);
+		dispatch(fetchOrders());
+	}, [dispatch]);
 
 	return (
 		<Container sx={{ m: { sm: 5 } }}>

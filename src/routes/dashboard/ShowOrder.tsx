@@ -6,9 +6,7 @@ import {
 	updateOrderStatus,
 } from '../../controllers/order';
 import { TOrder } from '../../app/store/order';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { TUser } from '../../app/auth/auth';
-import { fetchUser } from '../../controllers/user';
+import { useAppDispatch } from '../../app/hooks';
 import {
 	Button,
 	Card,
@@ -22,9 +20,6 @@ import {
 const ShowOrder = memo(() => {
 	const { orderId } = useParams();
 	const dispatch = useAppDispatch();
-	const user: TUser | null = useAppSelector(
-		(state) => state.user,
-	);
 
 	const [order, setOrder] = useState<TOrder | null>(null);
 
@@ -35,7 +30,6 @@ const ShowOrder = memo(() => {
 					updateOrderStatus({
 						orderId: order?._id as string,
 						updatedStatus: 'accepted',
-						userId: user?._id as string,
 					}),
 				);
 			} else if (order?.status === 'accepted') {
@@ -43,7 +37,6 @@ const ShowOrder = memo(() => {
 					updateOrderStatus({
 						orderId: order?._id as string,
 						updatedStatus: 'completed',
-						userId: user?._id as string,
 					}),
 				);
 			}
@@ -52,7 +45,7 @@ const ShowOrder = memo(() => {
 			);
 			setOrder(updatedOrder);
 		} catch (e) {
-			console.error(e);
+			throw new Error('something went wrong');
 		}
 	};
 
@@ -62,7 +55,6 @@ const ShowOrder = memo(() => {
 				updateOrderStatus({
 					orderId: order?._id as string,
 					updatedStatus: 'rejected',
-					userId: user?._id as string,
 				}),
 			);
 			const updatedOrder = await fetchOrder(
@@ -70,12 +62,11 @@ const ShowOrder = memo(() => {
 			);
 			setOrder(updatedOrder);
 		} catch (e) {
-			console.error(e);
+			throw new Error('something went wrong');
 		}
 	};
 
 	useEffect(() => {
-		dispatch(fetchUser());
 		const getOrder = async () => {
 			const fetchedOrder = await fetchOrder(
 				orderId as string,

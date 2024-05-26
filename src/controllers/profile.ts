@@ -11,7 +11,7 @@ export const fetchProfile = createAsyncThunk(
 			);
 			return res;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -26,7 +26,7 @@ export const updateUserPhoneAndUsername = async (data: any) => {
 			{ phone, username },
 		);
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -42,7 +42,7 @@ export const updateUserPassword = async (data: any) => {
 			{ newPassword, currentPassword },
 		);
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -60,7 +60,7 @@ export const destroyUser = createAsyncThunk(
 
 			return null;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );

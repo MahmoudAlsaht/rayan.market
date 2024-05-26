@@ -138,8 +138,8 @@ export default function DashBoardLayout() {
 
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchOrders(user?._id));
-	}, [dispatch, user?._id]);
+		dispatch(fetchOrders());
+	}, [dispatch]);
 
 	const pendingOrders: TOrder[] = orders?.filter((order) => {
 		return order.status === 'pending';

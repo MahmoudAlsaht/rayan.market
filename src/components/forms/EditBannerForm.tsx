@@ -59,7 +59,7 @@ function EditBannerForm({
 				);
 				setBannerImages(images);
 			} catch (e: any) {
-				console.log(e);
+				throw new Error('something went wrong');
 			}
 		};
 		updateImages();

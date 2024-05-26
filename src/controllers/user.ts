@@ -23,7 +23,7 @@ export const fetchUser = createAsyncThunk(
 
 			return user;
 		} catch (e: any) {
-			console.error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -35,7 +35,7 @@ export const fetchUsers = async () => {
 
 		return users;
 	} catch (e: any) {
-		console.error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -52,7 +52,7 @@ export const editUserRole = async ({
 			role,
 		});
 	} catch (e: any) {
-		console.error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -80,7 +80,7 @@ export const createUser = async (
 		);
 		return user;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -105,7 +105,7 @@ export const signUp = async (
 		);
 		setCookies('token', res.token, 60);
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -124,7 +124,7 @@ export const signIn = async (
 		);
 		setCookies('token', res.token, 60);
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 

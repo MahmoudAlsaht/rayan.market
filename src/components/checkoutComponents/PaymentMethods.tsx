@@ -80,7 +80,7 @@ export default function PaymentMethods({
 			navigate('/home');
 			setIsLoading(false);
 		} catch (e: any) {
-			console.log(e.message);
+			throw new Error('something went wrong');
 		}
 	};
 

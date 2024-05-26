@@ -6,9 +6,7 @@ import {
 	updateOrderStatus,
 } from '../../controllers/order';
 import { TOrder } from '../../app/store/order';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { TUser } from '../../app/auth/auth';
-import { fetchUser } from '../../controllers/user';
+import { useAppDispatch } from '../../app/hooks';
 import {
 	Button,
 	Card,
@@ -22,9 +20,6 @@ import {
 const ShowOrderDetails = memo(() => {
 	const { orderId } = useParams();
 	const dispatch = useAppDispatch();
-	const user: TUser | null = useAppSelector(
-		(state) => state.user,
-	);
 	const [order, setOrder] = useState<TOrder | null>(null);
 
 	const handleClick = async () => {
@@ -34,7 +29,6 @@ const ShowOrderDetails = memo(() => {
 					updateOrderStatus({
 						orderId: order?._id as string,
 						updatedStatus: 'canceled',
-						userId: user?._id as string,
 					}),
 				);
 				const updatedOrder = await fetchOrder(
@@ -43,7 +37,7 @@ const ShowOrderDetails = memo(() => {
 				setOrder(updatedOrder);
 			}
 		} catch (e) {
-			console.error(e);
+			throw new Error('something went wrong');
 		}
 	};
 
@@ -56,7 +50,6 @@ const ShowOrderDetails = memo(() => {
 		};
 
 		getOrder();
-		dispatch(fetchUser());
 	}, [orderId, dispatch]);
 
 	return (

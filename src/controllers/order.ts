@@ -34,7 +34,7 @@ export const createAnOrder = createAsyncThunk(
 
 			return order;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong!');
 		}
 	},
 );
@@ -44,23 +44,20 @@ export const updateOrderStatus = createAsyncThunk(
 	async ({
 		orderId,
 		updatedStatus,
-		userId,
 	}: {
 		orderId: string;
 		updatedStatus: string;
-		userId: string;
 	}) => {
 		try {
 			const order: TOrder | null =
 				await sendRequestToServer(
 					'PUT',
 					`order/${orderId}`,
-					{ updatedStatus, userId },
+					{ updatedStatus },
 				);
 
 			return order;
 		} catch (e: any) {
-			console.error(e.message);
 			throw new Error('Something went wrong');
 		}
 	},
@@ -75,22 +72,20 @@ export const fetchOrder = async (orderId: string) => {
 
 		return order;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong!');
 	}
 };
 
 export const fetchOrders = createAsyncThunk(
 	'orders/fetchOrders',
-	async (userId: string) => {
+	async () => {
 		try {
 			const orders: TOrder[] | null =
-				await sendRequestToServer('POST', 'order', {
-					userId,
-				});
+				await sendRequestToServer('GET', 'order');
 
 			return orders;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong!');
 		}
 	},
 );
@@ -110,7 +105,6 @@ export const checkIfProductIsAvailable = (
 
 		return notAvailable.length === 0;
 	} catch (e: any) {
-		console.error(e.message);
-		throw new Error(e.message);
+		throw new Error('something went wrong!');
 	}
 };

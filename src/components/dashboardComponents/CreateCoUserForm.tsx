@@ -73,7 +73,6 @@ function CreateCoUserForm({
 	};
 	const handleChange = (e: ChangeEvent) => {
 		const form = e.currentTarget as HTMLFormElement;
-		console.log(admin?._id);
 		if (
 			roleValue === '' ||
 			phoneRef.current?.value === '' ||

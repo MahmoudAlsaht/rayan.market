@@ -39,7 +39,6 @@ function DeletePromoForm({
 			dispatch(fetchPromos());
 			handleClose();
 		} catch (e: any) {
-			console.log(e);
 			setIsLoading(false);
 		}
 	};

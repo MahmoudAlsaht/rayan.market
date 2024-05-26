@@ -4,7 +4,6 @@ import {
 	fetchBanners,
 	createBanner,
 	updateBanner,
-	updateBannersActivity,
 	destroyBanner,
 	updateImageLink,
 } from '../../controllers/banner';
@@ -67,13 +66,6 @@ export const BannerSlice = createSlice({
 						? action.payload
 						: banner;
 				});
-				return state;
-			},
-		);
-		builder.addCase(
-			updateBannersActivity.fulfilled,
-			(state, action) => {
-				state = action.payload;
 				return state;
 			},
 		);

@@ -39,7 +39,6 @@ function DeletePromoForm({
 			fetchDistricts();
 			handleClose();
 		} catch (e: any) {
-			console.log(e);
 			setIsLoading(false);
 		}
 	};

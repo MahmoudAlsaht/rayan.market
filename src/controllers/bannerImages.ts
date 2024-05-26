@@ -10,7 +10,7 @@ export const fetchBannersImages = async (bannerId: string) => {
 			);
 		return images;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -26,7 +26,7 @@ export const fetchPreviewImage = async (
 			);
 		return images;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -40,6 +40,6 @@ export const destroyBannerImage = async (
 			`banner/${bannerId}/images/${imageId}`,
 		);
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };

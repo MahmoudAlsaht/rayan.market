@@ -35,7 +35,6 @@ function DeleteProductForm({
 			setIsLoading(false);
 			handleClose();
 		} catch (e: any) {
-			console.log(e);
 			setIsLoading(false);
 		}
 	};

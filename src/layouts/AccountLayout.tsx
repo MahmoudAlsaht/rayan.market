@@ -129,8 +129,8 @@ export default function AccountLayout() {
 		navigate('/home');
 	useEffect(() => {
 		dispatch(fetchUser());
-		dispatch(fetchOrders(user?._id));
-	}, [dispatch, user]);
+		dispatch(fetchOrders());
+	}, [dispatch]);
 
 	const handleLogout = async () => {
 		await dispatch(logout());

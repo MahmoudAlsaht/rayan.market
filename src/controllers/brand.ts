@@ -11,7 +11,7 @@ export const fetchBrands = createAsyncThunk(
 
 			return brands;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -25,7 +25,7 @@ export const fetchBrand = async (brandId: string) => {
 
 		return brands;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -53,7 +53,7 @@ export const createBrand = createAsyncThunk(
 
 			return brand;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );

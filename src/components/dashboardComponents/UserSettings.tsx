@@ -67,7 +67,7 @@ function UserSettings({
 			handleIsEditing();
 		} catch (e: any) {
 			setIsLoading(false);
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	};
 

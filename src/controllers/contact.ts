@@ -19,8 +19,7 @@ export const getContactsData = async (profileId: string) => {
 
 		return contacts;
 	} catch (e: any) {
-		console.error(e.message);
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -36,7 +35,7 @@ export const getContactData = async (
 			);
 		return contact as TContactInfo;
 	} catch (e) {
-		console.error(e);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -57,7 +56,7 @@ export const createNewContactInfo = async (
 
 		return contact;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -85,7 +84,7 @@ export const updateUserContactInfo = async ({
 
 		return contact;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -101,6 +100,6 @@ export const deleteContact = async (
 
 		return contactId;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };

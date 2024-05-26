@@ -11,7 +11,7 @@ export const fetchPromos = createAsyncThunk(
 
 			return promos;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -43,7 +43,7 @@ export const createPromo = createAsyncThunk(
 
 			return promo;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -81,7 +81,7 @@ export const updatePromo = createAsyncThunk(
 
 			return promo;
 		} catch (e: any) {
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	},
 );
@@ -100,7 +100,7 @@ export const getPromo = async ({
 
 		return promo;
 	} catch (e: any) {
-		throw new Error(e.message);
+		throw new Error('something went wrong');
 	}
 };
 
@@ -114,7 +114,6 @@ export const deletePromo = createAsyncThunk(
 			);
 			return promoId;
 		} catch (e: any) {
-			throw new Error(e.message);
-		}
+			throw new Error('something went wrong');		}
 	},
 );

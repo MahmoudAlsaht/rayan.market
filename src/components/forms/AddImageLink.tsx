@@ -37,8 +37,7 @@ function AddImageLink({
 			setIsLoading(false);
 		} catch (e: any) {
 			setIsLoading(false);
-			console.error(e);
-			throw new Error(e.message);
+			throw new Error('something went wrong');
 		}
 	};
 

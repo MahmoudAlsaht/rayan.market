@@ -164,23 +164,23 @@ export const isCustomer = async (user: TUser | null) => {
 		: user?.role === 'customer';
 };
 
-export const getUserByToken = async (token?: string) => {
-	try {
-		const res = await axios({
-			url: `${import.meta.env.VITE_API_URL}/auth/getUser`,
-			method: 'GET',
-			headers: {
-				Accept: 'application/json',
-				'Access-Control-Allow-Origin': '*',
-				Authorization: `Bearer ${token}`,
-			},
-		});
-		return res?.data;
-	} catch (e: any) {
-		console.error(e);
-		throw new Error(e?.response?.data?.error);
-	}
-};
+// export const getUserByToken = async (token?: string) => {
+// 	try {
+// 		const res = await axios({
+// 			url: `${import.meta.env.VITE_API_URL}/auth/getUser`,
+// 			method: 'GET',
+// 			headers: {
+// 				Accept: 'application/json',
+// 				'Access-Control-Allow-Origin': '*',
+// 				Authorization: `Bearer ${token}`,
+// 			},
+// 		});
+// 		return res?.data;
+// 	} catch (e: any) {
+// throw new Error('something went wrong');
+// 		throw new Error(e?.response?.data?.error);
+// 	}
+// };
 
 export const sendRequestToServer = async (
 	method: string,
@@ -202,7 +202,6 @@ export const sendRequestToServer = async (
 		});
 		return res?.data;
 	} catch (e: any) {
-		console.error(e);
 		throw new Error(e?.response?.data?.error);
 	}
 };
@@ -226,6 +225,6 @@ export const checkPhoneValidity = async (phonNumber: string) => {
 		const response = await axios.request(options);
 		return response?.data?.isValidNumber as boolean;
 	} catch (e: any) {
-		console.log(e);
+		throw new Error('something went wrong');
 	}
 };
