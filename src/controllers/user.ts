@@ -7,6 +7,7 @@ import {
 	setCookies,
 } from '../utils';
 import { TUser } from '../app/auth/auth';
+import { TUserCredentials } from '../routes/Signup';
 
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
@@ -84,8 +85,23 @@ export const createUser = async (
 	}
 };
 
-export const signUp = async (
-	phone: string | null,
+export const signUpPhone = async (phone: string | null) => {
+	try {
+		const res: TUserCredentials = await sendRequestToServer(
+			'post',
+			'auth/signup-phone',
+			{
+				phone,
+			},
+		);
+		return res;
+	} catch (e: any) {
+		throw new Error('something went wrong');
+	}
+};
+
+export const signUpUsernameAndPassword = async (
+	userId: string | null,
 	password: string | null,
 	displayName: string,
 	verificationCode: string | null,
@@ -95,10 +111,10 @@ export const signUp = async (
 			throw new Error('You cannot pick this username');
 		const res: any = await sendRequestToServer(
 			'post',
-			'auth/signup',
+			'auth/signup-username-and-password',
 			{
 				username: displayName,
-				phone,
+				userId,
 				password,
 				verificationCode,
 			},
@@ -149,10 +165,27 @@ export const logout = createAsyncThunk(
 	},
 );
 
+export const verifyAnonymousUserPhone = async (data: {
+	phone: string;
+}) => {
+	try {
+		const res: TUserCredentials = await sendRequestToServer(
+			'post',
+			'auth/anonymous-send-verificationCode',
+			data,
+		);
+
+		return res;
+	} catch (e: any) {
+		throw new Error('Something went wrong!');
+	}
+};
+
 export const createAnonymousUser = async (data: {
 	name: string;
-	phone: string;
+	userId: string | null;
 	districtId: string;
+	verificationCode: string | null;
 }) => {
 	try {
 		const anonymousUser = await sendRequestToServer(

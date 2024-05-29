@@ -17,20 +17,29 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { TUser } from '../app/auth/auth';
-import { fetchUser, signUp } from '../controllers/user';
+import {
+	fetchUser,
+	signUpPhone,
+	signUpUsernameAndPassword,
+} from '../controllers/user';
 import ErrorComponent, { IError } from '../components/Error';
 import { LoadingButton } from '@mui/lab';
 import { checkPhoneValidity } from '../utils';
+
+export type TUserCredentials = {
+	userId: string;
+	verificationCode: string;
+};
 
 export default function SignUp() {
 	const [validated, setValidated] = useState(false);
 	const [isPhoneValid, setIsPhoneValid] = useState(false);
 	const [isVerificationCodeValid, setIsVerificationCodeValid] =
 		useState(false);
-	const [phone, setPhone] = useState<null | string>(null);
 	const [verificationCode, setVerificationCode] = useState<
 		null | string
 	>(null);
+	const [userId, setUserId] = useState<null | string>(null);
 	const [error, setError] = useState<IError>({
 		status: null,
 		message: '',
@@ -71,8 +80,8 @@ export default function SignUp() {
 				});
 			} else {
 				setIsLoading(true);
-				await signUp(
-					phone,
+				await signUpUsernameAndPassword(
+					userId,
 					passwordRef.current!.value,
 					usernameRef.current!.value,
 					verificationCode,
@@ -107,31 +116,34 @@ export default function SignUp() {
 				status: false,
 				message: 'رقم الهاتف صحيح',
 			});
-			setPhone(phoneRef.current?.value as string);
-			if (phoneRef.current) phoneRef.current.value = '';
+			const res: TUserCredentials = await signUpPhone(
+				phoneRef.current?.value as string,
+			);
+			setUserId(res?.userId);
+			setVerificationCode(res?.verificationCode);
+			phoneRef.current!.value = '';
 			setIsLoading(false);
 		}
 	};
 
 	const checkVerificationCode = (e: FormEvent) => {
 		e.preventDefault();
-		setIsVerificationCodeValid(true);
-		// if (!validity) {
-		// 	setError({
-		// 		status: true,
-		// 		message: 'رقم الهاتف غير صحيح',
-		// 	});
-		// } else {
-		// setError({
-		// 	status: false,
-		// 	message: 'رقم الهاتف صحيح',
-		// });
-		setVerificationCode(
-			verificationCodeRef.current?.value as string,
-		);
-		if (verificationCodeRef.current)
-			verificationCodeRef.current.value = '';
-		// }
+		if (
+			(verificationCodeRef.current?.value as string) !==
+			verificationCode
+		) {
+			setError({
+				status: true,
+				message: 'رمز التحقق غير صحيح',
+			});
+		} else {
+			setIsVerificationCodeValid(true);
+			setError({
+				status: false,
+				message: 'رقم التحقق صحيح',
+			});
+		}
+		verificationCodeRef.current!.value = '';
 	};
 
 	const handlePhoneChange = (e: ChangeEvent) => {
