@@ -90,8 +90,8 @@ export default function AnonymousUserForm({
 				});
 			setUserId(res?.userId);
 			setVerificationCode(res?.verificationCode);
-			setIsLoading(false);
 		}
+		setIsLoading(false);
 		verificationCodeRef.current!.value = '';
 	};
 

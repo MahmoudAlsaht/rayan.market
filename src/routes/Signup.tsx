@@ -121,13 +121,14 @@ export default function SignUp() {
 			);
 			setUserId(res?.userId);
 			setVerificationCode(res?.verificationCode);
-			phoneRef.current!.value = '';
-			setIsLoading(false);
 		}
+		setIsLoading(false);
+		verificationCodeRef.current!.value = '';
 	};
 
 	const checkVerificationCode = (e: FormEvent) => {
 		e.preventDefault();
+		setIsLoading(true);
 		if (
 			(verificationCodeRef.current?.value as string) !==
 			verificationCode
@@ -143,6 +144,7 @@ export default function SignUp() {
 				message: 'رقم التحقق صحيح',
 			});
 		}
+		setIsLoading(false);
 		verificationCodeRef.current!.value = '';
 	};
 
