@@ -29,7 +29,7 @@ export default function MobileBrandList({
 				{brands != null
 					? brands?.map((brand, index) =>
 							isHomePage ? (
-								index <= 6 && (
+								index < 6 && (
 									<MobileBrandCard
 										brand={brand}
 										key={brand?._id}

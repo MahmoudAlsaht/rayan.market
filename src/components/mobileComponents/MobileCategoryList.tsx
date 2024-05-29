@@ -29,7 +29,7 @@ export default function MobileCategoryList({
 				{categories != null
 					? categories?.map((category, index) =>
 							isHomePage ? (
-								index <= 6 && (
+								index < 6 && (
 									<MobileCategoryCard
 										category={category}
 										key={category?._id}

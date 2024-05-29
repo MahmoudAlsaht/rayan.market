@@ -17,7 +17,7 @@ export default function MobileBrandCard({
 }: MobileBrandCardProps) {
 	const navigate = useNavigate();
 	return (
-		<Grid xs={3}>
+		<Grid item xs={2.5}>
 			{brand?.image ? (
 				<Card
 					sx={{
