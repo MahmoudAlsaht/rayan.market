@@ -110,7 +110,7 @@ const ProductsList = memo(
 						container
 						sx={{
 							mt: 2,
-							mb: 5,
+							mb: 10,
 							display: {
 								sm: 'none',
 							},

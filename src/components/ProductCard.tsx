@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { TProduct } from '../app/store/product';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
@@ -20,7 +20,7 @@ import {
 	checkIfProductInCart,
 	findCartProduct,
 } from '../controllers/cart';
-import { Avatar, Link, Skeleton } from '@mui/material';
+import { Avatar, Button, Link, Skeleton } from '@mui/material';
 import { updateProductViews } from '../controllers/product';
 
 type ProductCardProps = {
@@ -177,12 +177,13 @@ export default function ProductCard({
 							</IconButton>
 						</legend>
 					) : (
-						<IconButton
+						<Button
 							aria-label='add to cart'
 							onClick={handleAddProduct}
 						>
-							<AddShoppingCartIcon />
-						</IconButton>
+							أضف للعربة
+							<ShoppingCartIcon />
+						</Button>
 					)}
 				</CardActions>
 			</Card>

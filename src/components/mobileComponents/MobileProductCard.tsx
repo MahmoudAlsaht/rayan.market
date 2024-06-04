@@ -28,7 +28,7 @@ import {
 } from '../../controllers/cart';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
 import { updateProductViews } from '../../controllers/product';
 
@@ -260,7 +260,8 @@ export default function MobileProductCard({
 							variant='outlined'
 							fullWidth
 						>
-							<AddShoppingCartIcon
+							أضف للعربة
+							<ShoppingCartIcon
 								sx={{ fontSize: 11 }}
 							/>
 						</Button>

@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchProduct } from '../../controllers/product';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import {
 	TCart,
@@ -262,8 +262,11 @@ const ShowProduct = memo(() => {
 									>
 										{!isProductInCart ? (
 											<span>
-												أضف للعربة
-												<AddShoppingCartIcon />
+												<span>
+													{' '}
+													أضف للعربة
+												</span>
+												<ShoppingCartIcon />
 											</span>
 										) : (
 											<span>
