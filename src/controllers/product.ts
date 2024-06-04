@@ -104,6 +104,8 @@ export const createProduct = createAsyncThunk(
 		startDate: string | undefined;
 		endDate: string | undefined;
 		isEndDate: boolean;
+		productType: string;
+		description: string;
 	}) => {
 		const {
 			name,
@@ -119,6 +121,8 @@ export const createProduct = createAsyncThunk(
 			startDate,
 			endDate,
 			isEndDate,
+			productType,
+			description,
 		} = option;
 
 		try {
@@ -126,6 +130,8 @@ export const createProduct = createAsyncThunk(
 
 			formData.append('file', image as File);
 			formData.append('name', name);
+			formData.append('productType', productType);
+			formData.append('description', description);
 			formData.append('categoryId', categoryId);
 			formData.append('brandId', brandId);
 			formData.append('price', `${parseFloat(price)}`);
@@ -190,12 +196,14 @@ export const updateProduct = createAsyncThunk(
 				startDate,
 				endDate,
 				isEndDate,
+				description,
 			} = options.data;
 
 			const formData = new FormData();
 
 			formData.append('file', image as File);
 			formData.append('name', name);
+			formData.append('description', description);
 			formData.append('categoryId', categoryId);
 			formData.append('brandId', brandId);
 			formData.append('price', `${parseFloat(price)}`);

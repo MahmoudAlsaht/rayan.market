@@ -114,6 +114,9 @@ export const filterData = (products: any[], query: string) => {
 			data?.name
 				?.toLowerCase()
 				.includes(escapeRegExp(query?.toLowerCase())) ||
+			data?.optionName
+				?.toLowerCase()
+				.includes(escapeRegExp(query?.toLowerCase())) ||
 			data?.username
 				?.toLowerCase()
 				.includes(escapeRegExp(query?.toLowerCase()))

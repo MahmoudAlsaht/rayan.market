@@ -37,11 +37,19 @@ import LabelInput from './LabelInput';
 import { TLabel } from '../../controllers/label';
 import { Dayjs } from 'dayjs';
 import ProductOfferHandling from './ProductOfferHandling';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 type AddProductFormProps = {
 	show: boolean;
 	handleClose: () => void;
 };
+
+const productTypes = [
+	{ option: 'normal', displayName: 'عادي' },
+	{ option: 'electrical', displayName: 'أجهزة كهربائية' },
+	{ option: 'home', displayName: 'منزلي' },
+	{ option: 'options', displayName: 'أصناف' },
+];
 
 function AddProductForm({
 	show,
@@ -89,8 +97,10 @@ function AddProductForm({
 	const productPriceRef = useRef<HTMLInputElement>(null);
 	const productNewPriceRef = useRef<HTMLInputElement>(null);
 	const productQuantityRef = useRef<HTMLInputElement>(null);
+	const descRef = useRef<HTMLTextAreaElement>(null);
 	const [categoryValue, setCategoryValue] = useState('');
 	const [brandValue, setBrandValue] = useState('');
+	const [productType, setProductType] = useState('');
 	const offerExpiresDateRef = useRef<HTMLInputElement>(null);
 
 	const handleIsOffer = () => setIsOffer(!isOffer);
@@ -100,20 +110,17 @@ function AddProductForm({
 	const handleChange = () => {
 		if (
 			productNameRef.current?.value === '' ||
-			categoryValue === '' ||
-			brandValue === '' ||
-			productPriceRef.current?.value === '' ||
 			productQuantityRef.current?.value === ''
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'الرجاء قم بملئ جميع الحقول',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
@@ -141,13 +148,16 @@ function AddProductForm({
 			const form = e.currentTarget as HTMLFormElement;
 			if (form.checkValidity() === false) {
 				setError({
-					status: false,
+					status: true,
 					message: 'invalid fields',
 				});
 			} else {
 				await dispatch(
 					createProduct({
 						name: productNameRef.current
+							?.value as string,
+						productType: productType,
+						description: descRef.current
 							?.value as string,
 						categoryId: categoryValue,
 						brandId: brandValue,
@@ -183,11 +193,12 @@ function AddProductForm({
 				setPreviewImage(null);
 				setStartOfferDate(null);
 				setEndOfferDate(null);
+				setSelectedLabels(null);
 			}
 		} catch (e: any) {
 			setError({
 				status: true,
-				message: e.message,
+				message: 'Some thing went wrong',
 			});
 			setIsLoading(false);
 		}
@@ -214,6 +225,36 @@ function AddProductForm({
 				<Box component='form' noValidate>
 					<DialogContent>
 						<ErrorComponent error={error} />
+						<FormControl
+							sx={{ mx: 5, minWidth: 120 }}
+						>
+							<InputLabel id='selectType'>
+								نوع المنتج
+							</InputLabel>
+							<Select
+								labelId='selectType'
+								id='type-select'
+								value={productType}
+								onChange={(
+									e: SelectChangeEvent,
+								) => {
+									setProductType(
+										e.target.value as string,
+									);
+									handleChange();
+								}}
+								label='اختر النوع'
+							>
+								{productTypes?.map((type) => (
+									<MenuItem
+										value={type.option}
+										key={type.option}
+									>
+										{type?.displayName}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
 
 						<FormControl
 							sx={{ mx: 5, minWidth: 120 }}
@@ -305,13 +346,26 @@ function AddProductForm({
 
 						<FormGroup sx={{ m: 5 }}>
 							<TextField
-								required
 								onChange={handleChange}
 								type='number'
 								label='السعر'
 								inputRef={productPriceRef}
 							/>
 						</FormGroup>
+
+						{productType === 'electrical' && (
+							<FormGroup sx={{ m: 5 }}>
+								<TextareaAutosize
+									aria-label='minimum height'
+									minRows={5}
+									placeholder='وصف المنتج'
+									ref={descRef}
+									style={{
+										fontSize: '1.5rem',
+									}}
+								/>
+							</FormGroup>
+						)}
 
 						<LabelInput
 							selectedLabels={selectedLabels}
@@ -378,6 +432,7 @@ function AddProductForm({
 							)}
 						</div>
 					</DialogContent>
+
 					<DialogActions>
 						<Button
 							variant='outlined'

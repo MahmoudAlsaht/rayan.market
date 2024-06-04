@@ -253,7 +253,7 @@ export default function PaymentMethods({
 
 				{promo != null ? (
 					cart?.totalPrice * (promo?.discount / 100) >=
-					3 ? (
+					4 ? (
 						<LoadingButton
 							size='large'
 							startIcon='أكمل الطلب'

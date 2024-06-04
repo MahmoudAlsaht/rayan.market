@@ -48,6 +48,7 @@ import PromosActions from './routes/dashboard/PromosActions';
 import DistrictsActions from './routes/dashboard/DistrictsActions';
 import TopViews from './routes/store/TopViews';
 import TopPurchases from './routes/store/TopPurchases';
+import ProductOptionsActions from './routes/dashboard/ProductOptionsActions';
 
 export const Router = createBrowserRouter([
 	{
@@ -191,6 +192,10 @@ export const Router = createBrowserRouter([
 					{
 						path: 'settings/products',
 						element: <ProductsSettings />,
+					},
+					{
+						path: 'settings/products/:productId/productOptions',
+						element: <ProductOptionsActions />,
 					},
 					{
 						path: 'settings/orders',

@@ -90,6 +90,9 @@ const ProductsSettings = memo(() => {
 									key={product?._id}
 									product={product as TProduct}
 									index={index}
+									productType={
+										product?.productType
+									}
 								/>
 							),
 						)}

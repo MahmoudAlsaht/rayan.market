@@ -58,7 +58,7 @@ export default function MobileBrandList({
 								ml: 2,
 								height: '40px',
 								width: '40px',
-								borderRadius: '50%',
+								borderRadius: '20%',
 								display: 'flex',
 								flexDirection: 'column',
 								alignItems: 'center',

@@ -21,7 +21,7 @@ export default function CategoryCard({
 					sx={{
 						width: { sm: 80, md: 100 },
 						height: { sm: 80, md: 100 },
-						borderRadius: '50%',
+						borderRadius: '20%',
 						border: '1px solid #07a180',
 						display: 'flex',
 						flexDirection: 'column',
@@ -58,7 +58,7 @@ export default function CategoryCard({
 								lg: 150,
 							},
 							mr: 2,
-							borderRadius: '50%',
+							borderRadius: '20%',
 							cursor: 'pointer',
 							transition:
 								'transform .5s ease-in-out',

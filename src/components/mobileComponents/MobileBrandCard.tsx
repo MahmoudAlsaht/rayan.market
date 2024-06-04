@@ -24,9 +24,9 @@ export default function MobileBrandCard({
 						mx: 1,
 						mb: 1,
 						height: '70px',
-						width: '70px',
+						width: '65px',
 						background: 'none',
-						borderRadius: '50%',
+						borderRadius: '20%',
 					}}
 				>
 					<Avatar

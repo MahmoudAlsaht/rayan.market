@@ -18,9 +18,9 @@ export default function BrandCard({ brand }: BrandCardProps) {
 						navigate(`/brands/${brand?._id}`)
 					}
 					sx={{
-						width: { sm: 80, md: 100 },
+						width: { sm: 75, md: 95 },
 						height: { sm: 80, md: 100 },
-						borderRadius: '50%',
+						borderRadius: '20%',
 						border: '1px solid #07a180',
 						display: 'flex',
 						flexDirection: 'column',
@@ -57,7 +57,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
 								lg: 150,
 							},
 							mr: 2,
-							borderRadius: '50%',
+							borderRadius: '20%',
 							cursor: 'pointer',
 							transition:
 								'transform .5s ease-in-out',

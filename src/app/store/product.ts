@@ -40,6 +40,8 @@ export type TProduct = {
 	views: number;
 	numberOfPurchases: number;
 	labels?: TLabel[] | null;
+	productType: string;
+	description?: string;
 };
 
 const initialState: (TProduct | null)[] = [];

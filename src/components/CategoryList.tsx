@@ -80,7 +80,7 @@ export default function CategoryList({
 										sm: 50,
 										lg: 70,
 									},
-									borderRadius: '50%',
+									borderRadius: '20%',
 									display: 'flex',
 									flexDirection: 'column',
 									alignItems: 'center',

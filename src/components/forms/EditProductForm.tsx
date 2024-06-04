@@ -26,6 +26,7 @@ import {
 	Select,
 	SelectChangeEvent,
 	TextField,
+	TextareaAutosize,
 	Typography,
 } from '@mui/material';
 import { TBrand } from '../../app/store/brand';
@@ -107,6 +108,7 @@ function EditProductForm({
 	const productNewPriceRef = useRef<HTMLInputElement>(null);
 	const productQuantityRef = useRef<HTMLInputElement>(null);
 	const offerExpiresDateRef = useRef<HTMLInputElement>(null);
+	const descRef = useRef<HTMLTextAreaElement>(null);
 	const [categoryValue, setCategoryValue] = useState('');
 	const [brandValue, setBrandValue] = useState('');
 
@@ -117,7 +119,7 @@ function EditProductForm({
 			const form = e.currentTarget as HTMLFormElement;
 			if (form.checkValidity() === false) {
 				setError({
-					status: false,
+					status: true,
 					message: 'invalid fields',
 				});
 			} else {
@@ -154,6 +156,7 @@ function EditProductForm({
 									'YYYY-MM-DD',
 								),
 							isEndDate,
+							description: descRef.current?.value,
 						},
 					}),
 				);
@@ -314,6 +317,24 @@ function EditProductForm({
 								defaultValue={product?.price}
 							/>
 						</FormGroup>
+
+						{product?.productType ===
+							'electrical' && (
+							<FormGroup sx={{ m: 5 }}>
+								<TextareaAutosize
+									aria-label='minimum height'
+									minRows={5}
+									placeholder='وصف المنتج'
+									ref={descRef}
+									style={{
+										fontSize: '1.5rem',
+									}}
+									defaultValue={
+										product?.description
+									}
+								/>
+							</FormGroup>
+						)}
 
 						<LabelInput
 							selectedLabels={selectedLabels}
