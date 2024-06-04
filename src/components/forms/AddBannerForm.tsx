@@ -96,13 +96,13 @@ function AddBannerForm({
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'الرجاء قم بملئ جميع الحقول',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
@@ -116,13 +116,13 @@ function AddBannerForm({
 			setSelectedImages(null);
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'You can upload Up To 4 images',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 			await setSelectedImages(e.target.files);
@@ -145,7 +145,7 @@ function AddBannerForm({
 			const form = e.currentTarget as HTMLFormElement;
 			if (form.checkValidity() === false) {
 				setError({
-					status: false,
+					status: true,
 					message: 'invalid fields',
 				});
 			} else {

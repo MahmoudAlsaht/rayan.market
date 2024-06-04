@@ -1,9 +1,15 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { updateImageLink } from '../../controllers/banner';
 import { TBannerImage } from '../../app/store/banner';
 import PreviewImage from '../dashboardComponents/PreviewImage';
 import { useAppDispatch } from '../../app/hooks';
-import { FormGroup, Grid, TextField } from '@mui/material';
+import {
+	FormControlLabel,
+	FormGroup,
+	Grid,
+	Switch,
+	TextField,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 type AddImageLinkProps = {
@@ -23,6 +29,14 @@ function AddImageLink({
 	const imageLink = useRef<HTMLInputElement | null>(null);
 	const dispatch = useAppDispatch();
 
+	const [showForMobile, setShowForMobile] = useState(
+		image?.showForMobile,
+	);
+
+	const handleSetShowForMobile = () => {
+		setShowForMobile(!showForMobile);
+	};
+
 	const handleAddALink = async (imageId: string) => {
 		try {
 			setIsLoading(true);
@@ -31,6 +45,7 @@ function AddImageLink({
 					bannerId,
 					imageId,
 					link: imageLink.current?.value as string,
+					showForMobile: showForMobile as boolean,
 				}),
 			);
 
@@ -54,6 +69,25 @@ function AddImageLink({
 					/>
 				</Grid>
 				<Grid xs={12} md={6}>
+					<FormGroup>
+						<FormControlLabel
+							control={
+								<Switch
+									type='switch'
+									id='custom-switch'
+									checked={showForMobile}
+									onClick={
+										handleSetShowForMobile
+									}
+								/>
+							}
+							label={
+								showForMobile
+									? ' فقط للهواتف'
+									: 'فقط للويب'
+							}
+						/>
+					</FormGroup>
 					<FormGroup sx={{ mr: 2 }}>
 						<TextField
 							type='text'
@@ -64,7 +98,7 @@ function AddImageLink({
 					</FormGroup>
 				</Grid>
 				<Grid xs={12} md={2}>
-					<FormGroup sx={{ mt: 2, mr: 2 }}>
+					<FormGroup sx={{ mt: 6, mr: 2 }}>
 						<LoadingButton
 							color='primary'
 							variant='outlined'

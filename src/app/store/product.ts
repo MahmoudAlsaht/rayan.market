@@ -15,6 +15,7 @@ export type TImage = {
 	filename: string;
 	path: string;
 	imageType: string;
+	showForMobile?: boolean;
 };
 
 export type TProductImage = TImage & {

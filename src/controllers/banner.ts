@@ -107,15 +107,17 @@ export const updateImageLink = createAsyncThunk(
 		bannerId: string;
 		imageId: string;
 		link: string;
+		showForMobile: boolean;
 	}) => {
 		try {
-			const { bannerId, imageId, link } = options;
+			const { bannerId, imageId, link, showForMobile } =
+				options;
 
 			const banner: TBanner | null =
 				await sendRequestToServer(
 					'PUT',
 					`banner/${bannerId}/images/${imageId}`,
-					{ link },
+					{ link, showForMobile },
 				);
 
 			return banner;
