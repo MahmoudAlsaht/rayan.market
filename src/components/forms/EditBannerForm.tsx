@@ -284,22 +284,26 @@ function EditBannerForm({
 									</Typography>
 									{bannerImages?.map(
 										(image) => (
-											<AddImageLink
+											<Box
 												key={image?._id}
-												image={image}
-												bannerId={
-													banner?._id as string
-												}
-												setIsLoading={
-													setIsLoading
-												}
-												isLoading={
-													isLoading
-												}
-												handleRemoveBannerImages={
-													handleRemoveBannerImages
-												}
-											/>
+												sx={{ mb: 5 }}
+											>
+												<AddImageLink
+													image={image}
+													bannerId={
+														banner?._id as string
+													}
+													setIsLoading={
+														setIsLoading
+													}
+													isLoading={
+														isLoading
+													}
+													handleRemoveBannerImages={
+														handleRemoveBannerImages
+													}
+												/>
+											</Box>
 										),
 									)}
 								</legend>

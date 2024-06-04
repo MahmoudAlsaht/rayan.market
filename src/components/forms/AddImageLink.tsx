@@ -98,7 +98,9 @@ function AddImageLink({
 					</FormGroup>
 				</Grid>
 				<Grid xs={12} md={2}>
-					<FormGroup sx={{ mt: 6, mr: 2 }}>
+					<FormGroup
+						sx={{ mt: { xs: 2, sm: 6 }, mr: 2 }}
+					>
 						<LoadingButton
 							color='primary'
 							variant='outlined'
