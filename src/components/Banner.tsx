@@ -75,10 +75,6 @@ function Banner({ banner }: { banner: TBanner | null }) {
 										>
 											<Paper
 												sx={{
-													backgroundColor:
-														!image?.path
-															? 'none'
-															: '#07a180',
 													width: '100%',
 													height: {
 														xs: '190px',
@@ -177,10 +173,6 @@ function Banner({ banner }: { banner: TBanner | null }) {
 											>
 												<Paper
 													sx={{
-														backgroundColor:
-															!image?.path
-																? 'none'
-																: '#07a180',
 														width: '100%',
 														height: {
 															xs: '190px',
