@@ -268,8 +268,16 @@ const ShowProduct = memo(() => {
 												'line-through',
 										}}
 									>
-										{product?.price} JOD
+										{parseFloat(
+											product?.price as string,
+										) === 0
+											? 'السعر حسب الاختيار'
+											: `${product?.price} JOD`}
 									</span>
+								) : parseFloat(
+										product?.price as string,
+								  ) === 0 ? (
+									'السعر حسب الاختيار'
 								) : (
 									`${product?.price} JOD`
 								)}
@@ -282,7 +290,11 @@ const ShowProduct = memo(() => {
 										fontSize: 20,
 									}}
 								>
-									{product?.newPrice} JOD
+									{parseFloat(
+										product?.newPrice as string,
+									) === 0
+										? 'السعر حسب الاختيار'
+										: `${product?.newPrice} JOD`}
 								</Typography>
 							)}
 
