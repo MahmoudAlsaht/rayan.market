@@ -264,11 +264,11 @@ export default function PaymentMethods({
 						/>
 					) : (
 						<Typography variant='h6' color='error'>
-							يجب ان تكون قيمة سلتك 3 دنانير على
+							يجب ان تكون قيمة سلتك 4 دنانير على
 							الأقل
 						</Typography>
 					)
-				) : cart?.totalPrice >= 3 ? (
+				) : cart?.totalPrice >= 4 ? (
 					<LoadingButton
 						size='large'
 						startIcon='أكمل الطلب'
@@ -279,7 +279,7 @@ export default function PaymentMethods({
 					/>
 				) : (
 					<Typography variant='h6' color='error'>
-						يجب ان تكون قيمة سلتك 3 دنانير على الأقل
+						يجب ان تكون قيمة سلتك 4 دنانير على الأقل
 					</Typography>
 				)}
 			</FormControl>

@@ -5,8 +5,8 @@ export type TProductOption = {
 	_id: string;
 	type: string;
 	optionName: string;
-	price?: number | null;
-	quantity?: number | null;
+	price?: string;
+	quantity?: string;
 	product: TProduct;
 	description?: string | null;
 };
@@ -20,6 +20,26 @@ export const getProductOptions = async (productId: string) => {
 			);
 
 		return productOptions;
+	} catch (e: any) {
+		throw new Error(e);
+	}
+};
+
+export const getOption = async ({
+	productId,
+	productOptionId,
+}: {
+	productId: string;
+	productOptionId: string;
+}) => {
+	try {
+		const productOption: TProductOption | null =
+			await sendRequestToServer(
+				'get',
+				`product/${productId}/product-options/${productOptionId}`,
+			);
+
+		return productOption;
 	} catch (e: any) {
 		throw new Error(e);
 	}

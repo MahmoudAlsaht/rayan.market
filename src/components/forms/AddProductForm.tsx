@@ -256,73 +256,109 @@ function AddProductForm({
 							</Select>
 						</FormControl>
 
-						<FormControl
-							sx={{ mx: 5, minWidth: 120 }}
-						>
-							<InputLabel id='selectCategory'>
-								القسم
-							</InputLabel>
-							<Select
-								labelId='selectCategory'
-								id='category-select'
-								value={categoryValue}
-								onChange={(
-									e: SelectChangeEvent,
-								) => {
-									setCategoryValue(
-										e.target.value as string,
-									);
-									handleChange();
-								}}
-								label='اختر القسم'
-							>
-								<MenuItem value=''>
-									<em>اختر القسم</em>
-								</MenuItem>
-								{categories?.map((category) => (
-									<MenuItem
-										value={category?._id}
-										key={category?._id}
+						{productType !== 'home' &&
+							productType !== 'electrical' && (
+								<legend
+									style={{ marginTop: '1rem' }}
+								>
+									<FormControl
+										sx={{
+											mx: 5,
+											minWidth: 120,
+										}}
 									>
-										{category?.name}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+										<InputLabel id='selectCategory'>
+											القسم
+										</InputLabel>
+										<Select
+											labelId='selectCategory'
+											id='category-select'
+											value={categoryValue}
+											onChange={(
+												e: SelectChangeEvent,
+											) => {
+												setCategoryValue(
+													e.target
+														.value as string,
+												);
+												handleChange();
+											}}
+											label='اختر القسم'
+										>
+											<MenuItem value=''>
+												<em>
+													اختر القسم
+												</em>
+											</MenuItem>
+											{categories?.map(
+												(category) => (
+													<MenuItem
+														value={
+															category?._id
+														}
+														key={
+															category?._id
+														}
+													>
+														{
+															category?.name
+														}
+													</MenuItem>
+												),
+											)}
+										</Select>
+									</FormControl>
 
-						<FormControl
-							sx={{ mx: 5, minWidth: 120 }}
-						>
-							<InputLabel id='selectBrand'>
-								العلامة التجارية
-							</InputLabel>
-							<Select
-								labelId='selectBrand'
-								id='brand-select'
-								value={brandValue}
-								onChange={(
-									e: SelectChangeEvent,
-								) => {
-									setBrandValue(
-										e.target.value as string,
-									);
-									handleChange();
-								}}
-								label='اختر علامة تجارية'
-							>
-								<MenuItem value=''>
-									<em>اختر علامة تجارية</em>
-								</MenuItem>
-								{brands?.map((brand) => (
-									<MenuItem
-										value={brand?._id}
-										key={brand?._id}
+									<FormControl
+										sx={{
+											mx: 5,
+											minWidth: 120,
+										}}
 									>
-										{brand?.name}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+										<InputLabel id='selectBrand'>
+											العلامة التجارية
+										</InputLabel>
+										<Select
+											labelId='selectBrand'
+											id='brand-select'
+											value={brandValue}
+											onChange={(
+												e: SelectChangeEvent,
+											) => {
+												setBrandValue(
+													e.target
+														.value as string,
+												);
+												handleChange();
+											}}
+											label='اختر علامة تجارية'
+										>
+											<MenuItem value=''>
+												<em>
+													اختر علامة
+													تجارية
+												</em>
+											</MenuItem>
+											{brands?.map(
+												(brand) => (
+													<MenuItem
+														value={
+															brand?._id
+														}
+														key={
+															brand?._id
+														}
+													>
+														{
+															brand?.name
+														}
+													</MenuItem>
+												),
+											)}
+										</Select>
+									</FormControl>
+								</legend>
+							)}
 
 						<FormGroup sx={{ m: 5 }}>
 							<TextField

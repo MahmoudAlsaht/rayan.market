@@ -30,12 +30,21 @@ import {
 	Grid,
 	Avatar,
 	Box,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+	SelectChangeEvent,
 } from '@mui/material';
 import MainMobileNavBar from './MainMobileNavBar';
 import ProductListPreview from '../../components/ProductListPreview';
 import { fetchUser } from '../../controllers/user';
 import { TUser } from '../../app/auth/auth';
 import EditProductForm from '../../components/forms/EditProductForm';
+import {
+	TProductOption,
+	getOption,
+} from '../../controllers/productOptions';
 
 const ShowProduct = memo(() => {
 	const { productId } = useParams();
@@ -45,6 +54,10 @@ const ShowProduct = memo(() => {
 	const handleClickEditProduct = () => {
 		setShowEditProductForm(!showEditProductForm);
 	};
+
+	const [optionValue, setOptionValue] = useState('');
+	const [selectedOption, setSelectedOption] =
+		useState<TProductOption | null>(null);
 
 	const [product, setProduct] = useState<TProduct | null>();
 	const [isProductInCart, setIsProductInCart] =
@@ -92,25 +105,46 @@ const ShowProduct = memo(() => {
 	};
 
 	const handleAddToCart = () => {
-		if (product)
-			dispatch(
-				addToCart({
-					_id: productId,
-					name: product?.name,
-					price: product?.price,
-					imageUrl: product?.productImage
-						?.path as string,
-					quantity: product?.quantity,
-					counter: 1,
-				}),
-			);
-
 		dispatch(
-			updateTotalPrice(
-				(product?.newPrice as string) ||
-					(product?.price as string),
-			),
+			addToCart({
+				_id: productId,
+				name: selectedOption
+					? `${product?.name}-(${selectedOption?.optionName})`
+					: product?.name,
+				price:
+					selectedOption &&
+					selectedOption?.type === 'flavor'
+						? product?.price
+						: selectedOption?.price,
+				imageUrl: product?.productImage?.path as string,
+				quantity:
+					selectedOption &&
+					selectedOption?.type === 'flavor'
+						? selectedOption?.quantity
+						: product?.quantity,
+				counter: 1,
+			}),
 		);
+
+		selectedOption
+			? selectedOption?.type !== 'flavor'
+				? dispatch(
+						updateTotalPrice(
+							selectedOption?.price as string,
+						),
+				  )
+				: dispatch(
+						updateTotalPrice(
+							(product?.newPrice as string) ||
+								(product?.price as string),
+						),
+				  )
+			: dispatch(
+					updateTotalPrice(
+						(product?.newPrice as string) ||
+							(product?.price as string),
+					),
+			  );
 	};
 
 	useEffect(() => {
@@ -145,6 +179,17 @@ const ShowProduct = memo(() => {
 		setIsProductInCart,
 	]);
 
+	const handleAddOption = (e: SelectChangeEvent) => {
+		setOptionValue(e.target.value as string);
+		const fetchOption = async () => {
+			const fetchedOption = await getOption({
+				productId: productId as string,
+				productOptionId: e.target.value as string,
+			});
+			setSelectedOption(fetchedOption);
+		};
+		fetchOption();
+	};
 	return (
 		<main dir='rtl'>
 			<Box sx={{ display: { sm: 'none' } }}>
@@ -241,6 +286,47 @@ const ShowProduct = memo(() => {
 								</Typography>
 							)}
 
+							{product?.productType ===
+								'options' && (
+								<FormControl
+									sx={{
+										minWidth: 120,
+									}}
+								>
+									<InputLabel id='selectOption'>
+										اختر فئة
+									</InputLabel>
+									<Select
+										labelId='selectOption'
+										id='option-select'
+										value={optionValue}
+										onChange={
+											handleAddOption
+										}
+										label='اختر القسم'
+									>
+										<MenuItem value=''>
+											<em>اختر فئة</em>
+										</MenuItem>
+										{product?.productOptions?.map(
+											(option) => (
+												<MenuItem
+													value={
+														option?._id
+													}
+													key={
+														option?._id
+													}
+												>
+													{
+														option?.optionName
+													}
+												</MenuItem>
+											),
+										)}
+									</Select>
+								</FormControl>
+							)}
 							<Grid
 								container
 								sx={{
@@ -248,33 +334,82 @@ const ShowProduct = memo(() => {
 									mb: 10,
 								}}
 							>
-								<Grid xs={12} sm={8}>
-									<Button
-										variant='outlined'
-										fullWidth
-										onClick={handleAddToCart}
-										disabled={
-											isProductInCart ||
-											parseInt(
-												product?.quantity as string,
-											) === 0
-										}
+								{product?.productType ===
+									'electrical' && (
+									<Typography
+										color='black'
+										sx={{ mb: 2 }}
 									>
-										{!isProductInCart ? (
-											<span>
+										{product?.description}
+									</Typography>
+								)}
+
+								<Grid xs={12} sm={8}>
+									{product?.productType ===
+									'options' ? (
+										optionValue ===
+										'' ? null : (
+											<Button
+												variant='outlined'
+												fullWidth
+												onClick={
+													handleAddToCart
+												}
+												disabled={
+													isProductInCart ||
+													parseInt(
+														product?.quantity as string,
+													) === 0
+												}
+											>
+												{!isProductInCart ? (
+													<span>
+														<span>
+															{' '}
+															أضف
+															للعربة
+														</span>
+														<ShoppingCartIcon />
+													</span>
+												) : (
+													<span>
+														في العربة
+														<CheckIcon />
+													</span>
+												)}
+											</Button>
+										)
+									) : (
+										<Button
+											variant='outlined'
+											fullWidth
+											onClick={
+												handleAddToCart
+											}
+											disabled={
+												isProductInCart ||
+												parseInt(
+													product?.quantity as string,
+												) === 0
+											}
+										>
+											{!isProductInCart ? (
 												<span>
-													{' '}
-													أضف للعربة
+													<span>
+														{' '}
+														أضف
+														للعربة
+													</span>
+													<ShoppingCartIcon />
 												</span>
-												<ShoppingCartIcon />
-											</span>
-										) : (
-											<span>
-												في العربة
-												<CheckIcon />
-											</span>
-										)}
-									</Button>
+											) : (
+												<span>
+													في العربة
+													<CheckIcon />
+												</span>
+											)}
+										</Button>
+									)}
 								</Grid>
 								{isProductInCart && (
 									<Grid>

@@ -212,84 +212,121 @@ function EditProductForm({
 						</Typography>
 						<ErrorComponent error={error} />
 
-						<FormControl
-							sx={{ mx: 5, minWidth: 120 }}
-						>
-							<InputLabel id='selectCategory'>
-								{categories?.map(
-									(category) =>
-										category?._id ===
-											product?.category
-												?._id &&
-										category?.name,
-								)}
-							</InputLabel>
-
-							<Select
-								labelId='selectCategory'
-								id='category-select'
-								value={categoryValue}
-								onChange={(
-									e: SelectChangeEvent,
-								) =>
-									setCategoryValue(
-										e.target.value as string,
-									)
-								}
-								label='اختر القسم'
-							>
-								<MenuItem value=''>
-									<em>اختر القسم</em>
-								</MenuItem>
-								{categories?.map((category) => (
-									<MenuItem
-										value={category?._id}
-										key={category?._id}
+						{product?.productType !== 'home' &&
+							product?.productType !==
+								'electrical' && (
+								<legend>
+									<FormControl
+										sx={{
+											mx: 5,
+											minWidth: 120,
+										}}
 									>
-										{category?.name}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+										<InputLabel id='selectCategory'>
+											{categories?.map(
+												(category) =>
+													category?._id ===
+														product
+															?.category
+															?._id &&
+													category?.name,
+											)}
+										</InputLabel>
 
-						<FormControl
-							sx={{ mx: 5, minWidth: 120 }}
-						>
-							<InputLabel id='selectBrand'>
-								{brands?.map(
-									(brand) =>
-										brand?._id ===
-											product?.brand
-												?._id &&
-										brand?.name,
-								)}
-							</InputLabel>
-							<Select
-								labelId='selectBrand'
-								id='brand-select'
-								value={brandValue}
-								onChange={(
-									e: SelectChangeEvent,
-								) =>
-									setBrandValue(
-										e.target.value as string,
-									)
-								}
-								label='اختر علامة تجارية'
-							>
-								<MenuItem value=''>
-									<em>اختر علامة تجارية</em>
-								</MenuItem>
-								{brands?.map((brand) => (
-									<MenuItem
-										value={brand?._id}
-										key={brand?._id}
+										<Select
+											labelId='selectCategory'
+											id='category-select'
+											value={categoryValue}
+											onChange={(
+												e: SelectChangeEvent,
+											) =>
+												setCategoryValue(
+													e.target
+														.value as string,
+												)
+											}
+											label='اختر القسم'
+										>
+											<MenuItem value=''>
+												<em>
+													اختر القسم
+												</em>
+											</MenuItem>
+											{categories?.map(
+												(category) => (
+													<MenuItem
+														value={
+															category?._id
+														}
+														key={
+															category?._id
+														}
+													>
+														{
+															category?.name
+														}
+													</MenuItem>
+												),
+											)}
+										</Select>
+									</FormControl>
+
+									<FormControl
+										sx={{
+											mx: 5,
+											minWidth: 120,
+										}}
 									>
-										{brand?.name}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+										<InputLabel id='selectBrand'>
+											{brands?.map(
+												(brand) =>
+													brand?._id ===
+														product
+															?.brand
+															?._id &&
+													brand?.name,
+											)}
+										</InputLabel>
+										<Select
+											labelId='selectBrand'
+											id='brand-select'
+											value={brandValue}
+											onChange={(
+												e: SelectChangeEvent,
+											) =>
+												setBrandValue(
+													e.target
+														.value as string,
+												)
+											}
+											label='اختر علامة تجارية'
+										>
+											<MenuItem value=''>
+												<em>
+													اختر علامة
+													تجارية
+												</em>
+											</MenuItem>
+											{brands?.map(
+												(brand) => (
+													<MenuItem
+														value={
+															brand?._id
+														}
+														key={
+															brand?._id
+														}
+													>
+														{
+															brand?.name
+														}
+													</MenuItem>
+												),
+											)}
+										</Select>
+									</FormControl>
+								</legend>
+							)}
 
 						<FormGroup sx={{ m: 5 }}>
 							<TextField
