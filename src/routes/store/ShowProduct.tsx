@@ -303,6 +303,7 @@ const ShowProduct = memo(() => {
 								<FormControl
 									sx={{
 										minWidth: 120,
+										my: 2,
 									}}
 								>
 									<InputLabel id='selectOption'>
