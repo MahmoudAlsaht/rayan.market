@@ -4,6 +4,7 @@ import {
 	Box,
 	Grid,
 	IconButton,
+	Tab,
 	TextField,
 	Toolbar,
 	Typography,
@@ -14,6 +15,7 @@ import {
 	FormEvent,
 	useMemo,
 	useEffect,
+	SyntheticEvent,
 } from 'react';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { TProduct } from '../../app/store/product';
@@ -31,10 +33,26 @@ import {
 } from '../../utils';
 import { fetchCategories } from '../../controllers/category';
 import { fetchBrands } from '../../controllers/brand';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { fetchBannerByType } from '../../controllers/banner';
+import { TBanner } from '../../app/store/banner';
+import Banner from '../../components/Banner';
 
 export default function MobileSearch() {
+	const [value, setValue] = useState('all');
 	const [queryInput, setQueryInput] = useState('');
 	const [priceFilter, setPriceFilter] = useState<string>('');
+	const [offerBanner, setOfferBanner] =
+		useState<TBanner | null>(null);
+	const [homeProducts, setHomeProductsBanner] =
+		useState<TBanner | null>(null);
+
+	const handleTabChange = (
+		event: SyntheticEvent,
+		newValue: string,
+	) => {
+		setValue(newValue);
+	};
 
 	const navigate = useNavigate();
 	const handleQueryChange = (
@@ -76,6 +94,21 @@ export default function MobileSearch() {
 		dispatch(fetchProducts());
 		dispatch(fetchCategories());
 		dispatch(fetchBrands());
+		const getOffersBanner = async () => {
+			const fetchedBanner = await fetchBannerByType(
+				'offers',
+			);
+			setOfferBanner(fetchedBanner);
+		};
+		getOffersBanner();
+
+		const getHomeProductsBanner = async () => {
+			const fetchedBanner = await fetchBannerByType(
+				'homeproducts',
+			);
+			setHomeProductsBanner(fetchedBanner);
+		};
+		getHomeProductsBanner();
 	}, [dispatch]);
 
 	return (
@@ -119,35 +152,152 @@ export default function MobileSearch() {
 							/>
 						</Toolbar>
 					</AppBar>
-					<Grid
-						container
-						sx={{
-							display: { sm: 'none' },
-							mt: 2,
-							mb: 5,
-						}}
-					>
-						{filteredProducts.length > 0 ? (
-							filteredProducts.map(
-								(product) =>
-									parseInt(
-										product?.quantity as string,
-									) > 0 && (
-										<MobileProductCard
-											product={product}
-											key={product?._id}
-										/>
-									),
-							)
-						) : (
-							<Typography
-								variant='h6'
-								sx={{ m: 3, color: 'black' }}
+
+					<TabContext value={value}>
+						<Box
+							sx={{
+								borderBottom: 1,
+								borderColor: 'divider',
+							}}
+						>
+							<TabList
+								onChange={handleTabChange}
+								aria-label='navigate products types'
 							>
-								{`لا يوجد نتائج للبحث (${queryInput})`}
-							</Typography>
-						)}
-					</Grid>
+								<Tab
+									label='كل المنتجات'
+									value='all'
+								/>
+								<Tab
+									label='العروض'
+									value='offers'
+								/>
+								<Tab
+									label='المنزلية'
+									value='homeproducts'
+								/>
+							</TabList>
+						</Box>
+						<TabPanel value='all'>
+							<Grid
+								container
+								sx={{
+									display: { sm: 'none' },
+									mb: 5,
+								}}
+							>
+								{filteredProducts.length > 0 ? (
+									filteredProducts.map(
+										(product) =>
+											parseInt(
+												product?.quantity as string,
+											) > 0 && (
+												<MobileProductCard
+													product={
+														product
+													}
+													key={
+														product?._id
+													}
+												/>
+											),
+									)
+								) : (
+									<Typography
+										variant='h6'
+										sx={{
+											m: 3,
+											color: 'black',
+										}}
+									>
+										{`لا يوجد نتائج للبحث (${queryInput})`}
+									</Typography>
+								)}
+							</Grid>
+						</TabPanel>
+						<TabPanel value='offers'>
+							<Banner banner={offerBanner} />
+
+							<Grid
+								container
+								sx={{
+									display: { sm: 'none' },
+									mb: 5,
+								}}
+							>
+								{filteredProducts.length > 0 ? (
+									filteredProducts.map(
+										(product) =>
+											parseInt(
+												product?.quantity as string,
+											) > 0 &&
+											product?.isOffer && (
+												<MobileProductCard
+													product={
+														product
+													}
+													key={
+														product?._id
+													}
+												/>
+											),
+									)
+								) : (
+									<Typography
+										variant='h6'
+										sx={{
+											m: 3,
+											color: 'black',
+										}}
+									>
+										{`لا يوجد نتائج للبحث (${queryInput})`}
+									</Typography>
+								)}
+							</Grid>
+						</TabPanel>
+						<TabPanel value='homeproducts'>
+							<Banner banner={homeProducts} />
+
+							<Grid
+								container
+								sx={{
+									display: { sm: 'none' },
+									mb: 5,
+								}}
+							>
+								{filteredProducts.length > 0 ? (
+									filteredProducts.map(
+										(product) =>
+											parseInt(
+												product?.quantity as string,
+											) > 0 &&
+											product?.productType ===
+												'home' && (
+												<MobileProductCard
+													product={
+														product
+													}
+													key={
+														product?._id
+													}
+												/>
+											),
+									)
+								) : (
+									<Typography
+										variant='h6'
+										sx={{
+											m: 3,
+											color: 'black',
+										}}
+									>
+										{`لا يوجد نتائج للبحث (${queryInput})`}
+									</Typography>
+								)}
+							</Grid>
+						</TabPanel>
+					</TabContext>
+
 					<Box
 						sx={{
 							display: { xs: 'none', sm: 'flex' },
