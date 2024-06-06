@@ -75,6 +75,22 @@ export const fetchOffers = async () => {
 	}
 };
 
+export const fetchProductsBasedOnType = async (type: string) => {
+	try {
+		const fetchedProducts: (TProduct | null)[] =
+			await sendRequestToServer('GET', `product`);
+
+		const products: (TProduct | null)[] =
+			fetchedProducts?.filter(
+				(product) =>
+					product?.productType === type && product,
+			);
+		return products;
+	} catch (e: any) {
+		throw new Error('something went wrong');
+	}
+};
+
 export const fetchProduct = async (productId: string) => {
 	try {
 		const product: TProduct | null =

@@ -257,6 +257,7 @@ function Banner({ banner }: { banner: TBanner | null }) {
 						color='warning'
 						variant='contained'
 						onClick={() => handleClickEditBanner()}
+						sx={{ mt: { sm: 10 } }}
 					>
 						تعديل اللافتة
 					</Button>

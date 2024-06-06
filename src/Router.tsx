@@ -49,6 +49,7 @@ import DistrictsActions from './routes/dashboard/DistrictsActions';
 import TopViews from './routes/store/TopViews';
 import TopPurchases from './routes/store/TopPurchases';
 import ProductOptionsActions from './routes/dashboard/ProductOptionsActions';
+import HomeProducts from './routes/store/HomeProducts';
 
 export const Router = createBrowserRouter([
 	{
@@ -98,6 +99,10 @@ export const Router = createBrowserRouter([
 						element: <ShowProduct />,
 					},
 					{ path: 'offers', element: <Offers /> },
+					{
+						path: 'home-products',
+						element: <HomeProducts />,
+					},
 				],
 			},
 

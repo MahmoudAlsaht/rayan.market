@@ -10,8 +10,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function MobileBrandList({
 	isHomePage,
+	mb = 0,
 }: {
 	isHomePage: boolean;
+	mb?: number;
 }) {
 	const brands: (TBrand | null)[] = useAppSelector(
 		(state) => state.brands,
@@ -25,11 +27,11 @@ export default function MobileBrandList({
 
 	return (
 		<main dir='rtl'>
-			<Grid container sx={{ mt: 5 }}>
+			<Grid container sx={{ mt: 5, mb }}>
 				{brands != null
 					? brands?.map((brand, index) =>
 							isHomePage ? (
-								index < 6 && (
+								index < 8 && (
 									<MobileBrandCard
 										brand={brand}
 										key={brand?._id}

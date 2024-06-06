@@ -29,7 +29,7 @@ export default function MobileCategoryList({
 				{categories != null
 					? categories?.map((category, index) =>
 							isHomePage ? (
-								index < 6 && (
+								index < 10 && (
 									<MobileCategoryCard
 										category={category}
 										key={category?._id}
@@ -42,7 +42,7 @@ export default function MobileCategoryList({
 								/>
 							),
 					  )
-					: [1, 2, 3, 4, 5, 6].map(() => (
+					: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => (
 							<Skeleton
 								sx={{ mt: 3, ml: 2 }}
 								variant='circular'

@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import { TProduct } from '../../app/store/product';
-import { fetchOffers } from '../../controllers/product';
+import { fetchProductsBasedOnType } from '../../controllers/product';
 import ProductCard from '../../components/ProductCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box } from '@mui/material';
@@ -9,31 +9,32 @@ import { TBanner } from '../../app/store/banner';
 import Banner from '../../components/Banner';
 import MobileProductCard from '../../components/mobileComponents/MobileProductCard';
 
-const Offers = memo(() => {
+const HomeProducts = memo(() => {
 	const [products, setProducts] =
 		useState<(TProduct | null)[]>();
-	const [offerBanner, setOfferBanner] =
+	const [homeProducts, setHomeProductsBanner] =
 		useState<TBanner | null>(null);
 
 	useEffect(() => {
 		const getProducts = async () => {
-			const fetchedProducts = await fetchOffers();
+			const fetchedProducts =
+				await fetchProductsBasedOnType('home');
 			setProducts(fetchedProducts);
 		};
 		getProducts();
 
 		const getBanner = async () => {
 			const fetchedBanner = await fetchBannerByType(
-				'offers',
+				'homeproducts',
 			);
-			setOfferBanner(fetchedBanner);
+			setHomeProductsBanner(fetchedBanner);
 		};
 		getBanner();
 	}, []);
 
 	return (
 		<>
-			<Banner banner={offerBanner} />
+			<Banner banner={homeProducts} />
 			<Box sx={{ mt: { sm: 0 } }}>
 				<div dir='rtl'>
 					<Grid
@@ -95,4 +96,4 @@ const Offers = memo(() => {
 	);
 });
 
-export default Offers;
+export default HomeProducts;

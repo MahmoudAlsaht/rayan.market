@@ -39,6 +39,14 @@ type AddBannerFormProps = {
 	handleClose: () => void;
 };
 
+const BANNER_TYPE_OPTIONS = [
+	{ display: 'الرئيسية', value: 'main' },
+	{ display: 'العروض', value: 'offers' },
+	{ display: 'منزلية', value: 'homeProducts' },
+	{ display: 'الأقسام', value: 'category' },
+	{ display: 'العلامات التجارية', value: 'brand' },
+];
+
 function AddBannerForm({
 	show,
 	handleClose,
@@ -219,20 +227,16 @@ function AddBannerForm({
 									}}
 									label='اختر النوع'
 								>
-									{[
-										'اختر النوع',
-										'Main',
-										'Offers',
-										'Brand',
-										'Category',
-									]?.map((type) => (
-										<MenuItem
-											value={type?.toLowerCase()}
-											key={type?.toLowerCase()}
-										>
-											{type}
-										</MenuItem>
-									))}
+									{BANNER_TYPE_OPTIONS?.map(
+										(type) => (
+											<MenuItem
+												value={type?.value?.toLowerCase()}
+												key={type?.value?.toLowerCase()}
+											>
+												{type?.display}
+											</MenuItem>
+										),
+									)}
 								</Select>
 							</FormControl>
 						</FormGroup>

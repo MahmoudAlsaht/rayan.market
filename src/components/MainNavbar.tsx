@@ -21,7 +21,12 @@ import ScrollToColor01 from './ScrollToColor';
 import CategoryNavbar from './CategoryNavbar';
 import MobileNavigation from './mobileComponents/MobileNavigation';
 
-const pages = ['العروض', 'المنتجات', 'الرئيسية'].reverse();
+const pages = [
+	'المنزلية',
+	'العروض',
+	'المنتجات',
+	'الرئيسية',
+].reverse();
 
 export default function MainNavbar() {
 	const [anchorElUser, setAnchorElUser] =
@@ -121,6 +126,9 @@ export default function MainNavbar() {
 													page ===
 														'الرئيسية'
 														? '/home'
+														: page ===
+														  'المنزلية'
+														? '/home-products'
 														: `/${
 																page ===
 																'المنتجات'
