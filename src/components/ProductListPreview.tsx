@@ -37,7 +37,7 @@ export default function ProductListPreview({
 						<Typography
 							variant='h5'
 							color='primary'
-							sx={{ ml: 5, mt: 5, pt: 2.5 }}
+							sx={{ ml: 5, mt: 5, mb: 2, pt: 2.5 }}
 						>
 							{productListLength > 0 && title}{' '}
 							<ChevronLeftIcon />
