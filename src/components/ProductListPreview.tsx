@@ -48,6 +48,7 @@ export default function ProductListPreview({
 						setProductListLength={
 							setProductListLength
 						}
+						isCarousel
 					/>
 				</Paper>
 			</Box>
