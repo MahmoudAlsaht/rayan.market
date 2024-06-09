@@ -194,7 +194,7 @@ export default function MobileProductCarouselCard({
 						sx={{
 							position: 'absolute',
 							top: 0,
-							right: -17,
+							right: 15,
 							color: 'primary.main',
 						}}
 					>

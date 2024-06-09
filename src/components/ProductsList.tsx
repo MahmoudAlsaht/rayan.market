@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import MobileProductCard from '../components/mobileComponents/MobileProductCard';
 import { sortProducts } from '../controllers/product';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
@@ -219,7 +218,7 @@ const ProductsList = memo(
 							swipeable
 						>
 							{sortedProducts
-								.slice(0, productsLength)
+								.slice(0, productsLength + 1)
 								?.map((product) => {
 									return (
 										parseInt(
@@ -236,39 +235,6 @@ const ProductsList = memo(
 										)
 									);
 								})}
-							<Link
-								to={`/products/top-${sortBasedOn}`}
-							>
-								<Card
-									sx={{
-										mx: 1,
-										mb: 1,
-										height: '215px',
-										background: 'none',
-									}}
-								>
-									<CardHeader
-										title={
-											<Typography
-												sx={{
-													color: 'primary.main',
-													display:
-														'flex',
-													alignItems:
-														'center',
-													justifyContent:
-														'center',
-													mt: '20%',
-													fontSize: 22,
-												}}
-											>
-												عرض المزيد
-												<ChevronRightIcon />
-											</Typography>
-										}
-									/>
-								</Card>
-							</Link>
 						</Carousel>
 					)}
 				</main>

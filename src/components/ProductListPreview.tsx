@@ -1,6 +1,8 @@
 import { Box, Paper, Typography } from '@mui/material';
 import ProductsList from './ProductsList';
 import { useState } from 'react';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Link } from 'react-router-dom';
 
 type ProductListPreviewProps = {
 	title?: string;
@@ -31,13 +33,16 @@ export default function ProductListPreview({
 					role='most view products'
 					sx={{ mt: 15, bgcolor: 'inherit' }}
 				>
-					<Typography
-						variant='h5'
-						color='primary'
-						sx={{ ml: 5, mt: 5, pt: 2.5 }}
-					>
-						{productListLength > 0 && title}{' '}
-					</Typography>
+					<Link to={`/products/top-${sortBasedOn}`}>
+						<Typography
+							variant='h5'
+							color='primary'
+							sx={{ ml: 5, mt: 5, pt: 2.5 }}
+						>
+							{productListLength > 0 && title}{' '}
+							<ChevronLeftIcon />
+						</Typography>
+					</Link>
 					<ProductsList
 						productsLength={productsLength}
 						mt={mt}
