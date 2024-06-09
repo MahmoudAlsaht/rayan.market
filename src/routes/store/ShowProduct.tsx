@@ -317,6 +317,7 @@ const ShowProduct = memo(() => {
 											handleAddOption
 										}
 										label='اختر القسم'
+										dir='rtl'
 									>
 										<MenuItem value=''>
 											<em>اختر فئة</em>
@@ -330,10 +331,9 @@ const ShowProduct = memo(() => {
 													key={
 														option?._id
 													}
+													dir='rtl'
 												>
-													{
-														option?.optionName
-													}
+													{`${option?.optionName} - ${option?.price} د.أ`}
 												</MenuItem>
 											),
 										)}
