@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -72,18 +73,60 @@ export default function ProductCard({
 
 	const handleAddProduct = () => {
 		if (product && !isProductInCart) {
+			console.log(product?.productOptions![0]?.price);
 			dispatch(
 				addToCart({
 					_id: product?._id,
-					name: product?.name,
-					price: product?.price,
+					name:
+						product?.productType === 'options'
+							? `${product?.name}-(${
+									product?.productOptions![0]
+										.optionName
+							  })`
+							: product?.name,
+					price:
+						product?.productType === 'options'
+							? product?.productOptions![0]
+									.type === 'flavor'
+								? product?.newPrice ||
+								  product?.price
+								: product?.productOptions![0]
+										?.price
+							: product?.newPrice ||
+							  product?.price,
 					imageUrl: product?.productImage
 						?.path as string,
-					quantity: product?.quantity,
+					quantity:
+						product?.productType === 'options'
+							? product?.productOptions![0]
+									.type === 'weight'
+								? product?.quantity
+								: product?.productOptions![0]
+										?.quantity
+							: product?.quantity,
 					counter: 1,
 				}),
 			);
-			dispatch(updateTotalPrice(product?.price as string));
+			product?.productType === 'options'
+				? product?.productOptions![0].type !== 'flavor'
+					? dispatch(
+							updateTotalPrice(
+								product?.productOptions![0]
+									?.price as string,
+							),
+					  )
+					: dispatch(
+							updateTotalPrice(
+								(product?.newPrice as string) ||
+									(product?.price as string),
+							),
+					  )
+				: dispatch(
+						updateTotalPrice(
+							(product?.newPrice as string) ||
+								(product?.price as string),
+						),
+				  );
 		}
 	};
 
@@ -131,11 +174,22 @@ export default function ProductCard({
 					) : (
 						<Skeleton height={194} />
 					)}
-					<CardHeader // action={}
+					<CardHeader
 						title={product?.name?.substring(0, 10)}
 						subheader={
 							<legend>
-								{product?.newPrice ? (
+								{product?.productType ===
+									'options' &&
+								product?.productOptions![0]
+									.type === 'weight' ? (
+									<p>
+										{
+											product?.productOptions![0]
+												?.price
+										}
+										JOD
+									</p>
+								) : product?.newPrice ? (
 									<p>
 										<span
 											style={{

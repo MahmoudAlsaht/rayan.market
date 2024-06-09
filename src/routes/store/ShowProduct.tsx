@@ -111,17 +111,17 @@ const ShowProduct = memo(() => {
 				name: selectedOption
 					? `${product?.name}-(${selectedOption?.optionName})`
 					: product?.name,
-				price:
-					selectedOption &&
-					selectedOption?.type === 'flavor'
-						? product?.price
-						: selectedOption?.price,
+				price: selectedOption
+					? selectedOption?.type === 'flavor'
+						? product?.newPrice || product?.price
+						: selectedOption?.price
+					: product?.newPrice || product?.price,
 				imageUrl: product?.productImage?.path as string,
-				quantity:
-					selectedOption &&
-					selectedOption?.type === 'flavor'
+				quantity: selectedOption
+					? selectedOption?.type === 'flavor'
 						? selectedOption?.quantity
-						: product?.quantity,
+						: product?.quantity
+					: product?.quantity,
 				counter: 1,
 			}),
 		);
