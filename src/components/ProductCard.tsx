@@ -73,7 +73,6 @@ export default function ProductCard({
 
 	const handleAddProduct = () => {
 		if (product && !isProductInCart) {
-			console.log(product?.productOptions![0]?.price);
 			dispatch(
 				addToCart({
 					_id: product?._id,
@@ -187,7 +186,7 @@ export default function ProductCard({
 											product?.productOptions![0]
 												?.price
 										}
-										JOD
+										د.أ
 									</p>
 								) : product?.newPrice ? (
 									<p>
@@ -199,12 +198,12 @@ export default function ProductCard({
 												fontSize: 15,
 											}}
 										>
-											{product?.price}JOD
+											{product?.price}د.أ
 										</span>
-										{product?.newPrice}JOD
+										{product?.newPrice}د.أ
 									</p>
 								) : (
-									<p>{product?.price}JOD</p>
+									<p>{product?.price}د.أ</p>
 								)}
 							</legend>
 						}

@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import {
 	Avatar,
 	Box,
@@ -84,20 +85,56 @@ export default function MobileProductCard({
 			dispatch(
 				addToCart({
 					_id: product?._id,
-					name: product?.name,
-					price: product?.price,
+					name:
+						product?.productType === 'options'
+							? `${product?.name}-(${
+									product?.productOptions![0]
+										.optionName
+							  })`
+							: product?.name,
+					price:
+						product?.productType === 'options'
+							? product?.productOptions![0]
+									.type === 'flavor'
+								? product?.newPrice ||
+								  product?.price
+								: product?.productOptions![0]
+										?.price
+							: product?.newPrice ||
+							  product?.price,
 					imageUrl: product?.productImage
 						?.path as string,
-					quantity: product?.quantity,
+					quantity:
+						product?.productType === 'options'
+							? product?.productOptions![0]
+									.type === 'weight'
+								? product?.quantity
+								: product?.productOptions![0]
+										?.quantity
+							: product?.quantity,
 					counter: 1,
 				}),
 			);
-			dispatch(
-				updateTotalPrice(
-					(product?.newPrice as string) ||
-						(product?.price as string),
-				),
-			);
+			product?.productType === 'options'
+				? product?.productOptions![0].type !== 'flavor'
+					? dispatch(
+							updateTotalPrice(
+								product?.productOptions![0]
+									?.price as string,
+							),
+					  )
+					: dispatch(
+							updateTotalPrice(
+								(product?.newPrice as string) ||
+									(product?.price as string),
+							),
+					  )
+				: dispatch(
+						updateTotalPrice(
+							(product?.newPrice as string) ||
+								(product?.price as string),
+						),
+				  );
 		}
 	};
 
@@ -165,8 +202,19 @@ export default function MobileProductCard({
 								color: 'primary.main',
 							}}
 						>
-							{product?.isOffer ? (
-								<div>
+							{product?.productType ===
+								'options' &&
+							product?.productOptions![0].type ===
+								'weight' ? (
+								<span>
+									{
+										product?.productOptions![0]
+											?.price
+									}
+									د.أ
+								</span>
+							) : product?.newPrice ? (
+								<span>
 									<span
 										style={{
 											textDecoration:
@@ -175,18 +223,13 @@ export default function MobileProductCard({
 											fontSize: 12,
 										}}
 									>
-										{product?.price}
-										د.أ{' '}
+										{product?.price}د.أ
 									</span>
 									<br />
-									{product?.newPrice}
-									د.أ{' '}
-								</div>
-							) : (
-								<span>
-									{product?.price}
-									د.أ{' '}
+									{product?.newPrice}د.أ
 								</span>
+							) : (
+								<span>{product?.price}د.أ</span>
 							)}
 						</Paper>
 					</Box>

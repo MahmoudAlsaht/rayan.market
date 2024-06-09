@@ -46,6 +46,9 @@ export default function MobileSearch() {
 		useState<TBanner | null>(null);
 	const [homeProducts, setHomeProductsBanner] =
 		useState<TBanner | null>(null);
+	const [offers, setOffers] = useState<(TProduct | null)[]>(
+		[],
+	);
 
 	const handleTabChange = (
 		event: SyntheticEvent,
@@ -109,7 +112,13 @@ export default function MobileSearch() {
 			setHomeProductsBanner(fetchedBanner);
 		};
 		getHomeProductsBanner();
-	}, [dispatch]);
+
+		setOffers(
+			filteredProducts.filter(
+				(product) => product?.isOffer && product,
+			),
+		);
+	}, [dispatch, filteredProducts]);
 
 	return (
 		<>
@@ -168,10 +177,12 @@ export default function MobileSearch() {
 									label='كل المنتجات'
 									value='all'
 								/>
-								<Tab
-									label='العروض'
-									value='offers'
-								/>
+								{offers?.length > 0 && (
+									<Tab
+										label='العروض'
+										value='offers'
+									/>
+								)}
 								<Tab
 									label='المنزلية'
 									value='homeproducts'
@@ -184,6 +195,7 @@ export default function MobileSearch() {
 								sx={{
 									display: { sm: 'none' },
 									mb: 5,
+									mt: 2,
 								}}
 							>
 								{filteredProducts.length > 0 ? (
@@ -215,46 +227,48 @@ export default function MobileSearch() {
 								)}
 							</Grid>
 						</TabPanel>
-						<TabPanel value='offers'>
-							<Banner banner={offerBanner} />
+						{offers?.length > 0 && (
+							<TabPanel value='offers'>
+								<Banner banner={offerBanner} />
 
-							<Grid
-								container
-								sx={{
-									display: { sm: 'none' },
-									mb: 5,
-								}}
-							>
-								{filteredProducts.length > 0 ? (
-									filteredProducts.map(
-										(product) =>
-											parseInt(
-												product?.quantity as string,
-											) > 0 &&
-											product?.isOffer && (
-												<MobileProductCard
-													product={
-														product
-													}
-													key={
-														product?._id
-													}
-												/>
-											),
-									)
-								) : (
-									<Typography
-										variant='h6'
-										sx={{
-											m: 3,
-											color: 'black',
-										}}
-									>
-										{`لا يوجد نتائج للبحث (${queryInput})`}
-									</Typography>
-								)}
-							</Grid>
-						</TabPanel>
+								<Grid
+									container
+									sx={{
+										display: { sm: 'none' },
+										mb: 5,
+										mt: 2,
+									}}
+								>
+									{offers.length > 0 ? (
+										offers.map(
+											(product) =>
+												parseInt(
+													product?.quantity as string,
+												) > 0 && (
+													<MobileProductCard
+														product={
+															product
+														}
+														key={
+															product?._id
+														}
+													/>
+												),
+										)
+									) : (
+										<Typography
+											variant='h6'
+											sx={{
+												m: 3,
+												color: 'black',
+											}}
+										>
+											{`لا يوجد نتائج للبحث (${queryInput})`}
+										</Typography>
+									)}
+								</Grid>
+							</TabPanel>
+						)}
 						<TabPanel value='homeproducts'>
 							<Banner banner={homeProducts} />
 
@@ -263,6 +277,7 @@ export default function MobileSearch() {
 								sx={{
 									display: { sm: 'none' },
 									mb: 5,
+									mt: 2,
 								}}
 							>
 								{filteredProducts.length > 0 ? (
