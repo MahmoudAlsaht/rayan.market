@@ -125,22 +125,15 @@ function Banner({ banner }: { banner: TBanner | null }) {
 															'#'
 														}
 													>
-														<div
+														<img
+															src={
+																image?.path
+															}
 															style={{
-																width: '100%',
-																height: '300px',
+																width: '1411px',
+																height: '250px',
 															}}
-														>
-															<img
-																src={
-																	image?.path
-																}
-																style={{
-																	width: '1200px',
-																	height: '300px',
-																}}
-															/>
-														</div>
+														/>
 													</Link>
 												),
 											)}
@@ -224,22 +217,15 @@ function Banner({ banner }: { banner: TBanner | null }) {
 															'#'
 														}
 													>
-														<div
+														<img
+															src={
+																image?.path
+															}
 															style={{
-																width: '100%',
-																height: '300px',
+																width: '350px',
+																height: '200px',
 															}}
-														>
-															<img
-																src={
-																	image?.path
-																}
-																style={{
-																	width: '1200px',
-																	height: '300px',
-																}}
-															/>
-														</div>
+														/>
 													</Link>
 												),
 											)}

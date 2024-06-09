@@ -93,7 +93,7 @@ function ContactInfoForm({
 			}
 		} catch (e: any) {
 			setError({
-				status: false,
+				status: true,
 				message: e.message,
 			});
 			setIsLoading(false);
@@ -110,7 +110,7 @@ function ContactInfoForm({
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'الرجاء قم بملئ جميع الحقول',
 			});
 		} else if (
@@ -118,13 +118,13 @@ function ContactInfoForm({
 		) {
 			setValidated(false);
 			setError({
-				status: false,
+				status: true,
 				message: 'رقم الهاتف يجب أن يتكون من 10 أرقام',
 			});
 		} else {
 			setValidated(true);
 			setError({
-				status: true,
+				status: false,
 				message: 'looks good!',
 			});
 		}
