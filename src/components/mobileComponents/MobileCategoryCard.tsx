@@ -50,9 +50,9 @@ export default function MobileCategoryCard({
 				) : (
 					<Skeleton
 						sx={{
-							height: '70px',
-							width: '70px',
-							borderRadius: '50%',
+							height: '100px',
+							width: '65px',
+							borderRadius: '20%',
 						}}
 					/>
 				)}

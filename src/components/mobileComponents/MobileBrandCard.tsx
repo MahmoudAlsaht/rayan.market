@@ -23,9 +23,9 @@ export default function MobileBrandCard({
 					sx={{
 						mx: 1,
 						mb: 1,
+						background: 'none',
 						height: '70px',
 						width: '65px',
-						background: 'none',
 						borderRadius: '20%',
 					}}
 				>
@@ -46,9 +46,9 @@ export default function MobileBrandCard({
 			) : (
 				<Skeleton
 					sx={{
-						height: '70px',
-						width: '70px',
-						borderRadius: '50%',
+						height: '100px',
+						width: '65px',
+						borderRadius: '20%',
 					}}
 				/>
 			)}

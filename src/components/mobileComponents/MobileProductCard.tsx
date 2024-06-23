@@ -89,7 +89,7 @@ export default function MobileProductCard({
 						product?.productType === 'options'
 							? `${product?.name}-(${
 									product?.productOptions![0]
-										.optionName
+										?.optionName
 							  })`
 							: product?.name,
 					price:
@@ -107,7 +107,7 @@ export default function MobileProductCard({
 					quantity:
 						product?.productType === 'options'
 							? product?.productOptions![0]
-									.type === 'weight'
+									?.type === 'weight'
 								? product?.quantity
 								: product?.productOptions![0]
 										?.quantity

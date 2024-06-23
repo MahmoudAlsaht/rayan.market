@@ -44,10 +44,13 @@ export default function MobileCategoryList({
 					  )
 					: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => (
 							<Skeleton
-								sx={{ mt: 3, ml: 2 }}
-								variant='circular'
-								width='70px'
-								height='70px'
+								sx={{
+									mt: 3,
+									ml: 2,
+									height: '100px',
+									width: '65px',
+									borderRadius: '20%',
+								}}
 							/>
 					  ))}
 				{isHomePage && categories?.length > 0 && (
