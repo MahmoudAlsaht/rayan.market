@@ -79,32 +79,37 @@ export const filterProducts = (
 	if (query === '' || query == null) return products;
 	const filteredData: (TProduct | null)[] = [];
 
-	for (const product of products) {
-		if (
-			product?.name
-				?.toLowerCase()
-				.includes(escapeRegExp(query?.toLowerCase()))
-		)
-			filteredData.push(product);
-	}
+	if (products && products?.length > 0)
+		for (const product of products) {
+			if (
+				product?.name
+					?.toLowerCase()
+					.includes(escapeRegExp(query?.toLowerCase()))
+			)
+				filteredData.push(product);
+		}
 
-	for (const category of categories) {
-		if (
-			category?.name
-				?.toLowerCase()
-				.includes(escapeRegExp(query?.toLowerCase()))
-		)
-			filteredData.push(...category.products);
-	}
-	for (const brand of brands) {
-		if (
-			brand?.name
-				?.toLowerCase()
-				.includes(escapeRegExp(query?.toLowerCase()))
-		)
-			filteredData.push(...brand.products);
-	}
+	if (categories && categories?.length > 0)
+		for (const category of categories) {
+			if (
+				category?.name
+					?.toLowerCase()
+					.includes(escapeRegExp(query?.toLowerCase()))
+			)
+				filteredData.push(...category.products);
+		}
 
+	if (brands && brands?.length > 0)
+		for (const brand of brands) {
+			if (
+				brand?.name
+					?.toLowerCase()
+					.includes(escapeRegExp(query?.toLowerCase()))
+			)
+				filteredData.push(...brand.products);
+		}
+
+	console.log(filteredData);
 	return filteredData;
 };
 

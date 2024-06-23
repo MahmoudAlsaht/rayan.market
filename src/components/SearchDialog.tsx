@@ -152,9 +152,9 @@ export default function SearchDialog() {
 						<List>
 							{filteredProducts?.length > 0 ? (
 								filteredProducts.map(
-									(product) => (
+									(product, index) => (
 										<ListItemButton
-											key={product?._id}
+											key={`${index}-${product?._id}`}
 											href={`/products/${product?._id}`}
 											sx={{
 												'&:hover': {
@@ -169,12 +169,11 @@ export default function SearchDialog() {
 												width={150}
 												height={150}
 												src={
-													(product?.productImage !=
-														null &&
-														product
-															?.productImage
-															?.path) ||
-													''
+													product?.productImage
+														? product
+																?.productImage
+																?.path
+														: ''
 												}
 											/>
 											<ListItemText
@@ -182,7 +181,15 @@ export default function SearchDialog() {
 													product?.name
 												}
 												secondary={
-													product?.price
+													product?.productType ===
+													'options'
+														? product?.productOptions![0]
+																?.type ===
+														  'weight'
+															? product?.productOptions![0]
+																	?.price
+															: product?.price
+														: product?.price
 												}
 												sx={{
 													ml: '1rem',
