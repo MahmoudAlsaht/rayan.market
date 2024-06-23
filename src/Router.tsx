@@ -38,7 +38,7 @@ import Categories from './routes/store/Categories';
 import Brands from './routes/store/Brands';
 import ShowBrand from './routes/store/ShowBrand';
 import BrandsActions from './routes/dashboard/BrandsActions';
-import { ThemeProvider } from '@mui/material';
+import { Box, ThemeProvider } from '@mui/material';
 import { cacheRtl, theme } from './assets/styles';
 import MobileSearch from './components/mobileComponents/MobileSearch';
 import MobileOptions from './components/mobileComponents/MobileOptions';
@@ -229,16 +229,15 @@ function Wrapper() {
 		<Provider store={store}>
 			<CacheProvider value={cacheRtl}>
 				<ThemeProvider theme={theme}>
-					<div
-						style={{
-							maxWidth: '1411px',
-							margin: '0 auto',
+					<Box
+						sx={{
+							maxWidth: '100%',
 						}}
 					>
 						<InstallPWA />
 						<Outlet />
 						<SpeedInsights />
-					</div>
+					</Box>
 				</ThemeProvider>
 			</CacheProvider>
 		</Provider>

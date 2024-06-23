@@ -59,7 +59,13 @@ function Banner({ banner }: { banner: TBanner | null }) {
 								},
 							}}
 						>
-							<Paper sx={{ mb: { sm: 3 } }}>
+							<Paper
+								sx={{
+									mb: { sm: 3 },
+									width: '1411px',
+									m: '0 auto',
+								}}
+							>
 								{webImages &&
 								webImages.length < 2 ? (
 									webImages?.map((image) => (
@@ -75,7 +81,6 @@ function Banner({ banner }: { banner: TBanner | null }) {
 										>
 											<Paper
 												sx={{
-													width: '100%',
 													height: {
 														xs: '190px',
 														sm: '250px',
@@ -144,12 +149,13 @@ function Banner({ banner }: { banner: TBanner | null }) {
 
 						<Box
 							sx={{
+								m: 0,
 								display: {
 									sm: 'none',
 								},
 							}}
 						>
-							<Paper sx={{ mb: { sm: 3 } }}>
+							<Paper sx={{ mb: 3, mx: -1 }}>
 								{mobileImages &&
 								mobileImages.length < 2 ? (
 									mobileImages?.map(
@@ -167,10 +173,7 @@ function Banner({ banner }: { banner: TBanner | null }) {
 												<Paper
 													sx={{
 														width: '100%',
-														height: {
-															xs: '190px',
-															sm: '250px',
-														},
+														height: '190px',
 													}}
 												>
 													<Avatar
@@ -179,10 +182,7 @@ function Banner({ banner }: { banner: TBanner | null }) {
 														}
 														sx={{
 															width: '100%',
-															height: {
-																xs: '190px',
-																sm: '250px',
-															},
+															height: '190px',
 															opacity:
 																'.85',
 														}}
