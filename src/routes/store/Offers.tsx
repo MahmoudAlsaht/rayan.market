@@ -33,6 +33,7 @@ const Offers = memo(() => {
 
 	return (
 		<>
+			<Box sx={{ mt: { sm: 17 } }}></Box>
 			<Banner banner={offerBanner} />
 			<Box sx={{ mt: { sm: 0 } }}>
 				<div dir='rtl'>
